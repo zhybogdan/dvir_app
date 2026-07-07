@@ -13,10 +13,7 @@ class LoginScreen extends StatelessWidget {
 
     return Scaffold(
       body: Center(
-        child: Text(
-          l10n.signIn,
-          style: context.textTheme.headlineSmall,
-        ),
+        child: Text(l10n.signIn, style: context.textTheme.headlineSmall),
       ),
     );
   }
