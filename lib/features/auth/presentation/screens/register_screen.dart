@@ -1,10 +1,12 @@
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/error/failures.dart';
+import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
 import 'package:dvir/features/auth/application/auth_controller.dart';
+import 'package:dvir/features/auth/presentation/components/auth_scaffold.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -54,64 +56,59 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       }
     });
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.createAccount)),
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(AppSpacing.lg),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  DvTextField(
-                    controller: _emailCtrl,
-                    label: l10n.email,
-                    hint: 'name@email.com',
-                    prefixIcon: Icons.mail_outline,
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    autofillHints: const [AutofillHints.email],
-                    validator: (v) => validateEmail(v, l10n),
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  DvTextField(
-                    controller: _passwordCtrl,
-                    label: l10n.password,
-                    obscure: true,
-                    textInputAction: TextInputAction.next,
-                    autofillHints: const [AutofillHints.newPassword],
-                    validator: (v) => validatePassword(v, l10n),
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  DvTextField(
-                    controller: _confirmCtrl,
-                    label: l10n.confirmPassword,
-                    obscure: true,
-                    onSubmitted: (_) => _submit(),
-                    validator: (v) => v == _passwordCtrl.text
-                        ? null
-                        : l10n.passwordsDontMatch,
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  DvButton(
-                    label: l10n.signUp,
-                    isLoading: isLoading,
-                    onPressed: isLoading ? null : _submit,
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  TextButton(
-                    onPressed: isLoading
-                        ? null
-                        : () => context.go(AppRoutes.login),
-                    child: Text(l10n.alreadyHaveAccount),
-                  ),
-                ],
-              ),
+    return AuthScaffold(
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              l10n.createAccount,
+              style: context.textTheme.headlineSmall,
+              textAlign: TextAlign.center,
             ),
-          ),
+            const SizedBox(height: AppSpacing.lg),
+            DvTextField(
+              controller: _emailCtrl,
+              label: l10n.email,
+              hint: 'name@email.com',
+              prefixIcon: Icons.mail_outline,
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
+              autofillHints: const [AutofillHints.email],
+              validator: (v) => validateEmail(v, l10n),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            DvTextField(
+              controller: _passwordCtrl,
+              label: l10n.password,
+              obscure: true,
+              textInputAction: TextInputAction.next,
+              autofillHints: const [AutofillHints.newPassword],
+              validator: (v) => validatePassword(v, l10n),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            DvTextField(
+              controller: _confirmCtrl,
+              label: l10n.confirmPassword,
+              obscure: true,
+              onSubmitted: (_) => _submit(),
+              validator: (v) =>
+                  v == _passwordCtrl.text ? null : l10n.passwordsDontMatch,
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            DvButton(
+              label: l10n.signUp,
+              isLoading: isLoading,
+              onPressed: isLoading ? null : _submit,
+            ),
+            const SizedBox(height: AppSpacing.sm),
+            TextButton(
+              onPressed: isLoading ? null : () => context.go(AppRoutes.login),
+              child: Text(l10n.alreadyHaveAccount),
+            ),
+          ],
         ),
       ),
     );
