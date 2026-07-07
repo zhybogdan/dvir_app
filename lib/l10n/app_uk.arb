@@ -1,0 +1,21 @@
+{
+  "@@locale": "uk",
+  "appTitle": "Двір",
+  "homePlaceholder": "Основа готова — функції незабаром",
+
+  "signIn": "Увійти",
+  "signUp": "Зареєструватися",
+  "signOut": "Вийти",
+  "email": "Ел. пошта",
+  "password": "Пароль",
+  "confirmPassword": "Підтвердьте пароль",
+  "welcomeBack": "З поверненням",
+  "createAccount": "Створити акаунт",
+  "dontHaveAccount": "Немає акаунту? Зареєструйтесь",
+  "alreadyHaveAccount": "Вже маєте акаунт? Увійдіть",
+  "emailRequired": "Введіть ел. пошту",
+  "invalidEmail": "Введіть коректну ел. пошту",
+  "passwordRequired": "Введіть пароль",
+  "passwordTooShort": "Пароль має містити щонайменше 6 символів",
+  "passwordsDontMatch": "Паролі не збігаються"
+}

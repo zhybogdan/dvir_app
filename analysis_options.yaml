@@ -1,0 +1,23 @@
+# Static analysis configuration. Run with `fvm flutter analyze`.
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "lib/l10n/app_localizations*.dart"
+  errors:
+    # freezed/json_serializable place annotations the analyzer flags as misused.
+    invalid_annotation_target: ignore
+
+formatter:
+  page_width: 80
+
+linter:
+  rules:
+    require_trailing_commas: true
+    always_use_package_imports: true
+    prefer_single_quotes: true
+    avoid_print: true
+    unawaited_futures: true
+    directives_ordering: true
