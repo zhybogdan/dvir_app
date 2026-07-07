@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/core/config/supabase_providers.dart';
 import 'package:dvir/features/auth/presentation/screens/login_screen.dart';
+import 'package:dvir/features/auth/presentation/screens/register_screen.dart';
 import 'package:dvir/features/auth/presentation/screens/splash_screen.dart';
 import 'package:dvir/features/home/presentation/screens/home_screen.dart';
 import 'package:flutter/foundation.dart';
@@ -29,7 +30,7 @@ GoRouter router(Ref ref) {
     redirect: (context, state) {
       final loggedIn = supabase.auth.currentSession != null;
       final loc = state.matchedLocation;
-      final onAuthPage = loc == AppRoutes.login;
+      final onAuthPage = loc == AppRoutes.login || loc == AppRoutes.register;
 
       if (!loggedIn) return onAuthPage ? null : AppRoutes.login;
       if (onAuthPage || loc == AppRoutes.splash) return AppRoutes.home;
@@ -43,6 +44,10 @@ GoRouter router(Ref ref) {
       GoRoute(
         path: AppRoutes.login,
         builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.register,
+        builder: (context, state) => const RegisterScreen(),
       ),
       GoRoute(
         path: AppRoutes.home,

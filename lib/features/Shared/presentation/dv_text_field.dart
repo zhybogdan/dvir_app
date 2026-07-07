@@ -46,31 +46,42 @@ class _DvTextFieldState extends State<DvTextField> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = widget.controller;
     final label = widget.label;
     final hint = widget.hint;
-    final obscurable = widget.obscure;
+    final obscure = widget.obscure;
+    final keyboardType = widget.keyboardType;
+    final textInputAction = widget.textInputAction;
+    final validator = widget.validator;
+    final enabled = widget.enabled;
     final prefixIcon = widget.prefixIcon;
+    final autofillHints = widget.autofillHints;
+    final onSubmitted = widget.onSubmitted;
+
+    final labelStyle = context.textTheme.labelLarge?.copyWith(
+      color: context.colorScheme.onSurfaceVariant,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (label != null) ...[
-          Text(label, style: context.textTheme.labelLarge),
+          Text(label, style: labelStyle),
           const SizedBox(height: AppSpacing.sm),
         ],
         TextFormField(
-          controller: widget.controller,
+          controller: controller,
           obscureText: _obscured,
-          enabled: widget.enabled,
-          keyboardType: widget.keyboardType,
-          textInputAction: widget.textInputAction,
-          validator: widget.validator,
-          autofillHints: widget.autofillHints,
-          onFieldSubmitted: widget.onSubmitted,
+          enabled: enabled,
+          keyboardType: keyboardType,
+          textInputAction: textInputAction,
+          validator: validator,
+          autofillHints: autofillHints,
+          onFieldSubmitted: onSubmitted,
           decoration: InputDecoration(
             hintText: hint,
             prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
-            suffixIcon: obscurable
+            suffixIcon: obscure
                 ? IconButton(
                     onPressed: _toggleObscured,
                     icon: Icon(
