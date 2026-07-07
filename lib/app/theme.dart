@@ -34,8 +34,10 @@ class AppTheme {
           horizontal: AppSpacing.md,
           vertical: AppSpacing.md,
         ),
-        border: _fieldBorder(BorderSide.none),
-        enabledBorder: _fieldBorder(BorderSide.none),
+        border: _fieldBorder(BorderSide(color: scheme.surfaceContainerHighest)),
+        enabledBorder: _fieldBorder(
+          BorderSide(color: scheme.surfaceContainerHighest),
+        ),
         focusedBorder: _fieldBorder(
           BorderSide(color: scheme.primary, width: 2),
         ),
