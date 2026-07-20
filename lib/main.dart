@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:dvir/app/app.dart';
 import 'package:dvir/core/config/env.dart';
+import 'package:dvir/core/config/secure_local_storage.dart';
 import 'package:dvir/core/logging/app_logger.dart';
 import 'package:dvir/core/logging/app_provider_observer.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,9 @@ Future<void> main() async {
   await Supabase.initialize(
     url: Env.supabaseUrl,
     publishableKey: Env.supabaseAnonKey,
+    // Keeps the session out of plain-text SharedPreferences; everything else
+    // about restore and refresh stays Supabase's job.
+    authOptions: FlutterAuthClientOptions(localStorage: SecureLocalStorage()),
   );
 
   runApp(
