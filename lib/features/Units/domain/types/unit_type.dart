@@ -5,19 +5,24 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 /// [house] exists because a standalone object is most often a private house —
 /// one family running its own address with no community around it.
 ///
-/// The `@JsonValue` literals are the database values; changing one without a
-/// migration silently breaks every insert and read.
+/// Carries [dbValue] alongside `@JsonValue` for the same reason as
+/// `CommunityType`: rows are read through json_serializable, but `create_unit`
+/// takes the type as an RPC argument and has to write it back.
 enum UnitType {
   @JsonValue('house')
-  house,
+  house('house'),
   @JsonValue('apartment')
-  apartment,
+  apartment('apartment'),
   @JsonValue('plot')
-  plot,
+  plot('plot'),
   @JsonValue('garage')
-  garage,
+  garage('garage'),
   @JsonValue('office')
-  office,
+  office('office'),
   @JsonValue('custom')
-  custom,
+  custom('custom');
+
+  const UnitType(this.dbValue);
+
+  final String dbValue;
 }

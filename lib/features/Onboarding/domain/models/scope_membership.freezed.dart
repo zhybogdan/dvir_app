@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'join_result.dart';
+part of 'scope_membership.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,7 +12,7 @@ part of 'join_result.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$JoinResult {
+mixin _$ScopeMembership {
 
  Object get membership;
 
@@ -20,7 +20,7 @@ mixin _$JoinResult {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is JoinResult&&const DeepCollectionEquality().equals(other.membership, membership));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScopeMembership&&const DeepCollectionEquality().equals(other.membership, membership));
 }
 
 
@@ -29,20 +29,20 @@ int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(
 
 @override
 String toString() {
-  return 'JoinResult(membership: $membership)';
+  return 'ScopeMembership(membership: $membership)';
 }
 
 
 }
 
 /// @nodoc
-class $JoinResultCopyWith<$Res>  {
-$JoinResultCopyWith(JoinResult _, $Res Function(JoinResult) __);
+class $ScopeMembershipCopyWith<$Res>  {
+$ScopeMembershipCopyWith(ScopeMembership _, $Res Function(ScopeMembership) __);
 }
 
 
-/// Adds pattern-matching-related methods to [JoinResult].
-extension JoinResultPatterns on JoinResult {
+/// Adds pattern-matching-related methods to [ScopeMembership].
+extension ScopeMembershipPatterns on ScopeMembership {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -55,11 +55,11 @@ extension JoinResultPatterns on JoinResult {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( JoinedCommunity value)?  community,TResult Function( JoinedUnit value)?  unit,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( CommunityScope value)?  community,TResult Function( UnitScope value)?  unit,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case JoinedCommunity() when community != null:
-return community(_that);case JoinedUnit() when unit != null:
+case CommunityScope() when community != null:
+return community(_that);case UnitScope() when unit != null:
 return unit(_that);case _:
   return orElse();
 
@@ -78,11 +78,11 @@ return unit(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( JoinedCommunity value)  community,required TResult Function( JoinedUnit value)  unit,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( CommunityScope value)  community,required TResult Function( UnitScope value)  unit,}){
 final _that = this;
 switch (_that) {
-case JoinedCommunity():
-return community(_that);case JoinedUnit():
+case CommunityScope():
+return community(_that);case UnitScope():
 return unit(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -97,11 +97,11 @@ return unit(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( JoinedCommunity value)?  community,TResult? Function( JoinedUnit value)?  unit,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( CommunityScope value)?  community,TResult? Function( UnitScope value)?  unit,}){
 final _that = this;
 switch (_that) {
-case JoinedCommunity() when community != null:
-return community(_that);case JoinedUnit() when unit != null:
+case CommunityScope() when community != null:
+return community(_that);case UnitScope() when unit != null:
 return unit(_that);case _:
   return null;
 
@@ -121,8 +121,8 @@ return unit(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( CommunityMembership membership)?  community,TResult Function( UnitMembership membership)?  unit,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case JoinedCommunity() when community != null:
-return community(_that.membership);case JoinedUnit() when unit != null:
+case CommunityScope() when community != null:
+return community(_that.membership);case UnitScope() when unit != null:
 return unit(_that.membership);case _:
   return orElse();
 
@@ -143,8 +143,8 @@ return unit(_that.membership);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( CommunityMembership membership)  community,required TResult Function( UnitMembership membership)  unit,}) {final _that = this;
 switch (_that) {
-case JoinedCommunity():
-return community(_that.membership);case JoinedUnit():
+case CommunityScope():
+return community(_that.membership);case UnitScope():
 return unit(_that.membership);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -161,8 +161,8 @@ return unit(_that.membership);}
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( CommunityMembership membership)?  community,TResult? Function( UnitMembership membership)?  unit,}) {final _that = this;
 switch (_that) {
-case JoinedCommunity() when community != null:
-return community(_that.membership);case JoinedUnit() when unit != null:
+case CommunityScope() when community != null:
+return community(_that.membership);case UnitScope() when unit != null:
 return unit(_that.membership);case _:
   return null;
 
@@ -174,23 +174,23 @@ return unit(_that.membership);case _:
 /// @nodoc
 
 
-class JoinedCommunity implements JoinResult {
-  const JoinedCommunity(this.membership);
+class CommunityScope extends ScopeMembership {
+  const CommunityScope(this.membership): super._();
   
 
 @override final  CommunityMembership membership;
 
-/// Create a copy of JoinResult
+/// Create a copy of ScopeMembership
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$JoinedCommunityCopyWith<JoinedCommunity> get copyWith => _$JoinedCommunityCopyWithImpl<JoinedCommunity>(this, _$identity);
+$CommunityScopeCopyWith<CommunityScope> get copyWith => _$CommunityScopeCopyWithImpl<CommunityScope>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is JoinedCommunity&&(identical(other.membership, membership) || other.membership == membership));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityScope&&(identical(other.membership, membership) || other.membership == membership));
 }
 
 
@@ -199,15 +199,15 @@ int get hashCode => Object.hash(runtimeType,membership);
 
 @override
 String toString() {
-  return 'JoinResult.community(membership: $membership)';
+  return 'ScopeMembership.community(membership: $membership)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $JoinedCommunityCopyWith<$Res> implements $JoinResultCopyWith<$Res> {
-  factory $JoinedCommunityCopyWith(JoinedCommunity value, $Res Function(JoinedCommunity) _then) = _$JoinedCommunityCopyWithImpl;
+abstract mixin class $CommunityScopeCopyWith<$Res> implements $ScopeMembershipCopyWith<$Res> {
+  factory $CommunityScopeCopyWith(CommunityScope value, $Res Function(CommunityScope) _then) = _$CommunityScopeCopyWithImpl;
 @useResult
 $Res call({
  CommunityMembership membership
@@ -218,23 +218,23 @@ $CommunityMembershipCopyWith<$Res> get membership;
 
 }
 /// @nodoc
-class _$JoinedCommunityCopyWithImpl<$Res>
-    implements $JoinedCommunityCopyWith<$Res> {
-  _$JoinedCommunityCopyWithImpl(this._self, this._then);
+class _$CommunityScopeCopyWithImpl<$Res>
+    implements $CommunityScopeCopyWith<$Res> {
+  _$CommunityScopeCopyWithImpl(this._self, this._then);
 
-  final JoinedCommunity _self;
-  final $Res Function(JoinedCommunity) _then;
+  final CommunityScope _self;
+  final $Res Function(CommunityScope) _then;
 
-/// Create a copy of JoinResult
+/// Create a copy of ScopeMembership
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? membership = null,}) {
-  return _then(JoinedCommunity(
+  return _then(CommunityScope(
 null == membership ? _self.membership : membership // ignore: cast_nullable_to_non_nullable
 as CommunityMembership,
   ));
 }
 
-/// Create a copy of JoinResult
+/// Create a copy of ScopeMembership
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -249,23 +249,23 @@ $CommunityMembershipCopyWith<$Res> get membership {
 /// @nodoc
 
 
-class JoinedUnit implements JoinResult {
-  const JoinedUnit(this.membership);
+class UnitScope extends ScopeMembership {
+  const UnitScope(this.membership): super._();
   
 
 @override final  UnitMembership membership;
 
-/// Create a copy of JoinResult
+/// Create a copy of ScopeMembership
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$JoinedUnitCopyWith<JoinedUnit> get copyWith => _$JoinedUnitCopyWithImpl<JoinedUnit>(this, _$identity);
+$UnitScopeCopyWith<UnitScope> get copyWith => _$UnitScopeCopyWithImpl<UnitScope>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is JoinedUnit&&(identical(other.membership, membership) || other.membership == membership));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnitScope&&(identical(other.membership, membership) || other.membership == membership));
 }
 
 
@@ -274,15 +274,15 @@ int get hashCode => Object.hash(runtimeType,membership);
 
 @override
 String toString() {
-  return 'JoinResult.unit(membership: $membership)';
+  return 'ScopeMembership.unit(membership: $membership)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $JoinedUnitCopyWith<$Res> implements $JoinResultCopyWith<$Res> {
-  factory $JoinedUnitCopyWith(JoinedUnit value, $Res Function(JoinedUnit) _then) = _$JoinedUnitCopyWithImpl;
+abstract mixin class $UnitScopeCopyWith<$Res> implements $ScopeMembershipCopyWith<$Res> {
+  factory $UnitScopeCopyWith(UnitScope value, $Res Function(UnitScope) _then) = _$UnitScopeCopyWithImpl;
 @useResult
 $Res call({
  UnitMembership membership
@@ -293,23 +293,23 @@ $UnitMembershipCopyWith<$Res> get membership;
 
 }
 /// @nodoc
-class _$JoinedUnitCopyWithImpl<$Res>
-    implements $JoinedUnitCopyWith<$Res> {
-  _$JoinedUnitCopyWithImpl(this._self, this._then);
+class _$UnitScopeCopyWithImpl<$Res>
+    implements $UnitScopeCopyWith<$Res> {
+  _$UnitScopeCopyWithImpl(this._self, this._then);
 
-  final JoinedUnit _self;
-  final $Res Function(JoinedUnit) _then;
+  final UnitScope _self;
+  final $Res Function(UnitScope) _then;
 
-/// Create a copy of JoinResult
+/// Create a copy of ScopeMembership
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? membership = null,}) {
-  return _then(JoinedUnit(
+  return _then(UnitScope(
 null == membership ? _self.membership : membership // ignore: cast_nullable_to_non_nullable
 as UnitMembership,
   ));
 }
 
-/// Create a copy of JoinResult
+/// Create a copy of ScopeMembership
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
