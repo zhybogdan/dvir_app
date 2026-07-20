@@ -48,5 +48,9 @@
   "errorWeakPassword": "Пароль надто простий",
   "errorEmailNotConfirmed": "Спочатку підтвердьте пошту",
   "errorTooManyRequests": "Забагато спроб. Спробуйте пізніше",
-  "errorAuthUnknown": "Не вдалося виконати дію"
+  "errorAuthUnknown": "Не вдалося виконати дію",
+  "errorInvalidInviteCode": "Такого коду не існує. Перевірте його ще раз",
+  "errorNotAllowed": "Недостатньо прав для цієї дії",
+  "errorNotAuthenticated": "Сеанс завершився. Увійдіть ще раз",
+  "errorScopeUnknown": "Не вдалося виконати дію"
 }

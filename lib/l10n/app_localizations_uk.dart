@@ -105,4 +105,17 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get errorAuthUnknown => 'Не вдалося виконати дію';
+
+  @override
+  String get errorInvalidInviteCode =>
+      'Такого коду не існує. Перевірте його ще раз';
+
+  @override
+  String get errorNotAllowed => 'Недостатньо прав для цієї дії';
+
+  @override
+  String get errorNotAuthenticated => 'Сеанс завершився. Увійдіть ще раз';
+
+  @override
+  String get errorScopeUnknown => 'Не вдалося виконати дію';
 }

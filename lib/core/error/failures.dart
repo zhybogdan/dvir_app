@@ -36,6 +36,16 @@ final class NotFoundFailure extends Failure {
   const NotFoundFailure();
 }
 
+/// Creating or joining a scope (a community or an object) was rejected.
+final class ScopeFailure extends Failure {
+  const ScopeFailure(this.reason);
+
+  final ScopeFailureReason reason;
+
+  @override
+  String toString() => 'ScopeFailure($reason)';
+}
+
 /// Anything we did not anticipate.
 final class UnknownFailure extends Failure {
   const UnknownFailure();
@@ -51,5 +61,21 @@ enum AuthFailureReason {
   emailNotConfirmed,
   tooManyRequests,
   signUpDisabled,
+  unknown,
+}
+
+/// Why a scope call was rejected. The bootstrap RPCs raise custom SQLSTATEs
+/// (`DV001`…`DV003`) precisely so this mapping never depends on the wording of
+/// a Postgres error message.
+enum ScopeFailureReason {
+  /// No community and no object carries this invite code.
+  invalidInviteCode,
+
+  /// The caller is not an admin of the community / owner of the object.
+  notAllowed,
+
+  /// The session expired between opening the form and submitting it.
+  notAuthenticated,
+
   unknown,
 }

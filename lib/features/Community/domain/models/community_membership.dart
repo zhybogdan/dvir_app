@@ -1,5 +1,5 @@
 import 'package:dvir/features/Community/domain/types/member_role.dart';
-import 'package:dvir/features/Community/domain/types/member_status.dart';
+import 'package:dvir/features/Shared/domain/types/member_status.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'community_membership.freezed.dart';
