@@ -19,6 +19,14 @@ void main() {
         authFailureReasonFrom('email_not_confirmed'),
         AuthFailureReason.emailNotConfirmed,
       );
+      expect(
+        authFailureReasonFrom('email_address_invalid'),
+        AuthFailureReason.emailAddressInvalid,
+      );
+      expect(
+        authFailureReasonFrom('signup_disabled'),
+        AuthFailureReason.signUpDisabled,
+      );
     });
 
     test('maps both aliases for an already-registered email', () {

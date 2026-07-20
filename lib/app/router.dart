@@ -1,4 +1,6 @@
 import 'package:dvir/app/routes.dart';
+import 'package:dvir/core/logging/app_logger.dart';
+import 'package:dvir/core/logging/app_route_observer.dart';
 import 'package:dvir/features/Auth/application/auth_controller.dart';
 import 'package:dvir/features/Auth/domain/models/app_user.dart';
 import 'package:dvir/features/Auth/presentation/screens/login_screen.dart';
@@ -37,22 +39,22 @@ GoRouter router(Ref ref) {
   return GoRouter(
     initialLocation: AppRoutes.splash,
     refreshListenable: refresh,
+    observers: [AppRouteObserver()],
     redirect: (context, state) {
-      final auth = ref.read(authStateProvider);
-      final loc = state.matchedLocation;
+      final location = state.matchedLocation;
+      final decision = _resolveRedirect(
+        auth: ref.read(authStateProvider),
+        location: location,
+      );
+      final target = decision.target;
 
-      // Until the first auth emission arrives we cannot decide — hold the
-      // splash instead of flashing the login screen at a signed-in user.
-      if (auth.isLoading && !auth.hasValue) {
-        return loc == AppRoutes.splash ? null : AppRoutes.splash;
+      // Only decisions that actually move the user: `redirect` runs on every
+      // router event and mostly returns null, which would bury the log.
+      if (target != null) {
+        appLogger.i('redirect $location → $target (${decision.reason})');
       }
 
-      final loggedIn = auth.value != null;
-      final onAuthPage = loc == AppRoutes.login || loc == AppRoutes.register;
-
-      if (!loggedIn) return onAuthPage ? null : AppRoutes.login;
-      if (onAuthPage || loc == AppRoutes.splash) return AppRoutes.home;
-      return null;
+      return target;
     },
     routes: [
       GoRoute(
@@ -73,4 +75,40 @@ GoRouter router(Ref ref) {
       ),
     ],
   );
+}
+
+/// Where an auth state should send a visitor of [location], and why.
+///
+/// The reason is carried purely for the log: today the destination explains
+/// itself, but Phase 3 layers community membership and roles on top of this,
+/// and then "why did it land me on PendingApproval" stops being obvious.
+///
+/// Pure on purpose — it takes state in and returns a decision, touching no
+/// router internals.
+({String? target, String reason}) _resolveRedirect({
+  required AsyncValue<AppUser?> auth,
+  required String location,
+}) {
+  final onAuthPage =
+      location == AppRoutes.login || location == AppRoutes.register;
+
+  // Until the first auth emission arrives we cannot decide — hold the splash
+  // instead of flashing the login screen at an already signed-in user.
+  if (auth.isLoading && !auth.hasValue) {
+    return location == AppRoutes.splash
+        ? (target: null, reason: 'auth unresolved, already on splash')
+        : (target: AppRoutes.splash, reason: 'auth unresolved');
+  }
+
+  if (auth.value == null) {
+    return onAuthPage
+        ? (target: null, reason: 'signed out, on an auth page')
+        : (target: AppRoutes.login, reason: 'signed out');
+  }
+
+  if (onAuthPage || location == AppRoutes.splash) {
+    return (target: AppRoutes.home, reason: 'signed in');
+  }
+
+  return (target: null, reason: 'signed in, staying put');
 }

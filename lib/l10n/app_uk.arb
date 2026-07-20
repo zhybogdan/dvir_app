@@ -43,6 +43,8 @@
   "errorUnknown": "Неочікувана помилка",
   "errorInvalidCredentials": "Невірна пошта або пароль",
   "errorEmailAlreadyRegistered": "Ця пошта вже зареєстрована",
+  "errorEmailAddressInvalid": "Вкажіть справжню адресу пошти",
+  "errorSignUpDisabled": "Реєстрація тимчасово вимкнена",
   "errorWeakPassword": "Пароль надто простий",
   "errorEmailNotConfirmed": "Спочатку підтвердьте пошту",
   "errorTooManyRequests": "Забагато спроб. Спробуйте пізніше",
