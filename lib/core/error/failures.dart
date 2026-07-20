@@ -2,38 +2,52 @@
 ///
 /// Data sources translate low-level errors (e.g. `PostgrestException`,
 /// `AuthException`, `SocketException`) into these and throw them. Riverpod's
-/// [AsyncValue] catches the throw and the UI renders a message via
-/// `.when(error: ...)` — so we get typed errors without a `Result` wrapper.
+/// [AsyncValue] catches the throw and the UI renders the text via the
+/// `FailureL10n` extension.
+///
+/// Failures carry a *cause*, never a user-facing string: the wording lives in
+/// the arb files, so backend English never reaches the screen.
 sealed class Failure implements Exception {
-  const Failure(this.message);
-
-  final String message;
-
-  @override
-  String toString() => '$runtimeType: $message';
+  const Failure();
 }
 
 /// No / lost internet connection.
-class NetworkFailure extends Failure {
-  const NetworkFailure([super.message = 'No internet connection']);
+final class NetworkFailure extends Failure {
+  const NetworkFailure();
 }
 
 /// Backend rejected the request or returned an unexpected response.
-class ServerFailure extends Failure {
-  const ServerFailure([super.message = 'Something went wrong on the server']);
+final class ServerFailure extends Failure {
+  const ServerFailure();
 }
 
 /// Sign in / sign up / session problems.
-class AuthFailure extends Failure {
-  const AuthFailure([super.message = 'Authentication failed']);
+final class AuthFailure extends Failure {
+  const AuthFailure(this.reason);
+
+  final AuthFailureReason reason;
+
+  @override
+  String toString() => 'AuthFailure($reason)';
 }
 
 /// Requested entity does not exist (or is not visible under RLS).
-class NotFoundFailure extends Failure {
-  const NotFoundFailure([super.message = 'Not found']);
+final class NotFoundFailure extends Failure {
+  const NotFoundFailure();
 }
 
 /// Anything we did not anticipate.
-class UnknownFailure extends Failure {
-  const UnknownFailure([super.message = 'Unexpected error']);
+final class UnknownFailure extends Failure {
+  const UnknownFailure();
+}
+
+/// Why an auth call was rejected. Data sources map Supabase (GoTrue) error
+/// codes onto this, so adding a locale never means touching the data layer.
+enum AuthFailureReason {
+  invalidCredentials,
+  emailAlreadyRegistered,
+  weakPassword,
+  emailNotConfirmed,
+  tooManyRequests,
+  unknown,
 }

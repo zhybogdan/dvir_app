@@ -1,7 +1,13 @@
 {
   "@@locale": "uk",
   "appTitle": "Двір",
+  "@appTitle": {
+    "description": "Application name"
+  },
   "homePlaceholder": "Основа готова — функції незабаром",
+  "@homePlaceholder": {
+    "description": "Placeholder text on the temporary home screen"
+  },
 
   "signIn": "Увійти",
   "signUp": "Зареєструватися",
@@ -17,5 +23,28 @@
   "invalidEmail": "Введіть коректну ел. пошту",
   "passwordRequired": "Введіть пароль",
   "passwordTooShort": "Пароль має містити щонайменше 6 символів",
-  "passwordsDontMatch": "Паролі не збігаються"
+  "passwordsDontMatch": "Паролі не збігаються",
+
+  "confirmEmailTitle": "Перевірте пошту",
+  "confirmEmailBody": "Ми надіслали лист на {email}. Відкрийте посилання, щоб завершити реєстрацію.",
+  "@confirmEmailBody": {
+    "description": "Shown after sign-up when the account needs email confirmation",
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "backToSignIn": "Повернутися до входу",
+
+  "errorNetwork": "Немає з’єднання з інтернетом",
+  "errorServer": "Помилка сервера. Спробуйте пізніше",
+  "errorNotFound": "Не знайдено",
+  "errorUnknown": "Неочікувана помилка",
+  "errorInvalidCredentials": "Невірна пошта або пароль",
+  "errorEmailAlreadyRegistered": "Ця пошта вже зареєстрована",
+  "errorWeakPassword": "Пароль надто простий",
+  "errorEmailNotConfirmed": "Спочатку підтвердьте пошту",
+  "errorTooManyRequests": "Забагато спроб. Спробуйте пізніше",
+  "errorAuthUnknown": "Не вдалося виконати дію"
 }

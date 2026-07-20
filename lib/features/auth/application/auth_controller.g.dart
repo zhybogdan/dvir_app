@@ -29,7 +29,7 @@ final class AuthStateProvider
         argument: null,
         retry: null,
         name: r'authStateProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -48,7 +48,7 @@ final class AuthStateProvider
   }
 }
 
-String _$authStateHash() => r'28289662db95e3db4c5bd3165b78ad16cb8b8f70';
+String _$authStateHash() => r'6ce439e56f78a7861b8f3d71d298011f47656b9a';
 
 /// Drives auth actions and exposes their loading / error state.
 ///
@@ -93,7 +93,7 @@ final class AuthControllerProvider
   AuthController create() => AuthController();
 }
 
-String _$authControllerHash() => r'f69d85cff205609fad46813db05f7166d7b2642c';
+String _$authControllerHash() => r'c4c1691e1999e829d14007f7acd90ecf23f6c800';
 
 /// Drives auth actions and exposes their loading / error state.
 ///

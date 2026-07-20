@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
-import 'app_localizations_en.dart';
 import 'app_localizations_uk.dart';
 
 // ignore_for_file: type=lint
@@ -93,112 +92,187 @@ abstract class AppLocalizations {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[
-    Locale('en'),
-    Locale('uk'),
-  ];
+  static const List<Locale> supportedLocales = <Locale>[Locale('uk')];
 
   /// Application name
   ///
-  /// In en, this message translates to:
-  /// **'Dvir'**
+  /// In uk, this message translates to:
+  /// **'Двір'**
   String get appTitle;
 
   /// Placeholder text on the temporary home screen
   ///
-  /// In en, this message translates to:
-  /// **'Foundation ready — features coming soon'**
+  /// In uk, this message translates to:
+  /// **'Основа готова — функції незабаром'**
   String get homePlaceholder;
 
   /// No description provided for @signIn.
   ///
-  /// In en, this message translates to:
-  /// **'Sign in'**
+  /// In uk, this message translates to:
+  /// **'Увійти'**
   String get signIn;
 
   /// No description provided for @signUp.
   ///
-  /// In en, this message translates to:
-  /// **'Sign up'**
+  /// In uk, this message translates to:
+  /// **'Зареєструватися'**
   String get signUp;
 
   /// No description provided for @signOut.
   ///
-  /// In en, this message translates to:
-  /// **'Sign out'**
+  /// In uk, this message translates to:
+  /// **'Вийти'**
   String get signOut;
 
   /// No description provided for @email.
   ///
-  /// In en, this message translates to:
-  /// **'Email'**
+  /// In uk, this message translates to:
+  /// **'Ел. пошта'**
   String get email;
 
   /// No description provided for @password.
   ///
-  /// In en, this message translates to:
-  /// **'Password'**
+  /// In uk, this message translates to:
+  /// **'Пароль'**
   String get password;
 
   /// No description provided for @confirmPassword.
   ///
-  /// In en, this message translates to:
-  /// **'Confirm password'**
+  /// In uk, this message translates to:
+  /// **'Підтвердьте пароль'**
   String get confirmPassword;
 
   /// No description provided for @welcomeBack.
   ///
-  /// In en, this message translates to:
-  /// **'Welcome back'**
+  /// In uk, this message translates to:
+  /// **'З поверненням'**
   String get welcomeBack;
 
   /// No description provided for @createAccount.
   ///
-  /// In en, this message translates to:
-  /// **'Create account'**
+  /// In uk, this message translates to:
+  /// **'Створити акаунт'**
   String get createAccount;
 
   /// No description provided for @dontHaveAccount.
   ///
-  /// In en, this message translates to:
-  /// **'Don\'t have an account? Sign up'**
+  /// In uk, this message translates to:
+  /// **'Немає акаунту? Зареєструйтесь'**
   String get dontHaveAccount;
 
   /// No description provided for @alreadyHaveAccount.
   ///
-  /// In en, this message translates to:
-  /// **'Already have an account? Sign in'**
+  /// In uk, this message translates to:
+  /// **'Вже маєте акаунт? Увійдіть'**
   String get alreadyHaveAccount;
 
   /// No description provided for @emailRequired.
   ///
-  /// In en, this message translates to:
-  /// **'Enter your email'**
+  /// In uk, this message translates to:
+  /// **'Введіть ел. пошту'**
   String get emailRequired;
 
   /// No description provided for @invalidEmail.
   ///
-  /// In en, this message translates to:
-  /// **'Enter a valid email'**
+  /// In uk, this message translates to:
+  /// **'Введіть коректну ел. пошту'**
   String get invalidEmail;
 
   /// No description provided for @passwordRequired.
   ///
-  /// In en, this message translates to:
-  /// **'Enter your password'**
+  /// In uk, this message translates to:
+  /// **'Введіть пароль'**
   String get passwordRequired;
 
   /// No description provided for @passwordTooShort.
   ///
-  /// In en, this message translates to:
-  /// **'Password must be at least 6 characters'**
+  /// In uk, this message translates to:
+  /// **'Пароль має містити щонайменше 6 символів'**
   String get passwordTooShort;
 
   /// No description provided for @passwordsDontMatch.
   ///
-  /// In en, this message translates to:
-  /// **'Passwords don\'t match'**
+  /// In uk, this message translates to:
+  /// **'Паролі не збігаються'**
   String get passwordsDontMatch;
+
+  /// No description provided for @confirmEmailTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Перевірте пошту'**
+  String get confirmEmailTitle;
+
+  /// Shown after sign-up when the account needs email confirmation
+  ///
+  /// In uk, this message translates to:
+  /// **'Ми надіслали лист на {email}. Відкрийте посилання, щоб завершити реєстрацію.'**
+  String confirmEmailBody(String email);
+
+  /// No description provided for @backToSignIn.
+  ///
+  /// In uk, this message translates to:
+  /// **'Повернутися до входу'**
+  String get backToSignIn;
+
+  /// No description provided for @errorNetwork.
+  ///
+  /// In uk, this message translates to:
+  /// **'Немає з’єднання з інтернетом'**
+  String get errorNetwork;
+
+  /// No description provided for @errorServer.
+  ///
+  /// In uk, this message translates to:
+  /// **'Помилка сервера. Спробуйте пізніше'**
+  String get errorServer;
+
+  /// No description provided for @errorNotFound.
+  ///
+  /// In uk, this message translates to:
+  /// **'Не знайдено'**
+  String get errorNotFound;
+
+  /// No description provided for @errorUnknown.
+  ///
+  /// In uk, this message translates to:
+  /// **'Неочікувана помилка'**
+  String get errorUnknown;
+
+  /// No description provided for @errorInvalidCredentials.
+  ///
+  /// In uk, this message translates to:
+  /// **'Невірна пошта або пароль'**
+  String get errorInvalidCredentials;
+
+  /// No description provided for @errorEmailAlreadyRegistered.
+  ///
+  /// In uk, this message translates to:
+  /// **'Ця пошта вже зареєстрована'**
+  String get errorEmailAlreadyRegistered;
+
+  /// No description provided for @errorWeakPassword.
+  ///
+  /// In uk, this message translates to:
+  /// **'Пароль надто простий'**
+  String get errorWeakPassword;
+
+  /// No description provided for @errorEmailNotConfirmed.
+  ///
+  /// In uk, this message translates to:
+  /// **'Спочатку підтвердьте пошту'**
+  String get errorEmailNotConfirmed;
+
+  /// No description provided for @errorTooManyRequests.
+  ///
+  /// In uk, this message translates to:
+  /// **'Забагато спроб. Спробуйте пізніше'**
+  String get errorTooManyRequests;
+
+  /// No description provided for @errorAuthUnknown.
+  ///
+  /// In uk, this message translates to:
+  /// **'Не вдалося виконати дію'**
+  String get errorAuthUnknown;
 }
 
 class _AppLocalizationsDelegate
@@ -212,7 +286,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'uk'].contains(locale.languageCode);
+      <String>['uk'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -221,8 +295,6 @@ class _AppLocalizationsDelegate
 AppLocalizations lookupAppLocalizations(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en':
-      return AppLocalizationsEn();
     case 'uk':
       return AppLocalizationsUk();
   }

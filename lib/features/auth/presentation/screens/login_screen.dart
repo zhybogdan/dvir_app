@@ -1,6 +1,6 @@
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
-import 'package:dvir/core/error/failures.dart';
+import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
@@ -44,17 +44,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final l10n = AppLocalizations.of(context);
     final isLoading = ref.watch(authControllerProvider).isLoading;
 
-    // Surface auth failures as a snackbar. On success the router redirect moves
-    // us to the home screen automatically.
-    ref.listen(authControllerProvider, (prev, next) {
-      final error = next.error;
-      if (!next.isLoading && error != null) {
-        final message = error is Failure ? error.message : error.toString();
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(SnackBar(content: Text(message)));
-      }
-    });
+    // Failures surface as a snackbar. On success the router redirect moves us
+    // to the home screen automatically.
+    ref.listen(
+      authControllerProvider,
+      (previous, next) => next.showFailure(context),
+    );
 
     return AuthScaffold(
       child: Form(
