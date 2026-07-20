@@ -1,8 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- allowBackup is off because the session is encrypted with a key held in
+         the Android Keystore, and that key is never part of a backup. Restoring
+         the encrypted blob without it yields InvalidKeyException on launch, and
+         shipping auth tokens to Google Drive defeats the point of encrypting
+         them in the first place. -->
     <application
         android:label="dvir"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false">
         <activity
             android:name=".MainActivity"
             android:exported="true"
