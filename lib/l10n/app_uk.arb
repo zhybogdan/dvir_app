@@ -37,6 +37,13 @@
   },
   "backToSignIn": "Повернутися до входу",
 
+  "onboardingTitle": "З чого почнемо?",
+  "onboardingCreateCommunity": "Створити спільноту",
+  "onboardingCreateUnit": "Створити об’єкт",
+  "onboardingJoinByCode": "Приєднатися за кодом",
+  "pendingApprovalTitle": "Заявку надіслано",
+  "pendingApprovalBody": "Очікуйте підтвердження. Ми відкриємо доступ, щойно заявку розглянуть.",
+
   "errorNetwork": "Немає з’єднання з інтернетом",
   "errorServer": "Помилка сервера. Спробуйте пізніше",
   "errorNotFound": "Не знайдено",

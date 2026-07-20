@@ -71,6 +71,25 @@ class AppLocalizationsUk extends AppLocalizations {
   String get backToSignIn => 'Повернутися до входу';
 
   @override
+  String get onboardingTitle => 'З чого почнемо?';
+
+  @override
+  String get onboardingCreateCommunity => 'Створити спільноту';
+
+  @override
+  String get onboardingCreateUnit => 'Створити об’єкт';
+
+  @override
+  String get onboardingJoinByCode => 'Приєднатися за кодом';
+
+  @override
+  String get pendingApprovalTitle => 'Заявку надіслано';
+
+  @override
+  String get pendingApprovalBody =>
+      'Очікуйте підтвердження. Ми відкриємо доступ, щойно заявку розглянуть.';
+
+  @override
   String get errorNetwork => 'Немає з’єднання з інтернетом';
 
   @override

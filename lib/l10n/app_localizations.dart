@@ -214,6 +214,42 @@ abstract class AppLocalizations {
   /// **'Повернутися до входу'**
   String get backToSignIn;
 
+  /// No description provided for @onboardingTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'З чого почнемо?'**
+  String get onboardingTitle;
+
+  /// No description provided for @onboardingCreateCommunity.
+  ///
+  /// In uk, this message translates to:
+  /// **'Створити спільноту'**
+  String get onboardingCreateCommunity;
+
+  /// No description provided for @onboardingCreateUnit.
+  ///
+  /// In uk, this message translates to:
+  /// **'Створити об’єкт'**
+  String get onboardingCreateUnit;
+
+  /// No description provided for @onboardingJoinByCode.
+  ///
+  /// In uk, this message translates to:
+  /// **'Приєднатися за кодом'**
+  String get onboardingJoinByCode;
+
+  /// No description provided for @pendingApprovalTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Заявку надіслано'**
+  String get pendingApprovalTitle;
+
+  /// No description provided for @pendingApprovalBody.
+  ///
+  /// In uk, this message translates to:
+  /// **'Очікуйте підтвердження. Ми відкриємо доступ, щойно заявку розглянуть.'**
+  String get pendingApprovalBody;
+
   /// No description provided for @errorNetwork.
   ///
   /// In uk, this message translates to:
