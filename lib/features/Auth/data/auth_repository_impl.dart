@@ -59,6 +59,13 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<T> _run<T>(Future<T> Function() call) async {
     try {
       return await call();
+    } on sb.AuthRetryableFetchException catch (error, stackTrace) {
+      // GoTrue wraps every transport failure (DNS, timeout, refused socket)
+      // into this subclass of `AuthException` and leaves `code` empty, so it
+      // has to be caught *before* the general branch below — otherwise every
+      // connectivity problem is reported to the user as an auth error.
+      appLogger.d('Auth call could not reach Supabase: ${error.message}');
+      Error.throwWithStackTrace(const NetworkFailure(), stackTrace);
     } on sb.AuthException catch (error, stackTrace) {
       // The backend message is English and never reaches the UI, but it is the
       // only clue left when the code is one we don't map yet.
@@ -68,6 +75,8 @@ class AuthRepositoryImpl implements AuthRepository {
         stackTrace,
       );
     } on SocketException catch (_, stackTrace) {
+      // Belt and braces: calls that go through GoTrue never land here, but a
+      // raw socket error would otherwise be misfiled as "unexpected".
       Error.throwWithStackTrace(const NetworkFailure(), stackTrace);
     } catch (error, stackTrace) {
       // Not a case we anticipated — the raw error is all we will ever have.
