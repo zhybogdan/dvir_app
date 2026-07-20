@@ -24,5 +24,11 @@ extension FailureL10n on Failure {
       AuthFailureReason.tooManyRequests => l10n.errorTooManyRequests,
       AuthFailureReason.unknown => l10n.errorAuthUnknown,
     },
+    ScopeFailure(:final reason) => switch (reason) {
+      ScopeFailureReason.invalidInviteCode => l10n.errorInvalidInviteCode,
+      ScopeFailureReason.notAllowed => l10n.errorNotAllowed,
+      ScopeFailureReason.notAuthenticated => l10n.errorNotAuthenticated,
+      ScopeFailureReason.unknown => l10n.errorScopeUnknown,
+    },
   };
 }

@@ -37,6 +37,13 @@
   },
   "backToSignIn": "Повернутися до входу",
 
+  "onboardingTitle": "З чого почнемо?",
+  "onboardingCreateCommunity": "Створити спільноту",
+  "onboardingCreateUnit": "Створити об’єкт",
+  "onboardingJoinByCode": "Приєднатися за кодом",
+  "pendingApprovalTitle": "Заявку надіслано",
+  "pendingApprovalBody": "Очікуйте підтвердження. Ми відкриємо доступ, щойно заявку розглянуть.",
+
   "errorNetwork": "Немає з’єднання з інтернетом",
   "errorServer": "Помилка сервера. Спробуйте пізніше",
   "errorNotFound": "Не знайдено",
@@ -48,5 +55,9 @@
   "errorWeakPassword": "Пароль надто простий",
   "errorEmailNotConfirmed": "Спочатку підтвердьте пошту",
   "errorTooManyRequests": "Забагато спроб. Спробуйте пізніше",
-  "errorAuthUnknown": "Не вдалося виконати дію"
+  "errorAuthUnknown": "Не вдалося виконати дію",
+  "errorInvalidInviteCode": "Такого коду не існує. Перевірте його ще раз",
+  "errorNotAllowed": "Недостатньо прав для цієї дії",
+  "errorNotAuthenticated": "Сеанс завершився. Увійдіть ще раз",
+  "errorScopeUnknown": "Не вдалося виконати дію"
 }

@@ -20,6 +20,10 @@ dependencies:
   freezed_annotation: ^3.1.0
   json_annotation: ^4.12.0
   supabase_flutter: ^2.15.4
+  # Declared explicitly, though it arrives with supabase: PostgREST lets the
+  # HTTP client's exceptions through untouched, so the data layer has to name
+  # ClientException to tell "no connection" from "unexpected error".
+  http: ^1.6.0
   flutter_dotenv: ^6.0.1
   intl: ^0.20.2
   flutter_svg: ^2.3.0

@@ -214,6 +214,42 @@ abstract class AppLocalizations {
   /// **'Повернутися до входу'**
   String get backToSignIn;
 
+  /// No description provided for @onboardingTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'З чого почнемо?'**
+  String get onboardingTitle;
+
+  /// No description provided for @onboardingCreateCommunity.
+  ///
+  /// In uk, this message translates to:
+  /// **'Створити спільноту'**
+  String get onboardingCreateCommunity;
+
+  /// No description provided for @onboardingCreateUnit.
+  ///
+  /// In uk, this message translates to:
+  /// **'Створити об’єкт'**
+  String get onboardingCreateUnit;
+
+  /// No description provided for @onboardingJoinByCode.
+  ///
+  /// In uk, this message translates to:
+  /// **'Приєднатися за кодом'**
+  String get onboardingJoinByCode;
+
+  /// No description provided for @pendingApprovalTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Заявку надіслано'**
+  String get pendingApprovalTitle;
+
+  /// No description provided for @pendingApprovalBody.
+  ///
+  /// In uk, this message translates to:
+  /// **'Очікуйте підтвердження. Ми відкриємо доступ, щойно заявку розглянуть.'**
+  String get pendingApprovalBody;
+
   /// No description provided for @errorNetwork.
   ///
   /// In uk, this message translates to:
@@ -285,6 +321,30 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Не вдалося виконати дію'**
   String get errorAuthUnknown;
+
+  /// No description provided for @errorInvalidInviteCode.
+  ///
+  /// In uk, this message translates to:
+  /// **'Такого коду не існує. Перевірте його ще раз'**
+  String get errorInvalidInviteCode;
+
+  /// No description provided for @errorNotAllowed.
+  ///
+  /// In uk, this message translates to:
+  /// **'Недостатньо прав для цієї дії'**
+  String get errorNotAllowed;
+
+  /// No description provided for @errorNotAuthenticated.
+  ///
+  /// In uk, this message translates to:
+  /// **'Сеанс завершився. Увійдіть ще раз'**
+  String get errorNotAuthenticated;
+
+  /// No description provided for @errorScopeUnknown.
+  ///
+  /// In uk, this message translates to:
+  /// **'Не вдалося виконати дію'**
+  String get errorScopeUnknown;
 }
 
 class _AppLocalizationsDelegate
