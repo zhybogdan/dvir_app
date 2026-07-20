@@ -54,7 +54,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get passwordRequired => 'Введіть пароль';
 
   @override
-  String get passwordTooShort => 'Пароль має містити щонайменше 6 символів';
+  String get passwordTooShort => 'Щонайменше 6 символів';
 
   @override
   String get passwordsDontMatch => 'Паролі не збігаються';

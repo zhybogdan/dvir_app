@@ -187,7 +187,7 @@ abstract class AppLocalizations {
   /// No description provided for @passwordTooShort.
   ///
   /// In uk, this message translates to:
-  /// **'Пароль має містити щонайменше 6 символів'**
+  /// **'Щонайменше 6 символів'**
   String get passwordTooShort;
 
   /// No description provided for @passwordsDontMatch.

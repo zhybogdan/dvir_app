@@ -45,6 +45,15 @@ class AppTheme {
         focusedErrorBorder: _fieldBorder(
           BorderSide(color: scheme.error, width: 2),
         ),
+        errorStyle: TextStyle(
+          color: scheme.error,
+          fontSize: 12,
+          height: 1.3,
+          fontWeight: FontWeight.w500,
+        ),
+        helperStyle: const TextStyle(fontSize: 12, height: 1.3),
+        errorMaxLines: 1,
+        helperMaxLines: 1,
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(

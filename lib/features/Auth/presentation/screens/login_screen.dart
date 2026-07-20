@@ -44,8 +44,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final l10n = AppLocalizations.of(context);
     final isLoading = ref.watch(authControllerProvider).isLoading;
 
-    // Failures surface as a snackbar. On success the router redirect moves us
-    // to the home screen automatically.
     ref.listen(
       authControllerProvider,
       (previous, next) => next.showFailure(context),
@@ -54,6 +52,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     return AuthScaffold(
       child: Form(
         key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,

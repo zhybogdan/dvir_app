@@ -22,7 +22,7 @@
   "emailRequired": "Введіть ел. пошту",
   "invalidEmail": "Введіть коректну ел. пошту",
   "passwordRequired": "Введіть пароль",
-  "passwordTooShort": "Пароль має містити щонайменше 6 символів",
+  "passwordTooShort": "Щонайменше 6 символів",
   "passwordsDontMatch": "Паролі не збігаються",
 
   "confirmEmailTitle": "Перевірте пошту",

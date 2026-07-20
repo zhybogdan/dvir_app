@@ -80,6 +80,7 @@ class _DvTextFieldState extends State<DvTextField> {
           onFieldSubmitted: onSubmitted,
           decoration: InputDecoration(
             hintText: hint,
+            helperText: ' ',
             prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
             suffixIcon: obscure
                 ? IconButton(
