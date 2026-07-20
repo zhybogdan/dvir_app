@@ -1,10 +1,10 @@
 import 'package:dvir/app/routes.dart';
-import 'package:dvir/features/auth/application/auth_controller.dart';
-import 'package:dvir/features/auth/domain/models/app_user.dart';
-import 'package:dvir/features/auth/presentation/screens/login_screen.dart';
-import 'package:dvir/features/auth/presentation/screens/register_screen.dart';
-import 'package:dvir/features/auth/presentation/screens/splash_screen.dart';
-import 'package:dvir/features/home/presentation/screens/home_screen.dart';
+import 'package:dvir/features/Auth/application/auth_controller.dart';
+import 'package:dvir/features/Auth/domain/models/app_user.dart';
+import 'package:dvir/features/Auth/presentation/screens/login_screen.dart';
+import 'package:dvir/features/Auth/presentation/screens/register_screen.dart';
+import 'package:dvir/features/Auth/presentation/screens/splash_screen.dart';
+import 'package:dvir/features/Home/presentation/screens/home_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

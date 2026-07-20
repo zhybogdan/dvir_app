@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:dvir/features/auth/data/auth_repository_impl.dart';
-import 'package:dvir/features/auth/domain/models/app_user.dart';
-import 'package:dvir/features/auth/domain/types/sign_up_outcome.dart';
+import 'package:dvir/features/Auth/data/auth_repository_impl.dart';
+import 'package:dvir/features/Auth/domain/models/app_user.dart';
+import 'package:dvir/features/Auth/domain/types/sign_up_outcome.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_controller.g.dart';

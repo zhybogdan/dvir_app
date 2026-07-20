@@ -2,9 +2,10 @@ import 'dart:io';
 
 import 'package:dvir/core/config/supabase_providers.dart';
 import 'package:dvir/core/error/failures.dart';
-import 'package:dvir/features/auth/data/auth_repository.dart';
-import 'package:dvir/features/auth/domain/models/app_user.dart';
-import 'package:dvir/features/auth/domain/types/sign_up_outcome.dart';
+import 'package:dvir/features/Auth/data/auth_failure_mapper.dart';
+import 'package:dvir/features/Auth/data/auth_repository.dart';
+import 'package:dvir/features/Auth/domain/models/app_user.dart';
+import 'package:dvir/features/Auth/domain/types/sign_up_outcome.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
@@ -54,26 +55,13 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       return await call();
     } on sb.AuthException catch (e) {
-      throw AuthFailure(_reasonOf(e));
+      throw AuthFailure(authFailureReasonFrom(e.code));
     } on SocketException {
       throw const NetworkFailure();
     } catch (_) {
       throw const UnknownFailure();
     }
   }
-
-  /// GoTrue error codes → domain reasons.
-  /// See https://supabase.com/docs/reference/dart/auth-error-codes
-  AuthFailureReason _reasonOf(sb.AuthException e) => switch (e.code) {
-    'invalid_credentials' => AuthFailureReason.invalidCredentials,
-    'user_already_exists' ||
-    'email_exists' => AuthFailureReason.emailAlreadyRegistered,
-    'weak_password' => AuthFailureReason.weakPassword,
-    'email_not_confirmed' => AuthFailureReason.emailNotConfirmed,
-    'over_request_rate_limit' ||
-    'over_email_send_rate_limit' => AuthFailureReason.tooManyRequests,
-    _ => AuthFailureReason.unknown,
-  };
 }
 
 @Riverpod(keepAlive: true)

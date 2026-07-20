@@ -1,5 +1,5 @@
-import 'package:dvir/features/auth/domain/models/app_user.dart';
-import 'package:dvir/features/auth/domain/types/sign_up_outcome.dart';
+import 'package:dvir/features/Auth/domain/models/app_user.dart';
+import 'package:dvir/features/Auth/domain/types/sign_up_outcome.dart';
 
 /// Contract for authentication (Base). The `application` layer depends on this,
 /// never on Supabase directly.
