@@ -54,8 +54,49 @@ class AppLocalizationsUk extends AppLocalizations {
   String get passwordRequired => 'Введіть пароль';
 
   @override
-  String get passwordTooShort => 'Пароль має містити щонайменше 6 символів';
+  String get passwordTooShort => 'Щонайменше 6 символів';
 
   @override
   String get passwordsDontMatch => 'Паролі не збігаються';
+
+  @override
+  String get confirmEmailTitle => 'Перевірте пошту';
+
+  @override
+  String confirmEmailBody(String email) {
+    return 'Ми надіслали лист на $email. Відкрийте посилання, щоб завершити реєстрацію.';
+  }
+
+  @override
+  String get backToSignIn => 'Повернутися до входу';
+
+  @override
+  String get errorNetwork => 'Немає з’єднання з інтернетом';
+
+  @override
+  String get errorServer => 'Помилка сервера. Спробуйте пізніше';
+
+  @override
+  String get errorNotFound => 'Не знайдено';
+
+  @override
+  String get errorUnknown => 'Неочікувана помилка';
+
+  @override
+  String get errorInvalidCredentials => 'Невірна пошта або пароль';
+
+  @override
+  String get errorEmailAlreadyRegistered => 'Ця пошта вже зареєстрована';
+
+  @override
+  String get errorWeakPassword => 'Пароль надто простий';
+
+  @override
+  String get errorEmailNotConfirmed => 'Спочатку підтвердьте пошту';
+
+  @override
+  String get errorTooManyRequests => 'Забагато спроб. Спробуйте пізніше';
+
+  @override
+  String get errorAuthUnknown => 'Не вдалося виконати дію';
 }

@@ -13,7 +13,6 @@ Future<void> main() async {
 
   await Supabase.initialize(
     url: Env.supabaseUrl,
-    // "publishable key" is Supabase's new name for the anon/public key.
     publishableKey: Env.supabaseAnonKey,
   );
 
