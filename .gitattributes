@@ -1,0 +1,32 @@
+# Line endings
+#
+# Everything is stored and checked out as LF on every platform. Without this,
+# a Windows checkout gets CRLF while build_runner and `dart format` write LF —
+# and then every regenerated file shows up as a full rewrite in the diff.
+# These rules override core.autocrlf, so the setting no longer matters.
+* text=auto eol=lf
+
+# Windows tooling that breaks on LF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Generated code: still committed and diffable, just collapsed by default in
+# reviews so a codegen run does not bury the hand-written changes.
+*.g.dart                         linguist-generated=true
+*.freezed.dart                   linguist-generated=true
+lib/gen/**                       linguist-generated=true
+lib/l10n/app_localizations*.dart linguist-generated=true
+pubspec.lock                     linguist-generated=true
+
+# Binary — never converted, never diffed as text.
+*.png      binary
+*.jpg      binary
+*.jpeg     binary
+*.webp     binary
+*.gif      binary
+*.ico      binary
+*.ttf      binary
+*.otf      binary
+*.jar      binary
+*.keystore binary
+*.jks      binary
