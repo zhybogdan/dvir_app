@@ -250,6 +250,18 @@ abstract class AppLocalizations {
   /// **'Ця пошта вже зареєстрована'**
   String get errorEmailAlreadyRegistered;
 
+  /// No description provided for @errorEmailAddressInvalid.
+  ///
+  /// In uk, this message translates to:
+  /// **'Вкажіть справжню адресу пошти'**
+  String get errorEmailAddressInvalid;
+
+  /// No description provided for @errorSignUpDisabled.
+  ///
+  /// In uk, this message translates to:
+  /// **'Реєстрація тимчасово вимкнена'**
+  String get errorSignUpDisabled;
+
   /// No description provided for @errorWeakPassword.
   ///
   /// In uk, this message translates to:

@@ -46,8 +46,10 @@ final class UnknownFailure extends Failure {
 enum AuthFailureReason {
   invalidCredentials,
   emailAlreadyRegistered,
+  emailAddressInvalid,
   weakPassword,
   emailNotConfirmed,
   tooManyRequests,
+  signUpDisabled,
   unknown,
 }

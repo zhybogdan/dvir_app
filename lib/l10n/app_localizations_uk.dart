@@ -89,6 +89,12 @@ class AppLocalizationsUk extends AppLocalizations {
   String get errorEmailAlreadyRegistered => 'Ця пошта вже зареєстрована';
 
   @override
+  String get errorEmailAddressInvalid => 'Вкажіть справжню адресу пошти';
+
+  @override
+  String get errorSignUpDisabled => 'Реєстрація тимчасово вимкнена';
+
+  @override
   String get errorWeakPassword => 'Пароль надто простий';
 
   @override

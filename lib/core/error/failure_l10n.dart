@@ -17,6 +17,8 @@ extension FailureL10n on Failure {
       AuthFailureReason.invalidCredentials => l10n.errorInvalidCredentials,
       AuthFailureReason.emailAlreadyRegistered =>
         l10n.errorEmailAlreadyRegistered,
+      AuthFailureReason.emailAddressInvalid => l10n.errorEmailAddressInvalid,
+      AuthFailureReason.signUpDisabled => l10n.errorSignUpDisabled,
       AuthFailureReason.weakPassword => l10n.errorWeakPassword,
       AuthFailureReason.emailNotConfirmed => l10n.errorEmailNotConfirmed,
       AuthFailureReason.tooManyRequests => l10n.errorTooManyRequests,
