@@ -229,7 +229,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingCreateUnit.
   ///
   /// In uk, this message translates to:
-  /// **'Створити об’єкт'**
+  /// **'Створити оселю'**
   String get onboardingCreateUnit;
 
   /// No description provided for @onboardingJoinByCode.
@@ -352,11 +352,101 @@ abstract class AppLocalizations {
   /// **'Інше'**
   String get communityTypeCustom;
 
+  /// No description provided for @unitName.
+  ///
+  /// In uk, this message translates to:
+  /// **'Назва оселі'**
+  String get unitName;
+
+  /// No description provided for @unitNameHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'Будинок 223'**
+  String get unitNameHint;
+
+  /// No description provided for @unitNameRequired.
+  ///
+  /// In uk, this message translates to:
+  /// **'Введіть назву оселі'**
+  String get unitNameRequired;
+
+  /// No description provided for @unitType.
+  ///
+  /// In uk, this message translates to:
+  /// **'Тип оселі'**
+  String get unitType;
+
+  /// No description provided for @unitArea.
+  ///
+  /// In uk, this message translates to:
+  /// **'Площа, м²'**
+  String get unitArea;
+
+  /// No description provided for @unitAreaHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'72'**
+  String get unitAreaHint;
+
+  /// No description provided for @unitAreaInvalid.
+  ///
+  /// In uk, this message translates to:
+  /// **'Введіть коректну площу'**
+  String get unitAreaInvalid;
+
+  /// No description provided for @createUnitCta.
+  ///
+  /// In uk, this message translates to:
+  /// **'Створити оселю'**
+  String get createUnitCta;
+
+  /// No description provided for @unitTypeHouse.
+  ///
+  /// In uk, this message translates to:
+  /// **'Будинок'**
+  String get unitTypeHouse;
+
+  /// No description provided for @unitTypeApartment.
+  ///
+  /// In uk, this message translates to:
+  /// **'Квартира'**
+  String get unitTypeApartment;
+
+  /// No description provided for @unitTypePlot.
+  ///
+  /// In uk, this message translates to:
+  /// **'Ділянка'**
+  String get unitTypePlot;
+
+  /// No description provided for @unitTypeGarage.
+  ///
+  /// In uk, this message translates to:
+  /// **'Гараж'**
+  String get unitTypeGarage;
+
+  /// No description provided for @unitTypeOffice.
+  ///
+  /// In uk, this message translates to:
+  /// **'Офіс'**
+  String get unitTypeOffice;
+
+  /// No description provided for @unitTypeCustom.
+  ///
+  /// In uk, this message translates to:
+  /// **'Інше'**
+  String get unitTypeCustom;
+
   /// No description provided for @communityCreatedTitle.
   ///
   /// In uk, this message translates to:
   /// **'Спільноту створено'**
   String get communityCreatedTitle;
+
+  /// No description provided for @unitCreatedTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Оселю створено'**
+  String get unitCreatedTitle;
 
   /// No description provided for @inviteCodeLabel.
   ///
@@ -369,6 +459,12 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Поділіться цим кодом із мешканцями — за ним вони приєднаються до спільноти.'**
   String get inviteCodeHint;
+
+  /// No description provided for @unitInviteCodeHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'Поділіться цим кодом із рідними — за ним вони приєднаються до оселі.'**
+  String get unitInviteCodeHint;
 
   /// No description provided for @copyCode.
   ///

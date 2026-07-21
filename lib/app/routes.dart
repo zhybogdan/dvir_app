@@ -13,6 +13,7 @@ abstract final class AppRoutes {
   static const String onboardingCommunitySuccess =
       '/onboarding/community/success';
   static const String onboardingUnit = '/onboarding/unit';
+  static const String onboardingUnitSuccess = '/onboarding/unit/success';
   static const String onboardingJoin = '/onboarding/join';
 
   static const String pending = '/pending';

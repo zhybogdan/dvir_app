@@ -77,7 +77,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get onboardingCreateCommunity => 'Створити спільноту';
 
   @override
-  String get onboardingCreateUnit => 'Створити об’єкт';
+  String get onboardingCreateUnit => 'Створити оселю';
 
   @override
   String get onboardingJoinByCode => 'Приєднатися за кодом';
@@ -141,7 +141,52 @@ class AppLocalizationsUk extends AppLocalizations {
   String get communityTypeCustom => 'Інше';
 
   @override
+  String get unitName => 'Назва оселі';
+
+  @override
+  String get unitNameHint => 'Будинок 223';
+
+  @override
+  String get unitNameRequired => 'Введіть назву оселі';
+
+  @override
+  String get unitType => 'Тип оселі';
+
+  @override
+  String get unitArea => 'Площа, м²';
+
+  @override
+  String get unitAreaHint => '72';
+
+  @override
+  String get unitAreaInvalid => 'Введіть коректну площу';
+
+  @override
+  String get createUnitCta => 'Створити оселю';
+
+  @override
+  String get unitTypeHouse => 'Будинок';
+
+  @override
+  String get unitTypeApartment => 'Квартира';
+
+  @override
+  String get unitTypePlot => 'Ділянка';
+
+  @override
+  String get unitTypeGarage => 'Гараж';
+
+  @override
+  String get unitTypeOffice => 'Офіс';
+
+  @override
+  String get unitTypeCustom => 'Інше';
+
+  @override
   String get communityCreatedTitle => 'Спільноту створено';
+
+  @override
+  String get unitCreatedTitle => 'Оселю створено';
 
   @override
   String get inviteCodeLabel => 'Код запрошення';
@@ -149,6 +194,10 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get inviteCodeHint =>
       'Поділіться цим кодом із мешканцями — за ним вони приєднаються до спільноти.';
+
+  @override
+  String get unitInviteCodeHint =>
+      'Поділіться цим кодом із рідними — за ним вони приєднаються до оселі.';
 
   @override
   String get copyCode => 'Скопіювати код';
