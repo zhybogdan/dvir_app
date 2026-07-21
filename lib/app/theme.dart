@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class AppTheme {
   const AppTheme._();
 
-  static const Color _seed = Color(0xFF0D9488); // teal — clean, service tone
+  static const Color _seed = Color(0xFF0D9488);
 
   static ThemeData get light => _build(Brightness.light);
   static ThemeData get dark => _build(Brightness.dark);
@@ -18,10 +18,15 @@ class AppTheme {
       brightness: brightness,
     );
 
-    return ThemeData(
+    final base = ThemeData(
       colorScheme: scheme,
       useMaterial3: true,
+      fontFamily: 'Inter',
+    );
+
+    return base.copyWith(
       scaffoldBackgroundColor: scheme.surface,
+      textTheme: _headings(base.textTheme),
       appBarTheme: AppBarTheme(
         centerTitle: false,
         backgroundColor: scheme.surface,
@@ -69,6 +74,19 @@ class AppTheme {
       ),
     );
   }
+
+  /// Heavier weights for titles and headlines; body and label keep the M3
+  /// defaults (Regular / Medium) so running text stays comfortable to read.
+  static TextTheme _headings(TextTheme base) => base.copyWith(
+    displayLarge: base.displayLarge?.copyWith(fontWeight: FontWeight.w700),
+    displayMedium: base.displayMedium?.copyWith(fontWeight: FontWeight.w700),
+    displaySmall: base.displaySmall?.copyWith(fontWeight: FontWeight.w600),
+    headlineLarge: base.headlineLarge?.copyWith(fontWeight: FontWeight.w700),
+    headlineMedium: base.headlineMedium?.copyWith(fontWeight: FontWeight.w600),
+    headlineSmall: base.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
+    titleLarge: base.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+    titleMedium: base.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+  );
 
   static OutlineInputBorder _fieldBorder(BorderSide side) => OutlineInputBorder(
     borderRadius: BorderRadius.circular(AppRadius.md),

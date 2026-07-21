@@ -58,3 +58,11 @@ flutter:
     - .env
     - assets/images/
     - assets/icons/
+
+  # Inter as a single variable file: one asset covers every weight (Thin→Black)
+  # via the `wght` axis, so `fontWeight` in the text theme just works. Bundled
+  # rather than fetched at runtime — no network dependency on first launch.
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter.ttf
