@@ -1,5 +1,6 @@
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
+import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class OnboardingChoiceScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.onboardingTitle)),
+      appBar: DvAppBar(title: l10n.onboardingTitle),
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
@@ -27,15 +28,15 @@ class OnboardingChoiceScreen extends StatelessWidget {
           children: [
             DvButton(
               label: l10n.onboardingCreateCommunity,
-              onPressed: () => context.go(AppRoutes.onboardingCommunity),
+              onPressed: () => context.push(AppRoutes.onboardingCommunity),
             ),
             DvButton(
               label: l10n.onboardingCreateUnit,
-              onPressed: () => context.go(AppRoutes.onboardingUnit),
+              onPressed: () => context.push(AppRoutes.onboardingUnit),
             ),
             DvButton(
               label: l10n.onboardingJoinByCode,
-              onPressed: () => context.go(AppRoutes.onboardingJoin),
+              onPressed: () => context.push(AppRoutes.onboardingJoin),
             ),
           ],
         ),

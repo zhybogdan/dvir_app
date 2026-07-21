@@ -14,6 +14,17 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart' as _svg;
 import 'package:vector_graphics/vector_graphics.dart' as _vg;
 
+class $AssetsIconsGen {
+  const $AssetsIconsGen();
+
+  /// File path: assets/icons/chevron_left.svg
+  SvgGenImage get chevronLeft =>
+      const SvgGenImage('assets/icons/chevron_left.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [chevronLeft];
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -32,6 +43,7 @@ class Assets {
   const Assets._();
 
   static const String aEnv = '.env';
+  static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 
   /// List of all assets
