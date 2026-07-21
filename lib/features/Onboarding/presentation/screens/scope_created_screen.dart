@@ -4,12 +4,13 @@ import 'package:dvir/core/utils/share.dart';
 import 'package:dvir/features/Onboarding/application/membership_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_icon.dart';
+import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/gen/assets.gen.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 /// Shown right after a scope (a community or an oselia) is created: its invite
 /// code, big and copyable.
@@ -49,8 +50,13 @@ class ScopeCreatedScreen extends ConsumerWidget {
 
     return PopScope(
       canPop: false,
-      child: Scaffold(
-        appBar: DvAppBar(title: title, showBack: false),
+      child: DvScaffold(
+        extendBodyBehindAppBar: true,
+        appBar: DvAppBar(
+          title: title,
+          showBack: false,
+          backgroundColor: Colors.transparent,
+        ),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(AppSpacing.lg),
@@ -99,8 +105,8 @@ class ScopeCreatedScreen extends ConsumerWidget {
   }
 }
 
-/// The added success badge, recoloured to the theme: only the purple gradient
-/// is swapped for [color], the white check inside is kept.
+/// The added success badge, recoloured to the theme: the purple gradient
+/// becomes [color], the white check inside is kept.
 class _SuccessBadge extends StatelessWidget {
   const _SuccessBadge({required this.color});
 
@@ -111,23 +117,9 @@ class _SuccessBadge extends StatelessWidget {
     return Assets.icons.success.svg(
       width: 88,
       height: 88,
-      colorMapper: _BadgeTint(color),
+      colorMapper: SvgTint(color, keep: {AppColors.white}),
     );
   }
-}
-
-class _BadgeTint extends ColorMapper {
-  const _BadgeTint(this.badge);
-
-  final Color badge;
-
-  @override
-  Color substitute(
-    String? id,
-    String elementName,
-    String attributeName,
-    Color color,
-  ) => color == const Color(0xFFFFFFFF) ? color : badge;
 }
 
 class _InviteCodeCard extends StatelessWidget {

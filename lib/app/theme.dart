@@ -112,3 +112,9 @@ abstract final class AppRadius {
   static const double md = 12;
   static const double lg = 20;
 }
+
+/// Fixed brand colours that are not derived from the scheme and stay constant
+/// across light and dark — e.g. the mark inside an illustration.
+abstract final class AppColors {
+  static const Color white = Color(0xFFFFFFFF);
+}

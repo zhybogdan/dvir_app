@@ -7,6 +7,7 @@ import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Onboarding/application/onboarding_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_select_field.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
 import 'package:dvir/features/Units/domain/types/unit_type.dart';
@@ -76,8 +77,12 @@ class _CreateUnitScreenState extends ConsumerState<CreateUnitScreen> {
       (previous, next) => next.showFailure(context),
     );
 
-    return Scaffold(
-      appBar: DvAppBar(title: l10n.onboardingCreateUnit),
+    return DvScaffold(
+      extendBodyBehindAppBar: true,
+      appBar: DvAppBar(
+        title: l10n.onboardingCreateUnit,
+        backgroundColor: Colors.transparent,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(AppSpacing.lg),

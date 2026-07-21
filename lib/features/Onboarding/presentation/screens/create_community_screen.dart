@@ -9,6 +9,7 @@ import 'package:dvir/features/Community/presentation/community_type_l10n.dart';
 import 'package:dvir/features/Onboarding/application/onboarding_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_select_field.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
 import 'package:dvir/l10n/app_localizations.dart';
@@ -80,8 +81,12 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
       (previous, next) => next.showFailure(context),
     );
 
-    return Scaffold(
-      appBar: DvAppBar(title: l10n.onboardingCreateCommunity),
+    return DvScaffold(
+      extendBodyBehindAppBar: true,
+      appBar: DvAppBar(
+        title: l10n.onboardingCreateCommunity,
+        backgroundColor: Colors.transparent,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(AppSpacing.lg),

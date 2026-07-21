@@ -15,6 +15,7 @@ class DvAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.actions,
     this.showBack = true,
+    this.backgroundColor,
   });
 
   final String title;
@@ -27,15 +28,24 @@ class DvAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// invite-code screen, whose only way onward is the primary action.
   final bool showBack;
 
+  /// Overrides the themed fill. Pass `Colors.transparent` to let a scaffold
+  /// background show through; when set, the scroll-under tint is disabled too so
+  /// the colour stays exactly what was asked for.
+  final Color? backgroundColor;
+
   @override
   Widget build(BuildContext context) {
     final canPop = showBack && Navigator.of(context).canPop();
+    final backgroundColor = this.backgroundColor;
 
     return AppBar(
       automaticallyImplyLeading: false,
       leading: canPop ? const _BackButton() : null,
       title: Text(title, style: context.textTheme.titleLarge),
       actions: actions,
+      backgroundColor: backgroundColor,
+      elevation: backgroundColor == null ? null : 0,
+      scrolledUnderElevation: backgroundColor == null ? null : 0,
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
+import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:dvir/features/Shared/presentation/dv_image.dart';
 import 'package:dvir/gen/assets.gen.dart';
 import 'package:dvir/l10n/app_localizations.dart';
@@ -18,7 +19,7 @@ class AuthScaffold extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          const Positioned.fill(child: _AuthBackground()),
+          const Positioned.fill(child: DvBackground()),
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
@@ -76,27 +77,6 @@ class _AuthHeader extends StatelessWidget {
           style: context.textTheme.titleLarge,
         ),
       ],
-    );
-  }
-}
-
-/// Full-bleed decorative watermark behind the auth forms. Tinted to the theme
-/// primary (low opacity) so it adapts to light/dark instead of the raw grey
-/// baked into the source asset.
-class _AuthBackground extends StatelessWidget {
-  const _AuthBackground();
-
-  @override
-  Widget build(BuildContext context) {
-    return IgnorePointer(
-      child: Assets.images.authBackground.svg(
-        fit: BoxFit.cover,
-        alignment: Alignment.topCenter,
-        colorFilter: ColorFilter.mode(
-          context.colorScheme.primary.withValues(alpha: 0.04),
-          BlendMode.srcIn,
-        ),
-      ),
     );
   }
 }

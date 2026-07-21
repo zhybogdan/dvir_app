@@ -2,6 +2,7 @@ import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 /// Shared SVG icon, tinted to the theme.
 ///
@@ -30,4 +31,24 @@ class DvIcon extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Recolours a multi-colour SVG to [tint], leaving any colour in [keep] as-is.
+///
+/// For illustrations where a single `colorFilter` would flatten everything into
+/// one colour — a badge whose fill should follow the theme but whose inner mark
+/// must stay white. One-colour icons don't need this; use [DvIcon].
+class SvgTint extends ColorMapper {
+  const SvgTint(this.tint, {this.keep = const {}});
+
+  final Color tint;
+  final Set<Color> keep;
+
+  @override
+  Color substitute(
+    String? id,
+    String elementName,
+    String attributeName,
+    Color color,
+  ) => keep.contains(color) ? color : tint;
 }
