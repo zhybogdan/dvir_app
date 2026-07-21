@@ -90,6 +90,19 @@ class AppLocalizationsUk extends AppLocalizations {
       'Очікуйте підтвердження. Ми відкриємо доступ, щойно заявку розглянуть.';
 
   @override
+  String get joinByCodeIntro =>
+      'Введіть код запрошення, який вам надіслали, щоб приєднатися до спільноти або оселі.';
+
+  @override
+  String get joinCodeHint => 'A3F9C1B2';
+
+  @override
+  String get joinCodeRequired => 'Введіть код запрошення';
+
+  @override
+  String get joinCta => 'Приєднатися';
+
+  @override
   String get communityName => 'Назва спільноти';
 
   @override
