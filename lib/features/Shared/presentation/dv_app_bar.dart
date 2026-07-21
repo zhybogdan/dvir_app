@@ -20,9 +20,6 @@ class DvAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Only render our own back button where there is something to pop.
-    // `automaticallyImplyLeading: false` then stops AppBar from adding the
-    // default arrow on top of it (or a drawer button on root screens).
     final canPop = Navigator.of(context).canPop();
 
     return AppBar(
