@@ -466,6 +466,18 @@ abstract class AppLocalizations {
   /// **'Поділіться цим кодом із рідними — за ним вони приєднаються до оселі.'**
   String get unitInviteCodeHint;
 
+  /// No description provided for @shareCode.
+  ///
+  /// In uk, this message translates to:
+  /// **'Поділитися'**
+  String get shareCode;
+
+  /// Message shared with the invite code
+  ///
+  /// In uk, this message translates to:
+  /// **'Приєднуйтесь до «{name}» у застосунку Двір. Код запрошення: {code}'**
+  String shareInviteText(String name, String code);
+
   /// No description provided for @copyCode.
   ///
   /// In uk, this message translates to:

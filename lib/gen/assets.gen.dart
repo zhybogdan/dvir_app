@@ -21,8 +21,11 @@ class $AssetsIconsGen {
   SvgGenImage get chevronLeft =>
       const SvgGenImage('assets/icons/chevron_left.svg');
 
+  /// File path: assets/icons/success.svg
+  SvgGenImage get success => const SvgGenImage('assets/icons/success.svg');
+
   /// List of all assets
-  List<SvgGenImage> get values => [chevronLeft];
+  List<SvgGenImage> get values => [chevronLeft, success];
 }
 
 class $AssetsImagesGen {

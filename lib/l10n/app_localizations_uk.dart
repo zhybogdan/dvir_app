@@ -200,6 +200,14 @@ class AppLocalizationsUk extends AppLocalizations {
       'Поділіться цим кодом із рідними — за ним вони приєднаються до оселі.';
 
   @override
+  String get shareCode => 'Поділитися';
+
+  @override
+  String shareInviteText(String name, String code) {
+    return 'Приєднуйтесь до «$name» у застосунку Двір. Код запрошення: $code';
+  }
+
+  @override
   String get copyCode => 'Скопіювати код';
 
   @override
