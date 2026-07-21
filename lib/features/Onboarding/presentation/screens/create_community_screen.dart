@@ -9,6 +9,7 @@ import 'package:dvir/features/Community/presentation/community_type_l10n.dart';
 import 'package:dvir/features/Onboarding/application/onboarding_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_select_field.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -99,11 +100,13 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
                       validateRequired(v, l10n.communityNameRequired),
                 ),
                 const SizedBox(height: AppSpacing.md),
-                _CommunityTypeField(
+                DvSelectField<CommunityType>(
+                  label: l10n.communityType,
                   value: _type,
-                  onChanged: isLoading
-                      ? null
-                      : (type) => setState(() => _type = type),
+                  options: CommunityType.values,
+                  labelOf: (type) => type.label(l10n),
+                  enabled: !isLoading,
+                  onChanged: (type) => setState(() => _type = type),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 DvTextField(
@@ -131,34 +134,6 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
           ),
         ),
       ),
-    );
-  }
-}
-
-/// Labelled dropdown for the community type, styled to match [DvTextField].
-class _CommunityTypeField extends StatelessWidget {
-  const _CommunityTypeField({required this.value, required this.onChanged});
-
-  final CommunityType value;
-  final ValueChanged<CommunityType>? onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final onChanged = this.onChanged;
-
-    return DropdownButtonFormField<CommunityType>(
-      initialValue: value,
-      decoration: InputDecoration(labelText: l10n.communityType),
-      items: [
-        for (final type in CommunityType.values)
-          DropdownMenuItem(value: type, child: Text(type.label(l10n))),
-      ],
-      onChanged: onChanged == null
-          ? null
-          : (type) {
-              if (type != null) onChanged(type);
-            },
     );
   }
 }

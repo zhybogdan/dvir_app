@@ -39,6 +39,9 @@ class AppTheme {
           horizontal: AppSpacing.md,
           vertical: AppSpacing.md,
         ),
+        hintStyle: TextStyle(
+          color: scheme.onSurfaceVariant.withValues(alpha: 0.5),
+        ),
         border: _fieldBorder(BorderSide(color: scheme.surfaceContainerHighest)),
         enabledBorder: _fieldBorder(
           BorderSide(color: scheme.surfaceContainerHighest),
