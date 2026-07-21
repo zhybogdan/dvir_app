@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
@@ -57,13 +55,7 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
 
     if (community == null || !mounted) return;
 
-    // Hand the fresh community to the invite-code screen; membership is
-    // refreshed there, so the router stays put until the user moves on. The
-    // returned future settles only when that screen is popped — nothing here
-    // waits on it.
-    unawaited(
-      context.push(AppRoutes.onboardingCommunitySuccess, extra: community),
-    );
+    context.go(AppRoutes.onboardingCommunitySuccess, extra: community);
   }
 
   String? _trimmedOrNull(TextEditingController controller) {

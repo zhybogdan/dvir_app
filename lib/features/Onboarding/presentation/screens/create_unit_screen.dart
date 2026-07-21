@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
@@ -59,7 +57,7 @@ class _CreateUnitScreenState extends ConsumerState<CreateUnitScreen> {
 
     if (unit == null || !mounted) return;
 
-    unawaited(context.push(AppRoutes.onboardingUnitSuccess, extra: unit));
+    context.go(AppRoutes.onboardingUnitSuccess, extra: unit);
   }
 
   String? _trimmedOrNull(TextEditingController controller) {
