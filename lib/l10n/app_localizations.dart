@@ -250,6 +250,144 @@ abstract class AppLocalizations {
   /// **'Очікуйте підтвердження. Ми відкриємо доступ, щойно заявку розглянуть.'**
   String get pendingApprovalBody;
 
+  /// No description provided for @communityName.
+  ///
+  /// In uk, this message translates to:
+  /// **'Назва спільноти'**
+  String get communityName;
+
+  /// No description provided for @communityNameHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'ОСББ «Каштан»'**
+  String get communityNameHint;
+
+  /// No description provided for @communityNameRequired.
+  ///
+  /// In uk, this message translates to:
+  /// **'Введіть назву спільноти'**
+  String get communityNameRequired;
+
+  /// No description provided for @communityType.
+  ///
+  /// In uk, this message translates to:
+  /// **'Тип спільноти'**
+  String get communityType;
+
+  /// No description provided for @communityAddress.
+  ///
+  /// In uk, this message translates to:
+  /// **'Адреса'**
+  String get communityAddress;
+
+  /// No description provided for @communityAddressHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'вул. Хрещатик, 1'**
+  String get communityAddressHint;
+
+  /// No description provided for @communityCity.
+  ///
+  /// In uk, this message translates to:
+  /// **'Місто'**
+  String get communityCity;
+
+  /// No description provided for @communityCityHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'Київ'**
+  String get communityCityHint;
+
+  /// No description provided for @optional.
+  ///
+  /// In uk, this message translates to:
+  /// **'необов’язково'**
+  String get optional;
+
+  /// No description provided for @createCommunityCta.
+  ///
+  /// In uk, this message translates to:
+  /// **'Створити спільноту'**
+  String get createCommunityCta;
+
+  /// No description provided for @communityTypeOsbb.
+  ///
+  /// In uk, this message translates to:
+  /// **'ОСББ'**
+  String get communityTypeOsbb;
+
+  /// No description provided for @communityTypeResidentialComplex.
+  ///
+  /// In uk, this message translates to:
+  /// **'Житловий комплекс'**
+  String get communityTypeResidentialComplex;
+
+  /// No description provided for @communityTypeDachaCooperative.
+  ///
+  /// In uk, this message translates to:
+  /// **'Дачний кооператив'**
+  String get communityTypeDachaCooperative;
+
+  /// No description provided for @communityTypeGarageCooperative.
+  ///
+  /// In uk, this message translates to:
+  /// **'Гаражний кооператив'**
+  String get communityTypeGarageCooperative;
+
+  /// No description provided for @communityTypeCottageTown.
+  ///
+  /// In uk, this message translates to:
+  /// **'Котеджне містечко'**
+  String get communityTypeCottageTown;
+
+  /// No description provided for @communityTypeDormitory.
+  ///
+  /// In uk, this message translates to:
+  /// **'Гуртожиток'**
+  String get communityTypeDormitory;
+
+  /// No description provided for @communityTypeCustom.
+  ///
+  /// In uk, this message translates to:
+  /// **'Інше'**
+  String get communityTypeCustom;
+
+  /// No description provided for @communityCreatedTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Спільноту створено'**
+  String get communityCreatedTitle;
+
+  /// No description provided for @inviteCodeLabel.
+  ///
+  /// In uk, this message translates to:
+  /// **'Код запрошення'**
+  String get inviteCodeLabel;
+
+  /// No description provided for @inviteCodeHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'Поділіться цим кодом із мешканцями — за ним вони приєднаються до спільноти.'**
+  String get inviteCodeHint;
+
+  /// No description provided for @copyCode.
+  ///
+  /// In uk, this message translates to:
+  /// **'Скопіювати код'**
+  String get copyCode;
+
+  /// No description provided for @codeCopied.
+  ///
+  /// In uk, this message translates to:
+  /// **'Код скопійовано'**
+  String get codeCopied;
+
+  /// No description provided for @goToHome.
+  ///
+  /// In uk, this message translates to:
+  /// **'На головну'**
+  String get goToHome;
+
   /// No description provided for @errorNetwork.
   ///
   /// In uk, this message translates to:

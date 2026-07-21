@@ -10,7 +10,12 @@ import 'package:flutter/material.dart';
 /// and the contract every screen shares, so the whole app changes from one
 /// place.
 class DvAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const DvAppBar({required this.title, super.key, this.actions});
+  const DvAppBar({
+    required this.title,
+    super.key,
+    this.actions,
+    this.showBack = true,
+  });
 
   final String title;
 
@@ -18,9 +23,13 @@ class DvAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// passes only a title.
   final List<Widget>? actions;
 
+  /// Set to false on screens that must not be navigated back from — e.g. the
+  /// invite-code screen, whose only way onward is the primary action.
+  final bool showBack;
+
   @override
   Widget build(BuildContext context) {
-    final canPop = Navigator.of(context).canPop();
+    final canPop = showBack && Navigator.of(context).canPop();
 
     return AppBar(
       automaticallyImplyLeading: false,

@@ -1,14 +1,164 @@
+import 'dart:async';
+
+import 'package:dvir/app/routes.dart';
+import 'package:dvir/app/theme.dart';
+import 'package:dvir/core/extensions/async_value_x.dart';
+import 'package:dvir/core/utils/validators.dart';
+import 'package:dvir/features/Community/domain/types/community_type.dart';
+import 'package:dvir/features/Community/presentation/community_type_l10n.dart';
+import 'package:dvir/features/Onboarding/application/onboarding_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
+import 'package:dvir/features/Shared/presentation/dv_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-class CreateCommunityScreen extends StatelessWidget {
+/// Admin flow: name a community, pick its type, create it. On success the
+/// invite-code screen takes over (see [AppRoutes.onboardingCommunitySuccess]).
+class CreateCommunityScreen extends ConsumerStatefulWidget {
   const CreateCommunityScreen({super.key});
+
+  @override
+  ConsumerState<CreateCommunityScreen> createState() =>
+      _CreateCommunityScreenState();
+}
+
+class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameCtrl = TextEditingController();
+  final _addressCtrl = TextEditingController();
+  final _cityCtrl = TextEditingController();
+  CommunityType _type = CommunityType.osbb;
+
+  @override
+  void dispose() {
+    _nameCtrl.dispose();
+    _addressCtrl.dispose();
+    _cityCtrl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit() async {
+    final form = _formKey.currentState;
+    if (form == null || !form.validate()) return;
+
+    final community = await ref
+        .read(onboardingControllerProvider.notifier)
+        .createCommunity(
+          name: _nameCtrl.text.trim(),
+          type: _type,
+          address: _trimmedOrNull(_addressCtrl),
+          city: _trimmedOrNull(_cityCtrl),
+        );
+
+    if (community == null || !mounted) return;
+
+    // Hand the fresh community to the invite-code screen; membership is
+    // refreshed there, so the router stays put until the user moves on. The
+    // returned future settles only when that screen is popped — nothing here
+    // waits on it.
+    unawaited(
+      context.push(AppRoutes.onboardingCommunitySuccess, extra: community),
+    );
+  }
+
+  String? _trimmedOrNull(TextEditingController controller) {
+    final value = controller.text.trim();
+    return value.isEmpty ? null : value;
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final isLoading = ref.watch(onboardingControllerProvider).isLoading;
 
-    return Scaffold(appBar: DvAppBar(title: l10n.onboardingCreateCommunity));
+    ref.listen(
+      onboardingControllerProvider,
+      (previous, next) => next.showFailure(context),
+    );
+
+    return Scaffold(
+      appBar: DvAppBar(title: l10n.onboardingCreateCommunity),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          child: Form(
+            key: _formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                DvTextField(
+                  controller: _nameCtrl,
+                  label: l10n.communityName,
+                  hint: l10n.communityNameHint,
+                  textInputAction: TextInputAction.next,
+                  validator: (v) =>
+                      validateRequired(v, l10n.communityNameRequired),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                _CommunityTypeField(
+                  value: _type,
+                  onChanged: isLoading
+                      ? null
+                      : (type) => setState(() => _type = type),
+                ),
+                const SizedBox(height: AppSpacing.md),
+                DvTextField(
+                  controller: _addressCtrl,
+                  label: '${l10n.communityAddress} · ${l10n.optional}',
+                  hint: l10n.communityAddressHint,
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(height: AppSpacing.md),
+                DvTextField(
+                  controller: _cityCtrl,
+                  label: '${l10n.communityCity} · ${l10n.optional}',
+                  hint: l10n.communityCityHint,
+                  textInputAction: TextInputAction.done,
+                  onSubmitted: (_) => _submit(),
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                DvButton(
+                  label: l10n.createCommunityCta,
+                  isLoading: isLoading,
+                  onPressed: isLoading ? null : _submit,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Labelled dropdown for the community type, styled to match [DvTextField].
+class _CommunityTypeField extends StatelessWidget {
+  const _CommunityTypeField({required this.value, required this.onChanged});
+
+  final CommunityType value;
+  final ValueChanged<CommunityType>? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final onChanged = this.onChanged;
+
+    return DropdownButtonFormField<CommunityType>(
+      initialValue: value,
+      decoration: InputDecoration(labelText: l10n.communityType),
+      items: [
+        for (final type in CommunityType.values)
+          DropdownMenuItem(value: type, child: Text(type.label(l10n))),
+      ],
+      onChanged: onChanged == null
+          ? null
+          : (type) {
+              if (type != null) onChanged(type);
+            },
+    );
   }
 }

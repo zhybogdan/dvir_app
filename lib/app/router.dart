@@ -7,9 +7,11 @@ import 'package:dvir/features/Auth/domain/models/app_user.dart';
 import 'package:dvir/features/Auth/presentation/screens/login_screen.dart';
 import 'package:dvir/features/Auth/presentation/screens/register_screen.dart';
 import 'package:dvir/features/Auth/presentation/screens/splash_screen.dart';
+import 'package:dvir/features/Community/domain/models/community.dart';
 import 'package:dvir/features/Home/presentation/screens/home_screen.dart';
 import 'package:dvir/features/Onboarding/application/membership_controller.dart';
 import 'package:dvir/features/Onboarding/domain/models/scope_membership.dart';
+import 'package:dvir/features/Onboarding/presentation/screens/community_created_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/create_community_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/create_unit_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/join_scope_screen.dart';
@@ -92,6 +94,15 @@ GoRouter router(Ref ref) {
       GoRoute(
         path: AppRoutes.onboardingCommunity,
         builder: (context, state) => const CreateCommunityScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.onboardingCommunitySuccess,
+        builder: (context, state) {
+          final community = state.extra;
+          return community is Community
+              ? CommunityCreatedScreen(community: community)
+              : const OnboardingChoiceScreen();
+        },
       ),
       GoRoute(
         path: AppRoutes.onboardingUnit,

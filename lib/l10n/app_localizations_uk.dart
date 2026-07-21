@@ -90,6 +90,76 @@ class AppLocalizationsUk extends AppLocalizations {
       'Очікуйте підтвердження. Ми відкриємо доступ, щойно заявку розглянуть.';
 
   @override
+  String get communityName => 'Назва спільноти';
+
+  @override
+  String get communityNameHint => 'ОСББ «Каштан»';
+
+  @override
+  String get communityNameRequired => 'Введіть назву спільноти';
+
+  @override
+  String get communityType => 'Тип спільноти';
+
+  @override
+  String get communityAddress => 'Адреса';
+
+  @override
+  String get communityAddressHint => 'вул. Хрещатик, 1';
+
+  @override
+  String get communityCity => 'Місто';
+
+  @override
+  String get communityCityHint => 'Київ';
+
+  @override
+  String get optional => 'необов’язково';
+
+  @override
+  String get createCommunityCta => 'Створити спільноту';
+
+  @override
+  String get communityTypeOsbb => 'ОСББ';
+
+  @override
+  String get communityTypeResidentialComplex => 'Житловий комплекс';
+
+  @override
+  String get communityTypeDachaCooperative => 'Дачний кооператив';
+
+  @override
+  String get communityTypeGarageCooperative => 'Гаражний кооператив';
+
+  @override
+  String get communityTypeCottageTown => 'Котеджне містечко';
+
+  @override
+  String get communityTypeDormitory => 'Гуртожиток';
+
+  @override
+  String get communityTypeCustom => 'Інше';
+
+  @override
+  String get communityCreatedTitle => 'Спільноту створено';
+
+  @override
+  String get inviteCodeLabel => 'Код запрошення';
+
+  @override
+  String get inviteCodeHint =>
+      'Поділіться цим кодом із мешканцями — за ним вони приєднаються до спільноти.';
+
+  @override
+  String get copyCode => 'Скопіювати код';
+
+  @override
+  String get codeCopied => 'Код скопійовано';
+
+  @override
+  String get goToHome => 'На головну';
+
+  @override
   String get errorNetwork => 'Немає з’єднання з інтернетом';
 
   @override

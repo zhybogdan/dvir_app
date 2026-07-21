@@ -14,3 +14,8 @@ String? validatePassword(String? value, AppLocalizations l10n) {
   if (v.length < 6) return l10n.passwordTooShort;
   return null;
 }
+
+/// A required free-text field (community name, object label). [message] carries
+/// the field-specific wording so one validator serves every such field.
+String? validateRequired(String? value, String message) =>
+    (value?.trim().isEmpty ?? true) ? message : null;

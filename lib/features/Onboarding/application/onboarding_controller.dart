@@ -43,8 +43,10 @@ class OnboardingController extends _$OnboardingController {
     );
     state = result;
 
-    _refreshMembership(result.hasValue);
-
+    // Unlike joining, creating does not refresh membership here: the creator is
+    // already an active admin, so refreshing would let the router pull them to
+    // home before they have seen the invite code. The success screen refreshes
+    // once the user leaves it.
     return result.value;
   }
 
@@ -73,8 +75,8 @@ class OnboardingController extends _$OnboardingController {
     );
     state = result;
 
-    _refreshMembership(result.hasValue);
-
+    // Same as createCommunity: the creator is the active owner, so the invite
+    // code is shown first and membership is refreshed when they move on.
     return result.value;
   }
 
