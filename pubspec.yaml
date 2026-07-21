@@ -29,6 +29,7 @@ dependencies:
   flutter_svg: ^2.3.0
   logger: ^2.7.0
   flutter_secure_storage: ^10.3.1
+  share_plus: ^13.2.1
 
 dev_dependencies:
   flutter_test:
@@ -57,3 +58,12 @@ flutter:
   assets:
     - .env
     - assets/images/
+    - assets/icons/
+
+  # Inter as a single variable file: one asset covers every weight (Thin→Black)
+  # via the `wght` axis, so `fontWeight` in the text theme just works. Bundled
+  # rather than fetched at runtime — no network dependency on first launch.
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter.ttf

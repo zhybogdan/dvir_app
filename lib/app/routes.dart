@@ -10,7 +10,10 @@ abstract final class AppRoutes {
   /// navigable without bouncing back to the choice screen.
   static const String onboarding = '/onboarding';
   static const String onboardingCommunity = '/onboarding/community';
+  static const String onboardingCommunitySuccess =
+      '/onboarding/community/success';
   static const String onboardingUnit = '/onboarding/unit';
+  static const String onboardingUnitSuccess = '/onboarding/unit/success';
   static const String onboardingJoin = '/onboarding/join';
 
   static const String pending = '/pending';

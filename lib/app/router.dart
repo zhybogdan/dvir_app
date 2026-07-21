@@ -7,6 +7,7 @@ import 'package:dvir/features/Auth/domain/models/app_user.dart';
 import 'package:dvir/features/Auth/presentation/screens/login_screen.dart';
 import 'package:dvir/features/Auth/presentation/screens/register_screen.dart';
 import 'package:dvir/features/Auth/presentation/screens/splash_screen.dart';
+import 'package:dvir/features/Community/domain/models/community.dart';
 import 'package:dvir/features/Home/presentation/screens/home_screen.dart';
 import 'package:dvir/features/Onboarding/application/membership_controller.dart';
 import 'package:dvir/features/Onboarding/domain/models/scope_membership.dart';
@@ -15,6 +16,9 @@ import 'package:dvir/features/Onboarding/presentation/screens/create_unit_screen
 import 'package:dvir/features/Onboarding/presentation/screens/join_scope_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/onboarding_choice_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/pending_approval_screen.dart';
+import 'package:dvir/features/Onboarding/presentation/screens/scope_created_screen.dart';
+import 'package:dvir/features/Units/domain/models/unit.dart';
+import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -94,8 +98,36 @@ GoRouter router(Ref ref) {
         builder: (context, state) => const CreateCommunityScreen(),
       ),
       GoRoute(
+        path: AppRoutes.onboardingCommunitySuccess,
+        builder: (context, state) {
+          final community = state.extra;
+          if (community is! Community) return const OnboardingChoiceScreen();
+          final l10n = AppLocalizations.of(context);
+          return ScopeCreatedScreen(
+            title: l10n.communityCreatedTitle,
+            name: community.name,
+            inviteCode: community.inviteCode,
+            inviteHint: l10n.inviteCodeHint,
+          );
+        },
+      ),
+      GoRoute(
         path: AppRoutes.onboardingUnit,
         builder: (context, state) => const CreateUnitScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.onboardingUnitSuccess,
+        builder: (context, state) {
+          final unit = state.extra;
+          if (unit is! Unit) return const OnboardingChoiceScreen();
+          final l10n = AppLocalizations.of(context);
+          return ScopeCreatedScreen(
+            title: l10n.unitCreatedTitle,
+            name: unit.label,
+            inviteCode: unit.inviteCode,
+            inviteHint: l10n.unitInviteCodeHint,
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.onboardingJoin,

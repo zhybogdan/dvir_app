@@ -39,10 +39,65 @@
 
   "onboardingTitle": "З чого почнемо?",
   "onboardingCreateCommunity": "Створити спільноту",
-  "onboardingCreateUnit": "Створити об’єкт",
+  "onboardingCreateUnit": "Створити оселю",
   "onboardingJoinByCode": "Приєднатися за кодом",
   "pendingApprovalTitle": "Заявку надіслано",
   "pendingApprovalBody": "Очікуйте підтвердження. Ми відкриємо доступ, щойно заявку розглянуть.",
+
+  "communityName": "Назва спільноти",
+  "communityNameHint": "ОСББ «Каштан»",
+  "communityNameRequired": "Введіть назву спільноти",
+  "communityType": "Тип спільноти",
+  "communityAddress": "Адреса",
+  "communityAddressHint": "вул. Хрещатик, 1",
+  "communityCity": "Місто",
+  "communityCityHint": "Київ",
+  "optional": "необов’язково",
+  "createCommunityCta": "Створити спільноту",
+  "communityTypeOsbb": "ОСББ",
+  "communityTypeResidentialComplex": "Житловий комплекс",
+  "communityTypeDachaCooperative": "Дачний кооператив",
+  "communityTypeGarageCooperative": "Гаражний кооператив",
+  "communityTypeCottageTown": "Котеджне містечко",
+  "communityTypeDormitory": "Гуртожиток",
+  "communityTypeCustom": "Інше",
+
+  "unitName": "Назва оселі",
+  "unitNameHint": "Будинок 223",
+  "unitNameRequired": "Введіть назву оселі",
+  "unitType": "Тип оселі",
+  "unitArea": "Площа, м²",
+  "unitAreaHint": "72",
+  "unitAreaInvalid": "Введіть коректну площу",
+  "createUnitCta": "Створити оселю",
+  "unitTypeHouse": "Будинок",
+  "unitTypeApartment": "Квартира",
+  "unitTypePlot": "Ділянка",
+  "unitTypeGarage": "Гараж",
+  "unitTypeOffice": "Офіс",
+  "unitTypeCustom": "Інше",
+
+  "communityCreatedTitle": "Спільноту створено",
+  "unitCreatedTitle": "Оселю створено",
+  "inviteCodeLabel": "Код запрошення",
+  "inviteCodeHint": "Поділіться цим кодом із мешканцями — за ним вони приєднаються до спільноти.",
+  "unitInviteCodeHint": "Поділіться цим кодом із рідними — за ним вони приєднаються до оселі.",
+  "shareCode": "Поділитися",
+  "shareInviteText": "Приєднуйтесь до «{name}» у застосунку Двір. Код запрошення: {code}",
+  "@shareInviteText": {
+    "description": "Message shared with the invite code",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "copyCode": "Скопіювати код",
+  "codeCopied": "Код скопійовано",
+  "goToHome": "На головну",
 
   "errorNetwork": "Немає з’єднання з інтернетом",
   "errorServer": "Помилка сервера. Спробуйте пізніше",

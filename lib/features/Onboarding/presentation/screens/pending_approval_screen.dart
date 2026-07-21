@@ -1,6 +1,8 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Auth/application/auth_controller.dart';
+import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
+import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,9 +19,11 @@ class PendingApprovalScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.pendingApprovalTitle),
+    return DvScaffold(
+      extendBodyBehindAppBar: true,
+      appBar: DvAppBar(
+        title: l10n.pendingApprovalTitle,
+        backgroundColor: Colors.transparent,
         actions: [
           IconButton(
             onPressed: () =>

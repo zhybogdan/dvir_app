@@ -13,28 +13,22 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Installed before any awaits so failures during startup are reported too.
   FlutterError.onError = (details) => appLogger.e(
     details.summary.toString(),
     error: details.exception,
     stackTrace: details.stack,
   );
 
-  // Async errors that never reach a Riverpod provider or a Flutter callback.
-  // Returning true marks them handled, which keeps the app alive.
   PlatformDispatcher.instance.onError = (error, stackTrace) {
     appLogger.e('Uncaught async error', error: error, stackTrace: stackTrace);
     return true;
   };
 
-  // Load Supabase credentials from .env (see .env.example).
   await dotenv.load(fileName: '.env');
 
   await Supabase.initialize(
     url: Env.supabaseUrl,
     publishableKey: Env.supabaseAnonKey,
-    // Keeps the session out of plain-text SharedPreferences; everything else
-    // about restore and refresh stays Supabase's job.
     authOptions: FlutterAuthClientOptions(localStorage: SecureLocalStorage()),
   );
 
