@@ -250,6 +250,36 @@ abstract class AppLocalizations {
   /// **'Очікуйте підтвердження. Ми відкриємо доступ, щойно заявку розглянуть.'**
   String get pendingApprovalBody;
 
+  /// No description provided for @rejectedTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Заявку відхилено'**
+  String get rejectedTitle;
+
+  /// No description provided for @rejectedBody.
+  ///
+  /// In uk, this message translates to:
+  /// **'Ваш запит на приєднання відхилили. Зверніться до адміністратора.'**
+  String get rejectedBody;
+
+  /// No description provided for @blockedTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Доступ закрито'**
+  String get blockedTitle;
+
+  /// No description provided for @blockedBody.
+  ///
+  /// In uk, this message translates to:
+  /// **'Ваш доступ до цієї спільноти закрито.'**
+  String get blockedBody;
+
+  /// No description provided for @refreshCta.
+  ///
+  /// In uk, this message translates to:
+  /// **'Оновити'**
+  String get refreshCta;
+
   /// No description provided for @joinByCodeIntro.
   ///
   /// In uk, this message translates to:
