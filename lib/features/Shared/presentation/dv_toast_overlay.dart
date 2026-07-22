@@ -161,6 +161,7 @@ class _ToastStackState extends State<_ToastStack>
                     child: _DvToastCard(
                       toast: entry.toast,
                       onAction: _actionFor(entry),
+                      onClose: () => _remove(entry),
                     ),
                   ),
                 ),
@@ -213,55 +214,102 @@ class _ToastEntry {
   }
 }
 
-/// The floating card: a tinted status chip, the message, and an optional action.
-class _DvToastCard extends StatelessWidget {
-  const _DvToastCard({required this.toast, this.onAction});
+/// The floating card: a solid status disc, the message, an optional action, a
+/// close control, and a countdown bar that mirrors the auto-dismiss timer.
+///
+/// Stateful only for that bar — it runs its own controller over the toast's
+/// [DvToast.duration]; the card is keyed by id so the bar survives rebuilds
+/// instead of restarting.
+class _DvToastCard extends StatefulWidget {
+  const _DvToastCard({required this.toast, this.onAction, this.onClose});
 
   final DvToast toast;
   final VoidCallback? onAction;
+  final VoidCallback? onClose;
+
+  @override
+  State<_DvToastCard> createState() => _DvToastCardState();
+}
+
+class _DvToastCardState extends State<_DvToastCard>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _countdown = AnimationController(
+    vsync: this,
+    duration: widget.toast.duration,
+  )..forward();
+
+  @override
+  void dispose() {
+    _countdown.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final toast = widget.toast;
     final scheme = context.colorScheme;
     final accent = toast.type.accent(scheme);
     final actionLabel = toast.actionLabel;
-    final onAction = this.onAction;
+    final onAction = widget.onAction;
+    final onClose = widget.onClose;
 
     return Material(
       color: scheme.surfaceContainerHigh,
-      elevation: 4,
-      shadowColor: scheme.shadow.withValues(alpha: 0.2),
+      elevation: 0,
       borderRadius: BorderRadius.circular(AppRadius.md),
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.sm),
-        child: Row(
-          children: [
-            _StatusChip(accent: accent, icon: toast.type.icon),
-            const SizedBox(width: AppSpacing.sm),
-            Expanded(
-              child: Text(
-                toast.message,
-                style: context.textTheme.bodyMedium,
-              ),
+      clipBehavior: Clip.antiAlias,
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.sm + AppSpacing.xs,
+              AppSpacing.sm,
+              AppSpacing.sm,
+              AppSpacing.sm,
             ),
-            if (actionLabel != null && onAction != null) ...[
-              const SizedBox(width: AppSpacing.xs),
-              TextButton(
-                onPressed: onAction,
-                style: TextButton.styleFrom(foregroundColor: accent),
-                child: Text(actionLabel),
-              ),
-            ],
-          ],
-        ),
+            child: Row(
+              children: [
+                _StatusDisc(accent: accent, icon: toast.type.icon),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: Text(
+                    toast.message,
+                    style: context.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      height: 1.3,
+                    ),
+                  ),
+                ),
+                if (actionLabel != null && onAction != null) ...[
+                  const SizedBox(width: AppSpacing.xs),
+                  TextButton(
+                    onPressed: onAction,
+                    style: TextButton.styleFrom(
+                      foregroundColor: accent,
+                      visualDensity: VisualDensity.compact,
+                    ),
+                    child: Text(actionLabel),
+                  ),
+                ] else if (onClose != null)
+                  _CloseButton(onClose: onClose),
+              ],
+            ),
+          ),
+          Positioned(
+            left: AppSpacing.md,
+            right: AppSpacing.md,
+            bottom: AppSpacing.xs,
+            child: _CountdownBar(animation: _countdown, color: accent),
+          ),
+        ],
       ),
     );
   }
 }
 
-/// The circular type badge — an accent-tinted disc with its status icon.
-class _StatusChip extends StatelessWidget {
-  const _StatusChip({required this.accent, required this.icon});
+/// The circular type badge — a solid accent disc with a white status icon.
+class _StatusDisc extends StatelessWidget {
+  const _StatusDisc({required this.accent, required this.icon});
 
   final Color accent;
   final IconData icon;
@@ -269,12 +317,70 @@ class _StatusChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.sm),
-      decoration: BoxDecoration(
-        color: accent.withValues(alpha: 0.12),
-        shape: BoxShape.circle,
+      width: 28,
+      height: 28,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(color: accent, shape: BoxShape.circle),
+      child: Icon(icon, color: AppColors.white, size: 16),
+    );
+  }
+}
+
+/// Compact dismiss control, kept subtle so it never competes with the message.
+///
+/// No `tooltip`: this overlay is mounted above the router's `Navigator`, so it
+/// has no `Overlay` ancestor for a tooltip to attach to — a swipe and the
+/// visible icon already make dismissal discoverable.
+class _CloseButton extends StatelessWidget {
+  const _CloseButton({required this.onClose});
+
+  final VoidCallback onClose;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      label: MaterialLocalizations.of(context).closeButtonLabel,
+      child: IconButton(
+        onPressed: onClose,
+        icon: const Icon(Icons.close_rounded, size: 18),
+        color: context.colorScheme.onSurfaceVariant,
+        visualDensity: VisualDensity.compact,
+        padding: EdgeInsets.zero,
+        constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
       ),
-      child: Icon(icon, color: accent, size: AppSpacing.lg),
+    );
+  }
+}
+
+/// Solid accent bar that shrinks left-to-right over the toast's lifetime — a
+/// glance tells how long is left before it auto-dismisses.
+///
+/// Pill-shaped and placed by a [Positioned] that insets it from the card edges,
+/// so it clears the rounded corners (a full-width bar frays where the clip meets
+/// the radius). No track behind it: the bar itself carries the full accent so it
+/// reads bold, not washed out.
+class _CountdownBar extends StatelessWidget {
+  const _CountdownBar({required this.animation, required this.color});
+
+  final Animation<double> animation;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(AppRadius.sm),
+      child: SizedBox(
+        height: 2,
+        child: AnimatedBuilder(
+          animation: animation,
+          builder: (context, _) => FractionallySizedBox(
+            alignment: Alignment.center,
+            widthFactor: (1 - animation.value).clamp(0.0, 1.0),
+            child: ColoredBox(color: color),
+          ),
+        ),
+      ),
     );
   }
 }
