@@ -117,4 +117,10 @@ abstract final class AppRadius {
 /// across light and dark — e.g. the mark inside an illustration.
 abstract final class AppColors {
   static const Color white = Color(0xFFFFFFFF);
+
+  // Status accents the seeded M3 scheme has no role for: `error` lives on the
+  // scheme, but success and warning do not. Toasts (and later banners/chips)
+  // read these instead of hardcoding a hex in the widget.
+  static const Color success = Color(0xFF16A34A); // green 600
+  static const Color warning = Color(0xFFD97706); // amber 600
 }
