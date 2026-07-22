@@ -70,7 +70,7 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
 
     ref.listen(
       onboardingControllerProvider,
-      (previous, next) => next.showFailure(context),
+      (previous, next) => next.showFailure(context, ref),
     );
 
     return DvScaffold(

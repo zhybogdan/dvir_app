@@ -72,7 +72,7 @@ class _CreateUnitScreenState extends ConsumerState<CreateUnitScreen> {
 
     ref.listen(
       onboardingControllerProvider,
-      (previous, next) => next.showFailure(context),
+      (previous, next) => next.showFailure(context, ref),
     );
 
     return DvScaffold(

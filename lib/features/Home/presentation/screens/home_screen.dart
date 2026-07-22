@@ -19,7 +19,7 @@ class HomeScreen extends ConsumerWidget {
 
     ref.listen(
       authControllerProvider,
-      (previous, next) => next.showFailure(context),
+      (previous, next) => next.showFailure(context, ref),
     );
 
     final onSignOut = isLoading

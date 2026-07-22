@@ -58,7 +58,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
     ref.listen(
       authControllerProvider,
-      (previous, next) => next.showFailure(context),
+      (previous, next) => next.showFailure(context, ref),
     );
 
     final awaitingConfirmationFor = _awaitingConfirmationFor;

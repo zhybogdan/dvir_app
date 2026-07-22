@@ -1,5 +1,6 @@
 import 'package:dvir/app/router.dart';
 import 'package:dvir/app/theme.dart';
+import 'package:dvir/features/Shared/presentation/dv_toast_overlay.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,6 +19,8 @@ class DvirApp extends ConsumerWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       routerConfig: router,
+      builder: (context, child) =>
+          DvToastOverlay(child: child ?? const SizedBox.shrink()),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
     );

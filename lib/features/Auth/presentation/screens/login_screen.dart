@@ -46,7 +46,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     ref.listen(
       authControllerProvider,
-      (previous, next) => next.showFailure(context),
+      (previous, next) => next.showFailure(context, ref),
     );
 
     return AuthScaffold(

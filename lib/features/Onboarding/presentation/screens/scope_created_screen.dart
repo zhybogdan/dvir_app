@@ -1,5 +1,6 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
+import 'package:dvir/core/notifications/toast_controller.dart';
 import 'package:dvir/core/utils/share.dart';
 import 'package:dvir/features/Onboarding/application/membership_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
@@ -32,12 +33,10 @@ class ScopeCreatedScreen extends ConsumerWidget {
   final String inviteCode;
   final String inviteHint;
 
-  void _copyCode(BuildContext context) {
+  void _copyCode(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     Clipboard.setData(ClipboardData(text: inviteCode));
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(l10n.codeCopied)));
+    ref.read(toastControllerProvider.notifier).success(l10n.codeCopied);
   }
 
   void _share(AppLocalizations l10n) {
@@ -88,7 +87,7 @@ class ScopeCreatedScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 TextButton.icon(
-                  onPressed: () => _copyCode(context),
+                  onPressed: () => _copyCode(context, ref),
                   icon: const Icon(Icons.copy_outlined),
                   label: Text(l10n.copyCode),
                 ),
