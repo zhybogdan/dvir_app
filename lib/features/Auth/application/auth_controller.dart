@@ -55,6 +55,9 @@ class AuthController extends _$AuthController {
     final repository = ref.read(authRepositoryProvider);
 
     state = const AsyncLoading();
-    state = await AsyncValue.guard(repository.signOut);
+    final result = await AsyncValue.guard(repository.signOut);
+
+    if (!ref.mounted) return;
+    state = result;
   }
 }

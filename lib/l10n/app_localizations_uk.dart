@@ -90,6 +90,35 @@ class AppLocalizationsUk extends AppLocalizations {
       'Очікуйте підтвердження. Ми відкриємо доступ, щойно заявку розглянуть.';
 
   @override
+  String get rejectedTitle => 'Заявку відхилено';
+
+  @override
+  String get rejectedBody =>
+      'Ваш запит на приєднання відхилили. Зверніться до адміністратора.';
+
+  @override
+  String get blockedTitle => 'Доступ закрито';
+
+  @override
+  String get blockedBody => 'Ваш доступ до цієї спільноти закрито.';
+
+  @override
+  String get refreshCta => 'Оновити';
+
+  @override
+  String get joinByCodeIntro =>
+      'Введіть код запрошення, який вам надіслали, щоб приєднатися до спільноти або оселі.';
+
+  @override
+  String get joinCodeHint => 'A3F9C1B2';
+
+  @override
+  String get joinCodeRequired => 'Введіть код запрошення';
+
+  @override
+  String get joinCta => 'Приєднатися';
+
+  @override
   String get communityName => 'Назва спільноти';
 
   @override

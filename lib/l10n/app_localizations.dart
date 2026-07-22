@@ -250,6 +250,60 @@ abstract class AppLocalizations {
   /// **'Очікуйте підтвердження. Ми відкриємо доступ, щойно заявку розглянуть.'**
   String get pendingApprovalBody;
 
+  /// No description provided for @rejectedTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Заявку відхилено'**
+  String get rejectedTitle;
+
+  /// No description provided for @rejectedBody.
+  ///
+  /// In uk, this message translates to:
+  /// **'Ваш запит на приєднання відхилили. Зверніться до адміністратора.'**
+  String get rejectedBody;
+
+  /// No description provided for @blockedTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Доступ закрито'**
+  String get blockedTitle;
+
+  /// No description provided for @blockedBody.
+  ///
+  /// In uk, this message translates to:
+  /// **'Ваш доступ до цієї спільноти закрито.'**
+  String get blockedBody;
+
+  /// No description provided for @refreshCta.
+  ///
+  /// In uk, this message translates to:
+  /// **'Оновити'**
+  String get refreshCta;
+
+  /// No description provided for @joinByCodeIntro.
+  ///
+  /// In uk, this message translates to:
+  /// **'Введіть код запрошення, який вам надіслали, щоб приєднатися до спільноти або оселі.'**
+  String get joinByCodeIntro;
+
+  /// No description provided for @joinCodeHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'A3F9C1B2'**
+  String get joinCodeHint;
+
+  /// No description provided for @joinCodeRequired.
+  ///
+  /// In uk, this message translates to:
+  /// **'Введіть код запрошення'**
+  String get joinCodeRequired;
+
+  /// No description provided for @joinCta.
+  ///
+  /// In uk, this message translates to:
+  /// **'Приєднатися'**
+  String get joinCta;
+
   /// No description provided for @communityName.
   ///
   /// In uk, this message translates to:

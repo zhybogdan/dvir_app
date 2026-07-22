@@ -43,6 +43,16 @@
   "onboardingJoinByCode": "Приєднатися за кодом",
   "pendingApprovalTitle": "Заявку надіслано",
   "pendingApprovalBody": "Очікуйте підтвердження. Ми відкриємо доступ, щойно заявку розглянуть.",
+  "rejectedTitle": "Заявку відхилено",
+  "rejectedBody": "Ваш запит на приєднання відхилили. Зверніться до адміністратора.",
+  "blockedTitle": "Доступ закрито",
+  "blockedBody": "Ваш доступ до цієї спільноти закрито.",
+  "refreshCta": "Оновити",
+
+  "joinByCodeIntro": "Введіть код запрошення, який вам надіслали, щоб приєднатися до спільноти або оселі.",
+  "joinCodeHint": "A3F9C1B2",
+  "joinCodeRequired": "Введіть код запрошення",
+  "joinCta": "Приєднатися",
 
   "communityName": "Назва спільноти",
   "communityNameHint": "ОСББ «Каштан»",

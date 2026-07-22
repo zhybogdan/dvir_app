@@ -1,6 +1,7 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// Shared labelled text input used across forms.
 ///
@@ -21,6 +22,10 @@ class DvTextField extends StatefulWidget {
     this.prefixIcon,
     this.autofillHints,
     this.onSubmitted,
+    this.inputFormatters,
+    this.textCapitalization = TextCapitalization.none,
+    this.autocorrect = true,
+    this.enableSuggestions = true,
   });
 
   final TextEditingController controller;
@@ -34,6 +39,10 @@ class DvTextField extends StatefulWidget {
   final IconData? prefixIcon;
   final Iterable<String>? autofillHints;
   final ValueChanged<String>? onSubmitted;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextCapitalization textCapitalization;
+  final bool autocorrect;
+  final bool enableSuggestions;
 
   @override
   State<DvTextField> createState() => _DvTextFieldState();
@@ -57,6 +66,10 @@ class _DvTextFieldState extends State<DvTextField> {
     final prefixIcon = widget.prefixIcon;
     final autofillHints = widget.autofillHints;
     final onSubmitted = widget.onSubmitted;
+    final inputFormatters = widget.inputFormatters;
+    final textCapitalization = widget.textCapitalization;
+    final autocorrect = widget.autocorrect;
+    final enableSuggestions = widget.enableSuggestions;
 
     final labelStyle = context.textTheme.labelLarge?.copyWith(
       color: context.colorScheme.onSurfaceVariant,
@@ -75,6 +88,10 @@ class _DvTextFieldState extends State<DvTextField> {
           enabled: enabled,
           keyboardType: keyboardType,
           textInputAction: textInputAction,
+          textCapitalization: textCapitalization,
+          autocorrect: autocorrect,
+          enableSuggestions: enableSuggestions,
+          inputFormatters: inputFormatters,
           validator: validator,
           autofillHints: autofillHints,
           onFieldSubmitted: onSubmitted,
