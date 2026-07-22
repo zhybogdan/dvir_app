@@ -26,7 +26,7 @@ void main() {
 
   test('stacks at most three, dropping the oldest', () {
     final container = ProviderContainer.test();
-    final controller = controllerOf(container)
+    final _ = controllerOf(container)
       ..info('1')
       ..info('2')
       ..info('3')
