@@ -293,4 +293,10 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get errorScopeUnknown => 'Не вдалося виконати дію';
+
+  @override
+  String get errorTitle => 'Щось пішло не так';
+
+  @override
+  String get retry => 'Повторити';
 }

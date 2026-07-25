@@ -1,6 +1,14 @@
 import 'package:dvir/core/error/failures.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 
+/// Whatever was thrown, as text for the user.
+///
+/// Anything that is not a [Failure] degrades to the generic message — a raw
+/// `toString()` would leak backend English into the UI. Lives here rather than
+/// in a widget so a toast and a full-screen error read the same wording.
+String errorMessage(Object? error, AppLocalizations l10n) =>
+    error is Failure ? error.message(l10n) : l10n.errorUnknown;
+
 /// Turns a [Failure] into the text shown to the user.
 ///
 /// Lives next to the failure types (not in a screen) so the same cause always

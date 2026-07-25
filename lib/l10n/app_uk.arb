@@ -124,5 +124,8 @@
   "errorInvalidInviteCode": "Такого коду не існує. Перевірте його ще раз",
   "errorNotAllowed": "Недостатньо прав для цієї дії",
   "errorNotAuthenticated": "Сеанс завершився. Увійдіть ще раз",
-  "errorScopeUnknown": "Не вдалося виконати дію"
+  "errorScopeUnknown": "Не вдалося виконати дію",
+
+  "errorTitle": "Щось пішло не так",
+  "retry": "Повторити"
 }

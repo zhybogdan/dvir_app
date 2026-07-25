@@ -20,8 +20,7 @@ extension AsyncValueX<T> on AsyncValue<T> {
     if (isLoading || error == null) return;
 
     final l10n = AppLocalizations.of(context);
-    final message = error is Failure ? error.message(l10n) : l10n.errorUnknown;
 
-    ref.read(toastControllerProvider.notifier).error(message);
+    ref.read(toastControllerProvider.notifier).error(errorMessage(error, l10n));
   }
 }
