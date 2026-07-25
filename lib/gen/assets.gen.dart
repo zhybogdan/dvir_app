@@ -35,11 +35,12 @@ class $AssetsImagesGen {
   SvgGenImage get authBackground =>
       const SvgGenImage('assets/images/auth_background.svg');
 
-  /// File path: assets/images/logo.png
-  AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
+  /// File path: assets/images/logo_glyph.png
+  AssetGenImage get logoGlyph =>
+      const AssetGenImage('assets/images/logo_glyph.png');
 
   /// List of all assets
-  List<dynamic> get values => [authBackground, logo];
+  List<dynamic> get values => [authBackground, logoGlyph];
 }
 
 class Assets {

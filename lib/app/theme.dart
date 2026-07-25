@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class AppTheme {
   const AppTheme._();
 
-  static const Color _seed = Color(0xFF0D9488);
+  static const Color _seed = AppColors.brand;
 
   static ThemeData get light => _build(Brightness.light);
   static ThemeData get dark => _build(Brightness.dark);
@@ -117,6 +117,15 @@ abstract final class AppRadius {
 /// across light and dark — e.g. the mark inside an illustration.
 abstract final class AppColors {
   static const Color white = Color(0xFFFFFFFF);
+
+  /// The brand teal: the seed the whole scheme grows from, and the fill the
+  /// launcher icon is painted in.
+  ///
+  /// Used directly rather than `colorScheme.primary`, which Material derives per
+  /// theme (a deep teal in light, a pale mint in dark). An app icon cannot
+  /// follow the theme, so anything meant to read as *the icon* — the app mark,
+  /// the splash — has to hold still with it.
+  static const Color brand = Color(0xFF0D9488);
 
   // Status accents the seeded M3 scheme has no role for: `error` lives on the
   // scheme, but success and warning do not. Toasts (and later banners/chips)

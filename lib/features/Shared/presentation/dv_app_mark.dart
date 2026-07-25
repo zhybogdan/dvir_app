@@ -19,7 +19,6 @@ class DvAppMark extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = context.colorScheme;
     final logoSize = size - AppSpacing.lg;
 
     return Column(
@@ -28,18 +27,21 @@ class DvAppMark extends StatelessWidget {
         Container(
           width: size,
           height: size,
+          alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: colorScheme.primary,
+            // Brand teal, not `primary`: this tile is the launcher icon shown
+            // inside the app, and the icon does not change with the theme.
+            color: AppColors.brand,
             borderRadius: BorderRadius.circular(AppRadius.lg),
           ),
           child: DvImage(
-            image: Assets.images.logo.provider(),
+            image: Assets.images.logoGlyph.provider(),
             width: logoSize,
             height: logoSize,
             fit: BoxFit.contain,
             fallback: Icon(
               Icons.holiday_village_outlined,
-              color: colorScheme.onPrimary,
+              color: AppColors.white,
               size: logoSize,
             ),
           ),
