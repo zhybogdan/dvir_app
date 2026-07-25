@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The launcher label. A resource rather than a literal in the manifest so
+         the name has one home; the app ships Ukrainian only, so there is no
+         per-locale variant to add. -->
+    <string name="app_name">Двір</string>
+</resources>

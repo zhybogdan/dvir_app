@@ -5,7 +5,7 @@
          shipping auth tokens to Google Drive defeats the point of encrypting
          them in the first place. -->
     <application
-        android:label="dvir"
+        android:label="@string/app_name"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="false">
