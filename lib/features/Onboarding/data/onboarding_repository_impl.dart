@@ -1,18 +1,14 @@
-import 'dart:io';
-
 import 'package:dvir/core/config/supabase_providers.dart';
 import 'package:dvir/core/error/failures.dart';
-import 'package:dvir/core/logging/app_logger.dart';
+import 'package:dvir/core/error/supabase_error_guard.dart';
 import 'package:dvir/features/Community/domain/models/community.dart';
 import 'package:dvir/features/Community/domain/models/community_membership.dart';
 import 'package:dvir/features/Community/domain/types/community_type.dart';
-import 'package:dvir/features/Onboarding/data/onboarding_failure_mapper.dart';
 import 'package:dvir/features/Onboarding/data/onboarding_repository.dart';
 import 'package:dvir/features/Onboarding/domain/models/scope_membership.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/models/unit_membership.dart';
 import 'package:dvir/features/Units/domain/types/unit_type.dart';
-import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
@@ -33,7 +29,7 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
     required CommunityType type,
     String? address,
     String? city,
-  }) => _run(() async {
+  }) => guardSupabase(() async {
     final row = await _client.rpc<Map<String, dynamic>>(
       'create_community',
       params: {
@@ -56,7 +52,7 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
     String? address,
     String? city,
     double? areaM2,
-  }) => _run(() async {
+  }) => guardSupabase(() async {
     final row = await _client.rpc<Map<String, dynamic>>(
       'create_unit',
       params: {
@@ -74,14 +70,15 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
   });
 
   @override
-  Future<ScopeMembership> joinByInvite(String inviteCode) => _run(() async {
-    final result = await _client.rpc<Map<String, dynamic>>(
-      'join_by_invite',
-      params: {'p_invite_code': inviteCode},
-    );
+  Future<ScopeMembership> joinByInvite(String inviteCode) =>
+      guardSupabase(() async {
+        final result = await _client.rpc<Map<String, dynamic>>(
+          'join_by_invite',
+          params: {'p_invite_code': inviteCode},
+        );
 
-    return _scopeFrom(result);
-  });
+        return _scopeFrom(result);
+      });
 
   /// The user's single scope, community first.
   ///
@@ -92,7 +89,7 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
     final userId = _client.auth.currentUser?.id;
     if (userId == null) return null;
 
-    return _run(() async {
+    return guardSupabase(() async {
       final community = await _client
           .from('community_members')
           .select()
@@ -136,42 +133,6 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
       // than the database.
       _ => throw const ServerFailure(),
     };
-  }
-
-  /// Runs a Supabase call, translating its low-level errors into typed
-  /// [Failure]s so nothing Supabase-shaped escapes the data layer.
-  ///
-  /// Every branch rethrows with the *original* stack trace: a bare `throw`
-  /// inside a `catch` restarts the trace here, which would point every failure
-  /// at this method instead of at the call that actually broke.
-  Future<T> _run<T>(Future<T> Function() call) async {
-    try {
-      return await call();
-    } on sb.PostgrestException catch (error, stackTrace) {
-      // The backend message is English and never reaches the UI, but it is the
-      // only clue left when the code is one we don't map yet.
-      appLogger.d('Postgres rejected a call: ${error.code} ${error.message}');
-      Error.throwWithStackTrace(
-        ScopeFailure(scopeFailureReasonFrom(error.code)),
-        stackTrace,
-      );
-    } on http.ClientException catch (error, stackTrace) {
-      // PostgREST does not wrap transport failures the way GoTrue does, so a
-      // dead connection arrives as the HTTP client's own exception.
-      appLogger.d('Could not reach Supabase: ${error.message}');
-      Error.throwWithStackTrace(const NetworkFailure(), stackTrace);
-    } on SocketException catch (_, stackTrace) {
-      // Belt and braces: a raw socket error would otherwise be misfiled as
-      // "unexpected".
-      Error.throwWithStackTrace(const NetworkFailure(), stackTrace);
-    } catch (error, stackTrace) {
-      appLogger.e(
-        'Unexpected error during a Supabase call',
-        error: error,
-        stackTrace: stackTrace,
-      );
-      Error.throwWithStackTrace(const UnknownFailure(), stackTrace);
-    }
   }
 }
 
