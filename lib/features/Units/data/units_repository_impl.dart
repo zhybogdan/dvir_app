@@ -28,7 +28,7 @@ class UnitsRepositoryImpl implements UnitsRepository {
           .select('units(*)')
           .eq('user_id', userId)
           .eq('status', 'active')
-          .order('created_at');
+          .order('created_at', ascending: true);
 
       return rows
           .map((row) => Unit.fromJson(row['units'] as Map<String, dynamic>))
@@ -47,7 +47,7 @@ class UnitsRepositoryImpl implements UnitsRepository {
             .select()
             .eq('community_id', communityId)
             .isFilter('parent_id', null)
-            .order('label');
+            .order('label', ascending: true);
 
         return rows.map(Unit.fromJson).toList();
       });
@@ -58,7 +58,7 @@ class UnitsRepositoryImpl implements UnitsRepository {
         .from('units')
         .select()
         .eq('parent_id', parentId)
-        .order('label');
+        .order('label', ascending: true);
 
     return rows.map(Unit.fromJson).toList();
   });

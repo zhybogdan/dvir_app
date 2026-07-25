@@ -25,17 +25,20 @@ class ScopesRepositoryImpl implements ScopesRepository {
       // Filtering by `user_id` is not the hand-written tenant filter the
       // project bans: RLS lets a member see their co-members' rows too, so
       // without it this would collect other people's memberships.
+      // `ascending` defaults to *false* in postgrest-dart, so it is spelled out
+      // here and everywhere else: the list reads in the order the person joined,
+      // which is what makes the newest request the last one.
       final communities = await _client
           .from('community_members')
           .select('*, communities(*)')
           .eq('user_id', userId)
-          .order('created_at');
+          .order('created_at', ascending: true);
 
       final units = await _client
           .from('unit_members')
           .select('*, units(*)')
           .eq('user_id', userId)
-          .order('created_at');
+          .order('created_at', ascending: true);
 
       return [
         for (final row in communities)

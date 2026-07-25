@@ -31,7 +31,7 @@ class MembersRepositoryImpl implements MembersRepository {
             .from('community_members')
             .select(_withProfile)
             .eq('community_id', communityId)
-            .order('created_at');
+            .order('created_at', ascending: true);
 
         return rows
             .map(
@@ -50,7 +50,7 @@ class MembersRepositoryImpl implements MembersRepository {
             .from('unit_members')
             .select(_withProfile)
             .eq('unit_id', unitId)
-            .order('created_at');
+            .order('created_at', ascending: true);
 
         return rows
             .map(
