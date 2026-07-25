@@ -43,6 +43,53 @@ dev_dependencies:
   freezed: ^3.2.6-dev.1
   json_serializable: ^6.14.0
   flutter_gen_runner: ^5.14.1
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.6
+
+# Launcher icons, generated from tool/branding/ (sources live outside assets/ so
+# they are not bundled). Regenerate with:
+#   fvm dart run flutter_launcher_icons
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: tool/branding/app_icon.png
+  # The adaptive layers are separate because Android masks them to the device's
+  # shape: the foreground is inset so no mask can clip the mark, and the
+  # background is a flat brand fill rather than an image.
+  adaptive_icon_background: "#0D9488"
+  adaptive_icon_foreground: tool/branding/adaptive_foreground.png
+  # Android 13+ themed icons: the system tints this silhouette itself.
+  adaptive_icon_monochrome: tool/branding/adaptive_monochrome.png
+  # App Store rejects an icon with an alpha channel; the source is already
+  # opaque, this is the belt-and-braces.
+  remove_alpha_ios: true
+  min_sdk_android: 21
+
+# Native launch screen, so the cold start does not flash white before Flutter
+# paints its own SplashScreen. Regenerate with:
+#   fvm dart run flutter_native_splash:create
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+  # The scheme's surface, matching what DvScaffold paints underneath the Flutter
+  # splash, so the handover is a swap of contents rather than of background.
+  color: "#F4FBF8"
+  color_dark: "#0E1513"
+  # The DvAppMark tile at 72dp (supplied at 4x), not the bare glyph: the glyph
+  # is white and would vanish on the light surface.
+  image: tool/branding/splash_tile.png
+  image_dark: tool/branding/splash_tile.png
+  android_12:
+    # Android 12+ ignores the legacy window background: it masks the image into
+    # a circle and paints icon_background_color behind it, so here the tile is
+    # split back into a plain glyph over a brand fill.
+    color: "#F4FBF8"
+    color_dark: "#0E1513"
+    image: tool/branding/splash_android12.png
+    image_dark: tool/branding/splash_android12.png
+    icon_background_color: "#0D9488"
+    icon_background_color_dark: "#0D9488"
 
 # Typed asset references generated into lib/gen/ (e.g. Assets.images.authBackground).
 flutter_gen:
