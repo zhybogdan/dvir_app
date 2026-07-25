@@ -7,6 +7,7 @@ import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Home/domain/models/scope_summary.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
+import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
 import 'package:dvir/features/Shared/presentation/member_status_l10n.dart';
@@ -32,6 +33,7 @@ class ScopesScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
 
     return DvScaffold(
+      background: const DvAppGradient(),
       appBar: DvAppBar(
         title: l10n.appTitle,
         actions: [
