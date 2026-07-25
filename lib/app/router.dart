@@ -7,7 +7,6 @@ import 'package:dvir/features/Auth/domain/models/app_user.dart';
 import 'package:dvir/features/Auth/presentation/screens/login_screen.dart';
 import 'package:dvir/features/Auth/presentation/screens/register_screen.dart';
 import 'package:dvir/features/Auth/presentation/screens/splash_screen.dart';
-import 'package:dvir/features/Community/domain/models/community.dart';
 import 'package:dvir/features/Home/presentation/screens/home_screen.dart';
 import 'package:dvir/features/Onboarding/application/membership_controller.dart';
 import 'package:dvir/features/Onboarding/domain/models/scope_membership.dart';
@@ -17,13 +16,31 @@ import 'package:dvir/features/Onboarding/presentation/screens/join_scope_screen.
 import 'package:dvir/features/Onboarding/presentation/screens/onboarding_choice_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/pending_approval_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/scope_created_screen.dart';
-import 'package:dvir/features/Units/domain/models/unit.dart';
-import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'router.g.dart';
+
+/// The pair every redirect decision is made from.
+typedef NavigationState = ({
+  AsyncValue<AppUser?> auth,
+  AsyncValue<ScopeMembership?> membership,
+});
+
+/// Auth and membership read as one value, so a redirect never sees one of them
+/// ahead of the other.
+///
+/// Watching both here puts them in a single dependency node, and `myMembership`
+/// watches auth itself — so Riverpod recomputes it before this provider and the
+/// pair is always consistent. Subscribing to the two separately let an auth
+/// emission reach the router while membership still held the previous session's
+/// answer, and a signed-in member was briefly ruled to belong nowhere.
+@Riverpod(keepAlive: true)
+NavigationState navigationState(Ref ref) => (
+  auth: ref.watch(authStateProvider),
+  membership: ref.watch(myMembershipProvider),
+);
 
 /// Root navigation with auth- and membership-based redirects.
 ///
@@ -37,19 +54,12 @@ GoRouter router(Ref ref) {
   final refresh = ValueNotifier<int>(0);
   ref.onDispose(refresh.dispose);
 
-  final authSubscription = ref.listen<AsyncValue<AppUser?>>(
-    authStateProvider,
+  final subscription = ref.listen<NavigationState>(
+    navigationStateProvider,
     (previous, next) => refresh.value++,
     fireImmediately: true,
   );
-  ref.onDispose(authSubscription.close);
-
-  final membershipSubscription = ref.listen<AsyncValue<ScopeMembership?>>(
-    myMembershipProvider,
-    (previous, next) => refresh.value++,
-    fireImmediately: true,
-  );
-  ref.onDispose(membershipSubscription.close);
+  ref.onDispose(subscription.close);
 
   return GoRouter(
     initialLocation: AppRoutes.splash,
@@ -57,9 +67,10 @@ GoRouter router(Ref ref) {
     observers: [AppRouteObserver()],
     redirect: (context, state) {
       final location = state.matchedLocation;
+      final navigation = ref.read(navigationStateProvider);
       final decision = resolveRedirect(
-        auth: ref.read(authStateProvider),
-        membership: ref.read(myMembershipProvider),
+        auth: navigation.auth,
+        membership: navigation.membership,
         location: location,
       );
       final target = decision.target;
@@ -99,17 +110,7 @@ GoRouter router(Ref ref) {
       ),
       GoRoute(
         path: AppRoutes.onboardingCommunitySuccess,
-        builder: (context, state) {
-          final community = state.extra;
-          if (community is! Community) return const OnboardingChoiceScreen();
-          final l10n = AppLocalizations.of(context);
-          return ScopeCreatedScreen(
-            title: l10n.communityCreatedTitle,
-            name: community.name,
-            inviteCode: community.inviteCode,
-            inviteHint: l10n.inviteCodeHint,
-          );
-        },
+        builder: (context, state) => const ScopeCreatedScreen(),
       ),
       GoRoute(
         path: AppRoutes.onboardingUnit,
@@ -117,17 +118,7 @@ GoRouter router(Ref ref) {
       ),
       GoRoute(
         path: AppRoutes.onboardingUnitSuccess,
-        builder: (context, state) {
-          final unit = state.extra;
-          if (unit is! Unit) return const OnboardingChoiceScreen();
-          final l10n = AppLocalizations.of(context);
-          return ScopeCreatedScreen(
-            title: l10n.unitCreatedTitle,
-            name: unit.label,
-            inviteCode: unit.inviteCode,
-            inviteHint: l10n.unitInviteCodeHint,
-          );
-        },
+        builder: (context, state) => const ScopeCreatedScreen(),
       ),
       GoRoute(
         path: AppRoutes.onboardingJoin,
@@ -140,4 +131,3 @@ GoRouter router(Ref ref) {
     ],
   );
 }
-

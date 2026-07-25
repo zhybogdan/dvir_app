@@ -4,7 +4,9 @@ import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Community/domain/types/community_type.dart';
 import 'package:dvir/features/Community/presentation/community_type_l10n.dart';
+import 'package:dvir/features/Onboarding/application/created_scope_controller.dart';
 import 'package:dvir/features/Onboarding/application/onboarding_controller.dart';
+import 'package:dvir/features/Onboarding/domain/models/created_scope.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
@@ -55,7 +57,10 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
 
     if (community == null || !mounted) return;
 
-    context.go(AppRoutes.onboardingCommunitySuccess, extra: community);
+    ref
+        .read(createdScopeControllerProvider.notifier)
+        .remember(CreatedScope.community(community));
+    context.go(AppRoutes.onboardingCommunitySuccess);
   }
 
   String? _trimmedOrNull(TextEditingController controller) {

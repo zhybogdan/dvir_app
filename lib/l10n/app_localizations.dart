@@ -645,6 +645,18 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Не вдалося виконати дію'**
   String get errorScopeUnknown;
+
+  /// No description provided for @errorTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Щось пішло не так'**
+  String get errorTitle;
+
+  /// No description provided for @retry.
+  ///
+  /// In uk, this message translates to:
+  /// **'Повторити'**
+  String get retry;
 }
 
 class _AppLocalizationsDelegate

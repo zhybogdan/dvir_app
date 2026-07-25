@@ -2,7 +2,9 @@ import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/core/utils/validators.dart';
+import 'package:dvir/features/Onboarding/application/created_scope_controller.dart';
 import 'package:dvir/features/Onboarding/application/onboarding_controller.dart';
+import 'package:dvir/features/Onboarding/domain/models/created_scope.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
@@ -57,7 +59,10 @@ class _CreateUnitScreenState extends ConsumerState<CreateUnitScreen> {
 
     if (unit == null || !mounted) return;
 
-    context.go(AppRoutes.onboardingUnitSuccess, extra: unit);
+    ref
+        .read(createdScopeControllerProvider.notifier)
+        .remember(CreatedScope.unit(unit));
+    context.go(AppRoutes.onboardingUnitSuccess);
   }
 
   String? _trimmedOrNull(TextEditingController controller) {
