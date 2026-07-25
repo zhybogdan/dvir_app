@@ -9,6 +9,7 @@ import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
+import 'package:dvir/features/Shared/presentation/splash_screen.dart';
 import 'package:dvir/gen/assets.gen.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class ScopeCreatedScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final scope = ref.watch(createdScopeControllerProvider);
 
-    if (scope == null) return const _ResolvingScope();
+    if (scope == null) return const SplashScreen();
 
     final name = scope.name;
     final inviteCode = scope.inviteCode;
@@ -107,16 +108,6 @@ class ScopeCreatedScreen extends ConsumerWidget {
       ),
     );
   }
-}
-
-/// Placeholder for the frame or two between landing here with nothing
-/// remembered and the redirect taking over.
-class _ResolvingScope extends StatelessWidget {
-  const _ResolvingScope();
-
-  @override
-  Widget build(BuildContext context) =>
-      const Scaffold(body: Center(child: CircularProgressIndicator()));
 }
 
 /// The added success badge, recoloured to the theme: the purple gradient

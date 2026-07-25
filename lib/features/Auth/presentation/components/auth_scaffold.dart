@@ -1,9 +1,6 @@
 import 'package:dvir/app/theme.dart';
-import 'package:dvir/core/extensions/build_context_x.dart';
+import 'package:dvir/features/Shared/presentation/dv_app_mark.dart';
 import 'package:dvir/features/Shared/presentation/dv_background.dart';
-import 'package:dvir/features/Shared/presentation/dv_image.dart';
-import 'package:dvir/gen/assets.gen.dart';
-import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 /// Shared shell for the auth screens (login / register): the tinted background
@@ -28,7 +25,7 @@ class AuthScaffold extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const _AuthHeader(),
+                    const DvAppMark(),
                     const SizedBox(height: AppSpacing.xl),
                     child,
                   ],
@@ -38,45 +35,6 @@ class AuthScaffold extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-/// Teal app mark + name shown above every auth form.
-class _AuthHeader extends StatelessWidget {
-  const _AuthHeader();
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = context.colorScheme;
-
-    return Column(
-      children: [
-        Container(
-          width: 56,
-          height: 56,
-          decoration: BoxDecoration(
-            color: colorScheme.primary,
-            borderRadius: BorderRadius.circular(AppRadius.lg),
-          ),
-          child: DvImage(
-            image: Assets.images.logo.provider(),
-            width: 30,
-            height: 30,
-            fit: BoxFit.contain,
-            fallback: Icon(
-              Icons.holiday_village_outlined,
-              color: colorScheme.onPrimary,
-              size: 30,
-            ),
-          ),
-        ),
-        const SizedBox(height: AppSpacing.md),
-        Text(
-          AppLocalizations.of(context).appTitle,
-          style: context.textTheme.titleLarge,
-        ),
-      ],
     );
   }
 }
