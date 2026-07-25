@@ -5,6 +5,7 @@ import 'package:dvir/features/Community/domain/types/community_type.dart';
 import 'package:dvir/features/Onboarding/application/membership_controller.dart';
 import 'package:dvir/features/Onboarding/data/onboarding_repository_impl.dart';
 import 'package:dvir/features/Onboarding/domain/models/scope_membership.dart';
+import 'package:dvir/features/Units/data/units_repository_impl.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/types/unit_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -59,7 +60,7 @@ class OnboardingController extends _$OnboardingController {
     String? city,
     double? areaM2,
   }) async {
-    final repository = ref.read(onboardingRepositoryProvider);
+    final repository = ref.read(unitsRepositoryProvider);
 
     state = const AsyncLoading();
     final result = await AsyncValue.guard(

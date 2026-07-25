@@ -6,9 +6,7 @@ import 'package:dvir/features/Community/domain/models/community_membership.dart'
 import 'package:dvir/features/Community/domain/types/community_type.dart';
 import 'package:dvir/features/Onboarding/data/onboarding_repository.dart';
 import 'package:dvir/features/Onboarding/domain/models/scope_membership.dart';
-import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/models/unit_membership.dart';
-import 'package:dvir/features/Units/domain/types/unit_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
@@ -41,32 +39,6 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
     );
 
     return Community.fromJson(row);
-  });
-
-  @override
-  Future<Unit> createUnit({
-    required String label,
-    required UnitType type,
-    String? parentId,
-    String? communityId,
-    String? address,
-    String? city,
-    double? areaM2,
-  }) => guardSupabase(() async {
-    final row = await _client.rpc<Map<String, dynamic>>(
-      'create_unit',
-      params: {
-        'p_label': label,
-        'p_type': type.dbValue,
-        'p_parent_id': parentId,
-        'p_community_id': communityId,
-        'p_address': address,
-        'p_city': city,
-        'p_area_m2': areaM2,
-      },
-    );
-
-    return Unit.fromJson(row);
   });
 
   @override

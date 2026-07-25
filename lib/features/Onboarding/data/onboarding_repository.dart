@@ -1,11 +1,13 @@
 import 'package:dvir/features/Community/domain/models/community.dart';
 import 'package:dvir/features/Community/domain/types/community_type.dart';
 import 'package:dvir/features/Onboarding/domain/models/scope_membership.dart';
-import 'package:dvir/features/Units/domain/models/unit.dart';
-import 'package:dvir/features/Units/domain/types/unit_type.dart';
 
 /// Contract for getting a new user somewhere (Base): creating a scope, or
 /// entering an existing one with a code.
+///
+/// Creating an *object* is not here — it belongs to `UnitsRepository`, which
+/// onboarding calls like everyone else. Objects are created from three places
+/// by the end of Phase 4, and onboarding is only the first of them.
 abstract interface class OnboardingRepository {
   /// Where the signed-in user belongs, or null while they belong nowhere.
   ///
@@ -22,21 +24,6 @@ abstract interface class OnboardingRepository {
     required CommunityType type,
     String? address,
     String? city,
-  });
-
-  /// Creates an object with the caller as its owner.
-  ///
-  /// Three shapes, decided by what is passed: inside [parentId] (inherits that
-  /// object's community), inside [communityId] (admins only), or neither — a
-  /// standalone object belonging to no community at all.
-  Future<Unit> createUnit({
-    required String label,
-    required UnitType type,
-    String? parentId,
-    String? communityId,
-    String? address,
-    String? city,
-    double? areaM2,
   });
 
   /// Sends a join request for whatever the code opens — a community or an
