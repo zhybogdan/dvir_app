@@ -57,7 +57,9 @@ void main() {
     fakeAsync((async) {
       final container = ProviderContainer.test();
 
-      controllerOf(container).info('tick', duration: const Duration(seconds: 2));
+      controllerOf(
+        container,
+      ).info('tick', duration: const Duration(seconds: 2));
       expect(container.read(toastControllerProvider), hasLength(1));
 
       async.elapse(const Duration(seconds: 2));

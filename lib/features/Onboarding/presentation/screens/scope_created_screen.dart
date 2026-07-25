@@ -2,7 +2,9 @@ import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/notifications/toast_controller.dart';
 import 'package:dvir/core/utils/share.dart';
+import 'package:dvir/features/Onboarding/application/created_scope_controller.dart';
 import 'package:dvir/features/Onboarding/application/membership_controller.dart';
+import 'package:dvir/features/Onboarding/domain/models/created_scope.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon.dart';
@@ -20,32 +22,35 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// so the router does not pull the fresh admin/owner away before they take the
 /// code.
 class ScopeCreatedScreen extends ConsumerWidget {
-  const ScopeCreatedScreen({
-    required this.title,
-    required this.name,
-    required this.inviteCode,
-    required this.inviteHint,
-    super.key,
-  });
+  const ScopeCreatedScreen({super.key});
 
-  final String title;
-  final String name;
-  final String inviteCode;
-  final String inviteHint;
-
-  void _copyCode(BuildContext context, WidgetRef ref) {
+  void _copyCode(BuildContext context, WidgetRef ref, String inviteCode) {
     final l10n = AppLocalizations.of(context);
     Clipboard.setData(ClipboardData(text: inviteCode));
     ref.read(toastControllerProvider.notifier).success(l10n.codeCopied);
   }
 
-  void _share(AppLocalizations l10n) {
-    shareText(l10n.shareInviteText(name, inviteCode));
+  void _share(AppLocalizations l10n, CreatedScope scope) {
+    shareText(l10n.shareInviteText(scope.name, scope.inviteCode));
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final scope = ref.watch(createdScopeControllerProvider);
+
+    if (scope == null) return const _ResolvingScope();
+
+    final name = scope.name;
+    final inviteCode = scope.inviteCode;
+    final title = switch (scope) {
+      CreatedCommunity() => l10n.communityCreatedTitle,
+      CreatedUnit() => l10n.unitCreatedTitle,
+    };
+    final inviteHint = switch (scope) {
+      CreatedCommunity() => l10n.inviteCodeHint,
+      CreatedUnit() => l10n.unitInviteCodeHint,
+    };
 
     return PopScope(
       canPop: false,
@@ -83,11 +88,11 @@ class ScopeCreatedScreen extends ConsumerWidget {
                 DvButton(
                   label: l10n.shareCode,
                   icon: Icons.ios_share,
-                  onPressed: () => _share(l10n),
+                  onPressed: () => _share(l10n, scope),
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 TextButton.icon(
-                  onPressed: () => _copyCode(context, ref),
+                  onPressed: () => _copyCode(context, ref, inviteCode),
                   icon: const Icon(Icons.copy_outlined),
                   label: Text(l10n.copyCode),
                 ),
@@ -102,6 +107,16 @@ class ScopeCreatedScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+/// Placeholder for the frame or two between landing here with nothing
+/// remembered and the redirect taking over.
+class _ResolvingScope extends StatelessWidget {
+  const _ResolvingScope();
+
+  @override
+  Widget build(BuildContext context) =>
+      const Scaffold(body: Center(child: CircularProgressIndicator()));
 }
 
 /// The added success badge, recoloured to the theme: the purple gradient

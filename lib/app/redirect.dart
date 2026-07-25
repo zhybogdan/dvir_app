@@ -41,7 +41,12 @@ RedirectDecision resolveRedirect({
 
   // Signed in, but we don't yet know where they belong. Same reasoning as
   // above: guessing here would flash onboarding at an existing member.
-  if (membership.isLoading && !membership.hasValue) {
+  //
+  // A *stale* value counts as unknown, hence no `hasValue` escape: Riverpod
+  // hands back the previous value while the new one loads, and right after
+  // sign-in that value is the signed-out `null` — deciding on it would send an
+  // existing member to onboarding for as long as the fetch takes.
+  if (membership.isLoading) {
     return location == AppRoutes.splash
         ? (target: null, reason: 'membership unresolved, already on splash')
         : (target: AppRoutes.splash, reason: 'membership unresolved');

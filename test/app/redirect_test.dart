@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dvir/app/redirect.dart';
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/features/Auth/domain/models/app_user.dart';
@@ -44,6 +46,27 @@ AsyncData<ScopeMembership?> _inUnit(MemberStatus status) =>
         ),
       ),
     );
+
+/// A membership provider caught mid-reload: loading, with the value it is
+/// about to replace still readable underneath.
+///
+/// Driven through a real container because the state cannot be written by hand
+/// — `copyWithPrevious` is Riverpod-internal.
+Future<AsyncValue<ScopeMembership?>> _reloadingMembership() async {
+  var pending = Completer<ScopeMembership?>()..complete(null);
+  final provider = FutureProvider<ScopeMembership?>((ref) => pending.future);
+
+  final container = ProviderContainer.test();
+  container.listen(provider, (previous, next) {});
+  await container.read(provider.future);
+
+  // Swapped before invalidating, so the rebuild picks up a future that stays
+  // unresolved and the provider is still loading when it is read.
+  pending = Completer<ScopeMembership?>();
+  container.invalidate(provider);
+
+  return container.read(provider);
+}
 
 void main() {
   group('resolveRedirect while auth is unresolved', () {
@@ -125,6 +148,27 @@ void main() {
         auth: _signedIn,
         membership: _membershipPending,
         location: AppRoutes.home,
+      );
+
+      expect(decision.target, AppRoutes.splash);
+    });
+
+    test('waits rather than trusting the value a reload is replacing', () async {
+      // What signing back in looks like: the membership provider is refetching
+      // and Riverpod still reports the signed-out `null` underneath. Reading it
+      // as "belongs nowhere" put an existing member on onboarding until the
+      // fetch landed.
+      final reloading = await _reloadingMembership();
+      expect(
+        reloading.hasValue,
+        isTrue,
+        reason: 'the fixture must carry the stale value it is replacing',
+      );
+
+      final decision = resolveRedirect(
+        auth: _signedIn,
+        membership: reloading,
+        location: AppRoutes.login,
       );
 
       expect(decision.target, AppRoutes.splash);

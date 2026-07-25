@@ -8,6 +8,74 @@ part of 'router.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// Auth and membership read as one value, so a redirect never sees one of them
+/// ahead of the other.
+///
+/// Watching both here puts them in a single dependency node, and `myMembership`
+/// watches auth itself — so Riverpod recomputes it before this provider and the
+/// pair is always consistent. Subscribing to the two separately let an auth
+/// emission reach the router while membership still held the previous session's
+/// answer, and a signed-in member was briefly ruled to belong nowhere.
+
+@ProviderFor(navigationState)
+final navigationStateProvider = NavigationStateProvider._();
+
+/// Auth and membership read as one value, so a redirect never sees one of them
+/// ahead of the other.
+///
+/// Watching both here puts them in a single dependency node, and `myMembership`
+/// watches auth itself — so Riverpod recomputes it before this provider and the
+/// pair is always consistent. Subscribing to the two separately let an auth
+/// emission reach the router while membership still held the previous session's
+/// answer, and a signed-in member was briefly ruled to belong nowhere.
+
+final class NavigationStateProvider
+    extends
+        $FunctionalProvider<NavigationState, NavigationState, NavigationState>
+    with $Provider<NavigationState> {
+  /// Auth and membership read as one value, so a redirect never sees one of them
+  /// ahead of the other.
+  ///
+  /// Watching both here puts them in a single dependency node, and `myMembership`
+  /// watches auth itself — so Riverpod recomputes it before this provider and the
+  /// pair is always consistent. Subscribing to the two separately let an auth
+  /// emission reach the router while membership still held the previous session's
+  /// answer, and a signed-in member was briefly ruled to belong nowhere.
+  NavigationStateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'navigationStateProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$navigationStateHash();
+
+  @$internal
+  @override
+  $ProviderElement<NavigationState> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  NavigationState create(Ref ref) {
+    return navigationState(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(NavigationState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<NavigationState>(value),
+    );
+  }
+}
+
+String _$navigationStateHash() => r'0877831166034432f0419c9f62f0c502554becc2';
+
 /// Root navigation with auth- and membership-based redirects.
 ///
 /// Both inputs come from providers (the repositories), never from Supabase
@@ -64,4 +132,4 @@ final class RouterProvider
   }
 }
 
-String _$routerHash() => r'eff98b351ca4dcd4c662ade2da39dbf350009183';
+String _$routerHash() => r'f526beaab06c5085aa715771de3e981da52b454d';
