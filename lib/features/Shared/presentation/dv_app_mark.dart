@@ -29,8 +29,6 @@ class DvAppMark extends StatelessWidget {
           height: size,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            // Brand teal, not `primary`: this tile is the launcher icon shown
-            // inside the app, and the icon does not change with the theme.
             color: AppColors.brand,
             borderRadius: BorderRadius.circular(AppRadius.lg),
           ),
