@@ -6,7 +6,6 @@ import 'package:dvir/features/Auth/application/auth_controller.dart';
 import 'package:dvir/features/Auth/domain/models/app_user.dart';
 import 'package:dvir/features/Auth/presentation/screens/login_screen.dart';
 import 'package:dvir/features/Auth/presentation/screens/register_screen.dart';
-import 'package:dvir/features/Auth/presentation/screens/splash_screen.dart';
 import 'package:dvir/features/Home/presentation/screens/home_screen.dart';
 import 'package:dvir/features/Onboarding/application/membership_controller.dart';
 import 'package:dvir/features/Onboarding/domain/models/scope_membership.dart';
@@ -16,6 +15,7 @@ import 'package:dvir/features/Onboarding/presentation/screens/join_scope_screen.
 import 'package:dvir/features/Onboarding/presentation/screens/onboarding_choice_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/pending_approval_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/scope_created_screen.dart';
+import 'package:dvir/features/Shared/presentation/splash_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
