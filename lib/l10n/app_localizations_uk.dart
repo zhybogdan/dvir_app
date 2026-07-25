@@ -12,7 +12,28 @@ class AppLocalizationsUk extends AppLocalizations {
   String get appTitle => 'Двір';
 
   @override
-  String get homePlaceholder => 'Основа готова — функції незабаром';
+  String get scopesCommunities => 'Спільноти';
+
+  @override
+  String get scopesUnits => 'Оселі';
+
+  @override
+  String get scopePending => 'Заявка на розгляді';
+
+  @override
+  String get addScope => 'Додати';
+
+  @override
+  String get memberStatusPending => 'Очікує підтвердження';
+
+  @override
+  String get memberStatusActive => 'Активний';
+
+  @override
+  String get memberStatusRejected => 'Відхилено';
+
+  @override
+  String get memberStatusBlocked => 'Доступ закрито';
 
   @override
   String get signIn => 'Увійти';

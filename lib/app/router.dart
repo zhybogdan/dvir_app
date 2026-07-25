@@ -7,7 +7,7 @@ import 'package:dvir/features/Auth/domain/models/app_user.dart';
 import 'package:dvir/features/Auth/presentation/screens/login_screen.dart';
 import 'package:dvir/features/Auth/presentation/screens/register_screen.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
-import 'package:dvir/features/Home/presentation/screens/home_screen.dart';
+import 'package:dvir/features/Home/presentation/screens/scopes_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/create_community_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/create_unit_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/join_scope_screen.dart';
@@ -96,7 +96,7 @@ GoRouter router(Ref ref) {
       ),
       GoRoute(
         path: AppRoutes.home,
-        builder: (context, state) => const HomeScreen(),
+        builder: (context, state) => const ScopesScreen(),
       ),
       GoRoute(
         path: AppRoutes.onboarding,

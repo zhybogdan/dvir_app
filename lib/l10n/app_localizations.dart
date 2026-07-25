@@ -100,11 +100,53 @@ abstract class AppLocalizations {
   /// **'Двір'**
   String get appTitle;
 
-  /// Placeholder text on the temporary home screen
+  /// No description provided for @scopesCommunities.
   ///
   /// In uk, this message translates to:
-  /// **'Основа готова — функції незабаром'**
-  String get homePlaceholder;
+  /// **'Спільноти'**
+  String get scopesCommunities;
+
+  /// No description provided for @scopesUnits.
+  ///
+  /// In uk, this message translates to:
+  /// **'Оселі'**
+  String get scopesUnits;
+
+  /// No description provided for @scopePending.
+  ///
+  /// In uk, this message translates to:
+  /// **'Заявка на розгляді'**
+  String get scopePending;
+
+  /// No description provided for @addScope.
+  ///
+  /// In uk, this message translates to:
+  /// **'Додати'**
+  String get addScope;
+
+  /// No description provided for @memberStatusPending.
+  ///
+  /// In uk, this message translates to:
+  /// **'Очікує підтвердження'**
+  String get memberStatusPending;
+
+  /// No description provided for @memberStatusActive.
+  ///
+  /// In uk, this message translates to:
+  /// **'Активний'**
+  String get memberStatusActive;
+
+  /// No description provided for @memberStatusRejected.
+  ///
+  /// In uk, this message translates to:
+  /// **'Відхилено'**
+  String get memberStatusRejected;
+
+  /// No description provided for @memberStatusBlocked.
+  ///
+  /// In uk, this message translates to:
+  /// **'Доступ закрито'**
+  String get memberStatusBlocked;
 
   /// No description provided for @signIn.
   ///
