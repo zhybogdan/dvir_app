@@ -18,10 +18,6 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
   final sb.SupabaseClient _client;
 
   @override
-  Stream<ScopeMembership?> watchMyMembership() =>
-      Stream.fromFuture(_fetchMyMembership());
-
-  @override
   Future<Community> createCommunity({
     required String name,
     required CommunityType type,
@@ -51,44 +47,6 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
 
         return _scopeFrom(result);
       });
-
-  /// The user's single scope, community first.
-  ///
-  /// Filtering by `user_id` is not the hand-written tenant filter the project
-  /// bans: RLS lets a member see their co-members too, so without it this would
-  /// return somebody else's row.
-  Future<ScopeMembership?> _fetchMyMembership() async {
-    final userId = _client.auth.currentUser?.id;
-    if (userId == null) return null;
-
-    return guardSupabase(() async {
-      final community = await _client
-          .from('community_members')
-          .select()
-          .eq('user_id', userId)
-          .order('created_at')
-          .limit(1)
-          .maybeSingle();
-
-      if (community != null) {
-        return ScopeMembership.community(
-          CommunityMembership.fromJson(community),
-        );
-      }
-
-      final unit = await _client
-          .from('unit_members')
-          .select()
-          .eq('user_id', userId)
-          .order('created_at')
-          .limit(1)
-          .maybeSingle();
-
-      return unit == null
-          ? null
-          : ScopeMembership.unit(UnitMembership.fromJson(unit));
-    });
-  }
 
   /// `join_by_invite` returns `{"scope": ..., "membership": {...}}` — the two
   /// branches carry different row types, so the payload is jsonb rather than a

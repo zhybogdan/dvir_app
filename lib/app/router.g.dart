@@ -8,39 +8,42 @@ part of 'router.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// Auth and membership read as one value, so a redirect never sees one of them
+/// Auth and scopes read as one value, so a redirect never sees one of them
 /// ahead of the other.
 ///
-/// Watching both here puts them in a single dependency node, and `myMembership`
+/// Watching both here puts them in a single dependency node, and `myScopes`
 /// watches auth itself — so Riverpod recomputes it before this provider and the
 /// pair is always consistent. Subscribing to the two separately let an auth
-/// emission reach the router while membership still held the previous session's
-/// answer, and a signed-in member was briefly ruled to belong nowhere.
+/// emission reach the router while the scope list still held the previous
+/// session's answer, and a signed-in member was briefly ruled to belong
+/// nowhere.
 
 @ProviderFor(navigationState)
 final navigationStateProvider = NavigationStateProvider._();
 
-/// Auth and membership read as one value, so a redirect never sees one of them
+/// Auth and scopes read as one value, so a redirect never sees one of them
 /// ahead of the other.
 ///
-/// Watching both here puts them in a single dependency node, and `myMembership`
+/// Watching both here puts them in a single dependency node, and `myScopes`
 /// watches auth itself — so Riverpod recomputes it before this provider and the
 /// pair is always consistent. Subscribing to the two separately let an auth
-/// emission reach the router while membership still held the previous session's
-/// answer, and a signed-in member was briefly ruled to belong nowhere.
+/// emission reach the router while the scope list still held the previous
+/// session's answer, and a signed-in member was briefly ruled to belong
+/// nowhere.
 
 final class NavigationStateProvider
     extends
         $FunctionalProvider<NavigationState, NavigationState, NavigationState>
     with $Provider<NavigationState> {
-  /// Auth and membership read as one value, so a redirect never sees one of them
+  /// Auth and scopes read as one value, so a redirect never sees one of them
   /// ahead of the other.
   ///
-  /// Watching both here puts them in a single dependency node, and `myMembership`
+  /// Watching both here puts them in a single dependency node, and `myScopes`
   /// watches auth itself — so Riverpod recomputes it before this provider and the
   /// pair is always consistent. Subscribing to the two separately let an auth
-  /// emission reach the router while membership still held the previous session's
-  /// answer, and a signed-in member was briefly ruled to belong nowhere.
+  /// emission reach the router while the scope list still held the previous
+  /// session's answer, and a signed-in member was briefly ruled to belong
+  /// nowhere.
   NavigationStateProvider._()
     : super(
         from: null,
@@ -74,7 +77,7 @@ final class NavigationStateProvider
   }
 }
 
-String _$navigationStateHash() => r'0877831166034432f0419c9f62f0c502554becc2';
+String _$navigationStateHash() => r'9dd3b33d28b203d1abc78f82269e7d653ab72ff4';
 
 /// Root navigation with auth- and membership-based redirects.
 ///
@@ -132,4 +135,4 @@ final class RouterProvider
   }
 }
 
-String _$routerHash() => r'f526beaab06c5085aa715771de3e981da52b454d';
+String _$routerHash() => r'a855f280a1c43766f30a7a1387d19e36eac9bf17';

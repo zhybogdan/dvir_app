@@ -7,11 +7,13 @@ part 'scope_membership.freezed.dart';
 
 /// Where a person belongs — a community, or an object.
 ///
-/// Serves two callers on purpose. It is what `join_by_invite` returns (one code
-/// field, either scope: the user cannot say which kind of code they hold, and
-/// asking would leak what the code opens), and it is what the router reads to
-/// choose between onboarding, the waiting screen and the app itself. Both are
-/// the same question with the same shape of answer.
+/// What `join_by_invite` returns: one code field, either scope — the user
+/// cannot say which kind of code they hold, and asking would leak what the code
+/// opens.
+///
+/// Carries no name for the same reason a pending scope shows none: whoever just
+/// applied is not an active member yet, and RLS hides the scope from them until
+/// they are.
 ///
 /// Sealed, so a screen that handles one scope and forgets the other does not
 /// compile.

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dvir/features/Community/domain/models/community.dart';
 import 'package:dvir/features/Community/domain/types/community_type.dart';
-import 'package:dvir/features/Onboarding/application/membership_controller.dart';
+import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Onboarding/data/onboarding_repository_impl.dart';
 import 'package:dvir/features/Onboarding/domain/models/scope_membership.dart';
 import 'package:dvir/features/Units/data/units_repository_impl.dart';
@@ -90,19 +90,19 @@ class OnboardingController extends _$OnboardingController {
     );
     state = result;
 
-    _refreshMembership(result.hasValue);
+    _refreshScopes(result.hasValue);
 
     return result.value;
   }
 
-  /// Re-reads the membership so the router sees the new state.
+  /// Re-reads the scope list so the router sees the new state.
   ///
   /// Guarded by `ref.mounted`: this always runs after an await, and the screen
   /// that started the call may be gone by then — touching a disposed ref
   /// throws.
-  void _refreshMembership(bool succeeded) {
+  void _refreshScopes(bool succeeded) {
     if (!succeeded || !ref.mounted) return;
 
-    ref.invalidate(myMembershipProvider);
+    ref.invalidate(myScopesProvider);
   }
 }

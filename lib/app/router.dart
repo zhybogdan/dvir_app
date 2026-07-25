@@ -6,9 +6,8 @@ import 'package:dvir/features/Auth/application/auth_controller.dart';
 import 'package:dvir/features/Auth/domain/models/app_user.dart';
 import 'package:dvir/features/Auth/presentation/screens/login_screen.dart';
 import 'package:dvir/features/Auth/presentation/screens/register_screen.dart';
+import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Home/presentation/screens/home_screen.dart';
-import 'package:dvir/features/Onboarding/application/membership_controller.dart';
-import 'package:dvir/features/Onboarding/domain/models/scope_membership.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/create_community_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/create_unit_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/join_scope_screen.dart';
@@ -25,22 +24,21 @@ part 'router.g.dart';
 /// The pair every redirect decision is made from.
 typedef NavigationState = ({
   AsyncValue<AppUser?> auth,
-  AsyncValue<ScopeMembership?> membership,
+  AsyncValue<MyScopes?> scopes,
 });
 
-/// Auth and membership read as one value, so a redirect never sees one of them
+/// Auth and scopes read as one value, so a redirect never sees one of them
 /// ahead of the other.
 ///
-/// Watching both here puts them in a single dependency node, and `myMembership`
+/// Watching both here puts them in a single dependency node, and `myScopes`
 /// watches auth itself — so Riverpod recomputes it before this provider and the
 /// pair is always consistent. Subscribing to the two separately let an auth
-/// emission reach the router while membership still held the previous session's
-/// answer, and a signed-in member was briefly ruled to belong nowhere.
+/// emission reach the router while the scope list still held the previous
+/// session's answer, and a signed-in member was briefly ruled to belong
+/// nowhere.
 @Riverpod(keepAlive: true)
-NavigationState navigationState(Ref ref) => (
-  auth: ref.watch(authStateProvider),
-  membership: ref.watch(myMembershipProvider),
-);
+NavigationState navigationState(Ref ref) =>
+    (auth: ref.watch(authStateProvider), scopes: ref.watch(myScopesProvider));
 
 /// Root navigation with auth- and membership-based redirects.
 ///
@@ -70,7 +68,7 @@ GoRouter router(Ref ref) {
       final navigation = ref.read(navigationStateProvider);
       final decision = resolveRedirect(
         auth: navigation.auth,
-        membership: navigation.membership,
+        scopes: navigation.scopes,
         location: location,
       );
       final target = decision.target;

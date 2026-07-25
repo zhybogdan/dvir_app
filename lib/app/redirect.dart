@@ -1,7 +1,6 @@
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/features/Auth/domain/models/app_user.dart';
-import 'package:dvir/features/Onboarding/domain/models/scope_membership.dart';
-import 'package:dvir/features/Shared/domain/types/member_status.dart';
+import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Where to send a visitor, and why. The reason is carried for the log: with
@@ -9,13 +8,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// land me on PendingApproval" stops being obvious from the destination alone.
 typedef RedirectDecision = ({String? target, String reason});
 
-/// Decides navigation from auth and membership state alone.
+/// Decides navigation from auth and scope membership alone.
 ///
 /// Kept out of `router.dart` and public so it can be tested directly: it is
 /// pure, and it is where every access rule in the app is actually written.
+///
+/// The question it asks about scopes is "does this user belong *anywhere* with
+/// access", never "which scope are they in". A person can own a house, rent a
+/// flat and sit on an ОСББ board at once; picking one of those to route by is
+/// what used to strand a house owner on the waiting screen because a community
+/// they had applied to was still deciding.
 RedirectDecision resolveRedirect({
   required AsyncValue<AppUser?> auth,
-  required AsyncValue<ScopeMembership?> membership,
+  required AsyncValue<MyScopes?> scopes,
   required String location,
 }) {
   final onAuthPage =
@@ -33,44 +38,48 @@ RedirectDecision resolveRedirect({
         : (target: AppRoutes.splash, reason: 'auth unresolved');
   }
 
-  if (auth.value == null) {
+  final user = auth.value;
+
+  if (user == null) {
     return onAuthPage
         ? (target: null, reason: 'signed out, on an auth page')
         : (target: AppRoutes.login, reason: 'signed out');
   }
 
-  // Signed in, but we don't yet know where they belong. Same reasoning as
-  // above: guessing here would flash onboarding at an existing member.
+  final known = scopes.value;
+
+  // Signed in, but what we hold is not this user's answer: either nothing has
+  // arrived yet, or the value underneath a reload still belongs to the previous
+  // session. Guessing here flashed onboarding at an existing member.
   //
-  // A *stale* value counts as unknown, hence no `hasValue` escape: Riverpod
-  // hands back the previous value while the new one loads, and right after
-  // sign-in that value is the signed-out `null` — deciding on it would send an
-  // existing member to onboarding for as long as the fetch takes.
-  if (membership.isLoading) {
+  // Comparing the owner rather than checking `isLoading` is what keeps an
+  // ordinary refresh — someone pulling the scope list down — from throwing them
+  // back to the splash: the data is stale, but it is still theirs.
+  if (known == null || known.userId != user.id) {
     return location == AppRoutes.splash
-        ? (target: null, reason: 'membership unresolved, already on splash')
-        : (target: AppRoutes.splash, reason: 'membership unresolved');
+        ? (target: null, reason: 'scopes unresolved, already on splash')
+        : (target: AppRoutes.splash, reason: 'scopes unresolved');
   }
 
-  final scope = membership.value;
-
-  if (scope == null) {
+  if (known.scopes.isEmpty) {
     return onOnboardingPage
         ? (target: null, reason: 'belongs nowhere, onboarding in progress')
         : (target: AppRoutes.onboarding, reason: 'belongs nowhere');
   }
 
-  // Everything that is not `active` — pending, rejected, blocked — means no
-  // access to the scope's content, and the waiting screen is what explains
-  // which of the three it is.
-  if (scope.status != MemberStatus.active) {
+  // Belongs somewhere, but nowhere they are let into yet. Everything that is
+  // not `active` — pending, rejected, blocked — means no access, and the
+  // waiting screen is what explains which of the three it is.
+  if (!known.scopes.any((scope) => scope.isActive)) {
     return location == AppRoutes.pending
-        ? (target: null, reason: 'not approved, already waiting')
-        : (target: AppRoutes.pending, reason: 'not approved (${scope.status})');
+        ? (target: null, reason: 'not approved anywhere, already waiting')
+        : (target: AppRoutes.pending, reason: 'not approved anywhere');
   }
 
+  // An active member may still walk into onboarding deliberately — that is how
+  // a second scope is created or joined — so only the entry screens send them
+  // home.
   if (onAuthPage ||
-      onOnboardingPage ||
       location == AppRoutes.splash ||
       location == AppRoutes.pending) {
     return (target: AppRoutes.home, reason: 'active member');

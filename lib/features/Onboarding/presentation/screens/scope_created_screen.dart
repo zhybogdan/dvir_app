@@ -1,9 +1,10 @@
+import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/notifications/toast_controller.dart';
 import 'package:dvir/core/utils/share.dart';
+import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Onboarding/application/created_scope_controller.dart';
-import 'package:dvir/features/Onboarding/application/membership_controller.dart';
 import 'package:dvir/features/Onboarding/domain/models/created_scope.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
@@ -15,6 +16,7 @@ import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 /// Shown right after a scope (a community or an oselia) is created: its invite
 /// code, big and copyable.
@@ -97,8 +99,15 @@ class ScopeCreatedScreen extends ConsumerWidget {
                   icon: const Icon(Icons.copy_outlined),
                   label: Text(l10n.copyCode),
                 ),
+                // Navigates rather than leaving it to the redirect: the creator
+                // is already an active admin, and an active member is
+                // deliberately allowed to stand inside onboarding — that is how
+                // a second scope gets added.
                 TextButton(
-                  onPressed: () => ref.invalidate(myMembershipProvider),
+                  onPressed: () {
+                    ref.invalidate(myScopesProvider);
+                    context.go(AppRoutes.home);
+                  },
                   child: Text(l10n.goToHome),
                 ),
               ],

@@ -1,3 +1,4 @@
+import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
@@ -11,6 +12,7 @@ import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 /// One code field for either scope. The backend decides whether the code opens
 /// a community or an oselia; on success it refreshes membership and the router
@@ -36,9 +38,18 @@ class _JoinScopeScreenState extends ConsumerState<JoinScopeScreen> {
     final form = _formKey.currentState;
     if (form == null || !form.validate()) return;
 
-    await ref
+    final membership = await ref
         .read(onboardingControllerProvider.notifier)
         .joinByInvite(_codeCtrl.text.trim());
+
+    // Someone who belongs nowhere yet is carried off by the redirect on their
+    // own, but an active member is deliberately allowed to stand inside
+    // onboarding — that is how a second scope gets joined. Going home covers
+    // both: the redirect corrects it to the waiting screen when the fresh
+    // request still needs approval.
+    if (membership == null || !mounted) return;
+
+    context.go(AppRoutes.home);
   }
 
   @override

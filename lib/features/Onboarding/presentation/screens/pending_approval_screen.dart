@@ -1,7 +1,7 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Auth/application/auth_controller.dart';
-import 'package:dvir/features/Onboarding/application/membership_controller.dart';
+import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Shared/domain/types/member_status.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
@@ -22,7 +22,9 @@ class PendingApprovalScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final status = ref.watch(myMembershipProvider).value?.status;
+    // The router only lands here when nothing is active, so any scope in the
+    // list explains the wait — the most recent one is the request just made.
+    final status = ref.watch(myScopesProvider).value?.scopes.lastOrNull?.status;
     final view = _viewFor(status, l10n);
 
     return DvScaffold(
@@ -56,7 +58,7 @@ class PendingApprovalScreen extends ConsumerWidget {
               DvButton(
                 label: l10n.refreshCta,
                 icon: Icons.refresh,
-                onPressed: () => ref.invalidate(myMembershipProvider),
+                onPressed: () => ref.invalidate(myScopesProvider),
               ),
             ],
           ),
