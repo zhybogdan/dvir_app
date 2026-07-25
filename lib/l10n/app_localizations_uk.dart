@@ -292,6 +292,13 @@ class AppLocalizationsUk extends AppLocalizations {
   String get errorNotAuthenticated => 'Сеанс завершився. Увійдіть ще раз';
 
   @override
+  String get errorLastAdmin =>
+      'Це остання людина, яка керує. Спочатку призначте когось іншого';
+
+  @override
+  String get errorSelfModeration => 'Не можна змінити власний статус';
+
+  @override
   String get errorScopeUnknown => 'Не вдалося виконати дію';
 
   @override

@@ -16,6 +16,11 @@ void main() {
         scopeFailureReasonFrom('DV003'),
         ScopeFailureReason.notAuthenticated,
       );
+      expect(scopeFailureReasonFrom('DV004'), ScopeFailureReason.lastAdmin);
+      expect(
+        scopeFailureReasonFrom('DV005'),
+        ScopeFailureReason.selfModeration,
+      );
     });
 
     test('treats a blocked RLS write as "not allowed"', () {

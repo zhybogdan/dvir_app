@@ -124,6 +124,8 @@
   "errorInvalidInviteCode": "Такого коду не існує. Перевірте його ще раз",
   "errorNotAllowed": "Недостатньо прав для цієї дії",
   "errorNotAuthenticated": "Сеанс завершився. Увійдіть ще раз",
+  "errorLastAdmin": "Це остання людина, яка керує. Спочатку призначте когось іншого",
+  "errorSelfModeration": "Не можна змінити власний статус",
   "errorScopeUnknown": "Не вдалося виконати дію",
 
   "errorTitle": "Щось пішло не так",

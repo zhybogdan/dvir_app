@@ -640,6 +640,18 @@ abstract class AppLocalizations {
   /// **'Сеанс завершився. Увійдіть ще раз'**
   String get errorNotAuthenticated;
 
+  /// No description provided for @errorLastAdmin.
+  ///
+  /// In uk, this message translates to:
+  /// **'Це остання людина, яка керує. Спочатку призначте когось іншого'**
+  String get errorLastAdmin;
+
+  /// No description provided for @errorSelfModeration.
+  ///
+  /// In uk, this message translates to:
+  /// **'Не можна змінити власний статус'**
+  String get errorSelfModeration;
+
   /// No description provided for @errorScopeUnknown.
   ///
   /// In uk, this message translates to:
