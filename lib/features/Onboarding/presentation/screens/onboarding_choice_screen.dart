@@ -41,10 +41,15 @@ class OnboardingChoiceScreen extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: AppSpacing.md,
           children: [
-            DvButton(
-              label: l10n.onboardingCreateCommunity,
-              onPressed: () => context.push(AppRoutes.onboardingCommunity),
-            ),
+            // TODO: put the community entry back once objects are finished.
+            // The product is being built around a single object first — a
+            // private house with its own people, documents and meters — so the
+            // way into a community is hidden rather than removed. The flow
+            // behind it (screen, RPC, RLS) is complete and still routed.
+            // DvButton(
+            //   label: l10n.onboardingCreateCommunity,
+            //   onPressed: () => context.push(AppRoutes.onboardingCommunity),
+            // ),
             DvButton(
               label: l10n.onboardingCreateUnit,
               onPressed: () => context.push(AppRoutes.onboardingUnit),
