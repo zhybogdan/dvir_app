@@ -1,7 +1,6 @@
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
-import 'package:dvir/features/Auth/application/auth_controller.dart';
 import 'package:dvir/features/Community/presentation/community_type_l10n.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Home/domain/models/scope_summary.dart';
@@ -47,11 +46,12 @@ class ScopesScreen extends ConsumerWidget {
             icon: Icons.add,
             tooltip: l10n.addScope,
           ),
+          // Signing out moved inside the profile: it is an account action, and
+          // this screen is a list of places rather than a settings page.
           DvIconButton(
-            onPressed: () =>
-                ref.read(authControllerProvider.notifier).signOut(),
-            icon: Icons.logout,
-            tooltip: l10n.signOut,
+            onPressed: () => context.push(AppRoutes.profile),
+            icon: Icons.person_outline,
+            tooltip: l10n.profileTitle,
           ),
         ],
       ),

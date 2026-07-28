@@ -261,7 +261,7 @@ final class UnitMemberModerationProvider
 }
 
 String _$unitMemberModerationHash() =>
-    r'5b467cb0537c52164335654279eea501d3f2b622';
+    r'695ad653c29b14ed1f55cda1618f6591267d73f8';
 
 /// Deciding on the people of one object, and the loading / error state of it.
 ///

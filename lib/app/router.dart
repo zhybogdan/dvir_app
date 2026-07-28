@@ -13,6 +13,7 @@ import 'package:dvir/features/Onboarding/presentation/screens/join_scope_screen.
 import 'package:dvir/features/Onboarding/presentation/screens/onboarding_choice_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/pending_approval_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/scope_created_screen.dart';
+import 'package:dvir/features/Profile/presentation/screens/profile_screen.dart';
 import 'package:dvir/features/Shared/presentation/splash_screen.dart';
 import 'package:dvir/features/Units/presentation/screens/unit_form_screen.dart';
 import 'package:dvir/features/Units/presentation/screens/unit_hub_screen.dart';
@@ -98,6 +99,10 @@ GoRouter router(Ref ref) {
       GoRoute(
         path: AppRoutes.home,
         builder: (context, state) => const ScopesScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.profile,
+        builder: (context, state) => const ProfileScreen(),
       ),
       GoRoute(
         path: AppRoutes.onboarding,

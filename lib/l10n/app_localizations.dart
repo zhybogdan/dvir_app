@@ -148,6 +148,54 @@ abstract class AppLocalizations {
   /// **'Доступ закрито'**
   String get memberStatusBlocked;
 
+  /// No description provided for @profileTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Профіль'**
+  String get profileTitle;
+
+  /// No description provided for @profileHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'Ім\'я побачать люди у ваших оселях — без нього ви для них просто «Мешканець».'**
+  String get profileHint;
+
+  /// No description provided for @profileName.
+  ///
+  /// In uk, this message translates to:
+  /// **'Ім\'я'**
+  String get profileName;
+
+  /// No description provided for @profileNameHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'Богдан Жилко'**
+  String get profileNameHint;
+
+  /// No description provided for @profileNameRequired.
+  ///
+  /// In uk, this message translates to:
+  /// **'Введіть ім\'я'**
+  String get profileNameRequired;
+
+  /// No description provided for @profilePhone.
+  ///
+  /// In uk, this message translates to:
+  /// **'Телефон'**
+  String get profilePhone;
+
+  /// No description provided for @profilePhoneHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'+380 67 123 45 67'**
+  String get profilePhoneHint;
+
+  /// No description provided for @profileSaved.
+  ///
+  /// In uk, this message translates to:
+  /// **'Збережено'**
+  String get profileSaved;
+
   /// No description provided for @signIn.
   ///
   /// In uk, this message translates to:

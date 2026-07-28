@@ -36,6 +36,31 @@ class AppLocalizationsUk extends AppLocalizations {
   String get memberStatusBlocked => 'Доступ закрито';
 
   @override
+  String get profileTitle => 'Профіль';
+
+  @override
+  String get profileHint =>
+      'Ім\'я побачать люди у ваших оселях — без нього ви для них просто «Мешканець».';
+
+  @override
+  String get profileName => 'Ім\'я';
+
+  @override
+  String get profileNameHint => 'Богдан Жилко';
+
+  @override
+  String get profileNameRequired => 'Введіть ім\'я';
+
+  @override
+  String get profilePhone => 'Телефон';
+
+  @override
+  String get profilePhoneHint => '+380 67 123 45 67';
+
+  @override
+  String get profileSaved => 'Збережено';
+
+  @override
   String get signIn => 'Увійти';
 
   @override

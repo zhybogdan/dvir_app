@@ -13,6 +13,15 @@
   "memberStatusRejected": "Відхилено",
   "memberStatusBlocked": "Доступ закрито",
 
+  "profileTitle": "Профіль",
+  "profileHint": "Ім'я побачать люди у ваших оселях — без нього ви для них просто «Мешканець».",
+  "profileName": "Ім'я",
+  "profileNameHint": "Богдан Жилко",
+  "profileNameRequired": "Введіть ім'я",
+  "profilePhone": "Телефон",
+  "profilePhoneHint": "+380 67 123 45 67",
+  "profileSaved": "Збережено",
+
   "signIn": "Увійти",
   "signUp": "Зареєструватися",
   "signOut": "Вийти",
