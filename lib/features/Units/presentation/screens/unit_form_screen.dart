@@ -9,6 +9,7 @@ import 'package:dvir/features/Onboarding/domain/models/created_scope.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_select_field.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
@@ -17,6 +18,7 @@ import 'package:dvir/features/Units/application/unit_controller.dart';
 import 'package:dvir/features/Units/application/unit_form_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/types/unit_type.dart';
+import 'package:dvir/features/Units/domain/unit_nesting.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -94,10 +96,12 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
   late final _areaCtrl = TextEditingController(
     text: _unit?.areaM2?.toString() ?? '',
   );
-  // A new object inside another is a part of it — a room far more often than a
-  // second house. A top-level one is the address itself.
-  late UnitType _type =
-      _unit?.type ?? (widget.parentId == null ? UnitType.house : UnitType.room);
+
+  /// Null until the picker is touched: what an object may be depends on what
+  /// it sits in, so the default is the first type its parent allows — a room
+  /// inside a house, a house on a plot — and that list is only known in
+  /// `build`.
+  late UnitType? _type = _unit?.type;
 
   @override
   void dispose() {
@@ -108,27 +112,29 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
+  /// [type] comes from `build` rather than from [_type], which is null until
+  /// the picker is touched.
+  Future<void> _submit(UnitType type) async {
     final form = _formKey.currentState;
     if (form == null || !form.validate()) return;
 
     final unit = _unit;
 
     if (unit != null) {
-      await _save(unit);
+      await _save(unit, type);
       return;
     }
 
-    await _create();
+    await _create(type);
   }
 
-  Future<void> _save(Unit unit) async {
+  Future<void> _save(Unit unit, UnitType type) async {
     final saved = await ref
         .read(unitFormControllerProvider.notifier)
         .save(
           unit.copyWith(
             label: _nameCtrl.text.trim(),
-            type: _type,
+            type: type,
             address: trimmedOrNull(_addressCtrl.text),
             city: trimmedOrNull(_cityCtrl.text),
             areaM2: parseOptionalDouble(_areaCtrl.text),
@@ -146,14 +152,14 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
     context.pop();
   }
 
-  Future<void> _create() async {
+  Future<void> _create(UnitType type) async {
     final parentId = widget.parentId;
 
     final created = await ref
         .read(unitFormControllerProvider.notifier)
         .create(
           label: _nameCtrl.text.trim(),
-          type: _type,
+          type: type,
           parentId: parentId,
           address: trimmedOrNull(_addressCtrl.text),
           city: trimmedOrNull(_cityCtrl.text),
@@ -184,12 +190,59 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
     // True both when adding something inside an object and when editing
     // something already inside one — an address belongs to whatever stands at
     // the street, and a room is not it.
-    final isNested = widget.parentId != null || unit?.parentId != null;
+    final parentId = widget.parentId ?? unit?.parentId;
+    final isNested = parentId != null;
 
     ref.listen(
       unitFormControllerProvider,
       (previous, next) => next.showFailure(context, ref),
     );
+
+    final parent = parentId == null ? null : ref.watch(unitProvider(parentId));
+
+    // What may be created here follows from what it goes inside, so the form
+    // waits for the parent rather than guessing. In practice there is nothing
+    // to wait for — the hub this opens from holds the same object.
+    if (parentId != null && parent != null && parent.value == null) {
+      return DvScaffold(
+        extendBodyBehindAppBar: true,
+        appBar: DvAppBar(
+          title: l10n.unitAddTitle,
+          backgroundColor: Colors.transparent,
+        ),
+        body: DvAsyncView<Unit>(
+          value: parent,
+          onRetry: () => ref.invalidate(unitProvider(parentId)),
+          builder: (context, parent) => const SizedBox.shrink(),
+        ),
+      );
+    }
+
+    final options = unitTypeOptions(
+      parent: parent?.value?.type,
+      current: unit?.type,
+    );
+
+    // The hub hides the button that leads here, so this is only reachable by
+    // link — but a form with nothing to offer must say so rather than throw.
+    if (options.isEmpty) {
+      return DvScaffold(
+        extendBodyBehindAppBar: true,
+        appBar: DvAppBar(
+          title: l10n.unitAddTitle,
+          backgroundColor: Colors.transparent,
+        ),
+        body: DvEmptyView(message: l10n.unitAddNotAllowed),
+      );
+    }
+
+    // The picker's value has to be one of its own options; until it is touched
+    // the object is whatever its parent allows first — a room in a house, a
+    // house on a plot.
+    final selected = _type;
+    final type = selected != null && options.contains(selected)
+        ? selected
+        : options.first;
 
     final title = switch ((unit, isNested)) {
       (final Unit _, _) => l10n.unitEditTitle,
@@ -224,11 +277,11 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
                 ),
                 DvSelectField<UnitType>(
                   label: l10n.unitType,
-                  value: _type,
-                  options: UnitType.values,
+                  value: type,
+                  options: options,
                   labelOf: (type) => type.label(l10n),
                   groupOf: (type) => type.groupLabel(l10n),
-                  enabled: !isLoading,
+                  enabled: !isLoading && options.length > 1,
                   onChanged: (type) => setState(() => _type = type),
                 ),
                 if (!isNested) ...[
@@ -258,14 +311,14 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
                       decimal: true,
                     ),
                     textInputAction: TextInputAction.done,
-                    onSubmitted: (_) => _submit(),
+                    onSubmitted: (_) => _submit(type),
                     validator: (v) =>
                         validateOptionalPositiveNumber(v, l10n.unitAreaInvalid),
                   ),
                 DvButton(
                   label: action,
                   isLoading: isLoading,
-                  onPressed: isLoading ? null : _submit,
+                  onPressed: isLoading ? null : () => _submit(type),
                 ),
               ],
             ),

@@ -25,6 +25,7 @@ import 'package:dvir/features/Units/application/unit_children_controller.dart';
 import 'package:dvir/features/Units/application/unit_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/types/unit_role.dart';
+import 'package:dvir/features/Units/domain/unit_nesting.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -124,7 +125,9 @@ class _Hub extends ConsumerWidget {
           const SizedBox(height: AppSpacing.lg),
           _SectionTitle(
             l10n.unitNested,
-            action: role == UnitRole.owner
+            // A room holds nothing, so it is not offered the button — the
+            // picker behind it would have no types to show.
+            action: role == UnitRole.owner && canHoldChildren(unit.type)
                 ? (
                     label: l10n.unitAddCta,
                     onPressed: () =>

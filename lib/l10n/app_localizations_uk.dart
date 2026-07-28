@@ -397,6 +397,9 @@ class AppLocalizationsUk extends AppLocalizations {
       'Старий код перестане працювати. Тим, кого ще не додали, доведеться надіслати новий.';
 
   @override
+  String get unitAddNotAllowed => 'У цей об\'єкт не можна нічого додати.';
+
+  @override
   String get deleteUnit => 'Видалити';
 
   @override
