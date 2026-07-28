@@ -233,6 +233,24 @@ void main() {
 
       expect(decision.target, isNull);
     });
+
+    // Waiting for one answer must not be a room with a single door: someone
+    // who mistyped a code has to be able to start their own object instead.
+    test('lets them into onboarding while they wait', () {
+      for (final location in [
+        AppRoutes.onboarding,
+        AppRoutes.onboardingUnit,
+        AppRoutes.onboardingJoin,
+      ]) {
+        final decision = resolveRedirect(
+          auth: _signedIn,
+          scopes: _scopesOf([_community(MemberStatus.pending)]),
+          location: location,
+        );
+
+        expect(decision.target, isNull, reason: 'should stay on $location');
+      }
+    });
   });
 
   group('resolveRedirect for an active member', () {

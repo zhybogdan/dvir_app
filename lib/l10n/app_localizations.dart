@@ -370,6 +370,30 @@ abstract class AppLocalizations {
   /// **'Оновити'**
   String get refreshCta;
 
+  /// No description provided for @withdrawRequest.
+  ///
+  /// In uk, this message translates to:
+  /// **'Скасувати заявку'**
+  String get withdrawRequest;
+
+  /// No description provided for @withdrawRequestTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Скасувати заявку?'**
+  String get withdrawRequestTitle;
+
+  /// No description provided for @withdrawRequestBody.
+  ///
+  /// In uk, this message translates to:
+  /// **'Заявку буде видалено. Ви зможете подати її знову за тим самим кодом.'**
+  String get withdrawRequestBody;
+
+  /// No description provided for @pendingOtherWays.
+  ///
+  /// In uk, this message translates to:
+  /// **'Створити свою оселю або ввести інший код'**
+  String get pendingOtherWays;
+
   /// No description provided for @joinByCodeIntro.
   ///
   /// In uk, this message translates to:

@@ -70,9 +70,14 @@ RedirectDecision resolveRedirect({
   // Belongs somewhere, but nowhere they are let into yet. Everything that is
   // not `active` — pending, rejected, blocked — means no access, and the
   // waiting screen is what explains which of the three it is.
+  //
+  // Onboarding stays open to them, and that is the point: waiting for one
+  // answer must not be a room with a single door. A person who typed the wrong
+  // code, or who would rather start their own object than wait, gets there the
+  // same way anyone else does.
   if (!known.scopes.any((scope) => scope.isActive)) {
-    return location == AppRoutes.pending
-        ? (target: null, reason: 'not approved anywhere, already waiting')
+    return location == AppRoutes.pending || onOnboardingPage
+        ? (target: null, reason: 'not approved anywhere, waiting or looking')
         : (target: AppRoutes.pending, reason: 'not approved anywhere');
   }
 

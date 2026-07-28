@@ -152,6 +152,19 @@ class AppLocalizationsUk extends AppLocalizations {
   String get refreshCta => 'Оновити';
 
   @override
+  String get withdrawRequest => 'Скасувати заявку';
+
+  @override
+  String get withdrawRequestTitle => 'Скасувати заявку?';
+
+  @override
+  String get withdrawRequestBody =>
+      'Заявку буде видалено. Ви зможете подати її знову за тим самим кодом.';
+
+  @override
+  String get pendingOtherWays => 'Створити свою оселю або ввести інший код';
+
+  @override
   String get joinByCodeIntro =>
       'Введіть код запрошення, який вам надіслали, щоб приєднатися до спільноти або оселі.';
 
