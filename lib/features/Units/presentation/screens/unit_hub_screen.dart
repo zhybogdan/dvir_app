@@ -25,6 +25,7 @@ import 'package:dvir/features/Units/application/unit_children_controller.dart';
 import 'package:dvir/features/Units/application/unit_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/types/unit_role.dart';
+import 'package:dvir/features/Units/presentation/components/unit_role_chip.dart';
 import 'package:dvir/features/Units/presentation/unit_role_l10n.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
@@ -297,8 +298,15 @@ class _People extends ConsumerWidget {
           ? DvEmptyView(message: l10n.unitPeopleEmpty)
           : Column(
               children: [
-                for (final view in people)
-                  _PersonRow(unitId: unitId, view: view, all: people),
+                // Numbered by position, so two people who have not filled in a
+                // profile yet are still told apart on screen.
+                for (final (index, view) in people.indexed)
+                  _PersonRow(
+                    unitId: unitId,
+                    view: view,
+                    all: people,
+                    position: index + 1,
+                  ),
               ],
             ),
     );
@@ -310,6 +318,7 @@ class _PersonRow extends ConsumerWidget {
     required this.unitId,
     required this.view,
     required this.all,
+    required this.position,
   });
 
   final String unitId;
@@ -318,6 +327,10 @@ class _PersonRow extends ConsumerWidget {
   /// The whole list, because whether this row may be touched depends on the
   /// others — the last owner cannot hand their role away.
   final List<UnitMemberView> all;
+
+  /// Where this person sits in the household, and the only thing left to call
+  /// them by until they enter a name.
+  final int position;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -329,7 +342,9 @@ class _PersonRow extends ConsumerWidget {
 
     // A profile arrives empty until the person fills it in, and a whole profile
     // stays hidden from anyone not entitled to read it — both end up here.
-    final title = name == null || name.isEmpty ? l10n.unnamedMember : name;
+    final title = name == null || name.isEmpty
+        ? l10n.unnamedMemberNumbered(position)
+        : name;
 
     final myUserId = ref.watch(authStateProvider).value?.id;
     final isOwner =
@@ -360,12 +375,7 @@ class _PersonRow extends ConsumerWidget {
                   children: [
                     Text(title, style: context.textTheme.titleSmall),
                     const SizedBox(height: AppSpacing.xs),
-                    Text(
-                      membership.role.label(l10n),
-                      style: context.textTheme.bodySmall?.copyWith(
-                        color: context.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
+                    UnitRoleChip(role: membership.role),
                   ],
                 ),
               ),

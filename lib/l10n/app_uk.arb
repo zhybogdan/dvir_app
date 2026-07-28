@@ -117,6 +117,15 @@
     }
   },
   "unnamedMember": "Мешканець",
+  "unnamedMemberNumbered": "Мешканець {number}",
+  "@unnamedMemberNumbered": {
+    "description": "Stand-in name for someone who has not filled in a profile",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
   "cancel": "Скасувати",
   "approve": "Підтвердити",
   "reject": "Відхилити",

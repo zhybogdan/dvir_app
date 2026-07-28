@@ -640,6 +640,12 @@ abstract class AppLocalizations {
   /// **'Мешканець'**
   String get unnamedMember;
 
+  /// Stand-in name for someone who has not filled in a profile
+  ///
+  /// In uk, this message translates to:
+  /// **'Мешканець {number}'**
+  String unnamedMemberNumbered(int number);
+
   /// No description provided for @cancel.
   ///
   /// In uk, this message translates to:

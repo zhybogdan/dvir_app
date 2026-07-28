@@ -289,6 +289,11 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unnamedMember => 'Мешканець';
 
   @override
+  String unnamedMemberNumbered(int number) {
+    return 'Мешканець $number';
+  }
+
+  @override
   String get cancel => 'Скасувати';
 
   @override
