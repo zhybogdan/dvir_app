@@ -12,22 +12,35 @@ final class AppRouteObserver extends NavigatorObserver {
 
   @override
   void didPush(Route<Object?> route, Route<Object?>? previousRoute) =>
-      _log('push', from: previousRoute, to: route);
+      _log('push', route, from: previousRoute, to: route);
 
   @override
   void didPop(Route<Object?> route, Route<Object?>? previousRoute) =>
-      _log('pop', from: route, to: previousRoute);
+      _log('pop', route, from: route, to: previousRoute);
 
   @override
   void didReplace({Route<Object?>? newRoute, Route<Object?>? oldRoute}) =>
-      _log('replace', from: oldRoute, to: newRoute);
+      _log('replace', newRoute, from: oldRoute, to: newRoute);
 
   @override
   void didRemove(Route<Object?> route, Route<Object?>? previousRoute) =>
-      _log('remove', from: route, to: previousRoute);
+      _log('remove', route, from: route, to: previousRoute);
 
-  void _log(String action, {Route<Object?>? from, Route<Object?>? to}) =>
-      appLogger.i('nav $action: ${_name(from)} → ${_name(to)}');
+  /// [subject] is the route that came or went; only screens are logged.
+  ///
+  /// A menu, a dialog and a bottom sheet are routes too, and each one pushed
+  /// and popped is two nameless `—` lines. They buried the screen changes this
+  /// exists to make visible.
+  void _log(
+    String action,
+    Route<Object?>? subject, {
+    Route<Object?>? from,
+    Route<Object?>? to,
+  }) {
+    if (subject is! PageRoute) return;
+
+    appLogger.i('nav $action: ${_name(from)} → ${_name(to)}');
+  }
 
   static String _name(Route<Object?>? route) => route?.settings.name ?? '—';
 }
