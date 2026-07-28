@@ -1,14 +1,19 @@
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
+import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/notifications/toast_controller.dart';
 import 'package:dvir/core/utils/share.dart';
+import 'package:dvir/features/Auth/application/auth_controller.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
+import 'package:dvir/features/Members/domain/member_permissions.dart';
 import 'package:dvir/features/Members/domain/models/unit_member_view.dart';
+import 'package:dvir/features/Shared/domain/types/member_status.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_invite_code_card.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
@@ -81,6 +86,13 @@ class _Hub extends ConsumerWidget {
     // Null while the roles load, and null again for a community admin who
     // manages the object without living in it — neither is an owner.
     final role = ref.watch(myUnitRoleProvider(unit.id)).value;
+
+    // A refusal from the database — the last owner stepping down, someone
+    // deciding on their own request — surfaces here rather than on each row.
+    ref.listen(
+      unitMemberModerationProvider(unit.id),
+      (previous, next) => next.showFailure(context, ref),
+    );
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -240,26 +252,51 @@ class _People extends ConsumerWidget {
               ),
             )
           : Column(
-              children: [for (final view in people) _PersonRow(view: view)],
+              children: [
+                for (final view in people)
+                  _PersonRow(unitId: unitId, view: view, all: people),
+              ],
             ),
     );
   }
 }
 
-class _PersonRow extends StatelessWidget {
-  const _PersonRow({required this.view});
+class _PersonRow extends ConsumerWidget {
+  const _PersonRow({
+    required this.unitId,
+    required this.view,
+    required this.all,
+  });
 
+  final String unitId;
   final UnitMemberView view;
 
+  /// The whole list, because whether this row may be touched depends on the
+  /// others — the last owner cannot hand their role away.
+  final List<UnitMemberView> all;
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final unitId = this.unitId;
+    final view = this.view;
     final membership = view.membership;
     final name = view.profile?.fullName;
 
     // A profile arrives empty until the person fills it in, and a whole profile
     // stays hidden from anyone not entitled to read it — both end up here.
     final title = name == null || name.isEmpty ? l10n.unnamedMember : name;
+
+    final myUserId = ref.watch(authStateProvider).value?.id;
+    final isOwner =
+        ref.watch(myUnitRoleProvider(unitId)).value == UnitRole.owner;
+    final actions = myUserId == null
+        ? null
+        : unitMemberActions(
+            member: membership,
+            all: all.map((view) => view.membership),
+            myUserId: myUserId,
+          );
 
     return Container(
       margin: const EdgeInsets.only(top: AppSpacing.sm),
@@ -268,31 +305,189 @@ class _PersonRow extends StatelessWidget {
         color: context.colorScheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(AppRadius.lg),
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: context.textTheme.titleSmall),
-                const SizedBox(height: AppSpacing.xs),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: context.textTheme.titleSmall),
+                    const SizedBox(height: AppSpacing.xs),
+                    Text(
+                      membership.role.label(l10n),
+                      style: context.textTheme.bodySmall?.copyWith(
+                        color: context.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (!view.isActive)
                 Text(
-                  membership.role.label(l10n),
-                  style: context.textTheme.bodySmall?.copyWith(
+                  membership.status.label(l10n),
+                  style: context.textTheme.labelSmall?.copyWith(
                     color: context.colorScheme.onSurfaceVariant,
                   ),
+                )
+              else if (isOwner && actions != null)
+                _MemberMenu(
+                  unitId: unitId,
+                  view: view,
+                  name: title,
+                  actions: actions,
                 ),
-              ],
-            ),
+            ],
           ),
-          if (!view.isActive)
-            Text(
-              membership.status.label(l10n),
-              style: context.textTheme.labelSmall?.copyWith(
-                color: context.colorScheme.onSurfaceVariant,
+          // A request is decided in one tap either way, so its two answers sit
+          // in the open rather than behind a menu.
+          if (isOwner &&
+              actions != null &&
+              actions.canChangeStatus &&
+              membership.status == MemberStatus.pending)
+            _RequestActions(unitId: unitId, view: view, name: title),
+        ],
+      ),
+    );
+  }
+}
+
+/// The two answers to a join request, side by side.
+class _RequestActions extends ConsumerWidget {
+  const _RequestActions({
+    required this.unitId,
+    required this.view,
+    required this.name,
+  });
+
+  final String unitId;
+  final UnitMemberView view;
+  final String name;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final unitId = this.unitId;
+    final memberId = view.membership.id;
+    final name = this.name;
+
+    Future<void> approve() => ref
+        .read(unitMemberModerationProvider(unitId).notifier)
+        .setStatus(memberId, MemberStatus.active);
+
+    Future<void> reject() async {
+      final confirmed = await DvConfirmDialog.ask(
+        context,
+        title: l10n.rejectTitle,
+        message: l10n.rejectBody(name),
+        confirmLabel: l10n.reject,
+      );
+      if (!confirmed) return;
+
+      await ref
+          .read(unitMemberModerationProvider(unitId).notifier)
+          .setStatus(memberId, MemberStatus.rejected);
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        TextButton(onPressed: reject, child: Text(l10n.reject)),
+        TextButton(onPressed: approve, child: Text(l10n.approve)),
+      ],
+    );
+  }
+}
+
+/// Everything that can be done to someone already living here.
+class _MemberMenu extends ConsumerWidget {
+  const _MemberMenu({
+    required this.unitId,
+    required this.view,
+    required this.name,
+    required this.actions,
+  });
+
+  final String unitId;
+  final UnitMemberView view;
+  final String name;
+  final MemberActions actions;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final unitId = this.unitId;
+    final memberId = view.membership.id;
+    final name = this.name;
+    final actions = this.actions;
+
+    Future<void> changeRole() async {
+      final role = await _pickRole(context, view.membership.role);
+      if (role == null) return;
+
+      await ref
+          .read(unitMemberModerationProvider(unitId).notifier)
+          .setRole(memberId, role);
+    }
+
+    Future<void> remove() async {
+      final confirmed = await DvConfirmDialog.ask(
+        context,
+        title: l10n.removeMemberTitle,
+        message: l10n.removeMemberBody(name),
+        confirmLabel: l10n.removeMember,
+      );
+      if (!confirmed) return;
+
+      await ref
+          .read(unitMemberModerationProvider(unitId).notifier)
+          .remove(memberId);
+    }
+
+    // Nothing left to offer: the last owner may neither step down nor remove
+    // themselves, and a menu of two disabled items is worse than no menu.
+    if (!actions.canChangeRole && !actions.canChangeStatus) {
+      return const SizedBox.shrink();
+    }
+
+    return PopupMenuButton<VoidCallback>(
+      onSelected: (action) => action(),
+      itemBuilder: (context) => [
+        if (actions.canChangeRole)
+          PopupMenuItem(value: changeRole, child: Text(l10n.changeRole)),
+        if (actions.canChangeStatus)
+          PopupMenuItem(value: remove, child: Text(l10n.removeMember)),
+      ],
+    );
+  }
+
+  /// The role sheet, returning null when dismissed without a choice.
+  Future<UnitRole?> _pickRole(BuildContext context, UnitRole current) {
+    final l10n = AppLocalizations.of(context);
+
+    return showModalBottomSheet<UnitRole>(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              child: Text(
+                l10n.roleSheetTitle,
+                style: context.textTheme.titleMedium,
               ),
             ),
-        ],
+            for (final role in UnitRole.values)
+              ListTile(
+                title: Text(role.label(l10n)),
+                trailing: role == current ? const Icon(Icons.check) : null,
+                onTap: () => Navigator.of(context).pop(role),
+              ),
+          ],
+        ),
       ),
     );
   }

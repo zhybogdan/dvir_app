@@ -196,3 +196,139 @@ final class MyUnitRoleFamily extends $Family
   @override
   String toString() => r'myUnitRoleProvider';
 }
+
+/// Deciding on the people of one object, and the loading / error state of it.
+///
+/// Keyed by the object so a refusal on one screen cannot light up another, and
+/// so the list to re-read afterwards is known without being passed in.
+///
+/// The rules are not repeated here — the database owns them and answers DV004
+/// and DV005, which the failure mapper turns into a sentence. This only asks.
+
+@ProviderFor(UnitMemberModeration)
+final unitMemberModerationProvider = UnitMemberModerationFamily._();
+
+/// Deciding on the people of one object, and the loading / error state of it.
+///
+/// Keyed by the object so a refusal on one screen cannot light up another, and
+/// so the list to re-read afterwards is known without being passed in.
+///
+/// The rules are not repeated here — the database owns them and answers DV004
+/// and DV005, which the failure mapper turns into a sentence. This only asks.
+final class UnitMemberModerationProvider
+    extends $AsyncNotifierProvider<UnitMemberModeration, void> {
+  /// Deciding on the people of one object, and the loading / error state of it.
+  ///
+  /// Keyed by the object so a refusal on one screen cannot light up another, and
+  /// so the list to re-read afterwards is known without being passed in.
+  ///
+  /// The rules are not repeated here — the database owns them and answers DV004
+  /// and DV005, which the failure mapper turns into a sentence. This only asks.
+  UnitMemberModerationProvider._({
+    required UnitMemberModerationFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'unitMemberModerationProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$unitMemberModerationHash();
+
+  @override
+  String toString() {
+    return r'unitMemberModerationProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  UnitMemberModeration create() => UnitMemberModeration();
+
+  @override
+  bool operator ==(Object other) {
+    return other is UnitMemberModerationProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$unitMemberModerationHash() =>
+    r'5b467cb0537c52164335654279eea501d3f2b622';
+
+/// Deciding on the people of one object, and the loading / error state of it.
+///
+/// Keyed by the object so a refusal on one screen cannot light up another, and
+/// so the list to re-read afterwards is known without being passed in.
+///
+/// The rules are not repeated here — the database owns them and answers DV004
+/// and DV005, which the failure mapper turns into a sentence. This only asks.
+
+final class UnitMemberModerationFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          UnitMemberModeration,
+          AsyncValue<void>,
+          void,
+          FutureOr<void>,
+          String
+        > {
+  UnitMemberModerationFamily._()
+    : super(
+        retry: null,
+        name: r'unitMemberModerationProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  /// Deciding on the people of one object, and the loading / error state of it.
+  ///
+  /// Keyed by the object so a refusal on one screen cannot light up another, and
+  /// so the list to re-read afterwards is known without being passed in.
+  ///
+  /// The rules are not repeated here — the database owns them and answers DV004
+  /// and DV005, which the failure mapper turns into a sentence. This only asks.
+
+  UnitMemberModerationProvider call(String unitId) =>
+      UnitMemberModerationProvider._(argument: unitId, from: this);
+
+  @override
+  String toString() => r'unitMemberModerationProvider';
+}
+
+/// Deciding on the people of one object, and the loading / error state of it.
+///
+/// Keyed by the object so a refusal on one screen cannot light up another, and
+/// so the list to re-read afterwards is known without being passed in.
+///
+/// The rules are not repeated here — the database owns them and answers DV004
+/// and DV005, which the failure mapper turns into a sentence. This only asks.
+
+abstract class _$UnitMemberModeration extends $AsyncNotifier<void> {
+  late final _$args = ref.$arg as String;
+  String get unitId => _$args;
+
+  FutureOr<void> build(String unitId);
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<void>, void>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, void>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, () => build(_$args));
+  }
+}

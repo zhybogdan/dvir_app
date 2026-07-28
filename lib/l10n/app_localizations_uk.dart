@@ -289,6 +289,40 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unnamedMember => 'Мешканець';
 
   @override
+  String get cancel => 'Скасувати';
+
+  @override
+  String get approve => 'Підтвердити';
+
+  @override
+  String get reject => 'Відхилити';
+
+  @override
+  String get changeRole => 'Змінити роль';
+
+  @override
+  String get removeMember => 'Видалити';
+
+  @override
+  String get rejectTitle => 'Відхилити заявку?';
+
+  @override
+  String rejectBody(String name) {
+    return '$name не отримає доступу до цієї оселі. Заявку можна буде подати ще раз.';
+  }
+
+  @override
+  String get removeMemberTitle => 'Видалити мешканця?';
+
+  @override
+  String removeMemberBody(String name) {
+    return '$name втратить доступ до цієї оселі та всього, що до неї належить.';
+  }
+
+  @override
+  String get roleSheetTitle => 'Роль у оселі';
+
+  @override
   String get unitNested => 'Що входить';
 
   @override

@@ -117,6 +117,32 @@
     }
   },
   "unnamedMember": "Мешканець",
+  "cancel": "Скасувати",
+  "approve": "Підтвердити",
+  "reject": "Відхилити",
+  "changeRole": "Змінити роль",
+  "removeMember": "Видалити",
+  "rejectTitle": "Відхилити заявку?",
+  "rejectBody": "{name} не отримає доступу до цієї оселі. Заявку можна буде подати ще раз.",
+  "@rejectBody": {
+    "description": "Confirmation before turning a join request down",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "removeMemberTitle": "Видалити мешканця?",
+  "removeMemberBody": "{name} втратить доступ до цієї оселі та всього, що до неї належить.",
+  "@removeMemberBody": {
+    "description": "Confirmation before removing someone from an object",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "roleSheetTitle": "Роль у оселі",
   "unitNested": "Що входить",
   "unitNestedEmpty": "Кімната, гараж, літня кухня, ділянка. Додайте те, що ведете окремо.",
   "unitAddTitle": "Додати",

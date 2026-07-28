@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:dvir/features/Auth/application/auth_controller.dart';
+import 'package:dvir/features/Members/data/members_repository.dart';
 import 'package:dvir/features/Members/data/members_repository_impl.dart';
 import 'package:dvir/features/Members/domain/models/unit_member_view.dart';
+import 'package:dvir/features/Shared/domain/types/member_status.dart';
 import 'package:dvir/features/Units/domain/types/unit_role.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -27,4 +31,44 @@ Future<UnitRole?> myUnitRole(Ref ref, String unitId) async {
       .where((view) => view.membership.userId == userId)
       .map((view) => view.membership.role)
       .firstOrNull;
+}
+
+/// Deciding on the people of one object, and the loading / error state of it.
+///
+/// Keyed by the object so a refusal on one screen cannot light up another, and
+/// so the list to re-read afterwards is known without being passed in.
+///
+/// The rules are not repeated here — the database owns them and answers DV004
+/// and DV005, which the failure mapper turns into a sentence. This only asks.
+@riverpod
+class UnitMemberModeration extends _$UnitMemberModeration {
+  @override
+  FutureOr<void> build(String unitId) {}
+
+  Future<void> setStatus(String memberId, MemberStatus status) => _run(
+    (repository) =>
+        repository.setUnitMemberStatus(memberId: memberId, status: status),
+  );
+
+  Future<void> setRole(String memberId, UnitRole role) => _run(
+    (repository) =>
+        repository.setUnitMemberRole(memberId: memberId, role: role),
+  );
+
+  Future<void> remove(String memberId) =>
+      _run((repository) => repository.removeUnitMember(memberId));
+
+  Future<void> _run(Future<void> Function(MembersRepository) call) async {
+    final repository = ref.read(membersRepositoryProvider);
+
+    state = const AsyncLoading();
+    final result = await AsyncValue.guard(() => call(repository));
+    state = result;
+
+    // Guarded by `ref.mounted`: this runs after an await, and the screen that
+    // started the call may be gone by then.
+    if (result.hasError || !ref.mounted) return;
+
+    ref.invalidate(unitMembersProvider(unitId));
+  }
 }

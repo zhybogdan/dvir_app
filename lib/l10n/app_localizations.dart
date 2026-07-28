@@ -640,6 +640,66 @@ abstract class AppLocalizations {
   /// **'Мешканець'**
   String get unnamedMember;
 
+  /// No description provided for @cancel.
+  ///
+  /// In uk, this message translates to:
+  /// **'Скасувати'**
+  String get cancel;
+
+  /// No description provided for @approve.
+  ///
+  /// In uk, this message translates to:
+  /// **'Підтвердити'**
+  String get approve;
+
+  /// No description provided for @reject.
+  ///
+  /// In uk, this message translates to:
+  /// **'Відхилити'**
+  String get reject;
+
+  /// No description provided for @changeRole.
+  ///
+  /// In uk, this message translates to:
+  /// **'Змінити роль'**
+  String get changeRole;
+
+  /// No description provided for @removeMember.
+  ///
+  /// In uk, this message translates to:
+  /// **'Видалити'**
+  String get removeMember;
+
+  /// No description provided for @rejectTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Відхилити заявку?'**
+  String get rejectTitle;
+
+  /// Confirmation before turning a join request down
+  ///
+  /// In uk, this message translates to:
+  /// **'{name} не отримає доступу до цієї оселі. Заявку можна буде подати ще раз.'**
+  String rejectBody(String name);
+
+  /// No description provided for @removeMemberTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Видалити мешканця?'**
+  String get removeMemberTitle;
+
+  /// Confirmation before removing someone from an object
+  ///
+  /// In uk, this message translates to:
+  /// **'{name} втратить доступ до цієї оселі та всього, що до неї належить.'**
+  String removeMemberBody(String name);
+
+  /// No description provided for @roleSheetTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Роль у оселі'**
+  String get roleSheetTitle;
+
   /// No description provided for @unitNested.
   ///
   /// In uk, this message translates to:
