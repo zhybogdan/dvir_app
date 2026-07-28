@@ -10,15 +10,19 @@ import 'package:http/http.dart' as http;
 /// Storage and Functions all go through. Realtime does not — it is a WebSocket
 /// and never reaches this.
 ///
-/// Two things are deliberately left out:
+/// Three things are deliberately left out:
 /// - **headers**, which carry the access token and the api key on every call;
-/// - **request bodies**, which carry the password on sign-in and sign-up.
+/// - **request bodies**, which carry the password on sign-in and sign-up;
+/// - **successful `/auth` responses**, which *are* the credentials: the token
+///   endpoint answers a refresh with the access and refresh tokens in plain
+///   text. A failed one is still printed — it carries an error code and no
+///   session.
 ///
-/// Response bodies are logged, but only when the reply is JSON. That is the
-/// line between a row set worth reading and a storage download, which would
-/// otherwise be buffered whole into memory just to be printed — and a
-/// PostgREST error body is JSON too, which is where the SQLSTATE and the rule
-/// that rejected the call are named.
+/// What is left is logged only when the reply is JSON. That is the line between
+/// a row set worth reading and a storage download, which would otherwise be
+/// buffered whole into memory just to be printed — and a PostgREST error body
+/// is JSON too, which is where the SQLSTATE and the rule that rejected the call
+/// are named.
 class LoggingHttpClient extends http.BaseClient {
   LoggingHttpClient(this._inner);
 
@@ -40,7 +44,10 @@ class LoggingHttpClient extends http.BaseClient {
           '${request.method} $target → ${response.statusCode} '
           '(${stopwatch.elapsedMilliseconds}ms)';
 
-      if (!failed && !_isJson(response.headers)) {
+      final readable =
+          failed || (_isJson(response.headers) && !_isCredential(request.url));
+
+      if (!readable) {
         appLogger.d(line);
         return response;
       }
@@ -80,6 +87,15 @@ class LoggingHttpClient extends http.BaseClient {
   /// for.
   String _targetOf(Uri url) =>
       url.hasQuery ? '${url.path}?${url.query}' : url.path;
+
+  /// Endpoints whose successful answer hands out something that grants access.
+  ///
+  /// Everything under `/auth` qualifies: sign-in, sign-up and refresh all reply
+  /// with the session tokens themselves. Storage's signed-URL endpoint is here
+  /// for the same reason — the URL it returns carries its own token — and it is
+  /// listed before the app uploads anything, rather than after.
+  bool _isCredential(Uri url) =>
+      url.path.startsWith('/auth/') || url.path.contains('/object/sign/');
 
   /// An empty content type counts as JSON: a 204 from an RPC that returns
   /// nothing carries no header, and it costs nothing to read an empty body.
