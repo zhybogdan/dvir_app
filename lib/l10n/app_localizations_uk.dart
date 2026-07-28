@@ -350,6 +350,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get cancel => 'Скасувати';
 
   @override
+  String get moreActions => 'Ще';
+
+  @override
   String get approve => 'Підтвердити';
 
   @override

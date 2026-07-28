@@ -754,6 +754,12 @@ abstract class AppLocalizations {
   /// **'Скасувати'**
   String get cancel;
 
+  /// Tooltip on the three-dot button that opens a menu
+  ///
+  /// In uk, this message translates to:
+  /// **'Ще'**
+  String get moreActions;
+
   /// No description provided for @approve.
   ///
   /// In uk, this message translates to:

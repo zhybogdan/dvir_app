@@ -2,6 +2,7 @@ import 'package:dvir/features/Members/domain/models/unit_member_view.dart';
 import 'package:dvir/features/Members/presentation/components/unit_member_tile.dart';
 import 'package:dvir/features/Shared/domain/models/profile.dart';
 import 'package:dvir/features/Shared/domain/types/member_status.dart';
+import 'package:dvir/features/Shared/presentation/dv_menu.dart';
 import 'package:dvir/features/Units/domain/models/unit_membership.dart';
 import 'package:dvir/features/Units/domain/types/unit_role.dart';
 import 'package:dvir/l10n/app_localizations.dart';
@@ -65,7 +66,7 @@ void main() {
   testWidgets('an owner may act on somebody else', (tester) async {
     await _pump(tester, view: resident, all: [owner, resident], isOwner: true);
 
-    expect(find.byType(PopupMenuButton<VoidCallback>), findsOneWidget);
+    expect(find.byType(DvMenu), findsOneWidget);
   });
 
   // The last owner can neither step down nor remove themselves, which leaves
@@ -75,7 +76,7 @@ void main() {
   ) async {
     await _pump(tester, view: owner, all: [owner, resident], isOwner: true);
 
-    expect(find.byType(PopupMenuButton<VoidCallback>), findsNothing);
+    expect(find.byType(DvMenu), findsNothing);
   });
 
   testWidgets('a second owner gives the first their menu back', (tester) async {
@@ -83,7 +84,7 @@ void main() {
 
     await _pump(tester, view: owner, all: [owner, second], isOwner: true);
 
-    expect(find.byType(PopupMenuButton<VoidCallback>), findsOneWidget);
+    expect(find.byType(DvMenu), findsOneWidget);
   });
 
   testWidgets('a request is answered in the open, not behind a menu', (
@@ -113,7 +114,7 @@ void main() {
     );
 
     final l10n = AppLocalizationsUk();
-    expect(find.byType(PopupMenuButton<VoidCallback>), findsNothing);
+    expect(find.byType(DvMenu), findsNothing);
     expect(find.text(l10n.approve), findsNothing);
   });
 

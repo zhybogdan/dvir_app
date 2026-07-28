@@ -145,6 +145,10 @@
     }
   },
   "cancel": "Скасувати",
+  "moreActions": "Ще",
+  "@moreActions": {
+    "description": "Tooltip on the three-dot button that opens a menu"
+  },
   "approve": "Підтвердити",
   "reject": "Відхилити",
   "changeRole": "Змінити роль",
