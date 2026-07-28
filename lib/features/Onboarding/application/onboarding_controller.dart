@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dvir/core/riverpod/guarded_actions.dart';
 import 'package:dvir/features/Community/domain/models/community.dart';
 import 'package:dvir/features/Community/domain/types/community_type.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
@@ -21,7 +22,7 @@ part 'onboarding_controller.g.dart';
 /// belongs ends by refreshing [myScopesProvider], and the router redirect takes
 /// them from there.
 @riverpod
-class OnboardingController extends _$OnboardingController {
+class OnboardingController extends _$OnboardingController with GuardedActions {
   @override
   FutureOr<void> build() {}
 
@@ -30,11 +31,14 @@ class OnboardingController extends _$OnboardingController {
     required CommunityType type,
     String? address,
     String? city,
-  }) async {
+  }) {
     final repository = ref.read(onboardingRepositoryProvider);
 
-    state = const AsyncLoading();
-    final result = await AsyncValue.guard(
+    // Unlike joining, creating does not refresh membership here: the creator is
+    // already an active admin, so refreshing would let the router pull them to
+    // home before they have seen the invite code. The success screen refreshes
+    // once the user leaves it.
+    return guarded(
       () => repository.createCommunity(
         name: name,
         type: type,
@@ -42,44 +46,25 @@ class OnboardingController extends _$OnboardingController {
         city: city,
       ),
     );
-
-    // Checked before the assignment: writing `state` after the screen watching
-    // this has gone throws rather than being ignored.
-    if (!ref.mounted) return null;
-    state = result;
-
-    // Unlike joining, creating does not refresh membership here: the creator is
-    // already an active admin, so refreshing would let the router pull them to
-    // home before they have seen the invite code. The success screen refreshes
-    // once the user leaves it.
-    return result.value;
   }
 
-  Future<ScopeMembership?> joinByInvite(String inviteCode) async {
+  Future<ScopeMembership?> joinByInvite(String inviteCode) {
     final repository = ref.read(onboardingRepositoryProvider);
 
-    state = const AsyncLoading();
-    final result = await AsyncValue.guard(
+    return guarded(
       () => repository.joinByInvite(inviteCode),
+      onSuccess: _refreshScopes,
     );
-
-    if (!ref.mounted) return null;
-    state = result;
-
-    await _refreshScopes(result.hasValue);
-
-    return result.value;
   }
 
   /// Takes a join request back, leaving the user belonging nowhere again.
   ///
   /// The database permits this only while the request is `pending`: a rejection
   /// or a block is not the applicant's to clear.
-  Future<bool> withdraw(ScopeSummary scope) async {
+  Future<bool> withdraw(ScopeSummary scope) {
     final repository = ref.read(membersRepositoryProvider);
 
-    state = const AsyncLoading();
-    final result = await AsyncValue.guard(
+    return guardedVoid(
       () => switch (scope) {
         CommunitySummary(:final membership) => repository.removeCommunityMember(
           membership.id,
@@ -88,16 +73,8 @@ class OnboardingController extends _$OnboardingController {
           membership.id,
         ),
       },
+      onSuccess: _refreshScopes,
     );
-
-    if (!ref.mounted) return false;
-    state = result;
-
-    if (result.hasError) return false;
-
-    await _refreshScopes(true);
-
-    return true;
   }
 
   /// Re-reads the scope list and **waits for it**, so the router never decides
@@ -108,10 +85,11 @@ class OnboardingController extends _$OnboardingController {
   /// which threw someone who had just sent a request back to onboarding for as
   /// long as the round trip took, before the waiting screen finally appeared.
   ///
-  /// Guarded by `ref.mounted` twice over: this runs after an await, and the
-  /// screen that started the call may be gone by then.
-  Future<void> _refreshScopes(bool succeeded) async {
-    if (!succeeded || !ref.mounted) return;
+  /// Only ever runs on success (it is passed as `onSuccess`), but still checks
+  /// `ref.mounted`: it awaits, so the screen that started the call may be gone
+  /// by the time the list lands.
+  Future<void> _refreshScopes() async {
+    if (!ref.mounted) return;
 
     // Invalidate then read, rather than `refresh`: the first marks the list
     // stale, the second is what waits for the replacement to land.
