@@ -12,7 +12,28 @@ class AppLocalizationsUk extends AppLocalizations {
   String get appTitle => 'Двір';
 
   @override
-  String get homePlaceholder => 'Основа готова — функції незабаром';
+  String get scopesCommunities => 'Спільноти';
+
+  @override
+  String get scopesUnits => 'Оселі';
+
+  @override
+  String get scopePending => 'Заявка на розгляді';
+
+  @override
+  String get addScope => 'Додати';
+
+  @override
+  String get memberStatusPending => 'Очікує підтвердження';
+
+  @override
+  String get memberStatusActive => 'Активний';
+
+  @override
+  String get memberStatusRejected => 'Відхилено';
+
+  @override
+  String get memberStatusBlocked => 'Доступ закрито';
 
   @override
   String get signIn => 'Увійти';
@@ -200,16 +221,160 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitTypeApartment => 'Квартира';
 
   @override
-  String get unitTypePlot => 'Ділянка';
+  String get unitTypeRoom => 'Кімната';
 
   @override
   String get unitTypeGarage => 'Гараж';
+
+  @override
+  String get unitTypePlot => 'Ділянка';
+
+  @override
+  String get unitTypeBasement => 'Підвал';
+
+  @override
+  String get unitTypeSummerKitchen => 'Літня кухня';
+
+  @override
+  String get unitTypeSummerHouse => 'Літній дім';
+
+  @override
+  String get unitTypeShed => 'Сарай';
+
+  @override
+  String get unitTypePool => 'Басейн';
+
+  @override
+  String get unitTypeBalcony => 'Балкон';
+
+  @override
+  String get unitTypeLoggia => 'Лоджія';
+
+  @override
+  String get unitTypeBathroom => 'Санвузол';
+
+  @override
+  String get unitTypeCorridor => 'Коридор';
+
+  @override
+  String get unitTypeStoreroom => 'Комора';
 
   @override
   String get unitTypeOffice => 'Офіс';
 
   @override
   String get unitTypeCustom => 'Інше';
+
+  @override
+  String get unitRoleOwner => 'Власник';
+
+  @override
+  String get unitRoleFamily => 'Родина';
+
+  @override
+  String get unitRoleTenant => 'Орендар';
+
+  @override
+  String get unitPeople => 'Мешканці';
+
+  @override
+  String get unitPeopleEmpty => 'Поки що ви тут єдиний';
+
+  @override
+  String unitAreaValue(String area) {
+    return '$area м²';
+  }
+
+  @override
+  String get unnamedMember => 'Мешканець';
+
+  @override
+  String get cancel => 'Скасувати';
+
+  @override
+  String get approve => 'Підтвердити';
+
+  @override
+  String get reject => 'Відхилити';
+
+  @override
+  String get changeRole => 'Змінити роль';
+
+  @override
+  String get removeMember => 'Видалити';
+
+  @override
+  String get rejectTitle => 'Відхилити заявку?';
+
+  @override
+  String rejectBody(String name) {
+    return '$name не отримає доступу до цієї оселі. Заявку можна буде подати ще раз.';
+  }
+
+  @override
+  String get removeMemberTitle => 'Видалити мешканця?';
+
+  @override
+  String removeMemberBody(String name) {
+    return '$name втратить доступ до цієї оселі та всього, що до неї належить.';
+  }
+
+  @override
+  String get roleSheetTitle => 'Роль у оселі';
+
+  @override
+  String get rotateCode => 'Оновити код';
+
+  @override
+  String get codeRotated => 'Код оновлено';
+
+  @override
+  String get rotateCodeTitle => 'Оновити код?';
+
+  @override
+  String get rotateCodeBody =>
+      'Старий код перестане працювати. Тим, кого ще не додали, доведеться надіслати новий.';
+
+  @override
+  String get deleteUnit => 'Видалити';
+
+  @override
+  String deleteUnitTitle(String label) {
+    return 'Видалити «$label»?';
+  }
+
+  @override
+  String get deleteUnitBody =>
+      'Разом з ним зникне все, що всередині, і всі мешканці. Дію не можна скасувати.';
+
+  @override
+  String get unitNested => 'Що входить';
+
+  @override
+  String get unitNestedEmpty =>
+      'Кімната, гараж, літня кухня, ділянка. Додайте те, що ведете окремо.';
+
+  @override
+  String get unitAddTitle => 'Додати';
+
+  @override
+  String get unitAddCta => 'Додати';
+
+  @override
+  String get unitEditTitle => 'Редагувати';
+
+  @override
+  String get saveCta => 'Зберегти';
+
+  @override
+  String scopeNested(String items) {
+    return 'Усередині: $items';
+  }
+
+  @override
+  String scopeNestedMore(int count) {
+    return '+$count';
+  }
 
   @override
   String get communityCreatedTitle => 'Спільноту створено';
@@ -290,6 +455,13 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get errorNotAuthenticated => 'Сеанс завершився. Увійдіть ще раз';
+
+  @override
+  String get errorLastAdmin =>
+      'Це остання людина, яка керує. Спочатку призначте когось іншого';
+
+  @override
+  String get errorSelfModeration => 'Не можна змінити власний статус';
 
   @override
   String get errorScopeUnknown => 'Не вдалося виконати дію';

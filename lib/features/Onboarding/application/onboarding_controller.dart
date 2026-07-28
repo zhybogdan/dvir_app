@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:dvir/features/Community/domain/models/community.dart';
 import 'package:dvir/features/Community/domain/types/community_type.dart';
-import 'package:dvir/features/Onboarding/application/membership_controller.dart';
+import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Onboarding/data/onboarding_repository_impl.dart';
 import 'package:dvir/features/Onboarding/domain/models/scope_membership.dart';
-import 'package:dvir/features/Units/domain/models/unit.dart';
-import 'package:dvir/features/Units/domain/types/unit_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'onboarding_controller.g.dart';
@@ -50,36 +48,6 @@ class OnboardingController extends _$OnboardingController {
     return result.value;
   }
 
-  Future<Unit?> createUnit({
-    required String label,
-    required UnitType type,
-    String? parentId,
-    String? communityId,
-    String? address,
-    String? city,
-    double? areaM2,
-  }) async {
-    final repository = ref.read(onboardingRepositoryProvider);
-
-    state = const AsyncLoading();
-    final result = await AsyncValue.guard(
-      () => repository.createUnit(
-        label: label,
-        type: type,
-        parentId: parentId,
-        communityId: communityId,
-        address: address,
-        city: city,
-        areaM2: areaM2,
-      ),
-    );
-    state = result;
-
-    // Same as createCommunity: the creator is the active owner, so the invite
-    // code is shown first and membership is refreshed when they move on.
-    return result.value;
-  }
-
   Future<ScopeMembership?> joinByInvite(String inviteCode) async {
     final repository = ref.read(onboardingRepositoryProvider);
 
@@ -89,19 +57,27 @@ class OnboardingController extends _$OnboardingController {
     );
     state = result;
 
-    _refreshMembership(result.hasValue);
+    await _refreshScopes(result.hasValue);
 
     return result.value;
   }
 
-  /// Re-reads the membership so the router sees the new state.
+  /// Re-reads the scope list and **waits for it**, so the router never decides
+  /// on the answer from before the join.
   ///
-  /// Guarded by `ref.mounted`: this always runs after an await, and the screen
-  /// that started the call may be gone by then — touching a disposed ref
-  /// throws.
-  void _refreshMembership(bool succeeded) {
+  /// Merely invalidating returned control while the fetch was still in flight,
+  /// and the redirect read the empty list underneath as "belongs nowhere" —
+  /// which threw someone who had just sent a request back to onboarding for as
+  /// long as the round trip took, before the waiting screen finally appeared.
+  ///
+  /// Guarded by `ref.mounted` twice over: this runs after an await, and the
+  /// screen that started the call may be gone by then.
+  Future<void> _refreshScopes(bool succeeded) async {
     if (!succeeded || !ref.mounted) return;
 
-    ref.invalidate(myMembershipProvider);
+    // Invalidate then read, rather than `refresh`: the first marks the list
+    // stale, the second is what waits for the replacement to land.
+    ref.invalidate(myScopesProvider);
+    await ref.read(myScopesProvider.future);
   }
 }

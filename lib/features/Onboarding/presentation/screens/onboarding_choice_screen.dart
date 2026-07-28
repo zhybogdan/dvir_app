@@ -3,6 +3,7 @@ import 'package:dvir/app/theme.dart';
 import 'package:dvir/features/Auth/application/auth_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -27,10 +28,10 @@ class OnboardingChoiceScreen extends ConsumerWidget {
         title: l10n.onboardingTitle,
         backgroundColor: Colors.transparent,
         actions: [
-          IconButton(
+          DvIconButton(
             onPressed: () =>
                 ref.read(authControllerProvider.notifier).signOut(),
-            icon: const Icon(Icons.logout),
+            icon: Icons.logout,
             tooltip: l10n.signOut,
           ),
         ],
@@ -41,10 +42,15 @@ class OnboardingChoiceScreen extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: AppSpacing.md,
           children: [
-            DvButton(
-              label: l10n.onboardingCreateCommunity,
-              onPressed: () => context.push(AppRoutes.onboardingCommunity),
-            ),
+            // TODO: put the community entry back once objects are finished.
+            // The product is being built around a single object first — a
+            // private house with its own people, documents and meters — so the
+            // way into a community is hidden rather than removed. The flow
+            // behind it (screen, RPC, RLS) is complete and still routed.
+            // DvButton(
+            //   label: l10n.onboardingCreateCommunity,
+            //   onPressed: () => context.push(AppRoutes.onboardingCommunity),
+            // ),
             DvButton(
               label: l10n.onboardingCreateUnit,
               onPressed: () => context.push(AppRoutes.onboardingUnit),

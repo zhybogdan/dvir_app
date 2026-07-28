@@ -1,5 +1,5 @@
 import 'package:dvir/core/error/failures.dart';
-import 'package:dvir/features/Onboarding/data/onboarding_failure_mapper.dart';
+import 'package:dvir/core/error/scope_failure_mapper.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 // The RPCs raise custom SQLSTATEs so the mapping never depends on message text;
@@ -15,6 +15,11 @@ void main() {
       expect(
         scopeFailureReasonFrom('DV003'),
         ScopeFailureReason.notAuthenticated,
+      );
+      expect(scopeFailureReasonFrom('DV004'), ScopeFailureReason.lastAdmin);
+      expect(
+        scopeFailureReasonFrom('DV005'),
+        ScopeFailureReason.selfModeration,
       );
     });
 

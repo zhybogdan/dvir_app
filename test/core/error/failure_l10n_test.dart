@@ -34,4 +34,16 @@ void main() {
     // two reasons onto one string and go unnoticed.
     expect(messages, hasLength(AuthFailureReason.values.length));
   });
+
+  test('every scope reason has its own non-empty message', () {
+    final messages = <String>{};
+
+    for (final reason in ScopeFailureReason.values) {
+      final message = ScopeFailure(reason).message(l10n);
+      expect(message, isNotEmpty, reason: '$reason');
+      messages.add(message);
+    }
+
+    expect(messages, hasLength(ScopeFailureReason.values.length));
+  });
 }

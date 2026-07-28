@@ -36,6 +36,8 @@ extension FailureL10n on Failure {
       ScopeFailureReason.invalidInviteCode => l10n.errorInvalidInviteCode,
       ScopeFailureReason.notAllowed => l10n.errorNotAllowed,
       ScopeFailureReason.notAuthenticated => l10n.errorNotAuthenticated,
+      ScopeFailureReason.lastAdmin => l10n.errorLastAdmin,
+      ScopeFailureReason.selfModeration => l10n.errorSelfModeration,
       ScopeFailureReason.unknown => l10n.errorScopeUnknown,
     },
   };

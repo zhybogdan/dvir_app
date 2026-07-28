@@ -23,7 +23,10 @@ sealed class CreatedScope with _$CreatedScope {
     CreatedUnit(:final unit) => unit.label,
   };
 
-  String get inviteCode => switch (this) {
+  /// Nullable only because an object read back from a list carries no code
+  /// since `0005`. A freshly created one always does — `create_unit` returns
+  /// the row it wrote, and that path bypasses the column privilege.
+  String? get inviteCode => switch (this) {
     CreatedCommunity(:final community) => community.inviteCode,
     CreatedUnit(:final unit) => unit.inviteCode,
   };

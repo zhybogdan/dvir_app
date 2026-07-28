@@ -12,9 +12,31 @@ class UpperCaseTextFormatter extends TextInputFormatter {
   ) => newValue.copyWith(text: newValue.text.toUpperCase());
 }
 
-/// Latin letters and digits only — keeps Cyrillic and separators out of an
-/// invite code regardless of the active keyboard layout.
+/// How many characters `generate_invite_code()` produces.
+const int inviteCodeLength = 8;
+
+/// Latin letters and digits only, and no more than a code's worth of them.
+///
+/// The filter keeps Cyrillic and separators out regardless of the active
+/// keyboard layout. The length limit is what makes a *paste* behave: dropping
+/// the whole share message in leaves the letters of every word stuck together,
+/// and without a cap the field silently holds a forty-character string that the
+/// backend can only answer with "no such code".
 final inviteCodeFormatters = <TextInputFormatter>[
   FilteringTextInputFormatter.allow(RegExp('[A-Za-z0-9]')),
+  LengthLimitingTextInputFormatter(inviteCodeLength),
   const UpperCaseTextFormatter(),
 ];
+
+/// What an optional text field actually holds: its trimmed text, or null when
+/// the user left it alone.
+///
+/// The distinction matters at the far end — a column set to `''` is a value the
+/// user chose, while null is the absence of one, and only the second reads as
+/// "not filled in". Takes the text rather than the controller so this stays out
+/// of the widget layer, like the other parsers here.
+String? trimmedOrNull(String value) {
+  final trimmed = value.trim();
+
+  return trimmed.isEmpty ? null : trimmed;
+}

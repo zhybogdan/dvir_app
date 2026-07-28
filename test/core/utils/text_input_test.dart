@@ -30,5 +30,24 @@ void main() {
     test('leave a clean code untouched but upper-cased', () {
       expect(_run(inviteCodeFormatters, 'a3f9c1b2'), 'A3F9C1B2');
     });
+
+    // Pasting the whole share message used to leave the letters of every word
+    // stuck together in the field, and the backend could only answer "no such
+    // code" to a forty-character string.
+    test('cap a paste at the length of a code', () {
+      final pasted = _run(
+        inviteCodeFormatters,
+        'Приєднуйтесь до House 1011 у застосунку Двір. '
+        'Код запрошення: AAB55582',
+      );
+
+      expect(pasted.length, inviteCodeLength);
+    });
+  });
+
+  test('trimmedOrNull tells an untouched field from a filled one', () {
+    expect(trimmedOrNull('  '), isNull);
+    expect(trimmedOrNull(''), isNull);
+    expect(trimmedOrNull('  Kyiv '), 'Kyiv');
   });
 }

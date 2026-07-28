@@ -8,13 +8,21 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 ///
 /// Only [active] grants access to a scope's content; the other three all mean
 /// "no access", but the router sends them to different screens.
+///
+/// Carries [dbValue] as well as `@JsonValue` for the same reason as
+/// `CommunityType`: rows are read through json_serializable, but the moderation
+/// RPCs take a status as an argument and have to write it back.
 enum MemberStatus {
   @JsonValue('pending')
-  pending,
+  pending('pending'),
   @JsonValue('active')
-  active,
+  active('active'),
   @JsonValue('rejected')
-  rejected,
+  rejected('rejected'),
   @JsonValue('blocked')
-  blocked,
+  blocked('blocked');
+
+  const MemberStatus(this.dbValue);
+
+  final String dbValue;
 }

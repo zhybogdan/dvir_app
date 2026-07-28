@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Unit {
 
- String get id; String get label; UnitType get type;@JsonKey(name: 'invite_code') String get inviteCode;@JsonKey(name: 'community_id') String? get communityId;@JsonKey(name: 'parent_id') String? get parentId; String? get address; String? get city;@JsonKey(name: 'area_m2') double? get areaM2;
+ String get id; String get label; UnitType get type;@JsonKey(name: 'invite_code') String? get inviteCode;@JsonKey(name: 'community_id') String? get communityId;@JsonKey(name: 'parent_id') String? get parentId; String? get address; String? get city;@JsonKey(name: 'area_m2') double? get areaM2;
 /// Create a copy of Unit
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $UnitCopyWith<$Res>  {
   factory $UnitCopyWith(Unit value, $Res Function(Unit) _then) = _$UnitCopyWithImpl;
 @useResult
 $Res call({
- String id, String label, UnitType type,@JsonKey(name: 'invite_code') String inviteCode,@JsonKey(name: 'community_id') String? communityId,@JsonKey(name: 'parent_id') String? parentId, String? address, String? city,@JsonKey(name: 'area_m2') double? areaM2
+ String id, String label, UnitType type,@JsonKey(name: 'invite_code') String? inviteCode,@JsonKey(name: 'community_id') String? communityId,@JsonKey(name: 'parent_id') String? parentId, String? address, String? city,@JsonKey(name: 'area_m2') double? areaM2
 });
 
 
@@ -65,13 +65,13 @@ class _$UnitCopyWithImpl<$Res>
 
 /// Create a copy of Unit
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? label = null,Object? type = null,Object? inviteCode = null,Object? communityId = freezed,Object? parentId = freezed,Object? address = freezed,Object? city = freezed,Object? areaM2 = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? label = null,Object? type = null,Object? inviteCode = freezed,Object? communityId = freezed,Object? parentId = freezed,Object? address = freezed,Object? city = freezed,Object? areaM2 = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as UnitType,inviteCode: null == inviteCode ? _self.inviteCode : inviteCode // ignore: cast_nullable_to_non_nullable
-as String,communityId: freezed == communityId ? _self.communityId : communityId // ignore: cast_nullable_to_non_nullable
+as UnitType,inviteCode: freezed == inviteCode ? _self.inviteCode : inviteCode // ignore: cast_nullable_to_non_nullable
+as String?,communityId: freezed == communityId ? _self.communityId : communityId // ignore: cast_nullable_to_non_nullable
 as String?,parentId: freezed == parentId ? _self.parentId : parentId // ignore: cast_nullable_to_non_nullable
 as String?,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as String?,city: freezed == city ? _self.city : city // ignore: cast_nullable_to_non_nullable
@@ -161,7 +161,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String label,  UnitType type, @JsonKey(name: 'invite_code')  String inviteCode, @JsonKey(name: 'community_id')  String? communityId, @JsonKey(name: 'parent_id')  String? parentId,  String? address,  String? city, @JsonKey(name: 'area_m2')  double? areaM2)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String label,  UnitType type, @JsonKey(name: 'invite_code')  String? inviteCode, @JsonKey(name: 'community_id')  String? communityId, @JsonKey(name: 'parent_id')  String? parentId,  String? address,  String? city, @JsonKey(name: 'area_m2')  double? areaM2)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Unit() when $default != null:
 return $default(_that.id,_that.label,_that.type,_that.inviteCode,_that.communityId,_that.parentId,_that.address,_that.city,_that.areaM2);case _:
@@ -182,7 +182,7 @@ return $default(_that.id,_that.label,_that.type,_that.inviteCode,_that.community
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String label,  UnitType type, @JsonKey(name: 'invite_code')  String inviteCode, @JsonKey(name: 'community_id')  String? communityId, @JsonKey(name: 'parent_id')  String? parentId,  String? address,  String? city, @JsonKey(name: 'area_m2')  double? areaM2)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String label,  UnitType type, @JsonKey(name: 'invite_code')  String? inviteCode, @JsonKey(name: 'community_id')  String? communityId, @JsonKey(name: 'parent_id')  String? parentId,  String? address,  String? city, @JsonKey(name: 'area_m2')  double? areaM2)  $default,) {final _that = this;
 switch (_that) {
 case _Unit():
 return $default(_that.id,_that.label,_that.type,_that.inviteCode,_that.communityId,_that.parentId,_that.address,_that.city,_that.areaM2);case _:
@@ -202,7 +202,7 @@ return $default(_that.id,_that.label,_that.type,_that.inviteCode,_that.community
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String label,  UnitType type, @JsonKey(name: 'invite_code')  String inviteCode, @JsonKey(name: 'community_id')  String? communityId, @JsonKey(name: 'parent_id')  String? parentId,  String? address,  String? city, @JsonKey(name: 'area_m2')  double? areaM2)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String label,  UnitType type, @JsonKey(name: 'invite_code')  String? inviteCode, @JsonKey(name: 'community_id')  String? communityId, @JsonKey(name: 'parent_id')  String? parentId,  String? address,  String? city, @JsonKey(name: 'area_m2')  double? areaM2)?  $default,) {final _that = this;
 switch (_that) {
 case _Unit() when $default != null:
 return $default(_that.id,_that.label,_that.type,_that.inviteCode,_that.communityId,_that.parentId,_that.address,_that.city,_that.areaM2);case _:
@@ -217,13 +217,13 @@ return $default(_that.id,_that.label,_that.type,_that.inviteCode,_that.community
 @JsonSerializable()
 
 class _Unit implements Unit {
-  const _Unit({required this.id, required this.label, required this.type, @JsonKey(name: 'invite_code') required this.inviteCode, @JsonKey(name: 'community_id') this.communityId, @JsonKey(name: 'parent_id') this.parentId, this.address, this.city, @JsonKey(name: 'area_m2') this.areaM2});
+  const _Unit({required this.id, required this.label, required this.type, @JsonKey(name: 'invite_code') this.inviteCode, @JsonKey(name: 'community_id') this.communityId, @JsonKey(name: 'parent_id') this.parentId, this.address, this.city, @JsonKey(name: 'area_m2') this.areaM2});
   factory _Unit.fromJson(Map<String, dynamic> json) => _$UnitFromJson(json);
 
 @override final  String id;
 @override final  String label;
 @override final  UnitType type;
-@override@JsonKey(name: 'invite_code') final  String inviteCode;
+@override@JsonKey(name: 'invite_code') final  String? inviteCode;
 @override@JsonKey(name: 'community_id') final  String? communityId;
 @override@JsonKey(name: 'parent_id') final  String? parentId;
 @override final  String? address;
@@ -263,7 +263,7 @@ abstract mixin class _$UnitCopyWith<$Res> implements $UnitCopyWith<$Res> {
   factory _$UnitCopyWith(_Unit value, $Res Function(_Unit) _then) = __$UnitCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String label, UnitType type,@JsonKey(name: 'invite_code') String inviteCode,@JsonKey(name: 'community_id') String? communityId,@JsonKey(name: 'parent_id') String? parentId, String? address, String? city,@JsonKey(name: 'area_m2') double? areaM2
+ String id, String label, UnitType type,@JsonKey(name: 'invite_code') String? inviteCode,@JsonKey(name: 'community_id') String? communityId,@JsonKey(name: 'parent_id') String? parentId, String? address, String? city,@JsonKey(name: 'area_m2') double? areaM2
 });
 
 
@@ -280,13 +280,13 @@ class __$UnitCopyWithImpl<$Res>
 
 /// Create a copy of Unit
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? label = null,Object? type = null,Object? inviteCode = null,Object? communityId = freezed,Object? parentId = freezed,Object? address = freezed,Object? city = freezed,Object? areaM2 = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? label = null,Object? type = null,Object? inviteCode = freezed,Object? communityId = freezed,Object? parentId = freezed,Object? address = freezed,Object? city = freezed,Object? areaM2 = freezed,}) {
   return _then(_Unit(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as UnitType,inviteCode: null == inviteCode ? _self.inviteCode : inviteCode // ignore: cast_nullable_to_non_nullable
-as String,communityId: freezed == communityId ? _self.communityId : communityId // ignore: cast_nullable_to_non_nullable
+as UnitType,inviteCode: freezed == inviteCode ? _self.inviteCode : inviteCode // ignore: cast_nullable_to_non_nullable
+as String?,communityId: freezed == communityId ? _self.communityId : communityId // ignore: cast_nullable_to_non_nullable
 as String?,parentId: freezed == parentId ? _self.parentId : parentId // ignore: cast_nullable_to_non_nullable
 as String?,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as String?,city: freezed == city ? _self.city : city // ignore: cast_nullable_to_non_nullable

@@ -5,7 +5,8 @@ import 'package:dvir/app/routes.dart';
 import 'package:dvir/features/Auth/domain/models/app_user.dart';
 import 'package:dvir/features/Community/domain/models/community_membership.dart';
 import 'package:dvir/features/Community/domain/types/member_role.dart';
-import 'package:dvir/features/Onboarding/domain/models/scope_membership.dart';
+import 'package:dvir/features/Home/application/my_scopes_controller.dart';
+import 'package:dvir/features/Home/domain/models/scope_summary.dart';
 import 'package:dvir/features/Shared/domain/types/member_status.dart';
 import 'package:dvir/features/Units/domain/models/unit_membership.dart';
 import 'package:dvir/features/Units/domain/types/unit_role.dart';
@@ -13,48 +14,46 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 const _user = AppUser(id: 'u1', email: 'resident@example.com');
+const _otherUser = AppUser(id: 'u2', email: 'someone.else@example.com');
 
 const _signedIn = AsyncData<AppUser?>(_user);
 const _signedOut = AsyncData<AppUser?>(null);
 const _authPending = AsyncLoading<AppUser?>();
 
-const _nowhere = AsyncData<ScopeMembership?>(null);
-const _membershipPending = AsyncLoading<ScopeMembership?>();
+const _scopesPending = AsyncLoading<MyScopes?>();
+final _nowhere = _scopesOf(const []);
 
-AsyncData<ScopeMembership?> _inCommunity(MemberStatus status) =>
-    AsyncData<ScopeMembership?>(
-      ScopeMembership.community(
-        CommunityMembership(
-          id: 'm1',
-          communityId: 'c1',
-          userId: _user.id,
-          role: MemberRole.member,
-          status: status,
-        ),
-      ),
-    );
+ScopeSummary _community(MemberStatus status) => ScopeSummary.community(
+  membership: CommunityMembership(
+    id: 'm1',
+    communityId: 'c1',
+    userId: _user.id,
+    role: MemberRole.member,
+    status: status,
+  ),
+);
 
-AsyncData<ScopeMembership?> _inUnit(MemberStatus status) =>
-    AsyncData<ScopeMembership?>(
-      ScopeMembership.unit(
-        UnitMembership(
-          id: 'm2',
-          unitId: 'u1',
-          userId: _user.id,
-          role: UnitRole.family,
-          status: status,
-        ),
-      ),
-    );
+ScopeSummary _unit(MemberStatus status) => ScopeSummary.unit(
+  membership: UnitMembership(
+    id: 'm2',
+    unitId: 'u1',
+    userId: _user.id,
+    role: UnitRole.family,
+    status: status,
+  ),
+);
 
-/// A membership provider caught mid-reload: loading, with the value it is
-/// about to replace still readable underneath.
+AsyncData<MyScopes?> _scopesOf(List<ScopeSummary> scopes) =>
+    AsyncData<MyScopes?>((userId: _user.id, scopes: scopes));
+
+/// The scope provider caught mid-reload: loading, with the value it is about to
+/// replace still readable underneath.
 ///
 /// Driven through a real container because the state cannot be written by hand
 /// — `copyWithPrevious` is Riverpod-internal.
-Future<AsyncValue<ScopeMembership?>> _reloadingMembership() async {
-  var pending = Completer<ScopeMembership?>()..complete(null);
-  final provider = FutureProvider<ScopeMembership?>((ref) => pending.future);
+Future<AsyncValue<MyScopes?>> _reloading(MyScopes previous) async {
+  var pending = Completer<MyScopes?>()..complete(previous);
+  final provider = FutureProvider<MyScopes?>((ref) => pending.future);
 
   final container = ProviderContainer.test();
   container.listen(provider, (previous, next) {});
@@ -62,7 +61,7 @@ Future<AsyncValue<ScopeMembership?>> _reloadingMembership() async {
 
   // Swapped before invalidating, so the rebuild picks up a future that stays
   // unresolved and the provider is still loading when it is read.
-  pending = Completer<ScopeMembership?>();
+  pending = Completer<MyScopes?>();
   container.invalidate(provider);
 
   return container.read(provider);
@@ -73,7 +72,7 @@ void main() {
     test('holds the splash instead of flashing login', () {
       final decision = resolveRedirect(
         auth: _authPending,
-        membership: _membershipPending,
+        scopes: _scopesPending,
         location: AppRoutes.home,
       );
 
@@ -83,7 +82,7 @@ void main() {
     test('stays put when already on the splash', () {
       final decision = resolveRedirect(
         auth: _authPending,
-        membership: _membershipPending,
+        scopes: _scopesPending,
         location: AppRoutes.splash,
       );
 
@@ -95,7 +94,7 @@ void main() {
     test('sends a visitor to login', () {
       final decision = resolveRedirect(
         auth: _signedOut,
-        membership: _nowhere,
+        scopes: _nowhere,
         location: AppRoutes.home,
       );
 
@@ -105,7 +104,7 @@ void main() {
     test('leaves the register screen alone', () {
       final decision = resolveRedirect(
         auth: _signedOut,
-        membership: _nowhere,
+        scopes: _nowhere,
         location: AppRoutes.register,
       );
 
@@ -117,7 +116,7 @@ void main() {
     test('sends them to onboarding', () {
       final decision = resolveRedirect(
         auth: _signedIn,
-        membership: _nowhere,
+        scopes: _nowhere,
         location: AppRoutes.home,
       );
 
@@ -135,7 +134,7 @@ void main() {
       ]) {
         final decision = resolveRedirect(
           auth: _signedIn,
-          membership: _nowhere,
+          scopes: _nowhere,
           location: location,
         );
 
@@ -143,22 +142,45 @@ void main() {
       }
     });
 
-    test('waits on the splash while membership is still unknown', () {
+    test('waits on the splash while the scope list is still unknown', () {
       final decision = resolveRedirect(
         auth: _signedIn,
-        membership: _membershipPending,
+        scopes: _scopesPending,
+        location: AppRoutes.home,
+      );
+
+      expect(decision.target, AppRoutes.splash);
+    });
+  });
+
+  group('resolveRedirect while a stale list is on screen', () {
+    // What signing back in looks like: the list underneath still belongs to the
+    // previous session. Reading it as this user's answer put them wherever the
+    // last one belonged.
+    test('waits rather than trusting the previous session', () async {
+      final reloading = await _reloading((
+        userId: _otherUser.id,
+        scopes: [_community(MemberStatus.active)],
+      ));
+
+      final decision = resolveRedirect(
+        auth: _signedIn,
+        scopes: reloading,
         location: AppRoutes.home,
       );
 
       expect(decision.target, AppRoutes.splash);
     });
 
-    test('waits rather than trusting the value a reload is replacing', () async {
-      // What signing back in looks like: the membership provider is refetching
-      // and Riverpod still reports the signed-out `null` underneath. Reading it
-      // as "belongs nowhere" put an existing member on onboarding until the
-      // fetch landed.
-      final reloading = await _reloadingMembership();
+    // A refresh from the home screen is also a load with a stale value
+    // underneath. Bouncing the user to the splash for it would make pulling the
+    // list down feel like the app restarting.
+    test('keeps deciding on a list that is merely refreshing', () async {
+      final reloading = await _reloading((
+        userId: _user.id,
+        scopes: [_community(MemberStatus.active)],
+      ));
+
       expect(
         reloading.hasValue,
         isTrue,
@@ -167,11 +189,11 @@ void main() {
 
       final decision = resolveRedirect(
         auth: _signedIn,
-        membership: reloading,
-        location: AppRoutes.login,
+        scopes: reloading,
+        location: AppRoutes.home,
       );
 
-      expect(decision.target, AppRoutes.splash);
+      expect(decision.target, isNull);
     });
   });
 
@@ -184,7 +206,7 @@ void main() {
       ]) {
         final decision = resolveRedirect(
           auth: _signedIn,
-          membership: _inCommunity(status),
+          scopes: _scopesOf([_community(status)]),
           location: AppRoutes.home,
         );
 
@@ -195,7 +217,7 @@ void main() {
     test('treats an object the same way as a community', () {
       final decision = resolveRedirect(
         auth: _signedIn,
-        membership: _inUnit(MemberStatus.pending),
+        scopes: _scopesOf([_unit(MemberStatus.pending)]),
         location: AppRoutes.home,
       );
 
@@ -205,7 +227,7 @@ void main() {
     test('does not bounce them off the waiting screen', () {
       final decision = resolveRedirect(
         auth: _signedIn,
-        membership: _inCommunity(MemberStatus.pending),
+        scopes: _scopesOf([_community(MemberStatus.pending)]),
         location: AppRoutes.pending,
       );
 
@@ -214,17 +236,15 @@ void main() {
   });
 
   group('resolveRedirect for an active member', () {
-    test('sends them home from the splash, auth and onboarding screens', () {
+    test('sends them home from the splash, auth and waiting screens', () {
       for (final location in [
         AppRoutes.splash,
         AppRoutes.login,
-        AppRoutes.onboarding,
-        AppRoutes.onboardingJoin,
         AppRoutes.pending,
       ]) {
         final decision = resolveRedirect(
           auth: _signedIn,
-          membership: _inCommunity(MemberStatus.active),
+          scopes: _scopesOf([_community(MemberStatus.active)]),
           location: location,
         );
 
@@ -235,7 +255,40 @@ void main() {
     test('leaves them wherever they already are inside the app', () {
       final decision = resolveRedirect(
         auth: _signedIn,
-        membership: _inUnit(MemberStatus.active),
+        scopes: _scopesOf([_unit(MemberStatus.active)]),
+        location: AppRoutes.home,
+      );
+
+      expect(decision.target, isNull);
+    });
+
+    // Adding a second scope means walking back into onboarding on purpose. The
+    // old single-scope rule threw an active member straight back out of it.
+    test('lets them into onboarding to add another scope', () {
+      for (final location in [
+        AppRoutes.onboarding,
+        AppRoutes.onboardingUnit,
+        AppRoutes.onboardingJoin,
+      ]) {
+        final decision = resolveRedirect(
+          auth: _signedIn,
+          scopes: _scopesOf([_community(MemberStatus.active)]),
+          location: location,
+        );
+
+        expect(decision.target, isNull, reason: 'should stay on $location');
+      }
+    });
+
+    // The case that stranded people before: one active scope of their own and
+    // one request still being decided elsewhere.
+    test('one approved scope is enough, whatever the others say', () {
+      final decision = resolveRedirect(
+        auth: _signedIn,
+        scopes: _scopesOf([
+          _community(MemberStatus.pending),
+          _unit(MemberStatus.active),
+        ]),
         location: AppRoutes.home,
       );
 

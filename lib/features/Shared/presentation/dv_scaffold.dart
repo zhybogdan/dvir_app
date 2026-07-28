@@ -1,19 +1,25 @@
 import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:flutter/material.dart';
 
-/// Scaffold with the shared watermark behind its body, for the pre-app screens
-/// that carry an app bar (onboarding). The auth screens use [AuthScaffold]
-/// instead, which centres a form with no app bar.
+/// Scaffold with a decorative layer behind its body, for every screen that
+/// carries an app bar. The auth screens use [AuthScaffold] instead, which
+/// centres a form with no app bar.
 class DvScaffold extends StatelessWidget {
   const DvScaffold({
     required this.body,
     super.key,
     this.appBar,
     this.extendBodyBehindAppBar = false,
+    this.background = const DvBackground(),
   });
 
   final Widget body;
   final PreferredSizeWidget? appBar;
+
+  /// What is painted behind the body. Defaults to the watermark the pre-app
+  /// screens share; screens inside the app pass [DvAppGradient], whose plain
+  /// top edge lets them keep an opaque app bar without a seam.
+  final Widget background;
 
   /// Extends the watermark under the app bar (pair with a transparent
   /// [DvAppBar]) so the background reads as one surface. The body is inset below
@@ -38,7 +44,7 @@ class DvScaffold extends StatelessWidget {
       extendBodyBehindAppBar: extendBodyBehindAppBar,
       body: Stack(
         children: [
-          const Positioned.fill(child: DvBackground()),
+          Positioned.fill(child: background),
           Positioned.fill(child: content),
         ],
       ),

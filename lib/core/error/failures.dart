@@ -65,7 +65,7 @@ enum AuthFailureReason {
 }
 
 /// Why a scope call was rejected. The bootstrap RPCs raise custom SQLSTATEs
-/// (`DV001`…`DV003`) precisely so this mapping never depends on the wording of
+/// (`DV001`…`DV005`) precisely so this mapping never depends on the wording of
 /// a Postgres error message.
 enum ScopeFailureReason {
   /// No community and no object carries this invite code.
@@ -76,6 +76,13 @@ enum ScopeFailureReason {
 
   /// The session expired between opening the form and submitting it.
   notAuthenticated,
+
+  /// The change would leave the scope with nobody able to run it — the last
+  /// admin of a community, or the last owner of an object.
+  lastAdmin,
+
+  /// A moderator tried to approve, reject or block their own membership.
+  selfModeration,
 
   unknown,
 }

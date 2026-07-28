@@ -100,11 +100,53 @@ abstract class AppLocalizations {
   /// **'Двір'**
   String get appTitle;
 
-  /// Placeholder text on the temporary home screen
+  /// No description provided for @scopesCommunities.
   ///
   /// In uk, this message translates to:
-  /// **'Основа готова — функції незабаром'**
-  String get homePlaceholder;
+  /// **'Спільноти'**
+  String get scopesCommunities;
+
+  /// No description provided for @scopesUnits.
+  ///
+  /// In uk, this message translates to:
+  /// **'Оселі'**
+  String get scopesUnits;
+
+  /// No description provided for @scopePending.
+  ///
+  /// In uk, this message translates to:
+  /// **'Заявка на розгляді'**
+  String get scopePending;
+
+  /// No description provided for @addScope.
+  ///
+  /// In uk, this message translates to:
+  /// **'Додати'**
+  String get addScope;
+
+  /// No description provided for @memberStatusPending.
+  ///
+  /// In uk, this message translates to:
+  /// **'Очікує підтвердження'**
+  String get memberStatusPending;
+
+  /// No description provided for @memberStatusActive.
+  ///
+  /// In uk, this message translates to:
+  /// **'Активний'**
+  String get memberStatusActive;
+
+  /// No description provided for @memberStatusRejected.
+  ///
+  /// In uk, this message translates to:
+  /// **'Відхилено'**
+  String get memberStatusRejected;
+
+  /// No description provided for @memberStatusBlocked.
+  ///
+  /// In uk, this message translates to:
+  /// **'Доступ закрито'**
+  String get memberStatusBlocked;
 
   /// No description provided for @signIn.
   ///
@@ -466,17 +508,83 @@ abstract class AppLocalizations {
   /// **'Квартира'**
   String get unitTypeApartment;
 
-  /// No description provided for @unitTypePlot.
+  /// No description provided for @unitTypeRoom.
   ///
   /// In uk, this message translates to:
-  /// **'Ділянка'**
-  String get unitTypePlot;
+  /// **'Кімната'**
+  String get unitTypeRoom;
 
   /// No description provided for @unitTypeGarage.
   ///
   /// In uk, this message translates to:
   /// **'Гараж'**
   String get unitTypeGarage;
+
+  /// No description provided for @unitTypePlot.
+  ///
+  /// In uk, this message translates to:
+  /// **'Ділянка'**
+  String get unitTypePlot;
+
+  /// No description provided for @unitTypeBasement.
+  ///
+  /// In uk, this message translates to:
+  /// **'Підвал'**
+  String get unitTypeBasement;
+
+  /// No description provided for @unitTypeSummerKitchen.
+  ///
+  /// In uk, this message translates to:
+  /// **'Літня кухня'**
+  String get unitTypeSummerKitchen;
+
+  /// No description provided for @unitTypeSummerHouse.
+  ///
+  /// In uk, this message translates to:
+  /// **'Літній дім'**
+  String get unitTypeSummerHouse;
+
+  /// No description provided for @unitTypeShed.
+  ///
+  /// In uk, this message translates to:
+  /// **'Сарай'**
+  String get unitTypeShed;
+
+  /// No description provided for @unitTypePool.
+  ///
+  /// In uk, this message translates to:
+  /// **'Басейн'**
+  String get unitTypePool;
+
+  /// No description provided for @unitTypeBalcony.
+  ///
+  /// In uk, this message translates to:
+  /// **'Балкон'**
+  String get unitTypeBalcony;
+
+  /// No description provided for @unitTypeLoggia.
+  ///
+  /// In uk, this message translates to:
+  /// **'Лоджія'**
+  String get unitTypeLoggia;
+
+  /// No description provided for @unitTypeBathroom.
+  ///
+  /// In uk, this message translates to:
+  /// **'Санвузол'**
+  String get unitTypeBathroom;
+
+  /// No description provided for @unitTypeCorridor.
+  ///
+  /// In uk, this message translates to:
+  /// **'Коридор'**
+  String get unitTypeCorridor;
+
+  /// No description provided for @unitTypeStoreroom.
+  ///
+  /// In uk, this message translates to:
+  /// **'Комора'**
+  String get unitTypeStoreroom;
 
   /// No description provided for @unitTypeOffice.
   ///
@@ -489,6 +597,198 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Інше'**
   String get unitTypeCustom;
+
+  /// No description provided for @unitRoleOwner.
+  ///
+  /// In uk, this message translates to:
+  /// **'Власник'**
+  String get unitRoleOwner;
+
+  /// No description provided for @unitRoleFamily.
+  ///
+  /// In uk, this message translates to:
+  /// **'Родина'**
+  String get unitRoleFamily;
+
+  /// No description provided for @unitRoleTenant.
+  ///
+  /// In uk, this message translates to:
+  /// **'Орендар'**
+  String get unitRoleTenant;
+
+  /// No description provided for @unitPeople.
+  ///
+  /// In uk, this message translates to:
+  /// **'Мешканці'**
+  String get unitPeople;
+
+  /// No description provided for @unitPeopleEmpty.
+  ///
+  /// In uk, this message translates to:
+  /// **'Поки що ви тут єдиний'**
+  String get unitPeopleEmpty;
+
+  /// Object area with its unit of measure
+  ///
+  /// In uk, this message translates to:
+  /// **'{area} м²'**
+  String unitAreaValue(String area);
+
+  /// No description provided for @unnamedMember.
+  ///
+  /// In uk, this message translates to:
+  /// **'Мешканець'**
+  String get unnamedMember;
+
+  /// No description provided for @cancel.
+  ///
+  /// In uk, this message translates to:
+  /// **'Скасувати'**
+  String get cancel;
+
+  /// No description provided for @approve.
+  ///
+  /// In uk, this message translates to:
+  /// **'Підтвердити'**
+  String get approve;
+
+  /// No description provided for @reject.
+  ///
+  /// In uk, this message translates to:
+  /// **'Відхилити'**
+  String get reject;
+
+  /// No description provided for @changeRole.
+  ///
+  /// In uk, this message translates to:
+  /// **'Змінити роль'**
+  String get changeRole;
+
+  /// No description provided for @removeMember.
+  ///
+  /// In uk, this message translates to:
+  /// **'Видалити'**
+  String get removeMember;
+
+  /// No description provided for @rejectTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Відхилити заявку?'**
+  String get rejectTitle;
+
+  /// Confirmation before turning a join request down
+  ///
+  /// In uk, this message translates to:
+  /// **'{name} не отримає доступу до цієї оселі. Заявку можна буде подати ще раз.'**
+  String rejectBody(String name);
+
+  /// No description provided for @removeMemberTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Видалити мешканця?'**
+  String get removeMemberTitle;
+
+  /// Confirmation before removing someone from an object
+  ///
+  /// In uk, this message translates to:
+  /// **'{name} втратить доступ до цієї оселі та всього, що до неї належить.'**
+  String removeMemberBody(String name);
+
+  /// No description provided for @roleSheetTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Роль у оселі'**
+  String get roleSheetTitle;
+
+  /// No description provided for @rotateCode.
+  ///
+  /// In uk, this message translates to:
+  /// **'Оновити код'**
+  String get rotateCode;
+
+  /// No description provided for @codeRotated.
+  ///
+  /// In uk, this message translates to:
+  /// **'Код оновлено'**
+  String get codeRotated;
+
+  /// No description provided for @rotateCodeTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Оновити код?'**
+  String get rotateCodeTitle;
+
+  /// No description provided for @rotateCodeBody.
+  ///
+  /// In uk, this message translates to:
+  /// **'Старий код перестане працювати. Тим, кого ще не додали, доведеться надіслати новий.'**
+  String get rotateCodeBody;
+
+  /// No description provided for @deleteUnit.
+  ///
+  /// In uk, this message translates to:
+  /// **'Видалити'**
+  String get deleteUnit;
+
+  /// Confirmation before deleting an object
+  ///
+  /// In uk, this message translates to:
+  /// **'Видалити «{label}»?'**
+  String deleteUnitTitle(String label);
+
+  /// No description provided for @deleteUnitBody.
+  ///
+  /// In uk, this message translates to:
+  /// **'Разом з ним зникне все, що всередині, і всі мешканці. Дію не можна скасувати.'**
+  String get deleteUnitBody;
+
+  /// No description provided for @unitNested.
+  ///
+  /// In uk, this message translates to:
+  /// **'Що входить'**
+  String get unitNested;
+
+  /// No description provided for @unitNestedEmpty.
+  ///
+  /// In uk, this message translates to:
+  /// **'Кімната, гараж, літня кухня, ділянка. Додайте те, що ведете окремо.'**
+  String get unitNestedEmpty;
+
+  /// No description provided for @unitAddTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Додати'**
+  String get unitAddTitle;
+
+  /// No description provided for @unitAddCta.
+  ///
+  /// In uk, this message translates to:
+  /// **'Додати'**
+  String get unitAddCta;
+
+  /// No description provided for @unitEditTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Редагувати'**
+  String get unitEditTitle;
+
+  /// No description provided for @saveCta.
+  ///
+  /// In uk, this message translates to:
+  /// **'Зберегти'**
+  String get saveCta;
+
+  /// Small caption naming the objects nested in a scope card
+  ///
+  /// In uk, this message translates to:
+  /// **'Усередині: {items}'**
+  String scopeNested(String items);
+
+  /// How many further nested objects the caption left out
+  ///
+  /// In uk, this message translates to:
+  /// **'+{count}'**
+  String scopeNestedMore(int count);
 
   /// No description provided for @communityCreatedTitle.
   ///
@@ -639,6 +939,18 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Сеанс завершився. Увійдіть ще раз'**
   String get errorNotAuthenticated;
+
+  /// No description provided for @errorLastAdmin.
+  ///
+  /// In uk, this message translates to:
+  /// **'Це остання людина, яка керує. Спочатку призначте когось іншого'**
+  String get errorLastAdmin;
+
+  /// No description provided for @errorSelfModeration.
+  ///
+  /// In uk, this message translates to:
+  /// **'Не можна змінити власний статус'**
+  String get errorSelfModeration;
 
   /// No description provided for @errorScopeUnknown.
   ///
