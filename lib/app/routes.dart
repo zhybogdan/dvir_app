@@ -23,5 +23,14 @@ abstract final class AppRoutes {
   /// argument.
   static const String unit = '/unit/:unitId';
 
+  /// Editing an object, and adding one inside it.
+  ///
+  /// Both hang off the object rather than sitting beside it as `/unit/new`,
+  /// which would be matched by `:unitId` and turn "new" into an id.
+  static const String unitEdit = '/unit/:unitId/edit';
+  static const String unitAdd = '/unit/:unitId/add';
+
   static String unitPath(String unitId) => '/unit/$unitId';
+  static String unitEditPath(String unitId) => '/unit/$unitId/edit';
+  static String unitAddPath(String unitId) => '/unit/$unitId/add';
 }

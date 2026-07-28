@@ -9,12 +9,12 @@ import 'package:dvir/features/Auth/presentation/screens/register_screen.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Home/presentation/screens/scopes_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/create_community_screen.dart';
-import 'package:dvir/features/Onboarding/presentation/screens/create_unit_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/join_scope_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/onboarding_choice_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/pending_approval_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/scope_created_screen.dart';
 import 'package:dvir/features/Shared/presentation/splash_screen.dart';
+import 'package:dvir/features/Units/presentation/screens/unit_form_screen.dart';
 import 'package:dvir/features/Units/presentation/screens/unit_hub_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
@@ -113,7 +113,7 @@ GoRouter router(Ref ref) {
       ),
       GoRoute(
         path: AppRoutes.onboardingUnit,
-        builder: (context, state) => const CreateUnitScreen(),
+        builder: (context, state) => const UnitFormScreen(),
       ),
       GoRoute(
         path: AppRoutes.onboardingUnitSuccess,
@@ -137,6 +137,26 @@ GoRouter router(Ref ref) {
           return unitId == null
               ? const SplashScreen()
               : UnitHubScreen(unitId: unitId);
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.unitEdit,
+        builder: (context, state) {
+          final unitId = state.pathParameters['unitId'];
+
+          return unitId == null
+              ? const SplashScreen()
+              : UnitEditScreen(unitId: unitId);
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.unitAdd,
+        builder: (context, state) {
+          final unitId = state.pathParameters['unitId'];
+
+          return unitId == null
+              ? const SplashScreen()
+              : UnitFormScreen(parentId: unitId);
         },
       ),
     ],

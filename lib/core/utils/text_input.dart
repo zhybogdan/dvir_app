@@ -18,3 +18,16 @@ final inviteCodeFormatters = <TextInputFormatter>[
   FilteringTextInputFormatter.allow(RegExp('[A-Za-z0-9]')),
   const UpperCaseTextFormatter(),
 ];
+
+/// What an optional text field actually holds: its trimmed text, or null when
+/// the user left it alone.
+///
+/// The distinction matters at the far end — a column set to `''` is a value the
+/// user chose, while null is the absence of one, and only the second reads as
+/// "not filled in". Takes the text rather than the controller so this stays out
+/// of the widget layer, like the other parsers here.
+String? trimmedOrNull(String value) {
+  final trimmed = value.trim();
+
+  return trimmed.isEmpty ? null : trimmed;
+}

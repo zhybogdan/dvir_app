@@ -106,6 +106,30 @@
     }
   },
   "unnamedMember": "Мешканець",
+  "unitNested": "Вкладені об'єкти",
+  "unitNestedEmpty": "Усередині поки нічого немає",
+  "unitAddTitle": "Додати об'єкт",
+  "unitAddCta": "Додати",
+  "unitEditTitle": "Редагувати",
+  "saveCta": "Зберегти",
+  "scopeNested": "Усередині: {items}",
+  "@scopeNested": {
+    "description": "Small caption naming the objects nested in a scope card",
+    "placeholders": {
+      "items": {
+        "type": "String"
+      }
+    }
+  },
+  "scopeNestedMore": "+{count}",
+  "@scopeNestedMore": {
+    "description": "How many further nested objects the caption left out",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
 
   "communityCreatedTitle": "Спільноту створено",
   "unitCreatedTitle": "Оселю створено",

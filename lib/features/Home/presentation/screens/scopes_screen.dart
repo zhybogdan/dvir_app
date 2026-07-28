@@ -5,6 +5,7 @@ import 'package:dvir/features/Auth/application/auth_controller.dart';
 import 'package:dvir/features/Community/presentation/community_type_l10n.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Home/domain/models/scope_summary.dart';
+import 'package:dvir/features/Home/domain/scope_arrangement.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_background.dart';
@@ -12,6 +13,7 @@ import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
 import 'package:dvir/features/Shared/presentation/member_status_l10n.dart';
+import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/types/unit_type.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
@@ -72,8 +74,11 @@ class _ScopeList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final communities = scopes.whereType<CommunitySummary>();
-    final units = scopes.whereType<UnitSummary>();
+    // Objects created inside another are folded into it, so a house and its
+    // own flats do not stand side by side as separate places to live.
+    final rows = arrangeScopes(scopes);
+    final communities = rows.where((row) => row.scope is CommunitySummary);
+    final units = rows.where((row) => row.scope is UnitSummary);
 
     return RefreshIndicator(
       onRefresh: () => ref.refresh(myScopesProvider.future),
@@ -82,11 +87,11 @@ class _ScopeList extends ConsumerWidget {
         children: [
           if (communities.isNotEmpty) ...[
             _SectionTitle(l10n.scopesCommunities),
-            for (final scope in communities) _ScopeCard(scope: scope),
+            for (final row in communities) _ScopeCard(row: row),
           ],
           if (units.isNotEmpty) ...[
             _SectionTitle(l10n.scopesUnits),
-            for (final scope in units) _ScopeCard(scope: scope),
+            for (final row in units) _ScopeCard(row: row),
           ],
         ],
       ),
@@ -115,14 +120,15 @@ class _SectionTitle extends StatelessWidget {
 }
 
 class _ScopeCard extends StatelessWidget {
-  const _ScopeCard({required this.scope});
+  const _ScopeCard({required this.row});
 
-  final ScopeSummary scope;
+  final ScopeRow row;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final scope = this.scope;
+    final scope = row.scope;
+    final nested = row.nested;
 
     final (icon, name, kind) = switch (scope) {
       CommunitySummary(:final community) => (
@@ -171,6 +177,17 @@ class _ScopeCard extends StatelessWidget {
                           color: context.colorScheme.onSurfaceVariant,
                         ),
                       ),
+                      if (nested.isNotEmpty) ...[
+                        const SizedBox(height: AppSpacing.xs),
+                        Text(
+                          _nestedCaption(nested, l10n),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: context.textTheme.labelSmall?.copyWith(
+                            color: context.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ),
@@ -184,6 +201,21 @@ class _ScopeCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  /// The objects folded into this card, named rather than counted — "Квартира
+  /// 1 · Квартира 2" says what is in there, "2 об'єкти" only says how many.
+  ///
+  /// Three fit on a line on a phone; the rest become a tally so the card keeps
+  /// its height whatever the house holds.
+  String _nestedCaption(List<Unit> nested, AppLocalizations l10n) {
+    const shown = 3;
+    final names = nested.take(shown).map((unit) => unit.label).join(' · ');
+    final hidden = nested.length - shown;
+
+    return l10n.scopeNested(
+      hidden > 0 ? '$names ${l10n.scopeNestedMore(hidden)}' : names,
     );
   }
 

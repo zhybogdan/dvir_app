@@ -1,3 +1,4 @@
+import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/notifications/toast_controller.dart';
@@ -8,10 +9,12 @@ import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_invite_code_card.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
 import 'package:dvir/features/Shared/presentation/member_status_l10n.dart';
+import 'package:dvir/features/Units/application/unit_children_controller.dart';
 import 'package:dvir/features/Units/application/unit_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/types/unit_role.dart';
@@ -21,6 +24,7 @@ import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 /// Everything that belongs to one object, on one screen.
 ///
@@ -39,9 +43,22 @@ class UnitHubScreen extends ConsumerWidget {
     final unitId = this.unitId;
     final unit = ref.watch(unitProvider(unitId));
 
+    final isOwner =
+        ref.watch(myUnitRoleProvider(unitId)).value == UnitRole.owner;
+
     return DvScaffold(
       background: const DvAppGradient(),
-      appBar: DvAppBar(title: unit.value?.label ?? ''),
+      appBar: DvAppBar(
+        title: unit.value?.label ?? '',
+        actions: [
+          if (isOwner)
+            DvIconButton(
+              onPressed: () => context.push(AppRoutes.unitEditPath(unitId)),
+              icon: Icons.edit_outlined,
+              tooltip: AppLocalizations.of(context).unitEditTitle,
+            ),
+        ],
+      ),
       body: DvAsyncView<Unit>(
         value: unit,
         skeleton: const _HubSkeleton(),
@@ -69,7 +86,8 @@ class _Hub extends ConsumerWidget {
       onRefresh: () async {
         ref
           ..invalidate(unitProvider(unit.id))
-          ..invalidate(unitMembersProvider(unit.id));
+          ..invalidate(unitMembersProvider(unit.id))
+          ..invalidate(unitChildrenProvider(unit.id));
       },
       child: ListView(
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -79,6 +97,18 @@ class _Hub extends ConsumerWidget {
             const SizedBox(height: AppSpacing.lg),
             _InviteSection(unit: unit),
           ],
+          const SizedBox(height: AppSpacing.lg),
+          _SectionTitle(
+            l10n.unitNested,
+            action: role == UnitRole.owner
+                ? (
+                    label: l10n.unitAddCta,
+                    onPressed: () =>
+                        context.push(AppRoutes.unitAddPath(unit.id)),
+                  )
+                : null,
+          ),
+          _Children(unitId: unit.id),
           const SizedBox(height: AppSpacing.lg),
           _SectionTitle(l10n.unitPeople),
           _People(unitId: unit.id),
@@ -268,20 +298,112 @@ class _PersonRow extends StatelessWidget {
   }
 }
 
+/// A section heading, optionally with the one control that acts on the section.
+typedef _SectionAction = ({String label, VoidCallback onPressed});
+
 class _SectionTitle extends StatelessWidget {
-  const _SectionTitle(this.text);
+  const _SectionTitle(this.text, {this.action});
 
   final String text;
+  final _SectionAction? action;
 
   @override
   Widget build(BuildContext context) {
+    final action = this.action;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          text.toUpperCase(),
+          style: context.textTheme.labelSmall?.copyWith(
+            color: context.colorScheme.onSurfaceVariant,
+            letterSpacing: 1,
+          ),
+        ),
+        if (action != null)
+          TextButton.icon(
+            onPressed: action.onPressed,
+            icon: const Icon(Icons.add, size: AppSpacing.md),
+            label: Text(action.label),
+          ),
+      ],
+    );
+  }
+}
+
+class _Children extends ConsumerWidget {
+  const _Children({required this.unitId});
+
+  final String unitId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final unitId = this.unitId;
+
+    return DvAsyncView<List<Unit>>(
+      value: ref.watch(unitChildrenProvider(unitId)),
+      skeleton: const _PeopleSkeleton(),
+      onRetry: () => ref.invalidate(unitChildrenProvider(unitId)),
+      builder: (context, children) => children.isEmpty
+          ? Text(
+              l10n.unitNestedEmpty,
+              style: context.textTheme.bodyMedium?.copyWith(
+                color: context.colorScheme.onSurfaceVariant,
+              ),
+            )
+          : Column(
+              children: [for (final child in children) _ChildRow(unit: child)],
+            ),
+    );
+  }
+}
+
+class _ChildRow extends StatelessWidget {
+  const _ChildRow({required this.unit});
+
+  final Unit unit;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final unit = this.unit;
+
     return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.xs),
-      child: Text(
-        text.toUpperCase(),
-        style: context.textTheme.labelSmall?.copyWith(
-          color: context.colorScheme.onSurfaceVariant,
-          letterSpacing: 1,
+      padding: const EdgeInsets.only(top: AppSpacing.sm),
+      child: Material(
+        color: context.colorScheme.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+        child: InkWell(
+          onTap: () => context.push(AppRoutes.unitPath(unit.id)),
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.md),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(unit.label, style: context.textTheme.titleSmall),
+                      const SizedBox(height: AppSpacing.xs),
+                      Text(
+                        unit.type.label(l10n),
+                        style: context.textTheme.bodySmall?.copyWith(
+                          color: context.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  color: context.colorScheme.onSurfaceVariant,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

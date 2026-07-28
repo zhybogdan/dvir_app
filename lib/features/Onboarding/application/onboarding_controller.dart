@@ -5,9 +5,6 @@ import 'package:dvir/features/Community/domain/types/community_type.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Onboarding/data/onboarding_repository_impl.dart';
 import 'package:dvir/features/Onboarding/domain/models/scope_membership.dart';
-import 'package:dvir/features/Units/data/units_repository_impl.dart';
-import 'package:dvir/features/Units/domain/models/unit.dart';
-import 'package:dvir/features/Units/domain/types/unit_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'onboarding_controller.g.dart';
@@ -48,36 +45,6 @@ class OnboardingController extends _$OnboardingController {
     // already an active admin, so refreshing would let the router pull them to
     // home before they have seen the invite code. The success screen refreshes
     // once the user leaves it.
-    return result.value;
-  }
-
-  Future<Unit?> createUnit({
-    required String label,
-    required UnitType type,
-    String? parentId,
-    String? communityId,
-    String? address,
-    String? city,
-    double? areaM2,
-  }) async {
-    final repository = ref.read(unitsRepositoryProvider);
-
-    state = const AsyncLoading();
-    final result = await AsyncValue.guard(
-      () => repository.createUnit(
-        label: label,
-        type: type,
-        parentId: parentId,
-        communityId: communityId,
-        address: address,
-        city: city,
-        areaM2: areaM2,
-      ),
-    );
-    state = result;
-
-    // Same as createCommunity: the creator is the active owner, so the invite
-    // code is shown first and membership is refreshed when they move on.
     return result.value;
   }
 

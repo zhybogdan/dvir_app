@@ -256,6 +256,34 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unnamedMember => 'Мешканець';
 
   @override
+  String get unitNested => 'Вкладені об\'єкти';
+
+  @override
+  String get unitNestedEmpty => 'Усередині поки нічого немає';
+
+  @override
+  String get unitAddTitle => 'Додати об\'єкт';
+
+  @override
+  String get unitAddCta => 'Додати';
+
+  @override
+  String get unitEditTitle => 'Редагувати';
+
+  @override
+  String get saveCta => 'Зберегти';
+
+  @override
+  String scopeNested(String items) {
+    return 'Усередині: $items';
+  }
+
+  @override
+  String scopeNestedMore(int count) {
+    return '+$count';
+  }
+
+  @override
   String get communityCreatedTitle => 'Спільноту створено';
 
   @override

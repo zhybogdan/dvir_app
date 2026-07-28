@@ -574,6 +574,54 @@ abstract class AppLocalizations {
   /// **'Мешканець'**
   String get unnamedMember;
 
+  /// No description provided for @unitNested.
+  ///
+  /// In uk, this message translates to:
+  /// **'Вкладені об\'єкти'**
+  String get unitNested;
+
+  /// No description provided for @unitNestedEmpty.
+  ///
+  /// In uk, this message translates to:
+  /// **'Усередині поки нічого немає'**
+  String get unitNestedEmpty;
+
+  /// No description provided for @unitAddTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Додати об\'єкт'**
+  String get unitAddTitle;
+
+  /// No description provided for @unitAddCta.
+  ///
+  /// In uk, this message translates to:
+  /// **'Додати'**
+  String get unitAddCta;
+
+  /// No description provided for @unitEditTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Редагувати'**
+  String get unitEditTitle;
+
+  /// No description provided for @saveCta.
+  ///
+  /// In uk, this message translates to:
+  /// **'Зберегти'**
+  String get saveCta;
+
+  /// Small caption naming the objects nested in a scope card
+  ///
+  /// In uk, this message translates to:
+  /// **'Усередині: {items}'**
+  String scopeNested(String items);
+
+  /// How many further nested objects the caption left out
+  ///
+  /// In uk, this message translates to:
+  /// **'+{count}'**
+  String scopeNestedMore(int count);
+
   /// No description provided for @communityCreatedTitle.
   ///
   /// In uk, this message translates to:
