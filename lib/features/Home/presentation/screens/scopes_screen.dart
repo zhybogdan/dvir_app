@@ -11,6 +11,7 @@ import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
+import 'package:dvir/features/Shared/presentation/dv_tile.dart';
 import 'package:dvir/features/Shared/presentation/member_status_l10n.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/types/unit_type.dart';
@@ -147,60 +148,14 @@ class _ScopeCard extends StatelessWidget {
     // until the request is approved, so that an invite code cannot be used to
     // find out what it opens. All such a card can say is where the request
     // stands.
-    final title = name ?? l10n.scopePending;
-    final caption = kind ?? scope.status.label(l10n);
     final destination = _destinationOf(scope);
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-      child: Material(
-        color: context.colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-        child: InkWell(
-          onTap: destination == null ? null : () => context.push(destination),
-          borderRadius: BorderRadius.circular(AppRadius.lg),
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.md),
-            child: Row(
-              children: [
-                _ScopeIcon(icon: icon, muted: !scope.isActive),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(title, style: context.textTheme.titleMedium),
-                      const SizedBox(height: AppSpacing.xs),
-                      Text(
-                        caption,
-                        style: context.textTheme.bodySmall?.copyWith(
-                          color: context.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                      if (nested.isNotEmpty) ...[
-                        const SizedBox(height: AppSpacing.xs),
-                        Text(
-                          _nestedCaption(nested, l10n),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: context.textTheme.labelSmall?.copyWith(
-                            color: context.colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-                if (destination != null)
-                  Icon(
-                    Icons.chevron_right_rounded,
-                    color: context.colorScheme.onSurfaceVariant,
-                  ),
-              ],
-            ),
-          ),
-        ),
-      ),
+    return DvTile(
+      title: name ?? l10n.scopePending,
+      subtitle: kind ?? scope.status.label(l10n),
+      caption: nested.isEmpty ? null : _nestedCaption(nested, l10n),
+      leading: _ScopeIcon(icon: icon, muted: !scope.isActive),
+      onTap: destination == null ? null : () => context.push(destination),
     );
   }
 

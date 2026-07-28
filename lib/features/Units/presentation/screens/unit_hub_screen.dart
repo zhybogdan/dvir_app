@@ -19,6 +19,7 @@ import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_invite_code_card.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
+import 'package:dvir/features/Shared/presentation/dv_tile.dart';
 import 'package:dvir/features/Shared/presentation/member_status_l10n.dart';
 import 'package:dvir/features/Units/application/unit_actions_controller.dart';
 import 'package:dvir/features/Units/application/unit_children_controller.dart';
@@ -386,53 +387,32 @@ class _PersonRow extends ConsumerWidget {
             myUserId: myUserId,
           );
 
-    return Container(
-      margin: const EdgeInsets.only(top: AppSpacing.sm),
-      padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: context.colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title, style: context.textTheme.titleSmall),
-                    const SizedBox(height: AppSpacing.xs),
-                    UnitRoleChip(role: membership.role),
-                  ],
-                ),
+    final isPending = membership.status == MemberStatus.pending;
+
+    return DvTile(
+      title: title,
+      badge: UnitRoleChip(role: membership.role),
+      dense: true,
+      trailing: view.isActive
+          ? (isOwner && actions != null
+                ? _MemberMenu(
+                    unitId: unitId,
+                    view: view,
+                    name: title,
+                    actions: actions,
+                  )
+                : null)
+          : Text(
+              membership.status.label(l10n),
+              style: context.textTheme.labelSmall?.copyWith(
+                color: context.colorScheme.onSurfaceVariant,
               ),
-              if (!view.isActive)
-                Text(
-                  membership.status.label(l10n),
-                  style: context.textTheme.labelSmall?.copyWith(
-                    color: context.colorScheme.onSurfaceVariant,
-                  ),
-                )
-              else if (isOwner && actions != null)
-                _MemberMenu(
-                  unitId: unitId,
-                  view: view,
-                  name: title,
-                  actions: actions,
-                ),
-            ],
-          ),
-          // A request is decided in one tap either way, so its two answers sit
-          // in the open rather than behind a menu.
-          if (isOwner &&
-              actions != null &&
-              actions.canChangeStatus &&
-              membership.status == MemberStatus.pending)
-            _RequestActions(unitId: unitId, view: view, name: title),
-        ],
-      ),
+            ),
+      // A request is decided in one tap either way, so its two answers sit in
+      // the open rather than behind a menu.
+      footer: isOwner && actions != null && actions.canChangeStatus && isPending
+          ? _RequestActions(unitId: unitId, view: view, name: title)
+          : null,
     );
   }
 }
@@ -687,42 +667,11 @@ class _ChildRow extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final unit = this.unit;
 
-    return Padding(
-      padding: const EdgeInsets.only(top: AppSpacing.sm),
-      child: Material(
-        color: context.colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-        child: InkWell(
-          onTap: () => context.push(AppRoutes.unitPath(unit.id)),
-          borderRadius: BorderRadius.circular(AppRadius.lg),
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.md),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(unit.label, style: context.textTheme.titleSmall),
-                      const SizedBox(height: AppSpacing.xs),
-                      Text(
-                        unit.type.label(l10n),
-                        style: context.textTheme.bodySmall?.copyWith(
-                          color: context.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Icon(
-                  Icons.chevron_right_rounded,
-                  color: context.colorScheme.onSurfaceVariant,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+    return DvTile(
+      title: unit.label,
+      subtitle: unit.type.label(l10n),
+      dense: true,
+      onTap: () => context.push(AppRoutes.unitPath(unit.id)),
     );
   }
 }
