@@ -56,9 +56,6 @@ class UnitHubScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final loaded = unit.value;
 
-    // Both controllers are driven from callbacks and watched by nobody, so
-    // these subscriptions are what keeps them alive long enough to answer —
-    // and what carries a refusal from the database to the user.
     ref
       ..listen(
         unitActionsProvider(unitId),
@@ -290,6 +287,9 @@ class _InviteSectionState extends ConsumerState<_InviteSection> {
   /// Asked before rotating, because the old code is in someone's chat by now
   /// and this is what stops working for them.
   Future<void> _rotate(AppLocalizations l10n) async {
+    final unitActions = ref.read(unitActionsProvider(widget.unit.id).notifier);
+    final toasts = ref.read(toastControllerProvider.notifier);
+
     final confirmed = await DvConfirmDialog.ask(
       context,
       title: l10n.rotateCodeTitle,
@@ -298,15 +298,11 @@ class _InviteSectionState extends ConsumerState<_InviteSection> {
     );
     if (!confirmed) return;
 
-    final rotated = await ref
-        .read(unitActionsProvider(widget.unit.id).notifier)
-        .rotateInviteCode();
+    final rotated = await unitActions.rotateInviteCode();
 
-    // Null means the call failed, and the screen's listener has already said
-    // so. `context.mounted` covers the other way out: leaving mid-request.
-    if (rotated == null || !context.mounted) return;
+    if (rotated == null || !mounted) return;
 
-    ref.read(toastControllerProvider.notifier).success(l10n.codeRotated);
+    toasts.success(l10n.codeRotated);
   }
 }
 
@@ -320,8 +316,6 @@ class _People extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final unitId = this.unitId;
 
-    // Read once for the whole list rather than per row: who is looking, and
-    // whether they run this object, is the same answer for every line of it.
     final myUserId = ref.watch(authStateProvider).value?.id;
     final isOwner =
         ref.watch(myUnitRoleProvider(unitId)).value == UnitRole.owner;
@@ -334,8 +328,6 @@ class _People extends ConsumerWidget {
           ? DvEmptyView(message: l10n.unitPeopleEmpty)
           : Column(
               children: [
-                // Numbered by position, so two people who have not filled in a
-                // profile yet are still told apart on screen.
                 for (final (index, view) in people.indexed)
                   UnitMemberTile(
                     unitId: unitId,
@@ -362,8 +354,6 @@ class _UnitMenu extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final unit = this.unit;
 
-    // Held before the dialog: after an await the ref may no longer be the one
-    // this menu was built with.
     final unitActions = ref.read(unitActionsProvider(unit.id).notifier);
 
     Future<void> delete() async {
@@ -381,9 +371,6 @@ class _UnitMenu extends ConsumerWidget {
 
       if (!deleted || !context.mounted) return;
 
-      // Back to whatever contained it, which for a top-level object is the
-      // home list. Staying put would leave the screen reading a row that is
-      // gone.
       context.go(
         parentId == null ? AppRoutes.home : AppRoutes.unitPath(parentId),
       );
