@@ -14,11 +14,13 @@ import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
+import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_invite_code_card.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
 import 'package:dvir/features/Shared/presentation/member_status_l10n.dart';
+import 'package:dvir/features/Units/application/unit_actions_controller.dart';
 import 'package:dvir/features/Units/application/unit_children_controller.dart';
 import 'package:dvir/features/Units/application/unit_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
@@ -51,17 +53,22 @@ class UnitHubScreen extends ConsumerWidget {
     final isOwner =
         ref.watch(myUnitRoleProvider(unitId)).value == UnitRole.owner;
 
+    final l10n = AppLocalizations.of(context);
+    final loaded = unit.value;
+
     return DvScaffold(
       background: const DvAppGradient(),
       appBar: DvAppBar(
-        title: unit.value?.label ?? '',
+        title: loaded?.label ?? '',
         actions: [
-          if (isOwner)
+          if (isOwner && loaded != null) ...[
             DvIconButton(
               onPressed: () => context.push(AppRoutes.unitEditPath(unitId)),
               icon: Icons.edit_outlined,
-              tooltip: AppLocalizations.of(context).unitEditTitle,
+              tooltip: l10n.unitEditTitle,
             ),
+            _UnitMenu(unit: loaded),
+          ],
         ],
       ),
       body: DvAsyncView<Unit>(
@@ -214,19 +221,53 @@ class _InviteSection extends ConsumerWidget {
             icon: Icons.ios_share,
             onPressed: () => shareText(l10n.shareInviteText(unit.label, code)),
           ),
-          TextButton.icon(
-            onPressed: () {
-              Clipboard.setData(ClipboardData(text: code));
-              ref
-                  .read(toastControllerProvider.notifier)
-                  .success(l10n.codeCopied);
-            },
-            icon: const Icon(Icons.copy_outlined),
-            label: Text(l10n.copyCode),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton.icon(
+                onPressed: () {
+                  Clipboard.setData(ClipboardData(text: code));
+                  ref
+                      .read(toastControllerProvider.notifier)
+                      .success(l10n.codeCopied);
+                },
+                icon: const Icon(Icons.copy_outlined),
+                label: Text(l10n.copyCode),
+              ),
+              TextButton.icon(
+                onPressed: () => _rotate(context, ref, l10n),
+                icon: const Icon(Icons.autorenew_rounded),
+                label: Text(l10n.rotateCode),
+              ),
+            ],
           ),
         ],
       ),
     );
+  }
+
+  /// Asked before rotating, because the old code is in someone's chat by now
+  /// and this is what stops working for them.
+  Future<void> _rotate(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) async {
+    final confirmed = await DvConfirmDialog.ask(
+      context,
+      title: l10n.rotateCodeTitle,
+      message: l10n.rotateCodeBody,
+      confirmLabel: l10n.rotateCode,
+    );
+    if (!confirmed) return;
+
+    final rotated = await ref
+        .read(unitActionsProvider(unit.id).notifier)
+        .rotateInviteCode();
+
+    if (rotated == null) return;
+
+    ref.read(toastControllerProvider.notifier).success(l10n.codeRotated);
   }
 }
 
@@ -245,12 +286,7 @@ class _People extends ConsumerWidget {
       skeleton: const _PeopleSkeleton(),
       onRetry: () => ref.invalidate(unitMembersProvider(unitId)),
       builder: (context, people) => people.isEmpty
-          ? Text(
-              l10n.unitPeopleEmpty,
-              style: context.textTheme.bodyMedium?.copyWith(
-                color: context.colorScheme.onSurfaceVariant,
-              ),
-            )
+          ? DvEmptyView(message: l10n.unitPeopleEmpty)
           : Column(
               children: [
                 for (final view in people)
@@ -350,6 +386,50 @@ class _PersonRow extends ConsumerWidget {
             _RequestActions(unitId: unitId, view: view, name: title),
         ],
       ),
+    );
+  }
+}
+
+/// What can be done to the object itself, rather than to its contents.
+class _UnitMenu extends ConsumerWidget {
+  const _UnitMenu({required this.unit});
+
+  final Unit unit;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final unit = this.unit;
+
+    Future<void> delete() async {
+      final confirmed = await DvConfirmDialog.ask(
+        context,
+        title: l10n.deleteUnitTitle(unit.label),
+        message: l10n.deleteUnitBody,
+        confirmLabel: l10n.deleteUnit,
+      );
+      if (!confirmed || !context.mounted) return;
+
+      final parentId = unit.parentId;
+      final deleted = await ref
+          .read(unitActionsProvider(unit.id).notifier)
+          .delete(parentId: parentId);
+
+      if (!deleted || !context.mounted) return;
+
+      // Back to whatever contained it, which for a top-level object is the
+      // home list. Staying put would leave the screen reading a row that is
+      // gone.
+      context.go(
+        parentId == null ? AppRoutes.home : AppRoutes.unitPath(parentId),
+      );
+    }
+
+    return PopupMenuButton<VoidCallback>(
+      onSelected: (action) => action(),
+      itemBuilder: (context) => [
+        PopupMenuItem(value: delete, child: Text(l10n.deleteUnit)),
+      ],
     );
   }
 }
@@ -542,12 +622,7 @@ class _Children extends ConsumerWidget {
       skeleton: const _PeopleSkeleton(),
       onRetry: () => ref.invalidate(unitChildrenProvider(unitId)),
       builder: (context, children) => children.isEmpty
-          ? Text(
-              l10n.unitNestedEmpty,
-              style: context.textTheme.bodyMedium?.copyWith(
-                color: context.colorScheme.onSurfaceVariant,
-              ),
-            )
+          ? DvEmptyView(message: l10n.unitNestedEmpty)
           : Column(
               children: [for (final child in children) _ChildRow(unit: child)],
             ),

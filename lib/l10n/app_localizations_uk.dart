@@ -323,6 +323,31 @@ class AppLocalizationsUk extends AppLocalizations {
   String get roleSheetTitle => 'Роль у оселі';
 
   @override
+  String get rotateCode => 'Оновити код';
+
+  @override
+  String get codeRotated => 'Код оновлено';
+
+  @override
+  String get rotateCodeTitle => 'Оновити код?';
+
+  @override
+  String get rotateCodeBody =>
+      'Старий код перестане працювати. Тим, кого ще не додали, доведеться надіслати новий.';
+
+  @override
+  String get deleteUnit => 'Видалити';
+
+  @override
+  String deleteUnitTitle(String label) {
+    return 'Видалити «$label»?';
+  }
+
+  @override
+  String get deleteUnitBody =>
+      'Разом з ним зникне все, що всередині, і всі мешканці. Дію не можна скасувати.';
+
+  @override
   String get unitNested => 'Що входить';
 
   @override

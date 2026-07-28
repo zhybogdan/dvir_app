@@ -58,7 +58,7 @@ final class OnboardingControllerProvider
 }
 
 String _$onboardingControllerHash() =>
-    r'a150e168468a7a377b102e6f10308f3408720940';
+    r'87f396e8185823a37b2e18e061c2871a43f9cbb4';
 
 /// Drives the three ways into the app and exposes their loading / error state.
 ///

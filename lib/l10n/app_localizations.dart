@@ -700,6 +700,48 @@ abstract class AppLocalizations {
   /// **'Роль у оселі'**
   String get roleSheetTitle;
 
+  /// No description provided for @rotateCode.
+  ///
+  /// In uk, this message translates to:
+  /// **'Оновити код'**
+  String get rotateCode;
+
+  /// No description provided for @codeRotated.
+  ///
+  /// In uk, this message translates to:
+  /// **'Код оновлено'**
+  String get codeRotated;
+
+  /// No description provided for @rotateCodeTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Оновити код?'**
+  String get rotateCodeTitle;
+
+  /// No description provided for @rotateCodeBody.
+  ///
+  /// In uk, this message translates to:
+  /// **'Старий код перестане працювати. Тим, кого ще не додали, доведеться надіслати новий.'**
+  String get rotateCodeBody;
+
+  /// No description provided for @deleteUnit.
+  ///
+  /// In uk, this message translates to:
+  /// **'Видалити'**
+  String get deleteUnit;
+
+  /// Confirmation before deleting an object
+  ///
+  /// In uk, this message translates to:
+  /// **'Видалити «{label}»?'**
+  String deleteUnitTitle(String label);
+
+  /// No description provided for @deleteUnitBody.
+  ///
+  /// In uk, this message translates to:
+  /// **'Разом з ним зникне все, що всередині, і всі мешканці. Дію не можна скасувати.'**
+  String get deleteUnitBody;
+
   /// No description provided for @unitNested.
   ///
   /// In uk, this message translates to:

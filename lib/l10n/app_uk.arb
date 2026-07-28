@@ -143,6 +143,21 @@
     }
   },
   "roleSheetTitle": "Роль у оселі",
+  "rotateCode": "Оновити код",
+  "codeRotated": "Код оновлено",
+  "rotateCodeTitle": "Оновити код?",
+  "rotateCodeBody": "Старий код перестане працювати. Тим, кого ще не додали, доведеться надіслати новий.",
+  "deleteUnit": "Видалити",
+  "deleteUnitTitle": "Видалити «{label}»?",
+  "@deleteUnitTitle": {
+    "description": "Confirmation before deleting an object",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteUnitBody": "Разом з ним зникне все, що всередині, і всі мешканці. Дію не можна скасувати.",
   "unitNested": "Що входить",
   "unitNestedEmpty": "Кімната, гараж, літня кухня, ділянка. Додайте те, що ведете окремо.",
   "unitAddTitle": "Додати",
