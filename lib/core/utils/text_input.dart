@@ -12,10 +12,19 @@ class UpperCaseTextFormatter extends TextInputFormatter {
   ) => newValue.copyWith(text: newValue.text.toUpperCase());
 }
 
-/// Latin letters and digits only — keeps Cyrillic and separators out of an
-/// invite code regardless of the active keyboard layout.
+/// How many characters `generate_invite_code()` produces.
+const int inviteCodeLength = 8;
+
+/// Latin letters and digits only, and no more than a code's worth of them.
+///
+/// The filter keeps Cyrillic and separators out regardless of the active
+/// keyboard layout. The length limit is what makes a *paste* behave: dropping
+/// the whole share message in leaves the letters of every word stuck together,
+/// and without a cap the field silently holds a forty-character string that the
+/// backend can only answer with "no such code".
 final inviteCodeFormatters = <TextInputFormatter>[
   FilteringTextInputFormatter.allow(RegExp('[A-Za-z0-9]')),
+  LengthLimitingTextInputFormatter(inviteCodeLength),
   const UpperCaseTextFormatter(),
 ];
 

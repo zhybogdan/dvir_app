@@ -57,19 +57,27 @@ class OnboardingController extends _$OnboardingController {
     );
     state = result;
 
-    _refreshScopes(result.hasValue);
+    await _refreshScopes(result.hasValue);
 
     return result.value;
   }
 
-  /// Re-reads the scope list so the router sees the new state.
+  /// Re-reads the scope list and **waits for it**, so the router never decides
+  /// on the answer from before the join.
   ///
-  /// Guarded by `ref.mounted`: this always runs after an await, and the screen
-  /// that started the call may be gone by then — touching a disposed ref
-  /// throws.
-  void _refreshScopes(bool succeeded) {
+  /// Merely invalidating returned control while the fetch was still in flight,
+  /// and the redirect read the empty list underneath as "belongs nowhere" —
+  /// which threw someone who had just sent a request back to onboarding for as
+  /// long as the round trip took, before the waiting screen finally appeared.
+  ///
+  /// Guarded by `ref.mounted` twice over: this runs after an await, and the
+  /// screen that started the call may be gone by then.
+  Future<void> _refreshScopes(bool succeeded) async {
     if (!succeeded || !ref.mounted) return;
 
+    // Invalidate then read, rather than `refresh`: the first marks the list
+    // stale, the second is what waits for the replacement to land.
     ref.invalidate(myScopesProvider);
+    await ref.read(myScopesProvider.future);
   }
 }
