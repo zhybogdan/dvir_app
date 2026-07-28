@@ -6,6 +6,7 @@ import 'package:dvir/features/Members/domain/models/unit_member_view.dart';
 import 'package:dvir/features/Shared/domain/types/member_status.dart';
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
+import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_tile.dart';
 import 'package:dvir/features/Shared/presentation/member_status_l10n.dart';
 import 'package:dvir/features/Units/domain/types/unit_role.dart';
@@ -146,8 +147,8 @@ class _RequestActions extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        TextButton(onPressed: reject, child: Text(l10n.reject)),
-        TextButton(onPressed: approve, child: Text(l10n.approve)),
+        DvTextButton(label: l10n.reject, onPressed: reject),
+        DvTextButton(label: l10n.approve, onPressed: approve),
       ],
     );
   }
@@ -231,6 +232,7 @@ class _MemberMenu extends ConsumerWidget {
 
     return showModalBottomSheet<UnitRole>(
       context: context,
+      routeSettings: const RouteSettings(name: 'UnitRoleSheet'),
       builder: (context) => SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,

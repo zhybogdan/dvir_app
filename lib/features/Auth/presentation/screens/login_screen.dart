@@ -6,6 +6,7 @@ import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Auth/application/auth_controller.dart';
 import 'package:dvir/features/Auth/presentation/components/auth_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -89,11 +90,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               onPressed: isLoading ? null : _submit,
             ),
             const SizedBox(height: AppSpacing.sm),
-            TextButton(
+            DvTextButton(
+              label: l10n.dontHaveAccount,
               onPressed: isLoading
                   ? null
                   : () => context.go(AppRoutes.register),
-              child: Text(l10n.dontHaveAccount),
             ),
           ],
         ),

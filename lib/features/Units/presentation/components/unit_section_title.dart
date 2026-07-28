@@ -1,5 +1,5 @@
-import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
+import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
 import 'package:flutter/material.dart';
 
 /// The one control that acts on a section, sitting in its heading.
@@ -27,10 +27,10 @@ class UnitSectionTitle extends StatelessWidget {
           ),
         ),
         if (action != null)
-          TextButton.icon(
+          DvTextButton(
+            label: action.label,
+            icon: Icons.add,
             onPressed: action.onPressed,
-            icon: const Icon(Icons.add, size: AppSpacing.md),
-            label: Text(action.label),
           ),
       ],
     );

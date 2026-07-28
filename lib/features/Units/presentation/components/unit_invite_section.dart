@@ -8,6 +8,7 @@ import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
 import 'package:dvir/features/Shared/presentation/dv_invite_code_card.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
+import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
 import 'package:dvir/features/Units/application/unit_actions_controller.dart';
 import 'package:dvir/features/Units/application/unit_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
@@ -48,10 +49,10 @@ class _UnitInviteSectionState extends ConsumerState<UnitInviteSection> {
 
     if (alone && !_opened) {
       return Align(
-        child: TextButton.icon(
+        child: DvTextButton(
+          label: l10n.giveAccess,
+          icon: Icons.person_add_alt_outlined,
           onPressed: () => setState(() => _opened = true),
-          icon: const Icon(Icons.person_add_alt_outlined),
-          label: Text(l10n.giveAccess),
         ),
       );
     }
@@ -82,15 +83,15 @@ class _UnitInviteSectionState extends ConsumerState<UnitInviteSection> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextButton.icon(
+              DvTextButton(
+                label: l10n.copyCode,
+                icon: Icons.copy_outlined,
                 onPressed: () => _copy(code, l10n),
-                icon: const Icon(Icons.copy_outlined),
-                label: Text(l10n.copyCode),
               ),
-              TextButton.icon(
+              DvTextButton(
+                label: l10n.rotateCode,
+                icon: Icons.autorenew_rounded,
                 onPressed: () => _rotate(l10n),
-                icon: const Icon(Icons.autorenew_rounded),
-                label: Text(l10n.rotateCode),
               ),
             ],
           ),

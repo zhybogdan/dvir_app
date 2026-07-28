@@ -41,6 +41,8 @@ class DvConfirmDialog extends StatelessWidget {
       barrierDismissible: true,
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       barrierColor: context.colorScheme.scrim.withValues(alpha: 0.5),
+      // Named so the route observer logs what opened, not an unnamed route.
+      routeSettings: const RouteSettings(name: 'DvConfirmDialog'),
       transitionDuration: const Duration(milliseconds: 180),
       pageBuilder: (context, animation, secondaryAnimation) => DvConfirmDialog(
         title: title,

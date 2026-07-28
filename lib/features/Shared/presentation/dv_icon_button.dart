@@ -1,3 +1,4 @@
+import 'package:dvir/core/logging/tap_log.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon.dart';
 import 'package:dvir/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,9 @@ class DvIconButton extends StatelessWidget {
     final asset = _asset;
 
     return IconButton(
-      onPressed: onPressed,
+      // The tooltip is what this control is called, so it is what the log
+      // calls it too.
+      onPressed: loggedTap(tooltip, onPressed),
       tooltip: tooltip,
       color: color,
       icon: asset != null

@@ -12,6 +12,7 @@ import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
+import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -130,11 +131,11 @@ class _ProfileFormState extends ConsumerState<_ProfileForm> {
             // Signing out lives here rather than on the home screen: it is the
             // only account-level action in the app, and home is a list of
             // places, not a settings page.
-            TextButton.icon(
+            DvTextButton(
+              label: l10n.signOut,
+              icon: Icons.logout,
               onPressed: () =>
                   ref.read(authControllerProvider.notifier).signOut(),
-              icon: const Icon(Icons.logout),
-              label: Text(l10n.signOut),
             ),
           ],
         ),
