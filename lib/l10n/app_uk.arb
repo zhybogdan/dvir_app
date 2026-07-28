@@ -145,6 +145,10 @@
     }
   },
   "cancel": "Скасувати",
+  "moreActions": "Ще",
+  "@moreActions": {
+    "description": "Tooltip on the three-dot button that opens a menu"
+  },
   "approve": "Підтвердити",
   "reject": "Відхилити",
   "changeRole": "Змінити роль",
@@ -174,6 +178,10 @@
   "codeRotated": "Код оновлено",
   "rotateCodeTitle": "Оновити код?",
   "rotateCodeBody": "Старий код перестане працювати. Тим, кого ще не додали, доведеться надіслати новий.",
+  "unitAddNotAllowed": "У цей об'єкт не можна нічого додати.",
+  "@unitAddNotAllowed": {
+    "description": "Shown when an object's type holds no nested objects at all"
+  },
   "deleteUnit": "Видалити",
   "deleteUnitTitle": "Видалити «{label}»?",
   "@deleteUnitTitle": {

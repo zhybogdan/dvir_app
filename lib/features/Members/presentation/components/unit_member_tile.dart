@@ -5,6 +5,7 @@ import 'package:dvir/features/Members/domain/member_permissions.dart';
 import 'package:dvir/features/Members/domain/models/unit_member_view.dart';
 import 'package:dvir/features/Shared/domain/types/member_status.dart';
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
+import 'package:dvir/features/Shared/presentation/dv_menu.dart';
 import 'package:dvir/features/Shared/presentation/dv_tile.dart';
 import 'package:dvir/features/Shared/presentation/member_status_l10n.dart';
 import 'package:dvir/features/Units/domain/types/unit_role.dart';
@@ -124,17 +125,22 @@ class _RequestActions extends ConsumerWidget {
         .setStatus(memberId, MemberStatus.active);
 
     Future<void> reject() async {
+      // Held before the dialog: after an await the ref may no longer be the
+      // one this row was built with.
+      final moderation = ref.read(
+        unitMemberModerationProvider(unitId).notifier,
+      );
+
       final confirmed = await DvConfirmDialog.ask(
         context,
         title: l10n.rejectTitle,
         message: l10n.rejectBody(name),
         confirmLabel: l10n.reject,
+        icon: Icons.person_off_outlined,
       );
       if (!confirmed) return;
 
-      await ref
-          .read(unitMemberModerationProvider(unitId).notifier)
-          .setStatus(memberId, MemberStatus.rejected);
+      await moderation.setStatus(memberId, MemberStatus.rejected);
     }
 
     return Row(
@@ -169,13 +175,15 @@ class _MemberMenu extends ConsumerWidget {
     final name = this.name;
     final actions = this.actions;
 
+    // Held before the sheet and the dialog: after an await the ref may no
+    // longer be the one this row was built with.
+    final moderation = ref.read(unitMemberModerationProvider(unitId).notifier);
+
     Future<void> changeRole() async {
       final role = await _pickRole(context, view.membership.role);
       if (role == null) return;
 
-      await ref
-          .read(unitMemberModerationProvider(unitId).notifier)
-          .setRole(memberId, role);
+      await moderation.setRole(memberId, role);
     }
 
     Future<void> remove() async {
@@ -184,12 +192,11 @@ class _MemberMenu extends ConsumerWidget {
         title: l10n.removeMemberTitle,
         message: l10n.removeMemberBody(name),
         confirmLabel: l10n.removeMember,
+        icon: Icons.person_remove_outlined,
       );
       if (!confirmed) return;
 
-      await ref
-          .read(unitMemberModerationProvider(unitId).notifier)
-          .remove(memberId);
+      await moderation.remove(memberId);
     }
 
     // Nothing left to offer: the last owner may neither step down nor remove
@@ -198,13 +205,22 @@ class _MemberMenu extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    return PopupMenuButton<VoidCallback>(
-      onSelected: (action) => action(),
-      itemBuilder: (context) => [
+    return DvMenu(
+      tooltip: l10n.moreActions,
+      items: [
         if (actions.canChangeRole)
-          PopupMenuItem(value: changeRole, child: Text(l10n.changeRole)),
+          DvMenuItem(
+            label: l10n.changeRole,
+            icon: Icons.badge_outlined,
+            onSelected: changeRole,
+          ),
         if (actions.canChangeStatus)
-          PopupMenuItem(value: remove, child: Text(l10n.removeMember)),
+          DvMenuItem(
+            label: l10n.removeMember,
+            icon: Icons.person_remove_outlined,
+            onSelected: remove,
+            isDestructive: true,
+          ),
       ],
     );
   }

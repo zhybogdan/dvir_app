@@ -754,6 +754,12 @@ abstract class AppLocalizations {
   /// **'Скасувати'**
   String get cancel;
 
+  /// Tooltip on the three-dot button that opens a menu
+  ///
+  /// In uk, this message translates to:
+  /// **'Ще'**
+  String get moreActions;
+
   /// No description provided for @approve.
   ///
   /// In uk, this message translates to:
@@ -831,6 +837,12 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Старий код перестане працювати. Тим, кого ще не додали, доведеться надіслати новий.'**
   String get rotateCodeBody;
+
+  /// Shown when an object's type holds no nested objects at all
+  ///
+  /// In uk, this message translates to:
+  /// **'У цей об\'єкт не можна нічого додати.'**
+  String get unitAddNotAllowed;
 
   /// No description provided for @deleteUnit.
   ///

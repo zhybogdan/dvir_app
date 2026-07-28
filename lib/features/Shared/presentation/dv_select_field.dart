@@ -157,6 +157,11 @@ class _OptionsSheet<T> extends StatelessWidget {
   }
 }
 
+/// A filled band across the sheet rather than a line of small grey text.
+///
+/// Set apart deliberately: seventeen options scroll past as one column, and a
+/// heading that differs from the rows only in size and colour is read as one of
+/// them. A band the full width of the sheet is a place the eye stops.
 class _GroupHeading extends StatelessWidget {
   const _GroupHeading({required this.text});
 
@@ -164,18 +169,21 @@ class _GroupHeading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.md,
-        AppSpacing.md,
-        AppSpacing.md,
-        AppSpacing.xs,
+    final scheme = context.colorScheme;
+
+    return Container(
+      width: double.infinity,
+      color: scheme.surfaceContainerHighest,
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm,
       ),
       child: Text(
         text.toUpperCase(),
         style: context.textTheme.labelSmall?.copyWith(
-          color: context.colorScheme.onSurfaceVariant,
+          color: scheme.onSurfaceVariant,
           letterSpacing: 1,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );

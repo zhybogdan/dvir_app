@@ -350,6 +350,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get cancel => 'Скасувати';
 
   @override
+  String get moreActions => 'Ще';
+
+  @override
   String get approve => 'Підтвердити';
 
   @override
@@ -392,6 +395,9 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get rotateCodeBody =>
       'Старий код перестане працювати. Тим, кого ще не додали, доведеться надіслати новий.';
+
+  @override
+  String get unitAddNotAllowed => 'У цей об\'єкт не можна нічого додати.';
 
   @override
   String get deleteUnit => 'Видалити';

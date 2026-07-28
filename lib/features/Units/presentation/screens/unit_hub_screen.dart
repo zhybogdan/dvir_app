@@ -16,6 +16,7 @@ import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
 import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_invite_code_card.dart';
+import 'package:dvir/features/Shared/presentation/dv_menu.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
 import 'package:dvir/features/Shared/presentation/dv_tile.dart';
@@ -24,6 +25,7 @@ import 'package:dvir/features/Units/application/unit_children_controller.dart';
 import 'package:dvir/features/Units/application/unit_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/types/unit_role.dart';
+import 'package:dvir/features/Units/domain/unit_nesting.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -123,7 +125,9 @@ class _Hub extends ConsumerWidget {
           const SizedBox(height: AppSpacing.lg),
           _SectionTitle(
             l10n.unitNested,
-            action: role == UnitRole.owner
+            // A room holds nothing, so it is not offered the button — the
+            // picker behind it would have no types to show.
+            action: role == UnitRole.owner && canHoldChildren(unit.type)
                 ? (
                     label: l10n.unitAddCta,
                     onPressed: () =>
@@ -358,19 +362,22 @@ class _UnitMenu extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final unit = this.unit;
 
+    // Held before the dialog: after an await the ref may no longer be the one
+    // this menu was built with.
+    final unitActions = ref.read(unitActionsProvider(unit.id).notifier);
+
     Future<void> delete() async {
       final confirmed = await DvConfirmDialog.ask(
         context,
         title: l10n.deleteUnitTitle(unit.label),
         message: l10n.deleteUnitBody,
         confirmLabel: l10n.deleteUnit,
+        icon: Icons.delete_outline_rounded,
       );
       if (!confirmed || !context.mounted) return;
 
       final parentId = unit.parentId;
-      final deleted = await ref
-          .read(unitActionsProvider(unit.id).notifier)
-          .delete(parentId: parentId);
+      final deleted = await unitActions.delete(parentId: parentId);
 
       if (!deleted || !context.mounted) return;
 
@@ -382,10 +389,15 @@ class _UnitMenu extends ConsumerWidget {
       );
     }
 
-    return PopupMenuButton<VoidCallback>(
-      onSelected: (action) => action(),
-      itemBuilder: (context) => [
-        PopupMenuItem(value: delete, child: Text(l10n.deleteUnit)),
+    return DvMenu(
+      tooltip: l10n.moreActions,
+      items: [
+        DvMenuItem(
+          label: l10n.deleteUnit,
+          icon: Icons.delete_outline_rounded,
+          onSelected: delete,
+          isDestructive: true,
+        ),
       ],
     );
   }
