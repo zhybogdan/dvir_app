@@ -74,7 +74,7 @@ final class ProfileControllerProvider
   ProfileController create() => ProfileController();
 }
 
-String _$profileControllerHash() => r'0a16e29956671cec475d420b4de6103281b028a7';
+String _$profileControllerHash() => r'2edca400c4a211fcde6da6b1937f16588b5acd2f';
 
 /// Saving it, and the loading / error state of that.
 

@@ -34,6 +34,17 @@ Future<UnitRole?> myUnitRole(Ref ref, String unitId) async {
       .firstOrNull;
 }
 
+/// Whether the signed-in user runs this object.
+///
+/// Derived here rather than compared at each call site: the hub asks three
+/// times over — for the app-bar actions, the invite code and the residents
+/// list — and three copies of the same comparison are three places for it to
+/// drift. Loading counts as "no": what an owner is offered appears once the
+/// role is known, rather than flashing and being taken away.
+@riverpod
+bool isUnitOwner(Ref ref, String unitId) =>
+    ref.watch(myUnitRoleProvider(unitId)).value == UnitRole.owner;
+
 /// Deciding on the people of one object, and the loading / error state of it.
 ///
 /// Keyed by the object so a refusal on one screen cannot light up another, and
