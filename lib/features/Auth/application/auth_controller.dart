@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dvir/core/riverpod/guarded_actions.dart';
 import 'package:dvir/features/Auth/data/auth_repository_impl.dart';
 import 'package:dvir/features/Auth/domain/models/app_user.dart';
 import 'package:dvir/features/Auth/domain/types/sign_up_outcome.dart';
@@ -20,15 +21,14 @@ Stream<AppUser?> authState(Ref ref) =>
 /// without manual try/catch. On success the auth stream changes and the router
 /// redirect handles navigation — the controller never navigates itself.
 @riverpod
-class AuthController extends _$AuthController {
+class AuthController extends _$AuthController with GuardedActions {
   @override
   FutureOr<void> build() {}
 
-  Future<void> signIn({required String email, required String password}) async {
+  Future<void> signIn({required String email, required String password}) {
     final repository = ref.read(authRepositoryProvider);
 
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(
+    return guardedVoid(
       () => repository.signIn(email: email, password: password),
     );
   }
@@ -39,25 +39,15 @@ class AuthController extends _$AuthController {
   Future<SignUpOutcome?> signUp({
     required String email,
     required String password,
-  }) async {
+  }) {
     final repository = ref.read(authRepositoryProvider);
 
-    state = const AsyncLoading();
-    final result = await AsyncValue.guard(
-      () => repository.signUp(email: email, password: password),
-    );
-    state = result;
-
-    return result.value;
+    return guarded(() => repository.signUp(email: email, password: password));
   }
 
-  Future<void> signOut() async {
+  Future<void> signOut() {
     final repository = ref.read(authRepositoryProvider);
 
-    state = const AsyncLoading();
-    final result = await AsyncValue.guard(repository.signOut);
-
-    if (!ref.mounted) return;
-    state = result;
+    return guardedVoid(repository.signOut);
   }
 }

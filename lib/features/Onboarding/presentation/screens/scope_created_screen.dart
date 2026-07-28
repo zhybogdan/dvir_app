@@ -11,6 +11,7 @@ import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon.dart';
 import 'package:dvir/features/Shared/presentation/dv_invite_code_card.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
+import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
 import 'package:dvir/features/Shared/presentation/splash_screen.dart';
 import 'package:dvir/gen/assets.gen.dart';
 import 'package:dvir/l10n/app_localizations.dart';
@@ -98,21 +99,21 @@ class ScopeCreatedScreen extends ConsumerWidget {
                   onPressed: () => _share(l10n, name, inviteCode),
                 ),
                 const SizedBox(height: AppSpacing.sm),
-                TextButton.icon(
+                DvTextButton(
+                  label: l10n.copyCode,
+                  icon: Icons.copy_outlined,
                   onPressed: () => _copyCode(context, ref, inviteCode),
-                  icon: const Icon(Icons.copy_outlined),
-                  label: Text(l10n.copyCode),
                 ),
                 // Navigates rather than leaving it to the redirect: the creator
                 // is already an active admin, and an active member is
                 // deliberately allowed to stand inside onboarding — that is how
                 // a second scope gets added.
-                TextButton(
+                DvTextButton(
+                  label: l10n.goToHome,
                   onPressed: () {
                     ref.invalidate(myScopesProvider);
                     context.go(AppRoutes.home);
                   },
-                  child: Text(l10n.goToHome),
                 ),
               ],
             ),

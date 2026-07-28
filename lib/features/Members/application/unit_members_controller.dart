@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dvir/core/riverpod/guarded_actions.dart';
 import 'package:dvir/features/Auth/application/auth_controller.dart';
 import 'package:dvir/features/Members/data/members_repository.dart';
 import 'package:dvir/features/Members/data/members_repository_impl.dart';
@@ -33,6 +34,17 @@ Future<UnitRole?> myUnitRole(Ref ref, String unitId) async {
       .firstOrNull;
 }
 
+/// Whether the signed-in user runs this object.
+///
+/// Derived here rather than compared at each call site: the hub asks three
+/// times over — for the app-bar actions, the invite code and the residents
+/// list — and three copies of the same comparison are three places for it to
+/// drift. Loading counts as "no": what an owner is offered appears once the
+/// role is known, rather than flashing and being taken away.
+@riverpod
+bool isUnitOwner(Ref ref, String unitId) =>
+    ref.watch(myUnitRoleProvider(unitId)).value == UnitRole.owner;
+
 /// Deciding on the people of one object, and the loading / error state of it.
 ///
 /// Keyed by the object so a refusal on one screen cannot light up another, and
@@ -41,7 +53,7 @@ Future<UnitRole?> myUnitRole(Ref ref, String unitId) async {
 /// The rules are not repeated here — the database owns them and answers DV004
 /// and DV005, which the failure mapper turns into a sentence. This only asks.
 @riverpod
-class UnitMemberModeration extends _$UnitMemberModeration {
+class UnitMemberModeration extends _$UnitMemberModeration with GuardedActions {
   @override
   FutureOr<void> build(String unitId) {}
 
@@ -58,20 +70,14 @@ class UnitMemberModeration extends _$UnitMemberModeration {
   Future<void> remove(String memberId) =>
       _run((repository) => repository.removeUnitMember(memberId));
 
-  Future<void> _run(Future<void> Function(MembersRepository) call) async {
+  /// Every decision here changes the same list, so what to re-read afterwards
+  /// is the same too.
+  Future<void> _run(Future<void> Function(MembersRepository) call) {
     final repository = ref.read(membersRepositoryProvider);
 
-    state = const AsyncLoading();
-    final result = await AsyncValue.guard(() => call(repository));
-
-    // Checked before the assignment, not after: this runs past an await, and
-    // writing `state` on a notifier whose screen has gone throws rather than
-    // being ignored.
-    if (!ref.mounted) return;
-    state = result;
-
-    if (result.hasError) return;
-
-    ref.invalidate(unitMembersProvider(unitId));
+    return guardedVoid(
+      () => call(repository),
+      onSuccess: () => ref.invalidate(unitMembersProvider(unitId)),
+    );
   }
 }

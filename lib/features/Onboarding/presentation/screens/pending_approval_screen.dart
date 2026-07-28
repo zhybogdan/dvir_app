@@ -12,6 +12,7 @@ import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
+import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -97,17 +98,15 @@ class PendingApprovalScreen extends ConsumerWidget {
               // Waiting for one answer must not be the only thing on offer:
               // from here a person can start their own object or try another
               // code, the same way anyone else does.
-              TextButton(
+              DvTextButton(
+                label: l10n.pendingOtherWays,
                 onPressed: () => context.push(AppRoutes.onboarding),
-                child: Text(l10n.pendingOtherWays),
               ),
               if (scope != null && scope.status == MemberStatus.pending)
-                TextButton(
+                DvTextButton(
+                  label: l10n.withdrawRequest,
+                  isDestructive: true,
                   onPressed: () => _withdraw(context, ref, scope),
-                  style: TextButton.styleFrom(
-                    foregroundColor: context.colorScheme.error,
-                  ),
-                  child: Text(l10n.withdrawRequest),
                 ),
             ],
           ),

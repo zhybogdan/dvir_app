@@ -7,6 +7,7 @@ import 'package:dvir/features/Auth/application/auth_controller.dart';
 import 'package:dvir/features/Auth/domain/types/sign_up_outcome.dart';
 import 'package:dvir/features/Auth/presentation/components/auth_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -117,9 +118,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               onPressed: isLoading ? null : _submit,
             ),
             const SizedBox(height: AppSpacing.sm),
-            TextButton(
+            DvTextButton(
+              label: l10n.alreadyHaveAccount,
               onPressed: isLoading ? null : () => context.go(AppRoutes.login),
-              child: Text(l10n.alreadyHaveAccount),
             ),
           ],
         ),

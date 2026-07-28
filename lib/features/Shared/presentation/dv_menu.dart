@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
+import 'package:dvir/core/logging/tap_log.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:flutter/material.dart';
 
@@ -93,11 +94,12 @@ double _cardHeight(int rows) => rows * _rowHeight + _cardPadding * 2;
 /// The card's own route: a barrier that dismisses on a tap outside, and a
 /// result that is the chosen item.
 class _DvMenuRoute extends PopupRoute<DvMenuItem> {
+  // Named so the route observer logs "DvMenu" rather than an unnamed route.
   _DvMenuRoute({
     required this.anchor,
     required this.items,
     required this.barrierLabel,
-  });
+  }) : super(settings: const RouteSettings(name: 'DvMenu'));
 
   /// Where the button sits, in global coordinates.
   final Rect anchor;
@@ -258,7 +260,9 @@ class _DvMenuRow extends StatelessWidget {
     final color = item.isDestructive ? scheme.error : scheme.onSurface;
 
     return InkWell(
-      onTap: () => Navigator.of(context).pop(item),
+      // Logged here rather than around `onSelected`, so the line lands when the
+      // row is pressed and not after the menu has finished closing.
+      onTap: loggedTap(item.label, () => Navigator.of(context).pop(item)),
       child: SizedBox(
         height: _rowHeight,
         child: Padding(

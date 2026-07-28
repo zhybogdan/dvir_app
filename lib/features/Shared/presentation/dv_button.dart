@@ -1,4 +1,5 @@
 import 'package:dvir/core/extensions/build_context_x.dart';
+import 'package:dvir/core/logging/tap_log.dart';
 import 'package:flutter/material.dart';
 
 /// Primary filled button with an inline loading state.
@@ -46,6 +47,7 @@ class DvButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final icon = this.icon;
     final scheme = context.colorScheme;
+    final onPressed = loggedTap(label, this.onPressed);
 
     // Null keeps the theme's own filled style; the other two are the same
     // button in different clothes, so only the colours are overridden.

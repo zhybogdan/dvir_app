@@ -69,12 +69,8 @@ class UnitEditScreen extends ConsumerWidget {
     // than sitting inside it.
     if (loaded != null) return UnitFormScreen(unit: loaded);
 
-    return DvScaffold(
-      extendBodyBehindAppBar: true,
-      appBar: DvAppBar(
-        title: l10n.unitEditTitle,
-        backgroundColor: Colors.transparent,
-      ),
+    return _FormScaffold(
+      title: l10n.unitEditTitle,
       body: DvAsyncView<Unit>(
         value: unit,
         onRetry: () => ref.invalidate(unitProvider(unitId)),
@@ -84,6 +80,25 @@ class UnitEditScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+/// The shell every state of this screen shares — the form itself, the wait for
+/// its parent, and the refusal when the parent holds nothing.
+///
+/// Transparent bar over the scaffold's own background, so the four of them
+/// cannot drift apart in how they meet it.
+class _FormScaffold extends StatelessWidget {
+  const _FormScaffold({required this.title, required this.body});
+
+  final String title;
+  final Widget body;
+
+  @override
+  Widget build(BuildContext context) => DvScaffold(
+    extendBodyBehindAppBar: true,
+    appBar: DvAppBar(title: title, backgroundColor: Colors.transparent),
+    body: body,
+  );
 }
 
 class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
@@ -204,12 +219,8 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
     // waits for the parent rather than guessing. In practice there is nothing
     // to wait for — the hub this opens from holds the same object.
     if (parentId != null && parent != null && parent.value == null) {
-      return DvScaffold(
-        extendBodyBehindAppBar: true,
-        appBar: DvAppBar(
-          title: l10n.unitAddTitle,
-          backgroundColor: Colors.transparent,
-        ),
+      return _FormScaffold(
+        title: l10n.unitAddTitle,
         body: DvAsyncView<Unit>(
           value: parent,
           onRetry: () => ref.invalidate(unitProvider(parentId)),
@@ -226,12 +237,8 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
     // The hub hides the button that leads here, so this is only reachable by
     // link — but a form with nothing to offer must say so rather than throw.
     if (options.isEmpty) {
-      return DvScaffold(
-        extendBodyBehindAppBar: true,
-        appBar: DvAppBar(
-          title: l10n.unitAddTitle,
-          backgroundColor: Colors.transparent,
-        ),
+      return _FormScaffold(
+        title: l10n.unitAddTitle,
         body: DvEmptyView(message: l10n.unitAddNotAllowed),
       );
     }
@@ -255,9 +262,8 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
       _ => l10n.createUnitCta,
     };
 
-    return DvScaffold(
-      extendBodyBehindAppBar: true,
-      appBar: DvAppBar(title: title, backgroundColor: Colors.transparent),
+    return _FormScaffold(
+      title: title,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(AppSpacing.lg),

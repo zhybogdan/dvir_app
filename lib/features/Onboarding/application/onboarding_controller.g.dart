@@ -14,8 +14,9 @@ part of 'onboarding_controller.dart';
 /// a freshly created scope, or which kind of scope a code turned out to open —
 /// and null when the call failed, with the reason left in `state`.
 ///
-/// The controller never navigates: every action ends by refreshing
-/// [myMembershipProvider], and the router redirect takes the user from there.
+/// The controller never navigates: an action that changes where the user
+/// belongs ends by refreshing [myScopesProvider], and the router redirect takes
+/// them from there.
 
 @ProviderFor(OnboardingController)
 final onboardingControllerProvider = OnboardingControllerProvider._();
@@ -26,8 +27,9 @@ final onboardingControllerProvider = OnboardingControllerProvider._();
 /// a freshly created scope, or which kind of scope a code turned out to open —
 /// and null when the call failed, with the reason left in `state`.
 ///
-/// The controller never navigates: every action ends by refreshing
-/// [myMembershipProvider], and the router redirect takes the user from there.
+/// The controller never navigates: an action that changes where the user
+/// belongs ends by refreshing [myScopesProvider], and the router redirect takes
+/// them from there.
 final class OnboardingControllerProvider
     extends $AsyncNotifierProvider<OnboardingController, void> {
   /// Drives the three ways into the app and exposes their loading / error state.
@@ -36,8 +38,9 @@ final class OnboardingControllerProvider
   /// a freshly created scope, or which kind of scope a code turned out to open —
   /// and null when the call failed, with the reason left in `state`.
   ///
-  /// The controller never navigates: every action ends by refreshing
-  /// [myMembershipProvider], and the router redirect takes the user from there.
+  /// The controller never navigates: an action that changes where the user
+  /// belongs ends by refreshing [myScopesProvider], and the router redirect takes
+  /// them from there.
   OnboardingControllerProvider._()
     : super(
         from: null,
@@ -58,7 +61,7 @@ final class OnboardingControllerProvider
 }
 
 String _$onboardingControllerHash() =>
-    r'c6c25affb0b426e4ac66a6153411706b7382ae98';
+    r'fb01296fefcffb9a124da602c5a4402765a5b483';
 
 /// Drives the three ways into the app and exposes their loading / error state.
 ///
@@ -66,8 +69,9 @@ String _$onboardingControllerHash() =>
 /// a freshly created scope, or which kind of scope a code turned out to open —
 /// and null when the call failed, with the reason left in `state`.
 ///
-/// The controller never navigates: every action ends by refreshing
-/// [myMembershipProvider], and the router redirect takes the user from there.
+/// The controller never navigates: an action that changes where the user
+/// belongs ends by refreshing [myScopesProvider], and the router redirect takes
+/// them from there.
 
 abstract class _$OnboardingController extends $AsyncNotifier<void> {
   FutureOr<void> build();

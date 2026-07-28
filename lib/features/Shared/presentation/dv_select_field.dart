@@ -40,6 +40,8 @@ class DvSelectField<T> extends StatelessWidget {
       context: context,
       showDragHandle: true,
       useSafeArea: true,
+      // Named so the route observer logs which field was opened.
+      routeSettings: RouteSettings(name: 'DvSelectField($label)'),
       builder: (_) => _OptionsSheet<T>(
         title: label,
         options: options,

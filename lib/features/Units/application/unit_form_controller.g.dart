@@ -52,7 +52,7 @@ final class UnitFormControllerProvider
 }
 
 String _$unitFormControllerHash() =>
-    r'46094bddb8abd69abbb151b7ad5b7dc74931b616';
+    r'3a35d1632a55d69648f2f1f584440d2493d28ffd';
 
 /// Creating and editing an object, and the loading / error state of both.
 ///

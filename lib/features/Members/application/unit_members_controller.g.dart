@@ -197,6 +197,121 @@ final class MyUnitRoleFamily extends $Family
   String toString() => r'myUnitRoleProvider';
 }
 
+/// Whether the signed-in user runs this object.
+///
+/// Derived here rather than compared at each call site: the hub asks three
+/// times over — for the app-bar actions, the invite code and the residents
+/// list — and three copies of the same comparison are three places for it to
+/// drift. Loading counts as "no": what an owner is offered appears once the
+/// role is known, rather than flashing and being taken away.
+
+@ProviderFor(isUnitOwner)
+final isUnitOwnerProvider = IsUnitOwnerFamily._();
+
+/// Whether the signed-in user runs this object.
+///
+/// Derived here rather than compared at each call site: the hub asks three
+/// times over — for the app-bar actions, the invite code and the residents
+/// list — and three copies of the same comparison are three places for it to
+/// drift. Loading counts as "no": what an owner is offered appears once the
+/// role is known, rather than flashing and being taken away.
+
+final class IsUnitOwnerProvider extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
+  /// Whether the signed-in user runs this object.
+  ///
+  /// Derived here rather than compared at each call site: the hub asks three
+  /// times over — for the app-bar actions, the invite code and the residents
+  /// list — and three copies of the same comparison are three places for it to
+  /// drift. Loading counts as "no": what an owner is offered appears once the
+  /// role is known, rather than flashing and being taken away.
+  IsUnitOwnerProvider._({
+    required IsUnitOwnerFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'isUnitOwnerProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$isUnitOwnerHash();
+
+  @override
+  String toString() {
+    return r'isUnitOwnerProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $ProviderElement<bool> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  bool create(Ref ref) {
+    final argument = this.argument as String;
+    return isUnitOwner(ref, argument);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is IsUnitOwnerProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$isUnitOwnerHash() => r'f9f8301e56e46b6a872a8164e2b63cdcc5cd5844';
+
+/// Whether the signed-in user runs this object.
+///
+/// Derived here rather than compared at each call site: the hub asks three
+/// times over — for the app-bar actions, the invite code and the residents
+/// list — and three copies of the same comparison are three places for it to
+/// drift. Loading counts as "no": what an owner is offered appears once the
+/// role is known, rather than flashing and being taken away.
+
+final class IsUnitOwnerFamily extends $Family
+    with $FunctionalFamilyOverride<bool, String> {
+  IsUnitOwnerFamily._()
+    : super(
+        retry: null,
+        name: r'isUnitOwnerProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  /// Whether the signed-in user runs this object.
+  ///
+  /// Derived here rather than compared at each call site: the hub asks three
+  /// times over — for the app-bar actions, the invite code and the residents
+  /// list — and three copies of the same comparison are three places for it to
+  /// drift. Loading counts as "no": what an owner is offered appears once the
+  /// role is known, rather than flashing and being taken away.
+
+  IsUnitOwnerProvider call(String unitId) =>
+      IsUnitOwnerProvider._(argument: unitId, from: this);
+
+  @override
+  String toString() => r'isUnitOwnerProvider';
+}
+
 /// Deciding on the people of one object, and the loading / error state of it.
 ///
 /// Keyed by the object so a refusal on one screen cannot light up another, and
@@ -261,7 +376,7 @@ final class UnitMemberModerationProvider
 }
 
 String _$unitMemberModerationHash() =>
-    r'695ad653c29b14ed1f55cda1618f6591267d73f8';
+    r'7bd94a6161b456c0fb8a12a110ffc4f2db0a874f';
 
 /// Deciding on the people of one object, and the loading / error state of it.
 ///
