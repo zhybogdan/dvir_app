@@ -231,10 +231,17 @@ class _ScopeCard extends StatelessWidget {
   };
 
   IconData _iconFor(UnitType? type) => switch (type) {
-    UnitType.house => Icons.home_rounded,
-    UnitType.apartment => Icons.meeting_room_rounded,
-    UnitType.plot => Icons.grass_rounded,
+    UnitType.house || UnitType.summerHouse => Icons.home_rounded,
+    UnitType.apartment => Icons.apartment_rounded,
+    UnitType.room || UnitType.corridor => Icons.meeting_room_rounded,
     UnitType.garage => Icons.garage_rounded,
+    UnitType.plot => Icons.grass_rounded,
+    UnitType.basement || UnitType.storeroom => Icons.inventory_2_outlined,
+    UnitType.summerKitchen => Icons.outdoor_grill_rounded,
+    UnitType.shed => Icons.cabin_rounded,
+    UnitType.pool => Icons.pool_rounded,
+    UnitType.balcony || UnitType.loggia => Icons.balcony_rounded,
+    UnitType.bathroom => Icons.shower_rounded,
     UnitType.office => Icons.business_rounded,
     UnitType.custom || null => Icons.place_rounded,
   };

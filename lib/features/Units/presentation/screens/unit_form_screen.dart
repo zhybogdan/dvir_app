@@ -94,7 +94,10 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
   late final _areaCtrl = TextEditingController(
     text: _unit?.areaM2?.toString() ?? '',
   );
-  late UnitType _type = _unit?.type ?? UnitType.house;
+  // A new object inside another is a part of it — a room far more often than a
+  // second house. A top-level one is the address itself.
+  late UnitType _type =
+      _unit?.type ?? (widget.parentId == null ? UnitType.house : UnitType.room);
 
   @override
   void dispose() {

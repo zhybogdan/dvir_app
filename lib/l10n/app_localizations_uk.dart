@@ -221,10 +221,43 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitTypeApartment => 'Квартира';
 
   @override
-  String get unitTypePlot => 'Ділянка';
+  String get unitTypeRoom => 'Кімната';
 
   @override
   String get unitTypeGarage => 'Гараж';
+
+  @override
+  String get unitTypePlot => 'Ділянка';
+
+  @override
+  String get unitTypeBasement => 'Підвал';
+
+  @override
+  String get unitTypeSummerKitchen => 'Літня кухня';
+
+  @override
+  String get unitTypeSummerHouse => 'Літній дім';
+
+  @override
+  String get unitTypeShed => 'Сарай';
+
+  @override
+  String get unitTypePool => 'Басейн';
+
+  @override
+  String get unitTypeBalcony => 'Балкон';
+
+  @override
+  String get unitTypeLoggia => 'Лоджія';
+
+  @override
+  String get unitTypeBathroom => 'Санвузол';
+
+  @override
+  String get unitTypeCorridor => 'Коридор';
+
+  @override
+  String get unitTypeStoreroom => 'Комора';
 
   @override
   String get unitTypeOffice => 'Офіс';
@@ -256,13 +289,14 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unnamedMember => 'Мешканець';
 
   @override
-  String get unitNested => 'Вкладені об\'єкти';
+  String get unitNested => 'Що входить';
 
   @override
-  String get unitNestedEmpty => 'Усередині поки нічого немає';
+  String get unitNestedEmpty =>
+      'Кімната, гараж, літня кухня, ділянка. Додайте те, що ведете окремо.';
 
   @override
-  String get unitAddTitle => 'Додати об\'єкт';
+  String get unitAddTitle => 'Додати';
 
   @override
   String get unitAddCta => 'Додати';

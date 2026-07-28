@@ -508,17 +508,83 @@ abstract class AppLocalizations {
   /// **'Квартира'**
   String get unitTypeApartment;
 
-  /// No description provided for @unitTypePlot.
+  /// No description provided for @unitTypeRoom.
   ///
   /// In uk, this message translates to:
-  /// **'Ділянка'**
-  String get unitTypePlot;
+  /// **'Кімната'**
+  String get unitTypeRoom;
 
   /// No description provided for @unitTypeGarage.
   ///
   /// In uk, this message translates to:
   /// **'Гараж'**
   String get unitTypeGarage;
+
+  /// No description provided for @unitTypePlot.
+  ///
+  /// In uk, this message translates to:
+  /// **'Ділянка'**
+  String get unitTypePlot;
+
+  /// No description provided for @unitTypeBasement.
+  ///
+  /// In uk, this message translates to:
+  /// **'Підвал'**
+  String get unitTypeBasement;
+
+  /// No description provided for @unitTypeSummerKitchen.
+  ///
+  /// In uk, this message translates to:
+  /// **'Літня кухня'**
+  String get unitTypeSummerKitchen;
+
+  /// No description provided for @unitTypeSummerHouse.
+  ///
+  /// In uk, this message translates to:
+  /// **'Літній дім'**
+  String get unitTypeSummerHouse;
+
+  /// No description provided for @unitTypeShed.
+  ///
+  /// In uk, this message translates to:
+  /// **'Сарай'**
+  String get unitTypeShed;
+
+  /// No description provided for @unitTypePool.
+  ///
+  /// In uk, this message translates to:
+  /// **'Басейн'**
+  String get unitTypePool;
+
+  /// No description provided for @unitTypeBalcony.
+  ///
+  /// In uk, this message translates to:
+  /// **'Балкон'**
+  String get unitTypeBalcony;
+
+  /// No description provided for @unitTypeLoggia.
+  ///
+  /// In uk, this message translates to:
+  /// **'Лоджія'**
+  String get unitTypeLoggia;
+
+  /// No description provided for @unitTypeBathroom.
+  ///
+  /// In uk, this message translates to:
+  /// **'Санвузол'**
+  String get unitTypeBathroom;
+
+  /// No description provided for @unitTypeCorridor.
+  ///
+  /// In uk, this message translates to:
+  /// **'Коридор'**
+  String get unitTypeCorridor;
+
+  /// No description provided for @unitTypeStoreroom.
+  ///
+  /// In uk, this message translates to:
+  /// **'Комора'**
+  String get unitTypeStoreroom;
 
   /// No description provided for @unitTypeOffice.
   ///
@@ -577,19 +643,19 @@ abstract class AppLocalizations {
   /// No description provided for @unitNested.
   ///
   /// In uk, this message translates to:
-  /// **'Вкладені об\'єкти'**
+  /// **'Що входить'**
   String get unitNested;
 
   /// No description provided for @unitNestedEmpty.
   ///
   /// In uk, this message translates to:
-  /// **'Усередині поки нічого немає'**
+  /// **'Кімната, гараж, літня кухня, ділянка. Додайте те, що ведете окремо.'**
   String get unitNestedEmpty;
 
   /// No description provided for @unitAddTitle.
   ///
   /// In uk, this message translates to:
-  /// **'Додати об\'єкт'**
+  /// **'Додати'**
   String get unitAddTitle;
 
   /// No description provided for @unitAddCta.
