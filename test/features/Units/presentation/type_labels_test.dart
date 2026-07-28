@@ -31,6 +31,24 @@ void main() {
     expectDistinctLabels(UnitType.values, (type) => type.label(l10n));
   });
 
+  // The picker draws a heading wherever the group changes and reads the enum in
+  // declaration order. A type declared outside its run would print its own
+  // heading a second time, further down.
+  test('object types are declared in group order', () {
+    final runs = <String>[];
+
+    for (final type in UnitType.values) {
+      final group = type.groupLabel(l10n);
+      if (runs.isEmpty || runs.last != group) runs.add(group);
+    }
+
+    expect(
+      runs,
+      hasLength(runs.toSet().length),
+      reason: 'a group is split across two runs: $runs',
+    );
+  });
+
   test('every object role is named, and named once', () {
     expectDistinctLabels(UnitRole.values, (role) => role.label(l10n));
   });

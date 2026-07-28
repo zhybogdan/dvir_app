@@ -63,11 +63,14 @@ class UnitMemberModeration extends _$UnitMemberModeration {
 
     state = const AsyncLoading();
     final result = await AsyncValue.guard(() => call(repository));
+
+    // Checked before the assignment, not after: this runs past an await, and
+    // writing `state` on a notifier whose screen has gone throws rather than
+    // being ignored.
+    if (!ref.mounted) return;
     state = result;
 
-    // Guarded by `ref.mounted`: this runs after an await, and the screen that
-    // started the call may be gone by then.
-    if (result.hasError || !ref.mounted) return;
+    if (result.hasError) return;
 
     ref.invalidate(unitMembersProvider(unitId));
   }

@@ -13,6 +13,15 @@
   "memberStatusRejected": "Відхилено",
   "memberStatusBlocked": "Доступ закрито",
 
+  "profileTitle": "Профіль",
+  "profileHint": "Ім'я побачать люди у ваших оселях — без нього ви для них просто «Мешканець».",
+  "profileName": "Ім'я",
+  "profileNameHint": "Богдан Жилко",
+  "profileNameRequired": "Введіть ім'я",
+  "profilePhone": "Телефон",
+  "profilePhoneHint": "+380 67 123 45 67",
+  "profileSaved": "Збережено",
+
   "signIn": "Увійти",
   "signUp": "Зареєструватися",
   "signOut": "Вийти",
@@ -52,6 +61,10 @@
   "blockedTitle": "Доступ закрито",
   "blockedBody": "Ваш доступ до цієї спільноти закрито.",
   "refreshCta": "Оновити",
+  "withdrawRequest": "Скасувати заявку",
+  "withdrawRequestTitle": "Скасувати заявку?",
+  "withdrawRequestBody": "Заявку буде видалено. Ви зможете подати її знову за тим самим кодом.",
+  "pendingOtherWays": "Створити свою оселю або ввести інший код",
 
   "joinByCodeIntro": "Введіть код запрошення, який вам надіслали, щоб приєднатися до спільноти або оселі.",
   "joinCodeHint": "A3F9C1B2",
@@ -101,12 +114,17 @@
   "unitTypeStoreroom": "Комора",
   "unitTypeOffice": "Офіс",
   "unitTypeCustom": "Інше",
+  "unitTypeGroupMain": "Стоїть за адресою",
+  "unitTypeGroupRooms": "Усередині",
+  "unitTypeGroupBuildings": "Окремі споруди",
+  "unitTypeGroupOther": "Різне",
 
   "unitRoleOwner": "Власник",
   "unitRoleFamily": "Родина",
   "unitRoleTenant": "Орендар",
   "unitPeople": "Мешканці",
-  "unitPeopleEmpty": "Поки що ви тут єдиний",
+  "unitPeopleEmpty": "Тут ще немає мешканців",
+  "giveAccess": "Дати доступ",
   "unitAreaValue": "{area} м²",
   "@unitAreaValue": {
     "description": "Object area with its unit of measure",
@@ -117,6 +135,15 @@
     }
   },
   "unnamedMember": "Мешканець",
+  "unnamedMemberNumbered": "Мешканець {number}",
+  "@unnamedMemberNumbered": {
+    "description": "Stand-in name for someone who has not filled in a profile",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
   "cancel": "Скасувати",
   "approve": "Підтвердити",
   "reject": "Відхилити",

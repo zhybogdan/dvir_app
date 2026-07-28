@@ -6,9 +6,8 @@ import 'package:dvir/core/notifications/toast_controller.dart';
 import 'package:dvir/core/utils/share.dart';
 import 'package:dvir/features/Auth/application/auth_controller.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
-import 'package:dvir/features/Members/domain/member_permissions.dart';
 import 'package:dvir/features/Members/domain/models/unit_member_view.dart';
-import 'package:dvir/features/Shared/domain/types/member_status.dart';
+import 'package:dvir/features/Members/presentation/components/unit_member_tile.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_background.dart';
@@ -19,13 +18,12 @@ import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_invite_code_card.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
-import 'package:dvir/features/Shared/presentation/member_status_l10n.dart';
+import 'package:dvir/features/Shared/presentation/dv_tile.dart';
 import 'package:dvir/features/Units/application/unit_actions_controller.dart';
 import 'package:dvir/features/Units/application/unit_children_controller.dart';
 import 'package:dvir/features/Units/application/unit_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/types/unit_role.dart';
-import 'package:dvir/features/Units/presentation/unit_role_l10n.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +53,19 @@ class UnitHubScreen extends ConsumerWidget {
 
     final l10n = AppLocalizations.of(context);
     final loaded = unit.value;
+
+    // Both controllers are driven from callbacks and watched by nobody, so
+    // these subscriptions are what keeps them alive long enough to answer —
+    // and what carries a refusal from the database to the user.
+    ref
+      ..listen(
+        unitActionsProvider(unitId),
+        (previous, next) => next.showFailure(context, ref),
+      )
+      ..listen(
+        unitMemberModerationProvider(unitId),
+        (previous, next) => next.showFailure(context, ref),
+      );
 
     return DvScaffold(
       background: const DvAppGradient(),
@@ -93,13 +104,6 @@ class _Hub extends ConsumerWidget {
     // Null while the roles load, and null again for a community admin who
     // manages the object without living in it — neither is an owner.
     final role = ref.watch(myUnitRoleProvider(unit.id)).value;
-
-    // A refusal from the database — the last owner stepping down, someone
-    // deciding on their own request — surfaces here rather than on each row.
-    ref.listen(
-      unitMemberModerationProvider(unit.id),
-      (previous, next) => next.showFailure(context, ref),
-    );
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -150,10 +154,14 @@ class _Specs extends StatelessWidget {
 
     // Whatever the object actually carries: a flat has an area, a plot in a
     // village may have neither city nor number.
+    //
+    // An address is only shown on a top-level object. A room or a garage stands
+    // at the address of the house around it, and repeating it here would state
+    // the parent's fact as the child's own.
+    final isNested = unit.parentId != null;
     final lines = <String>[
       unit.type.label(l10n),
-      ?unit.address,
-      ?unit.city,
+      if (!isNested) ...[?unit.address, ?unit.city],
       if (area != null) l10n.unitAreaValue(_area(area)),
     ];
 
@@ -188,15 +196,44 @@ class _Specs extends StatelessWidget {
 }
 
 /// The code, and the two ways an owner passes it on.
-class _InviteSection extends ConsumerWidget {
+///
+/// Folded away while the object holds nobody but its owner. Every object is a
+/// full scope, code included — a garage can be let out, and its tenant must
+/// reach the garage and not the house around it — but a room usually never
+/// leaves the family, and a large code sitting on its screen is what made a
+/// nested object read as a second house. One second person is enough to open it
+/// again: by then the code is something the owner has actually used.
+class _InviteSection extends ConsumerStatefulWidget {
   const _InviteSection({required this.unit});
 
   final Unit unit;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_InviteSection> createState() => _InviteSectionState();
+}
+
+class _InviteSectionState extends ConsumerState<_InviteSection> {
+  bool _opened = false;
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final unit = this.unit;
+    final unit = widget.unit;
+    final people = ref.watch(unitMembersProvider(unit.id)).value;
+
+    // Unknown while the list loads, and that counts as "not alone": the code is
+    // the thing to keep out of sight, so it stays out until we know.
+    final alone = people == null || people.length <= 1;
+
+    if (alone && !_opened) {
+      return Align(
+        child: TextButton.icon(
+          onPressed: () => setState(() => _opened = true),
+          icon: const Icon(Icons.person_add_alt_outlined),
+          label: Text(l10n.giveAccess),
+        ),
+      );
+    }
 
     return DvAsyncView<String>(
       value: ref.watch(unitInviteCodeProvider(unit.id)),
@@ -235,7 +272,7 @@ class _InviteSection extends ConsumerWidget {
                 label: Text(l10n.copyCode),
               ),
               TextButton.icon(
-                onPressed: () => _rotate(context, ref, l10n),
+                onPressed: () => _rotate(l10n),
                 icon: const Icon(Icons.autorenew_rounded),
                 label: Text(l10n.rotateCode),
               ),
@@ -248,11 +285,7 @@ class _InviteSection extends ConsumerWidget {
 
   /// Asked before rotating, because the old code is in someone's chat by now
   /// and this is what stops working for them.
-  Future<void> _rotate(
-    BuildContext context,
-    WidgetRef ref,
-    AppLocalizations l10n,
-  ) async {
+  Future<void> _rotate(AppLocalizations l10n) async {
     final confirmed = await DvConfirmDialog.ask(
       context,
       title: l10n.rotateCodeTitle,
@@ -262,10 +295,12 @@ class _InviteSection extends ConsumerWidget {
     if (!confirmed) return;
 
     final rotated = await ref
-        .read(unitActionsProvider(unit.id).notifier)
+        .read(unitActionsProvider(widget.unit.id).notifier)
         .rotateInviteCode();
 
-    if (rotated == null) return;
+    // Null means the call failed, and the screen's listener has already said
+    // so. `context.mounted` covers the other way out: leaving mid-request.
+    if (rotated == null || !context.mounted) return;
 
     ref.read(toastControllerProvider.notifier).success(l10n.codeRotated);
   }
@@ -281,6 +316,12 @@ class _People extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final unitId = this.unitId;
 
+    // Read once for the whole list rather than per row: who is looking, and
+    // whether they run this object, is the same answer for every line of it.
+    final myUserId = ref.watch(authStateProvider).value?.id;
+    final isOwner =
+        ref.watch(myUnitRoleProvider(unitId)).value == UnitRole.owner;
+
     return DvAsyncView<List<UnitMemberView>>(
       value: ref.watch(unitMembersProvider(unitId)),
       skeleton: const _PeopleSkeleton(),
@@ -289,103 +330,19 @@ class _People extends ConsumerWidget {
           ? DvEmptyView(message: l10n.unitPeopleEmpty)
           : Column(
               children: [
-                for (final view in people)
-                  _PersonRow(unitId: unitId, view: view, all: people),
+                // Numbered by position, so two people who have not filled in a
+                // profile yet are still told apart on screen.
+                for (final (index, view) in people.indexed)
+                  UnitMemberTile(
+                    unitId: unitId,
+                    view: view,
+                    all: people,
+                    position: index + 1,
+                    isOwner: isOwner,
+                    myUserId: myUserId,
+                  ),
               ],
             ),
-    );
-  }
-}
-
-class _PersonRow extends ConsumerWidget {
-  const _PersonRow({
-    required this.unitId,
-    required this.view,
-    required this.all,
-  });
-
-  final String unitId;
-  final UnitMemberView view;
-
-  /// The whole list, because whether this row may be touched depends on the
-  /// others — the last owner cannot hand their role away.
-  final List<UnitMemberView> all;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
-    final unitId = this.unitId;
-    final view = this.view;
-    final membership = view.membership;
-    final name = view.profile?.fullName;
-
-    // A profile arrives empty until the person fills it in, and a whole profile
-    // stays hidden from anyone not entitled to read it — both end up here.
-    final title = name == null || name.isEmpty ? l10n.unnamedMember : name;
-
-    final myUserId = ref.watch(authStateProvider).value?.id;
-    final isOwner =
-        ref.watch(myUnitRoleProvider(unitId)).value == UnitRole.owner;
-    final actions = myUserId == null
-        ? null
-        : unitMemberActions(
-            member: membership,
-            all: all.map((view) => view.membership),
-            myUserId: myUserId,
-          );
-
-    return Container(
-      margin: const EdgeInsets.only(top: AppSpacing.sm),
-      padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: context.colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title, style: context.textTheme.titleSmall),
-                    const SizedBox(height: AppSpacing.xs),
-                    Text(
-                      membership.role.label(l10n),
-                      style: context.textTheme.bodySmall?.copyWith(
-                        color: context.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              if (!view.isActive)
-                Text(
-                  membership.status.label(l10n),
-                  style: context.textTheme.labelSmall?.copyWith(
-                    color: context.colorScheme.onSurfaceVariant,
-                  ),
-                )
-              else if (isOwner && actions != null)
-                _MemberMenu(
-                  unitId: unitId,
-                  view: view,
-                  name: title,
-                  actions: actions,
-                ),
-            ],
-          ),
-          // A request is decided in one tap either way, so its two answers sit
-          // in the open rather than behind a menu.
-          if (isOwner &&
-              actions != null &&
-              actions.canChangeStatus &&
-              membership.status == MemberStatus.pending)
-            _RequestActions(unitId: unitId, view: view, name: title),
-        ],
-      ),
     );
   }
 }
@@ -430,145 +387,6 @@ class _UnitMenu extends ConsumerWidget {
       itemBuilder: (context) => [
         PopupMenuItem(value: delete, child: Text(l10n.deleteUnit)),
       ],
-    );
-  }
-}
-
-/// The two answers to a join request, side by side.
-class _RequestActions extends ConsumerWidget {
-  const _RequestActions({
-    required this.unitId,
-    required this.view,
-    required this.name,
-  });
-
-  final String unitId;
-  final UnitMemberView view;
-  final String name;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
-    final unitId = this.unitId;
-    final memberId = view.membership.id;
-    final name = this.name;
-
-    Future<void> approve() => ref
-        .read(unitMemberModerationProvider(unitId).notifier)
-        .setStatus(memberId, MemberStatus.active);
-
-    Future<void> reject() async {
-      final confirmed = await DvConfirmDialog.ask(
-        context,
-        title: l10n.rejectTitle,
-        message: l10n.rejectBody(name),
-        confirmLabel: l10n.reject,
-      );
-      if (!confirmed) return;
-
-      await ref
-          .read(unitMemberModerationProvider(unitId).notifier)
-          .setStatus(memberId, MemberStatus.rejected);
-    }
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        TextButton(onPressed: reject, child: Text(l10n.reject)),
-        TextButton(onPressed: approve, child: Text(l10n.approve)),
-      ],
-    );
-  }
-}
-
-/// Everything that can be done to someone already living here.
-class _MemberMenu extends ConsumerWidget {
-  const _MemberMenu({
-    required this.unitId,
-    required this.view,
-    required this.name,
-    required this.actions,
-  });
-
-  final String unitId;
-  final UnitMemberView view;
-  final String name;
-  final MemberActions actions;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
-    final unitId = this.unitId;
-    final memberId = view.membership.id;
-    final name = this.name;
-    final actions = this.actions;
-
-    Future<void> changeRole() async {
-      final role = await _pickRole(context, view.membership.role);
-      if (role == null) return;
-
-      await ref
-          .read(unitMemberModerationProvider(unitId).notifier)
-          .setRole(memberId, role);
-    }
-
-    Future<void> remove() async {
-      final confirmed = await DvConfirmDialog.ask(
-        context,
-        title: l10n.removeMemberTitle,
-        message: l10n.removeMemberBody(name),
-        confirmLabel: l10n.removeMember,
-      );
-      if (!confirmed) return;
-
-      await ref
-          .read(unitMemberModerationProvider(unitId).notifier)
-          .remove(memberId);
-    }
-
-    // Nothing left to offer: the last owner may neither step down nor remove
-    // themselves, and a menu of two disabled items is worse than no menu.
-    if (!actions.canChangeRole && !actions.canChangeStatus) {
-      return const SizedBox.shrink();
-    }
-
-    return PopupMenuButton<VoidCallback>(
-      onSelected: (action) => action(),
-      itemBuilder: (context) => [
-        if (actions.canChangeRole)
-          PopupMenuItem(value: changeRole, child: Text(l10n.changeRole)),
-        if (actions.canChangeStatus)
-          PopupMenuItem(value: remove, child: Text(l10n.removeMember)),
-      ],
-    );
-  }
-
-  /// The role sheet, returning null when dismissed without a choice.
-  Future<UnitRole?> _pickRole(BuildContext context, UnitRole current) {
-    final l10n = AppLocalizations.of(context);
-
-    return showModalBottomSheet<UnitRole>(
-      context: context,
-      builder: (context) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.md),
-              child: Text(
-                l10n.roleSheetTitle,
-                style: context.textTheme.titleMedium,
-              ),
-            ),
-            for (final role in UnitRole.values)
-              ListTile(
-                title: Text(role.label(l10n)),
-                trailing: role == current ? const Icon(Icons.check) : null,
-                onTap: () => Navigator.of(context).pop(role),
-              ),
-          ],
-        ),
-      ),
     );
   }
 }
@@ -640,42 +458,11 @@ class _ChildRow extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final unit = this.unit;
 
-    return Padding(
-      padding: const EdgeInsets.only(top: AppSpacing.sm),
-      child: Material(
-        color: context.colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-        child: InkWell(
-          onTap: () => context.push(AppRoutes.unitPath(unit.id)),
-          borderRadius: BorderRadius.circular(AppRadius.lg),
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.md),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(unit.label, style: context.textTheme.titleSmall),
-                      const SizedBox(height: AppSpacing.xs),
-                      Text(
-                        unit.type.label(l10n),
-                        style: context.textTheme.bodySmall?.copyWith(
-                          color: context.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Icon(
-                  Icons.chevron_right_rounded,
-                  color: context.colorScheme.onSurfaceVariant,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+    return DvTile(
+      title: unit.label,
+      subtitle: unit.type.label(l10n),
+      dense: true,
+      onTap: () => context.push(AppRoutes.unitPath(unit.id)),
     );
   }
 }

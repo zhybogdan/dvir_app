@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:dvir/features/Community/domain/models/community.dart';
 import 'package:dvir/features/Community/domain/types/community_type.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
+import 'package:dvir/features/Home/domain/models/scope_summary.dart';
+import 'package:dvir/features/Members/data/members_repository_impl.dart';
 import 'package:dvir/features/Onboarding/data/onboarding_repository_impl.dart';
 import 'package:dvir/features/Onboarding/domain/models/scope_membership.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -15,8 +17,9 @@ part 'onboarding_controller.g.dart';
 /// a freshly created scope, or which kind of scope a code turned out to open —
 /// and null when the call failed, with the reason left in `state`.
 ///
-/// The controller never navigates: every action ends by refreshing
-/// [myMembershipProvider], and the router redirect takes the user from there.
+/// The controller never navigates: an action that changes where the user
+/// belongs ends by refreshing [myScopesProvider], and the router redirect takes
+/// them from there.
 @riverpod
 class OnboardingController extends _$OnboardingController {
   @override
@@ -39,6 +42,10 @@ class OnboardingController extends _$OnboardingController {
         city: city,
       ),
     );
+
+    // Checked before the assignment: writing `state` after the screen watching
+    // this has gone throws rather than being ignored.
+    if (!ref.mounted) return null;
     state = result;
 
     // Unlike joining, creating does not refresh membership here: the creator is
@@ -55,11 +62,42 @@ class OnboardingController extends _$OnboardingController {
     final result = await AsyncValue.guard(
       () => repository.joinByInvite(inviteCode),
     );
+
+    if (!ref.mounted) return null;
     state = result;
 
     await _refreshScopes(result.hasValue);
 
     return result.value;
+  }
+
+  /// Takes a join request back, leaving the user belonging nowhere again.
+  ///
+  /// The database permits this only while the request is `pending`: a rejection
+  /// or a block is not the applicant's to clear.
+  Future<bool> withdraw(ScopeSummary scope) async {
+    final repository = ref.read(membersRepositoryProvider);
+
+    state = const AsyncLoading();
+    final result = await AsyncValue.guard(
+      () => switch (scope) {
+        CommunitySummary(:final membership) => repository.removeCommunityMember(
+          membership.id,
+        ),
+        UnitSummary(:final membership) => repository.removeUnitMember(
+          membership.id,
+        ),
+      },
+    );
+
+    if (!ref.mounted) return false;
+    state = result;
+
+    if (result.hasError) return false;
+
+    await _refreshScopes(true);
+
+    return true;
   }
 
   /// Re-reads the scope list and **waits for it**, so the router never decides

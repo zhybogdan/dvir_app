@@ -26,4 +26,30 @@ extension UnitTypeL10n on UnitType {
     UnitType.office => l10n.unitTypeOffice,
     UnitType.custom => l10n.unitTypeCustom,
   };
+
+  /// The heading this type sits under in the picker.
+  ///
+  /// Seventeen types in one run is a list to be scrolled through; four headings
+  /// make it a list to be jumped into. The grouping follows where a thing
+  /// physically is — at the address, inside the walls, or standing apart in the
+  /// yard — because that is how someone recalling their own household thinks of
+  /// it.
+  String groupLabel(AppLocalizations l10n) => switch (this) {
+    UnitType.house ||
+    UnitType.apartment ||
+    UnitType.plot => l10n.unitTypeGroupMain,
+    UnitType.room ||
+    UnitType.bathroom ||
+    UnitType.corridor ||
+    UnitType.storeroom ||
+    UnitType.balcony ||
+    UnitType.loggia ||
+    UnitType.basement => l10n.unitTypeGroupRooms,
+    UnitType.garage ||
+    UnitType.summerKitchen ||
+    UnitType.summerHouse ||
+    UnitType.shed ||
+    UnitType.pool => l10n.unitTypeGroupBuildings,
+    UnitType.office || UnitType.custom => l10n.unitTypeGroupOther,
+  };
 }

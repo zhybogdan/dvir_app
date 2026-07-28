@@ -8,25 +8,44 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 /// that an icon can be picked and rooms can one day be counted and totalled
 /// apart from outbuildings. Anything unforeseen goes under [custom].
 ///
-/// Declaration order is the order of the picker, so the likely choices come
-/// first and [custom] comes last.
+/// Declaration order is the order of the picker, and it is **grouped**: the
+/// sheet draws a heading wherever the group changes and reads the list as
+/// given, so a value moved out of its run would split its own heading in two.
+/// See `UnitTypeL10n.groupLabel`.
+///
+/// Reordering is safe — nothing persists an index; `@JsonValue` is what travels.
 ///
 /// Carries [dbValue] alongside `@JsonValue` for the same reason as
 /// `CommunityType`: rows are read through json_serializable, but `create_unit`
 /// takes the type as an RPC argument and has to write it back.
 enum UnitType {
+  // Стоїть за адресою.
   @JsonValue('house')
   house('house'),
   @JsonValue('apartment')
   apartment('apartment'),
-  @JsonValue('room')
-  room('room'),
-  @JsonValue('garage')
-  garage('garage'),
   @JsonValue('plot')
   plot('plot'),
+
+  // Усередині.
+  @JsonValue('room')
+  room('room'),
+  @JsonValue('bathroom')
+  bathroom('bathroom'),
+  @JsonValue('corridor')
+  corridor('corridor'),
+  @JsonValue('storeroom')
+  storeroom('storeroom'),
+  @JsonValue('balcony')
+  balcony('balcony'),
+  @JsonValue('loggia')
+  loggia('loggia'),
   @JsonValue('basement')
   basement('basement'),
+
+  // Окремі споруди.
+  @JsonValue('garage')
+  garage('garage'),
   @JsonValue('summer_kitchen')
   summerKitchen('summer_kitchen'),
   @JsonValue('summer_house')
@@ -35,16 +54,7 @@ enum UnitType {
   shed('shed'),
   @JsonValue('pool')
   pool('pool'),
-  @JsonValue('balcony')
-  balcony('balcony'),
-  @JsonValue('loggia')
-  loggia('loggia'),
-  @JsonValue('bathroom')
-  bathroom('bathroom'),
-  @JsonValue('corridor')
-  corridor('corridor'),
-  @JsonValue('storeroom')
-  storeroom('storeroom'),
+
   @JsonValue('office')
   office('office'),
   @JsonValue('custom')

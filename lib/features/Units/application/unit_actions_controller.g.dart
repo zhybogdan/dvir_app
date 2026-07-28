@@ -12,6 +12,11 @@ part of 'unit_actions_controller.dart';
 ///
 /// Keyed by the object, so a failure on one screen cannot light up another and
 /// the caches to clear afterwards are known without being passed in.
+///
+/// **A screen driving this must also listen to it.** Nothing here is watched
+/// for its value — the actions are fired from callbacks — so without a listener
+/// the provider is disposed the moment it is read, and the result lands on a
+/// dead notifier. Listening is also the only way its failures reach the user.
 
 @ProviderFor(UnitActions)
 final unitActionsProvider = UnitActionsFamily._();
@@ -20,12 +25,22 @@ final unitActionsProvider = UnitActionsFamily._();
 ///
 /// Keyed by the object, so a failure on one screen cannot light up another and
 /// the caches to clear afterwards are known without being passed in.
+///
+/// **A screen driving this must also listen to it.** Nothing here is watched
+/// for its value — the actions are fired from callbacks — so without a listener
+/// the provider is disposed the moment it is read, and the result lands on a
+/// dead notifier. Listening is also the only way its failures reach the user.
 final class UnitActionsProvider
     extends $AsyncNotifierProvider<UnitActions, void> {
   /// What an owner can do to the object itself, as opposed to its contents.
   ///
   /// Keyed by the object, so a failure on one screen cannot light up another and
   /// the caches to clear afterwards are known without being passed in.
+  ///
+  /// **A screen driving this must also listen to it.** Nothing here is watched
+  /// for its value — the actions are fired from callbacks — so without a listener
+  /// the provider is disposed the moment it is read, and the result lands on a
+  /// dead notifier. Listening is also the only way its failures reach the user.
   UnitActionsProvider._({
     required UnitActionsFamily super.from,
     required String super.argument,
@@ -62,12 +77,17 @@ final class UnitActionsProvider
   }
 }
 
-String _$unitActionsHash() => r'0a5e282c245243b7ea7836e735732e2fe5ebcb97';
+String _$unitActionsHash() => r'7f32dee89650ca237b254471fdddca5f761e6805';
 
 /// What an owner can do to the object itself, as opposed to its contents.
 ///
 /// Keyed by the object, so a failure on one screen cannot light up another and
 /// the caches to clear afterwards are known without being passed in.
+///
+/// **A screen driving this must also listen to it.** Nothing here is watched
+/// for its value — the actions are fired from callbacks — so without a listener
+/// the provider is disposed the moment it is read, and the result lands on a
+/// dead notifier. Listening is also the only way its failures reach the user.
 
 final class UnitActionsFamily extends $Family
     with
@@ -91,6 +111,11 @@ final class UnitActionsFamily extends $Family
   ///
   /// Keyed by the object, so a failure on one screen cannot light up another and
   /// the caches to clear afterwards are known without being passed in.
+  ///
+  /// **A screen driving this must also listen to it.** Nothing here is watched
+  /// for its value — the actions are fired from callbacks — so without a listener
+  /// the provider is disposed the moment it is read, and the result lands on a
+  /// dead notifier. Listening is also the only way its failures reach the user.
 
   UnitActionsProvider call(String unitId) =>
       UnitActionsProvider._(argument: unitId, from: this);
@@ -103,6 +128,11 @@ final class UnitActionsFamily extends $Family
 ///
 /// Keyed by the object, so a failure on one screen cannot light up another and
 /// the caches to clear afterwards are known without being passed in.
+///
+/// **A screen driving this must also listen to it.** Nothing here is watched
+/// for its value — the actions are fired from callbacks — so without a listener
+/// the provider is disposed the moment it is read, and the result lands on a
+/// dead notifier. Listening is also the only way its failures reach the user.
 
 abstract class _$UnitActions extends $AsyncNotifier<void> {
   late final _$args = ref.$arg as String;

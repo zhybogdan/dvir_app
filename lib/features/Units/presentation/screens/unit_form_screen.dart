@@ -181,7 +181,10 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
     final l10n = AppLocalizations.of(context);
     final isLoading = ref.watch(unitFormControllerProvider).isLoading;
     final unit = _unit;
-    final isNested = widget.parentId != null;
+    // True both when adding something inside an object and when editing
+    // something already inside one — an address belongs to whatever stands at
+    // the street, and a room is not it.
+    final isNested = widget.parentId != null || unit?.parentId != null;
 
     ref.listen(
       unitFormControllerProvider,
@@ -224,33 +227,41 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
                   value: _type,
                   options: UnitType.values,
                   labelOf: (type) => type.label(l10n),
+                  groupOf: (type) => type.groupLabel(l10n),
                   enabled: !isLoading,
                   onChanged: (type) => setState(() => _type = type),
                 ),
-                DvTextField(
-                  controller: _addressCtrl,
-                  label: '${l10n.communityAddress} · ${l10n.optional}',
-                  hint: l10n.communityAddressHint,
-                  textInputAction: TextInputAction.next,
-                ),
-                DvTextField(
-                  controller: _cityCtrl,
-                  label: '${l10n.communityCity} · ${l10n.optional}',
-                  hint: l10n.communityCityHint,
-                  textInputAction: TextInputAction.next,
-                ),
-                DvTextField(
-                  controller: _areaCtrl,
-                  label: '${l10n.unitArea} · ${l10n.optional}',
-                  hint: l10n.unitAreaHint,
-                  keyboardType: const TextInputType.numberWithOptions(
-                    decimal: true,
+                if (!isNested) ...[
+                  DvTextField(
+                    controller: _addressCtrl,
+                    label: '${l10n.communityAddress} · ${l10n.optional}',
+                    hint: l10n.communityAddressHint,
+                    textInputAction: TextInputAction.next,
                   ),
-                  textInputAction: TextInputAction.done,
-                  onSubmitted: (_) => _submit(),
-                  validator: (v) =>
-                      validateOptionalPositiveNumber(v, l10n.unitAreaInvalid),
-                ),
+                  DvTextField(
+                    controller: _cityCtrl,
+                    label: '${l10n.communityCity} · ${l10n.optional}',
+                    hint: l10n.communityCityHint,
+                    textInputAction: TextInputAction.next,
+                  ),
+                ],
+                // Area is asked when editing, not when creating. Creating an
+                // object is naming it; the area is one detail among many a
+                // household has — floors, year, wall material — and singling
+                // one of them out at the door is arbitrary.
+                if (unit != null)
+                  DvTextField(
+                    controller: _areaCtrl,
+                    label: '${l10n.unitArea} · ${l10n.optional}',
+                    hint: l10n.unitAreaHint,
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
+                    textInputAction: TextInputAction.done,
+                    onSubmitted: (_) => _submit(),
+                    validator: (v) =>
+                        validateOptionalPositiveNumber(v, l10n.unitAreaInvalid),
+                  ),
                 DvButton(
                   label: action,
                   isLoading: isLoading,

@@ -39,6 +39,10 @@ class UnitFormController extends _$UnitFormController {
         areaM2: areaM2,
       ),
     );
+
+    // Checked before the assignment: writing `state` after the form watching
+    // this has gone throws rather than being ignored.
+    if (!ref.mounted) return null;
     state = result;
 
     return result.value;
@@ -51,6 +55,8 @@ class UnitFormController extends _$UnitFormController {
 
     state = const AsyncLoading();
     final result = await AsyncValue.guard(() => repository.updateUnit(unit));
+
+    if (!ref.mounted) return null;
     state = result;
 
     return result.value;

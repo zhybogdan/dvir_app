@@ -36,6 +36,31 @@ class AppLocalizationsUk extends AppLocalizations {
   String get memberStatusBlocked => 'Доступ закрито';
 
   @override
+  String get profileTitle => 'Профіль';
+
+  @override
+  String get profileHint =>
+      'Ім\'я побачать люди у ваших оселях — без нього ви для них просто «Мешканець».';
+
+  @override
+  String get profileName => 'Ім\'я';
+
+  @override
+  String get profileNameHint => 'Богдан Жилко';
+
+  @override
+  String get profileNameRequired => 'Введіть ім\'я';
+
+  @override
+  String get profilePhone => 'Телефон';
+
+  @override
+  String get profilePhoneHint => '+380 67 123 45 67';
+
+  @override
+  String get profileSaved => 'Збережено';
+
+  @override
   String get signIn => 'Увійти';
 
   @override
@@ -125,6 +150,19 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get refreshCta => 'Оновити';
+
+  @override
+  String get withdrawRequest => 'Скасувати заявку';
+
+  @override
+  String get withdrawRequestTitle => 'Скасувати заявку?';
+
+  @override
+  String get withdrawRequestBody =>
+      'Заявку буде видалено. Ви зможете подати її знову за тим самим кодом.';
+
+  @override
+  String get pendingOtherWays => 'Створити свою оселю або ввести інший код';
 
   @override
   String get joinByCodeIntro =>
@@ -266,6 +304,18 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitTypeCustom => 'Інше';
 
   @override
+  String get unitTypeGroupMain => 'Стоїть за адресою';
+
+  @override
+  String get unitTypeGroupRooms => 'Усередині';
+
+  @override
+  String get unitTypeGroupBuildings => 'Окремі споруди';
+
+  @override
+  String get unitTypeGroupOther => 'Різне';
+
+  @override
   String get unitRoleOwner => 'Власник';
 
   @override
@@ -278,7 +328,10 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitPeople => 'Мешканці';
 
   @override
-  String get unitPeopleEmpty => 'Поки що ви тут єдиний';
+  String get unitPeopleEmpty => 'Тут ще немає мешканців';
+
+  @override
+  String get giveAccess => 'Дати доступ';
 
   @override
   String unitAreaValue(String area) {
@@ -287,6 +340,11 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get unnamedMember => 'Мешканець';
+
+  @override
+  String unnamedMemberNumbered(int number) {
+    return 'Мешканець $number';
+  }
 
   @override
   String get cancel => 'Скасувати';
