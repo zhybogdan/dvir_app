@@ -56,6 +56,19 @@ class UnitHubScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final loaded = unit.value;
 
+    // Both controllers are driven from callbacks and watched by nobody, so
+    // these subscriptions are what keeps them alive long enough to answer —
+    // and what carries a refusal from the database to the user.
+    ref
+      ..listen(
+        unitActionsProvider(unitId),
+        (previous, next) => next.showFailure(context, ref),
+      )
+      ..listen(
+        unitMemberModerationProvider(unitId),
+        (previous, next) => next.showFailure(context, ref),
+      );
+
     return DvScaffold(
       background: const DvAppGradient(),
       appBar: DvAppBar(
@@ -93,13 +106,6 @@ class _Hub extends ConsumerWidget {
     // Null while the roles load, and null again for a community admin who
     // manages the object without living in it — neither is an owner.
     final role = ref.watch(myUnitRoleProvider(unit.id)).value;
-
-    // A refusal from the database — the last owner stepping down, someone
-    // deciding on their own request — surfaces here rather than on each row.
-    ref.listen(
-      unitMemberModerationProvider(unit.id),
-      (previous, next) => next.showFailure(context, ref),
-    );
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -265,7 +271,9 @@ class _InviteSection extends ConsumerWidget {
         .read(unitActionsProvider(unit.id).notifier)
         .rotateInviteCode();
 
-    if (rotated == null) return;
+    // Null means the call failed, and the screen's listener has already said
+    // so. `context.mounted` covers the other way out: leaving mid-request.
+    if (rotated == null || !context.mounted) return;
 
     ref.read(toastControllerProvider.notifier).success(l10n.codeRotated);
   }

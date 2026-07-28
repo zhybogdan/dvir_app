@@ -39,6 +39,10 @@ class OnboardingController extends _$OnboardingController {
         city: city,
       ),
     );
+
+    // Checked before the assignment: writing `state` after the screen watching
+    // this has gone throws rather than being ignored.
+    if (!ref.mounted) return null;
     state = result;
 
     // Unlike joining, creating does not refresh membership here: the creator is
@@ -55,6 +59,8 @@ class OnboardingController extends _$OnboardingController {
     final result = await AsyncValue.guard(
       () => repository.joinByInvite(inviteCode),
     );
+
+    if (!ref.mounted) return null;
     state = result;
 
     await _refreshScopes(result.hasValue);
