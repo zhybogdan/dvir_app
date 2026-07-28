@@ -303,7 +303,10 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitPeople => 'Мешканці';
 
   @override
-  String get unitPeopleEmpty => 'Поки що ви тут єдиний';
+  String get unitPeopleEmpty => 'Тут ще немає мешканців';
+
+  @override
+  String get giveAccess => 'Дати доступ';
 
   @override
   String unitAreaValue(String area) {

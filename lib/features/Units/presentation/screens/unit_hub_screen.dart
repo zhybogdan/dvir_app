@@ -157,10 +157,14 @@ class _Specs extends StatelessWidget {
 
     // Whatever the object actually carries: a flat has an area, a plot in a
     // village may have neither city nor number.
+    //
+    // An address is only shown on a top-level object. A room or a garage stands
+    // at the address of the house around it, and repeating it here would state
+    // the parent's fact as the child's own.
+    final isNested = unit.parentId != null;
     final lines = <String>[
       unit.type.label(l10n),
-      ?unit.address,
-      ?unit.city,
+      if (!isNested) ...[?unit.address, ?unit.city],
       if (area != null) l10n.unitAreaValue(_area(area)),
     ];
 
@@ -195,15 +199,44 @@ class _Specs extends StatelessWidget {
 }
 
 /// The code, and the two ways an owner passes it on.
-class _InviteSection extends ConsumerWidget {
+///
+/// Folded away while the object holds nobody but its owner. Every object is a
+/// full scope, code included — a garage can be let out, and its tenant must
+/// reach the garage and not the house around it — but a room usually never
+/// leaves the family, and a large code sitting on its screen is what made a
+/// nested object read as a second house. One second person is enough to open it
+/// again: by then the code is something the owner has actually used.
+class _InviteSection extends ConsumerStatefulWidget {
   const _InviteSection({required this.unit});
 
   final Unit unit;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_InviteSection> createState() => _InviteSectionState();
+}
+
+class _InviteSectionState extends ConsumerState<_InviteSection> {
+  bool _opened = false;
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final unit = this.unit;
+    final unit = widget.unit;
+    final people = ref.watch(unitMembersProvider(unit.id)).value;
+
+    // Unknown while the list loads, and that counts as "not alone": the code is
+    // the thing to keep out of sight, so it stays out until we know.
+    final alone = people == null || people.length <= 1;
+
+    if (alone && !_opened) {
+      return Align(
+        child: TextButton.icon(
+          onPressed: () => setState(() => _opened = true),
+          icon: const Icon(Icons.person_add_alt_outlined),
+          label: Text(l10n.giveAccess),
+        ),
+      );
+    }
 
     return DvAsyncView<String>(
       value: ref.watch(unitInviteCodeProvider(unit.id)),
@@ -242,7 +275,7 @@ class _InviteSection extends ConsumerWidget {
                 label: Text(l10n.copyCode),
               ),
               TextButton.icon(
-                onPressed: () => _rotate(context, ref, l10n),
+                onPressed: () => _rotate(l10n),
                 icon: const Icon(Icons.autorenew_rounded),
                 label: Text(l10n.rotateCode),
               ),
@@ -255,11 +288,7 @@ class _InviteSection extends ConsumerWidget {
 
   /// Asked before rotating, because the old code is in someone's chat by now
   /// and this is what stops working for them.
-  Future<void> _rotate(
-    BuildContext context,
-    WidgetRef ref,
-    AppLocalizations l10n,
-  ) async {
+  Future<void> _rotate(AppLocalizations l10n) async {
     final confirmed = await DvConfirmDialog.ask(
       context,
       title: l10n.rotateCodeTitle,
@@ -269,7 +298,7 @@ class _InviteSection extends ConsumerWidget {
     if (!confirmed) return;
 
     final rotated = await ref
-        .read(unitActionsProvider(unit.id).notifier)
+        .read(unitActionsProvider(widget.unit.id).notifier)
         .rotateInviteCode();
 
     // Null means the call failed, and the screen's listener has already said

@@ -115,7 +115,8 @@
   "unitRoleFamily": "Родина",
   "unitRoleTenant": "Орендар",
   "unitPeople": "Мешканці",
-  "unitPeopleEmpty": "Поки що ви тут єдиний",
+  "unitPeopleEmpty": "Тут ще немає мешканців",
+  "giveAccess": "Дати доступ",
   "unitAreaValue": "{area} м²",
   "@unitAreaValue": {
     "description": "Object area with its unit of measure",

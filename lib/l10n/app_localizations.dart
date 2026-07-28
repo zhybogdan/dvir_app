@@ -673,8 +673,14 @@ abstract class AppLocalizations {
   /// No description provided for @unitPeopleEmpty.
   ///
   /// In uk, this message translates to:
-  /// **'Поки що ви тут єдиний'**
+  /// **'Тут ще немає мешканців'**
   String get unitPeopleEmpty;
+
+  /// No description provided for @giveAccess.
+  ///
+  /// In uk, this message translates to:
+  /// **'Дати доступ'**
+  String get giveAccess;
 
   /// Object area with its unit of measure
   ///

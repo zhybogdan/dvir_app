@@ -181,7 +181,10 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
     final l10n = AppLocalizations.of(context);
     final isLoading = ref.watch(unitFormControllerProvider).isLoading;
     final unit = _unit;
-    final isNested = widget.parentId != null;
+    // True both when adding something inside an object and when editing
+    // something already inside one — an address belongs to whatever stands at
+    // the street, and a room is not it.
+    final isNested = widget.parentId != null || unit?.parentId != null;
 
     ref.listen(
       unitFormControllerProvider,
@@ -227,18 +230,20 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
                   enabled: !isLoading,
                   onChanged: (type) => setState(() => _type = type),
                 ),
-                DvTextField(
-                  controller: _addressCtrl,
-                  label: '${l10n.communityAddress} · ${l10n.optional}',
-                  hint: l10n.communityAddressHint,
-                  textInputAction: TextInputAction.next,
-                ),
-                DvTextField(
-                  controller: _cityCtrl,
-                  label: '${l10n.communityCity} · ${l10n.optional}',
-                  hint: l10n.communityCityHint,
-                  textInputAction: TextInputAction.next,
-                ),
+                if (!isNested) ...[
+                  DvTextField(
+                    controller: _addressCtrl,
+                    label: '${l10n.communityAddress} · ${l10n.optional}',
+                    hint: l10n.communityAddressHint,
+                    textInputAction: TextInputAction.next,
+                  ),
+                  DvTextField(
+                    controller: _cityCtrl,
+                    label: '${l10n.communityCity} · ${l10n.optional}',
+                    hint: l10n.communityCityHint,
+                    textInputAction: TextInputAction.next,
+                  ),
+                ],
                 DvTextField(
                   controller: _areaCtrl,
                   label: '${l10n.unitArea} · ${l10n.optional}',
