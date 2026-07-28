@@ -33,19 +33,22 @@ class ScopeCreatedScreen extends ConsumerWidget {
     ref.read(toastControllerProvider.notifier).success(l10n.codeCopied);
   }
 
-  void _share(AppLocalizations l10n, CreatedScope scope) {
-    shareText(l10n.shareInviteText(scope.name, scope.inviteCode));
+  void _share(AppLocalizations l10n, String name, String inviteCode) {
+    shareText(l10n.shareInviteText(name, inviteCode));
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final scope = ref.watch(createdScopeControllerProvider);
+    final inviteCode = scope?.inviteCode;
 
-    if (scope == null) return const SplashScreen();
+    // Both are the same situation from the user's side: there is nothing to
+    // show here yet. A created scope always carries its code, so a null one
+    // means the screen was reached without one.
+    if (scope == null || inviteCode == null) return const SplashScreen();
 
     final name = scope.name;
-    final inviteCode = scope.inviteCode;
     final title = switch (scope) {
       CreatedCommunity() => l10n.communityCreatedTitle,
       CreatedUnit() => l10n.unitCreatedTitle,
@@ -91,7 +94,7 @@ class ScopeCreatedScreen extends ConsumerWidget {
                 DvButton(
                   label: l10n.shareCode,
                   icon: Icons.ios_share,
-                  onPressed: () => _share(l10n, scope),
+                  onPressed: () => _share(l10n, name, inviteCode),
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 TextButton.icon(

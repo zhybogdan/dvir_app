@@ -11,13 +11,18 @@ part 'unit.g.dart';
 ///   belonging to no community;
 /// - [parentId] null → it is a top-level object rather than something inside a
 ///   house.
+///
+/// [inviteCode] is null on anything that was read rather than created: since
+/// `0005` the column is not readable off the row at all, and only
+/// `create_unit` — which returns its own result — and the owner-only
+/// `unit_invite_code()` RPC hand it over.
 @freezed
 abstract class Unit with _$Unit {
   const factory Unit({
     required String id,
     required String label,
     required UnitType type,
-    @JsonKey(name: 'invite_code') required String inviteCode,
+    @JsonKey(name: 'invite_code') String? inviteCode,
     @JsonKey(name: 'community_id') String? communityId,
     @JsonKey(name: 'parent_id') String? parentId,
     String? address,

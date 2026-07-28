@@ -10,7 +10,7 @@ _Unit _$UnitFromJson(Map<String, dynamic> json) => _Unit(
   id: json['id'] as String,
   label: json['label'] as String,
   type: $enumDecode(_$UnitTypeEnumMap, json['type']),
-  inviteCode: json['invite_code'] as String,
+  inviteCode: json['invite_code'] as String?,
   communityId: json['community_id'] as String?,
   parentId: json['parent_id'] as String?,
   address: json['address'] as String?,

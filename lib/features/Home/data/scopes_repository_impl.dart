@@ -4,6 +4,7 @@ import 'package:dvir/features/Community/domain/models/community.dart';
 import 'package:dvir/features/Community/domain/models/community_membership.dart';
 import 'package:dvir/features/Home/data/scopes_repository.dart';
 import 'package:dvir/features/Home/domain/models/scope_summary.dart';
+import 'package:dvir/features/Units/data/unit_columns.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/models/unit_membership.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -45,7 +46,7 @@ class ScopesRepositoryImpl implements ScopesRepository {
             .order('created_at', ascending: true),
         _client
             .from('unit_members')
-            .select('*, units(*)')
+            .select('*, units($unitColumns)')
             .eq('user_id', userId)
             .order('created_at', ascending: true),
       ]);

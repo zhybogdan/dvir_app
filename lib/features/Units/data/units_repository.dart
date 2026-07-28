@@ -49,6 +49,10 @@ abstract interface class UnitsRepository {
   /// every membership cascade from this row.
   Future<void> deleteUnit(String id);
 
+  /// The object's invite code, which only its owner may read — it is not part
+  /// of the object as everyone else sees it.
+  Future<String> inviteCode(String unitId);
+
   /// Issues a fresh invite code, invalidating the old one.
   Future<String> rotateInviteCode(String unitId);
 }

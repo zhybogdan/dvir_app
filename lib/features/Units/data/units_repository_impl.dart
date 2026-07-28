@@ -1,6 +1,7 @@
 import 'package:dvir/core/config/supabase_providers.dart';
 import 'package:dvir/core/error/failures.dart';
 import 'package:dvir/core/error/supabase_error_guard.dart';
+import 'package:dvir/features/Units/data/unit_columns.dart';
 import 'package:dvir/features/Units/data/units_repository.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/types/unit_type.dart';
@@ -25,7 +26,7 @@ class UnitsRepositoryImpl implements UnitsRepository {
       // without it this would collect other people's objects as well.
       final rows = await _client
           .from('unit_members')
-          .select('units(*)')
+          .select('units($unitColumns)')
           .eq('user_id', userId)
           .eq('status', 'active')
           .order('created_at', ascending: true);
@@ -44,7 +45,7 @@ class UnitsRepositoryImpl implements UnitsRepository {
         // caller belongs to. A person can belong to several.
         final rows = await _client
             .from('units')
-            .select()
+            .select(unitColumns)
             .eq('community_id', communityId)
             .isFilter('parent_id', null)
             .order('label', ascending: true);
@@ -56,7 +57,7 @@ class UnitsRepositoryImpl implements UnitsRepository {
   Future<List<Unit>> childrenOf(String parentId) => guardSupabase(() async {
     final rows = await _client
         .from('units')
-        .select()
+        .select(unitColumns)
         .eq('parent_id', parentId)
         .order('label', ascending: true);
 
@@ -65,7 +66,11 @@ class UnitsRepositoryImpl implements UnitsRepository {
 
   @override
   Future<Unit> unitById(String id) => guardSupabase(() async {
-    final row = await _client.from('units').select().eq('id', id).maybeSingle();
+    final row = await _client
+        .from('units')
+        .select(unitColumns)
+        .eq('id', id)
+        .maybeSingle();
 
     // An object hidden by RLS comes back as no row at all, which is the same
     // answer the app should give either way: it is not there for this user.
@@ -115,7 +120,7 @@ class UnitsRepositoryImpl implements UnitsRepository {
           'area_m2': unit.areaM2,
         })
         .eq('id', unit.id)
-        .select()
+        .select(unitColumns)
         .single();
 
     return Unit.fromJson(row);
@@ -124,6 +129,12 @@ class UnitsRepositoryImpl implements UnitsRepository {
   @override
   Future<void> deleteUnit(String id) =>
       guardSupabase(() => _client.from('units').delete().eq('id', id));
+
+  @override
+  Future<String> inviteCode(String unitId) => guardSupabase(
+    () =>
+        _client.rpc<String>('unit_invite_code', params: {'p_unit_id': unitId}),
+  );
 
   @override
   Future<String> rotateInviteCode(String unitId) => guardSupabase(
