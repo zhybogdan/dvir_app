@@ -227,8 +227,8 @@ return $default(_that.membership,_that.profile);case _:
 /// @nodoc
 
 
-class _UnitMemberView implements UnitMemberView {
-  const _UnitMemberView({required this.membership, this.profile});
+class _UnitMemberView extends UnitMemberView {
+  const _UnitMemberView({required this.membership, this.profile}): super._();
   
 
 @override final  UnitMembership membership;

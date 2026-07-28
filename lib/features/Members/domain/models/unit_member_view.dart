@@ -1,4 +1,5 @@
 import 'package:dvir/features/Shared/domain/models/profile.dart';
+import 'package:dvir/features/Shared/domain/types/member_status.dart';
 import 'package:dvir/features/Units/domain/models/unit_membership.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -12,4 +13,10 @@ abstract class UnitMemberView with _$UnitMemberView {
     required UnitMembership membership,
     Profile? profile,
   }) = _UnitMemberView;
+
+  const UnitMemberView._();
+
+  /// Someone actually living here, as opposed to a request still waiting on the
+  /// owner — the two share a list and must not share a look.
+  bool get isActive => membership.status == MemberStatus.active;
 }

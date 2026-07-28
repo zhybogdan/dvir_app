@@ -17,4 +17,11 @@ abstract final class AppRoutes {
   static const String onboardingJoin = '/onboarding/join';
 
   static const String pending = '/pending';
+
+  /// An object's own screen. The id is a path parameter rather than a query, so
+  /// a link to an object reads as one thing and not as a screen plus an
+  /// argument.
+  static const String unit = '/unit/:unitId';
+
+  static String unitPath(String unitId) => '/unit/$unitId';
 }

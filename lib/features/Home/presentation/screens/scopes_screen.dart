@@ -8,6 +8,7 @@ import 'package:dvir/features/Home/domain/models/scope_summary.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_background.dart';
+import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
 import 'package:dvir/features/Shared/presentation/member_status_l10n.dart';
@@ -37,17 +38,17 @@ class ScopesScreen extends ConsumerWidget {
       appBar: DvAppBar(
         title: l10n.appTitle,
         actions: [
-          IconButton(
+          DvIconButton(
             // Pushed rather than `go`: adding a scope is a detour from here,
             // and the back arrow is how it gets abandoned.
             onPressed: () => context.push(AppRoutes.onboarding),
-            icon: const Icon(Icons.add),
+            icon: Icons.add,
             tooltip: l10n.addScope,
           ),
-          IconButton(
+          DvIconButton(
             onPressed: () =>
                 ref.read(authControllerProvider.notifier).signOut(),
-            icon: const Icon(Icons.logout),
+            icon: Icons.logout,
             tooltip: l10n.signOut,
           ),
         ],
@@ -142,37 +143,60 @@ class _ScopeCard extends StatelessWidget {
     // stands.
     final title = name ?? l10n.scopePending;
     final caption = kind ?? scope.status.label(l10n);
+    final destination = _destinationOf(scope);
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: AppSpacing.sm),
-      padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+      child: Material(
         color: context.colorScheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(AppRadius.lg),
-      ),
-      child: Row(
-        children: [
-          _ScopeIcon(icon: icon, muted: !scope.isActive),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        child: InkWell(
+          onTap: destination == null ? null : () => context.push(destination),
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.md),
+            child: Row(
               children: [
-                Text(title, style: context.textTheme.titleMedium),
-                const SizedBox(height: AppSpacing.xs),
-                Text(
-                  caption,
-                  style: context.textTheme.bodySmall?.copyWith(
-                    color: context.colorScheme.onSurfaceVariant,
+                _ScopeIcon(icon: icon, muted: !scope.isActive),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title, style: context.textTheme.titleMedium),
+                      const SizedBox(height: AppSpacing.xs),
+                      Text(
+                        caption,
+                        style: context.textTheme.bodySmall?.copyWith(
+                          color: context.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+                if (destination != null)
+                  Icon(
+                    Icons.chevron_right_rounded,
+                    color: context.colorScheme.onSurfaceVariant,
+                  ),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
+
+  /// Where the card leads, or null when it leads nowhere yet.
+  ///
+  /// A scope still waiting for approval has nothing behind it to open — RLS
+  /// would refuse every read. Communities have no screen at all while the
+  /// product is being built around a single object.
+  String? _destinationOf(ScopeSummary scope) => switch (scope) {
+    UnitSummary(:final unit) when scope.isActive && unit != null =>
+      AppRoutes.unitPath(unit.id),
+    _ => null,
+  };
 
   IconData _iconFor(UnitType? type) => switch (type) {
     UnitType.house => Icons.home_rounded,

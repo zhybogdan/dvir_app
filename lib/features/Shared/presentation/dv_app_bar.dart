@@ -1,5 +1,5 @@
 import 'package:dvir/core/extensions/build_context_x.dart';
-import 'package:dvir/features/Shared/presentation/dv_icon.dart';
+import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +40,13 @@ class DvAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
       automaticallyImplyLeading: false,
-      leading: canPop ? const _BackButton() : null,
+      leading: canPop
+          ? DvIconButton.svg(
+              Assets.icons.chevronLeft,
+              tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+              onPressed: () => Navigator.of(context).maybePop(),
+            )
+          : null,
       title: Text(title, style: context.textTheme.titleLarge),
       actions: actions,
       backgroundColor: backgroundColor,
@@ -51,18 +57,4 @@ class DvAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
-
-/// Themed back control built on the shared chevron icon.
-class _BackButton extends StatelessWidget {
-  const _BackButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () => Navigator.of(context).maybePop(),
-      tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-      icon: DvIcon(Assets.icons.chevronLeft),
-    );
-  }
 }

@@ -532,6 +532,48 @@ abstract class AppLocalizations {
   /// **'Інше'**
   String get unitTypeCustom;
 
+  /// No description provided for @unitRoleOwner.
+  ///
+  /// In uk, this message translates to:
+  /// **'Власник'**
+  String get unitRoleOwner;
+
+  /// No description provided for @unitRoleFamily.
+  ///
+  /// In uk, this message translates to:
+  /// **'Родина'**
+  String get unitRoleFamily;
+
+  /// No description provided for @unitRoleTenant.
+  ///
+  /// In uk, this message translates to:
+  /// **'Орендар'**
+  String get unitRoleTenant;
+
+  /// No description provided for @unitPeople.
+  ///
+  /// In uk, this message translates to:
+  /// **'Мешканці'**
+  String get unitPeople;
+
+  /// No description provided for @unitPeopleEmpty.
+  ///
+  /// In uk, this message translates to:
+  /// **'Поки що ви тут єдиний'**
+  String get unitPeopleEmpty;
+
+  /// Object area with its unit of measure
+  ///
+  /// In uk, this message translates to:
+  /// **'{area} м²'**
+  String unitAreaValue(String area);
+
+  /// No description provided for @unnamedMember.
+  ///
+  /// In uk, this message translates to:
+  /// **'Мешканець'**
+  String get unnamedMember;
+
   /// No description provided for @communityCreatedTitle.
   ///
   /// In uk, this message translates to:

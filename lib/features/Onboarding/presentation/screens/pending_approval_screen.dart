@@ -5,6 +5,7 @@ import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Shared/domain/types/member_status.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -33,10 +34,10 @@ class PendingApprovalScreen extends ConsumerWidget {
         title: view.title,
         backgroundColor: Colors.transparent,
         actions: [
-          IconButton(
+          DvIconButton(
             onPressed: () =>
                 ref.read(authControllerProvider.notifier).signOut(),
-            icon: const Icon(Icons.logout),
+            icon: Icons.logout,
             tooltip: l10n.signOut,
           ),
         ],

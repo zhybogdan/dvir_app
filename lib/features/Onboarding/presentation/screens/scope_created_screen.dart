@@ -9,6 +9,7 @@ import 'package:dvir/features/Onboarding/domain/models/created_scope.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon.dart';
+import 'package:dvir/features/Shared/presentation/dv_invite_code_card.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/splash_screen.dart';
 import 'package:dvir/gen/assets.gen.dart';
@@ -81,7 +82,7 @@ class ScopeCreatedScreen extends ConsumerWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: AppSpacing.xl),
-                _InviteCodeCard(code: inviteCode),
+                DvInviteCodeCard(code: inviteCode),
                 const SizedBox(height: AppSpacing.sm),
                 Text(
                   inviteHint,
@@ -135,48 +136,6 @@ class _SuccessBadge extends StatelessWidget {
       width: 88,
       height: 88,
       colorMapper: SvgTint(color, keep: {AppColors.white}),
-    );
-  }
-}
-
-class _InviteCodeCard extends StatelessWidget {
-  const _InviteCodeCard({required this.code});
-
-  final String code;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(
-        vertical: AppSpacing.lg,
-        horizontal: AppSpacing.md,
-      ),
-      decoration: BoxDecoration(
-        color: context.colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-      ),
-      child: Column(
-        children: [
-          Text(
-            l10n.inviteCodeLabel.toUpperCase(),
-            style: context.textTheme.labelSmall?.copyWith(
-              color: context.colorScheme.onSurfaceVariant,
-              letterSpacing: 1,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            code,
-            style: context.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.w700,
-              letterSpacing: 4,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

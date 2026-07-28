@@ -233,6 +233,29 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitTypeCustom => 'Інше';
 
   @override
+  String get unitRoleOwner => 'Власник';
+
+  @override
+  String get unitRoleFamily => 'Родина';
+
+  @override
+  String get unitRoleTenant => 'Орендар';
+
+  @override
+  String get unitPeople => 'Мешканці';
+
+  @override
+  String get unitPeopleEmpty => 'Поки що ви тут єдиний';
+
+  @override
+  String unitAreaValue(String area) {
+    return '$area м²';
+  }
+
+  @override
+  String get unnamedMember => 'Мешканець';
+
+  @override
   String get communityCreatedTitle => 'Спільноту створено';
 
   @override

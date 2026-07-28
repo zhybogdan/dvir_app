@@ -15,6 +15,7 @@ import 'package:dvir/features/Onboarding/presentation/screens/onboarding_choice_
 import 'package:dvir/features/Onboarding/presentation/screens/pending_approval_screen.dart';
 import 'package:dvir/features/Onboarding/presentation/screens/scope_created_screen.dart';
 import 'package:dvir/features/Shared/presentation/splash_screen.dart';
+import 'package:dvir/features/Units/presentation/screens/unit_hub_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -125,6 +126,18 @@ GoRouter router(Ref ref) {
       GoRoute(
         path: AppRoutes.pending,
         builder: (context, state) => const PendingApprovalScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.unit,
+        builder: (context, state) {
+          final unitId = state.pathParameters['unitId'];
+
+          // Only reachable through a hand-typed link: the path declares the
+          // parameter, so the router fills it in for every real navigation.
+          return unitId == null
+              ? const SplashScreen()
+              : UnitHubScreen(unitId: unitId);
+        },
       ),
     ],
   );

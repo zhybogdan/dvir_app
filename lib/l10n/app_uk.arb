@@ -91,6 +91,22 @@
   "unitTypeOffice": "Офіс",
   "unitTypeCustom": "Інше",
 
+  "unitRoleOwner": "Власник",
+  "unitRoleFamily": "Родина",
+  "unitRoleTenant": "Орендар",
+  "unitPeople": "Мешканці",
+  "unitPeopleEmpty": "Поки що ви тут єдиний",
+  "unitAreaValue": "{area} м²",
+  "@unitAreaValue": {
+    "description": "Object area with its unit of measure",
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "unnamedMember": "Мешканець",
+
   "communityCreatedTitle": "Спільноту створено",
   "unitCreatedTitle": "Оселю створено",
   "inviteCodeLabel": "Код запрошення",
