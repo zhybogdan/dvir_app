@@ -304,6 +304,18 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitTypeCustom => 'Інше';
 
   @override
+  String get unitTypeGroupMain => 'Стоїть за адресою';
+
+  @override
+  String get unitTypeGroupRooms => 'Усередині';
+
+  @override
+  String get unitTypeGroupBuildings => 'Окремі споруди';
+
+  @override
+  String get unitTypeGroupOther => 'Різне';
+
+  @override
   String get unitRoleOwner => 'Власник';
 
   @override

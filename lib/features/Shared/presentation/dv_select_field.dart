@@ -17,6 +17,7 @@ class DvSelectField<T> extends StatelessWidget {
     required this.onChanged,
     super.key,
     this.enabled = true,
+    this.groupOf,
   });
 
   final String label;
@@ -25,6 +26,14 @@ class DvSelectField<T> extends StatelessWidget {
   final String Function(T) labelOf;
   final ValueChanged<T> onChanged;
   final bool enabled;
+
+  /// Heading for each option, drawn once wherever it changes down the list.
+  ///
+  /// For lists long enough to scroll, where a heading turns hunting into
+  /// jumping. **[options] must already be in group order** — the sheet reads
+  /// the list as given rather than sorting it, so the order stays the caller's
+  /// to decide.
+  final String Function(T)? groupOf;
 
   Future<void> _open(BuildContext context) async {
     final selected = await showModalBottomSheet<T>(
@@ -36,6 +45,7 @@ class DvSelectField<T> extends StatelessWidget {
         options: options,
         selected: value,
         labelOf: labelOf,
+        groupOf: groupOf,
       ),
     );
 
@@ -88,12 +98,23 @@ class _OptionsSheet<T> extends StatelessWidget {
     required this.options,
     required this.selected,
     required this.labelOf,
+    this.groupOf,
   });
 
   final String title;
   final List<T> options;
   final T selected;
   final String Function(T) labelOf;
+  final String Function(T)? groupOf;
+
+  /// True where a new heading belongs: the first option, and every one whose
+  /// group differs from the option above it.
+  bool _startsGroup(int index) {
+    final groupOf = this.groupOf;
+    if (groupOf == null) return false;
+
+    return index == 0 || groupOf(options[index]) != groupOf(options[index - 1]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +136,9 @@ class _OptionsSheet<T> extends StatelessWidget {
             child: ListView(
               shrinkWrap: true,
               children: [
-                for (final option in options)
+                for (final (index, option) in options.indexed) ...[
+                  if (_startsGroup(index))
+                    _GroupHeading(text: groupOf?.call(option) ?? ''),
                   ListTile(
                     title: Text(labelOf(option)),
                     trailing: option == selected
@@ -123,11 +146,37 @@ class _OptionsSheet<T> extends StatelessWidget {
                         : null,
                     onTap: () => Navigator.of(context).pop(option),
                   ),
+                ],
               ],
             ),
           ),
           const SizedBox(height: AppSpacing.sm),
         ],
+      ),
+    );
+  }
+}
+
+class _GroupHeading extends StatelessWidget {
+  const _GroupHeading({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.md,
+        AppSpacing.md,
+        AppSpacing.md,
+        AppSpacing.xs,
+      ),
+      child: Text(
+        text.toUpperCase(),
+        style: context.textTheme.labelSmall?.copyWith(
+          color: context.colorScheme.onSurfaceVariant,
+          letterSpacing: 1,
+        ),
       ),
     );
   }

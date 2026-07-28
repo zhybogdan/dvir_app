@@ -114,6 +114,10 @@
   "unitTypeStoreroom": "Комора",
   "unitTypeOffice": "Офіс",
   "unitTypeCustom": "Інше",
+  "unitTypeGroupMain": "Стоїть за адресою",
+  "unitTypeGroupRooms": "Усередині",
+  "unitTypeGroupBuildings": "Окремі споруди",
+  "unitTypeGroupOther": "Різне",
 
   "unitRoleOwner": "Власник",
   "unitRoleFamily": "Родина",

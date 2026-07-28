@@ -670,6 +670,30 @@ abstract class AppLocalizations {
   /// **'Інше'**
   String get unitTypeCustom;
 
+  /// No description provided for @unitTypeGroupMain.
+  ///
+  /// In uk, this message translates to:
+  /// **'Стоїть за адресою'**
+  String get unitTypeGroupMain;
+
+  /// No description provided for @unitTypeGroupRooms.
+  ///
+  /// In uk, this message translates to:
+  /// **'Усередині'**
+  String get unitTypeGroupRooms;
+
+  /// No description provided for @unitTypeGroupBuildings.
+  ///
+  /// In uk, this message translates to:
+  /// **'Окремі споруди'**
+  String get unitTypeGroupBuildings;
+
+  /// No description provided for @unitTypeGroupOther.
+  ///
+  /// In uk, this message translates to:
+  /// **'Різне'**
+  String get unitTypeGroupOther;
+
   /// No description provided for @unitRoleOwner.
   ///
   /// In uk, this message translates to:
