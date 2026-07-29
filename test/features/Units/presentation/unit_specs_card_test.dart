@@ -7,19 +7,22 @@ import 'package:dvir/l10n/app_localizations_uk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-// Two decisions from Phase 4.5 live in this card, and both are invisible until
-// they are wrong: a nested object must not repeat the address of the house
-// around it — that would state the parent's fact as its own — and an area is
-// written the way it is spoken.
+// The card answers where the object stands and what it is, and nothing else —
+// every other fact about it is one the keeper wrote down, and those live in the
+// record below. What is invisible until it is wrong: a nested object must not
+// repeat the address of the house around it, which would state the parent's
+// fact as its own.
 
-Unit _unit({String? parentId, double? areaM2}) => Unit(
+Unit _unit({String? parentId}) => Unit(
   id: 'u1',
   label: 'Гараж 1',
   type: UnitType.garage,
   parentId: parentId,
   address: 'вул. Сітровська 101',
   city: 'Київ',
-  areaM2: areaM2,
+  // Still a column, and still filled in on objects created before the form
+  // stopped asking. The card must not resurrect it.
+  areaM2: 102,
 );
 
 Future<void> _pump(WidgetTester tester, Unit unit) => tester.pumpWidget(
@@ -54,23 +57,14 @@ void main() {
     expect(find.text(UnitType.garage.label(l10n)), findsOneWidget);
   });
 
-  // "102 м²" reads better on a card than "102.0 м²", and areas are whole
-  // numbers far more often than not.
-  testWidgets('a whole area loses its decimal point', (tester) async {
-    await _pump(tester, _unit(areaM2: 102));
-
-    expect(find.text(l10n.unitAreaValue('102')), findsOneWidget);
-  });
-
-  testWidgets('a fractional area keeps it', (tester) async {
-    await _pump(tester, _unit(areaM2: 102.5));
-
-    expect(find.text(l10n.unitAreaValue('102.5')), findsOneWidget);
-  });
-
-  testWidgets('an object with no area says nothing about it', (tester) async {
+  // Площа left the card when the product became a household record book: it is
+  // one fact among many — the plot's area is not the building's, and neither is
+  // a room's — and singling it out claimed it was the one that mattered. The
+  // column stays for the day communities charge by it.
+  testWidgets('the area column is not put back on the card', (tester) async {
     await _pump(tester, _unit());
 
     expect(find.textContaining('м²'), findsNothing);
+    expect(find.textContaining('102'), findsNothing);
   });
 }

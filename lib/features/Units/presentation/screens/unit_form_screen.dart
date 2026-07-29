@@ -108,9 +108,6 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
   late final _nameCtrl = TextEditingController(text: _unit?.label);
   late final _addressCtrl = TextEditingController(text: _unit?.address);
   late final _cityCtrl = TextEditingController(text: _unit?.city);
-  late final _areaCtrl = TextEditingController(
-    text: _unit?.areaM2?.toString() ?? '',
-  );
 
   /// Null until the picker is touched: what an object may be depends on what
   /// it sits in, so the default is the first type its parent allows — a room
@@ -123,7 +120,6 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
     _nameCtrl.dispose();
     _addressCtrl.dispose();
     _cityCtrl.dispose();
-    _areaCtrl.dispose();
     super.dispose();
   }
 
@@ -144,6 +140,8 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
   }
 
   Future<void> _save(Unit unit, UnitType type) async {
+    // `areaM2` is deliberately absent: the form no longer asks for it, so it
+    // carries over untouched rather than being nulled by every save.
     final saved = await ref
         .read(unitFormControllerProvider.notifier)
         .save(
@@ -152,7 +150,6 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
             type: type,
             address: trimmedOrNull(_addressCtrl.text),
             city: trimmedOrNull(_cityCtrl.text),
-            areaM2: parseOptionalDouble(_areaCtrl.text),
           ),
         );
 
@@ -178,7 +175,6 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
           parentId: parentId,
           address: trimmedOrNull(_addressCtrl.text),
           city: trimmedOrNull(_cityCtrl.text),
-          areaM2: parseOptionalDouble(_areaCtrl.text),
         );
 
     if (created == null || !mounted) return;
@@ -301,26 +297,10 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
                     controller: _cityCtrl,
                     label: '${l10n.communityCity} · ${l10n.optional}',
                     hint: l10n.communityCityHint,
-                    textInputAction: TextInputAction.next,
-                  ),
-                ],
-                // Area is asked when editing, not when creating. Creating an
-                // object is naming it; the area is one detail among many a
-                // household has — floors, year, wall material — and singling
-                // one of them out at the door is arbitrary.
-                if (unit != null)
-                  DvTextField(
-                    controller: _areaCtrl,
-                    label: '${l10n.unitArea} · ${l10n.optional}',
-                    hint: l10n.unitAreaHint,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
                     textInputAction: TextInputAction.done,
                     onSubmitted: (_) => _submit(type),
-                    validator: (v) =>
-                        validateOptionalPositiveNumber(v, l10n.unitAreaInvalid),
                   ),
+                ],
                 DvButton(
                   label: action,
                   isLoading: isLoading,

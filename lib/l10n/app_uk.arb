@@ -93,9 +93,6 @@
   "unitNameHint": "Будинок 223",
   "unitNameRequired": "Введіть назву оселі",
   "unitType": "Тип оселі",
-  "unitArea": "Площа, м²",
-  "unitAreaHint": "72",
-  "unitAreaInvalid": "Введіть коректну площу",
   "createUnitCta": "Створити оселю",
   "unitTypeHouse": "Будинок",
   "unitTypeApartment": "Квартира",
@@ -125,15 +122,6 @@
   "unitPeople": "Мешканці",
   "unitPeopleEmpty": "Тут ще немає мешканців",
   "giveAccess": "Дати доступ",
-  "unitAreaValue": "{area} м²",
-  "@unitAreaValue": {
-    "description": "Object area with its unit of measure",
-    "placeholders": {
-      "area": {
-        "type": "String"
-      }
-    }
-  },
   "unnamedMember": "Мешканець",
   "unnamedMemberNumbered": "Мешканець {number}",
   "@unnamedMemberNumbered": {
