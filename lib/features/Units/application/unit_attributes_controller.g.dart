@@ -9,23 +9,23 @@ part of 'unit_attributes_controller.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 /// The record one object keeps about itself.
+///
+/// A notifier rather than a plain future so the order can be shown before the
+/// database has agreed to it — see [applyOrder].
 
-@ProviderFor(unitAttributes)
+@ProviderFor(UnitAttributes)
 final unitAttributesProvider = UnitAttributesFamily._();
 
 /// The record one object keeps about itself.
-
+///
+/// A notifier rather than a plain future so the order can be shown before the
+/// database has agreed to it — see [applyOrder].
 final class UnitAttributesProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<UnitAttribute>>,
-          List<UnitAttribute>,
-          FutureOr<List<UnitAttribute>>
-        >
-    with
-        $FutureModifier<List<UnitAttribute>>,
-        $FutureProvider<List<UnitAttribute>> {
+    extends $AsyncNotifierProvider<UnitAttributes, List<UnitAttribute>> {
   /// The record one object keeps about itself.
+  ///
+  /// A notifier rather than a plain future so the order can be shown before the
+  /// database has agreed to it — see [applyOrder].
   UnitAttributesProvider._({
     required UnitAttributesFamily super.from,
     required String super.argument,
@@ -49,15 +49,7 @@ final class UnitAttributesProvider
 
   @$internal
   @override
-  $FutureProviderElement<List<UnitAttribute>> $createElement(
-    $ProviderPointer pointer,
-  ) => $FutureProviderElement(pointer);
-
-  @override
-  FutureOr<List<UnitAttribute>> create(Ref ref) {
-    final argument = this.argument as String;
-    return unitAttributes(ref, argument);
-  }
+  UnitAttributes create() => UnitAttributes();
 
   @override
   bool operator ==(Object other) {
@@ -70,12 +62,22 @@ final class UnitAttributesProvider
   }
 }
 
-String _$unitAttributesHash() => r'24bef8c868072cac3371803151a98790a7ff6583';
+String _$unitAttributesHash() => r'720907e46397e701442e0df9aace974d1ff44a5d';
 
 /// The record one object keeps about itself.
+///
+/// A notifier rather than a plain future so the order can be shown before the
+/// database has agreed to it — see [applyOrder].
 
 final class UnitAttributesFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<List<UnitAttribute>>, String> {
+    with
+        $ClassFamilyOverride<
+          UnitAttributes,
+          AsyncValue<List<UnitAttribute>>,
+          List<UnitAttribute>,
+          FutureOr<List<UnitAttribute>>,
+          String
+        > {
   UnitAttributesFamily._()
     : super(
         retry: null,
@@ -86,6 +88,9 @@ final class UnitAttributesFamily extends $Family
       );
 
   /// The record one object keeps about itself.
+  ///
+  /// A notifier rather than a plain future so the order can be shown before the
+  /// database has agreed to it — see [applyOrder].
 
   UnitAttributesProvider call(String unitId) =>
       UnitAttributesProvider._(argument: unitId, from: this);
@@ -94,7 +99,34 @@ final class UnitAttributesFamily extends $Family
   String toString() => r'unitAttributesProvider';
 }
 
-/// Adding, rewording and dropping the facts of one object.
+/// The record one object keeps about itself.
+///
+/// A notifier rather than a plain future so the order can be shown before the
+/// database has agreed to it — see [applyOrder].
+
+abstract class _$UnitAttributes extends $AsyncNotifier<List<UnitAttribute>> {
+  late final _$args = ref.$arg as String;
+  String get unitId => _$args;
+
+  FutureOr<List<UnitAttribute>> build(String unitId);
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref =
+        this.ref as $Ref<AsyncValue<List<UnitAttribute>>, List<UnitAttribute>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<List<UnitAttribute>>, List<UnitAttribute>>,
+              AsyncValue<List<UnitAttribute>>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, () => build(_$args));
+  }
+}
+
+/// Adding, rewording, dropping and reordering the facts of one object.
 ///
 /// Keyed by the object so a refusal on one screen cannot light up another, and
 /// so the list to re-read afterwards is known without being passed in.
@@ -106,7 +138,7 @@ final class UnitAttributesFamily extends $Family
 @ProviderFor(UnitAttributeActions)
 final unitAttributeActionsProvider = UnitAttributeActionsFamily._();
 
-/// Adding, rewording and dropping the facts of one object.
+/// Adding, rewording, dropping and reordering the facts of one object.
 ///
 /// Keyed by the object so a refusal on one screen cannot light up another, and
 /// so the list to re-read afterwards is known without being passed in.
@@ -116,7 +148,7 @@ final unitAttributeActionsProvider = UnitAttributeActionsFamily._();
 /// failures reach nobody.
 final class UnitAttributeActionsProvider
     extends $AsyncNotifierProvider<UnitAttributeActions, void> {
-  /// Adding, rewording and dropping the facts of one object.
+  /// Adding, rewording, dropping and reordering the facts of one object.
   ///
   /// Keyed by the object so a refusal on one screen cannot light up another, and
   /// so the list to re-read afterwards is known without being passed in.
@@ -161,9 +193,9 @@ final class UnitAttributeActionsProvider
 }
 
 String _$unitAttributeActionsHash() =>
-    r'b9ab6983cf3e3e04c5fee55f2a06af5e2ed31035';
+    r'30f8d7fbefc0550e94489749ad030b922bf72e4e';
 
-/// Adding, rewording and dropping the facts of one object.
+/// Adding, rewording, dropping and reordering the facts of one object.
 ///
 /// Keyed by the object so a refusal on one screen cannot light up another, and
 /// so the list to re-read afterwards is known without being passed in.
@@ -190,7 +222,7 @@ final class UnitAttributeActionsFamily extends $Family
         isAutoDispose: true,
       );
 
-  /// Adding, rewording and dropping the facts of one object.
+  /// Adding, rewording, dropping and reordering the facts of one object.
   ///
   /// Keyed by the object so a refusal on one screen cannot light up another, and
   /// so the list to re-read afterwards is known without being passed in.
@@ -206,7 +238,7 @@ final class UnitAttributeActionsFamily extends $Family
   String toString() => r'unitAttributeActionsProvider';
 }
 
-/// Adding, rewording and dropping the facts of one object.
+/// Adding, rewording, dropping and reordering the facts of one object.
 ///
 /// Keyed by the object so a refusal on one screen cannot light up another, and
 /// so the list to re-read afterwards is known without being passed in.

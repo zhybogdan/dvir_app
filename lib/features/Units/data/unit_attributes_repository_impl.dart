@@ -57,6 +57,15 @@ class UnitAttributesRepositoryImpl implements UnitAttributesRepository {
   Future<void> deleteAttribute(String id) => guardSupabase(
     () => _client.from('unit_attributes').delete().eq('id', id),
   );
+
+  @override
+  Future<void> reorder({required String unitId, required List<String> ids}) =>
+      guardSupabase(
+        () => _client.rpc<void>(
+          'reorder_unit_attributes',
+          params: {'p_unit_id': unitId, 'p_ids': ids},
+        ),
+      );
 }
 
 @Riverpod(keepAlive: true)

@@ -22,4 +22,11 @@ abstract interface class UnitAttributesRepository {
   Future<void> updateAttribute(UnitAttribute attribute);
 
   Future<void> deleteAttribute(String id);
+
+  /// Puts the object's facts in the order [ids] are given in.
+  ///
+  /// The whole list, not the one row that moved: a drag changes the place of
+  /// every row after it, and sending them one by one would leave a half-applied
+  /// order behind the first failed call.
+  Future<void> reorder({required String unitId, required List<String> ids});
 }
