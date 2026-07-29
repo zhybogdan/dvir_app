@@ -15,6 +15,7 @@ import 'package:dvir/features/Onboarding/presentation/screens/pending_approval_s
 import 'package:dvir/features/Onboarding/presentation/screens/scope_created_screen.dart';
 import 'package:dvir/features/Profile/presentation/screens/profile_screen.dart';
 import 'package:dvir/features/Shared/presentation/splash_screen.dart';
+import 'package:dvir/features/Units/presentation/screens/unit_attributes_screen.dart';
 import 'package:dvir/features/Units/presentation/screens/unit_form_screen.dart';
 import 'package:dvir/features/Units/presentation/screens/unit_hub_screen.dart';
 import 'package:flutter/foundation.dart';
@@ -162,6 +163,16 @@ GoRouter router(Ref ref) {
           return unitId == null
               ? const SplashScreen()
               : UnitFormScreen(parentId: unitId);
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.unitAttributes,
+        builder: (context, state) {
+          final unitId = state.pathParameters['unitId'];
+
+          return unitId == null
+              ? const SplashScreen()
+              : UnitAttributesScreen(unitId: unitId);
         },
       ),
     ],

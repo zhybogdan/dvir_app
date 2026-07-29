@@ -862,6 +862,96 @@ abstract class AppLocalizations {
   /// **'Разом з ним зникне все, що всередині, і всі мешканці. Дію не можна скасувати.'**
   String get deleteUnitBody;
 
+  /// No description provided for @unitAttributes.
+  ///
+  /// In uk, this message translates to:
+  /// **'Характеристики'**
+  String get unitAttributes;
+
+  /// No description provided for @unitAttributesEmpty.
+  ///
+  /// In uk, this message translates to:
+  /// **'Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам\'ятати про цю оселю.'**
+  String get unitAttributesEmpty;
+
+  /// Opens the screen with an object's whole record; count is the total number of facts
+  ///
+  /// In uk, this message translates to:
+  /// **'Показати всі {count}'**
+  String unitAttributesShowAll(int count);
+
+  /// No description provided for @unitAttributeAddTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Нова характеристика'**
+  String get unitAttributeAddTitle;
+
+  /// No description provided for @unitAttributeEditTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Характеристика'**
+  String get unitAttributeEditTitle;
+
+  /// No description provided for @unitAttributeName.
+  ///
+  /// In uk, this message translates to:
+  /// **'Назва'**
+  String get unitAttributeName;
+
+  /// No description provided for @unitAttributeNameHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'Рік побудови'**
+  String get unitAttributeNameHint;
+
+  /// No description provided for @unitAttributeNameRequired.
+  ///
+  /// In uk, this message translates to:
+  /// **'Вкажіть назву'**
+  String get unitAttributeNameRequired;
+
+  /// No description provided for @unitAttributeValue.
+  ///
+  /// In uk, this message translates to:
+  /// **'Значення'**
+  String get unitAttributeValue;
+
+  /// No description provided for @unitAttributeValueHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'1998'**
+  String get unitAttributeValueHint;
+
+  /// No description provided for @unitAttributeValueRequired.
+  ///
+  /// In uk, this message translates to:
+  /// **'Вкажіть значення'**
+  String get unitAttributeValueRequired;
+
+  /// No description provided for @editAttribute.
+  ///
+  /// In uk, this message translates to:
+  /// **'Редагувати'**
+  String get editAttribute;
+
+  /// No description provided for @deleteAttribute.
+  ///
+  /// In uk, this message translates to:
+  /// **'Видалити'**
+  String get deleteAttribute;
+
+  /// No description provided for @deleteAttributeTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Видалити характеристику?'**
+  String get deleteAttributeTitle;
+
+  /// Confirmation before deleting one fact about an object
+  ///
+  /// In uk, this message translates to:
+  /// **'«{name}» зникне з опису цієї оселі.'**
+  String deleteAttributeBody(String name);
+
   /// No description provided for @unitNested.
   ///
   /// In uk, this message translates to:

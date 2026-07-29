@@ -412,6 +412,56 @@ class AppLocalizationsUk extends AppLocalizations {
       'Разом з ним зникне все, що всередині, і всі мешканці. Дію не можна скасувати.';
 
   @override
+  String get unitAttributes => 'Характеристики';
+
+  @override
+  String get unitAttributesEmpty =>
+      'Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам\'ятати про цю оселю.';
+
+  @override
+  String unitAttributesShowAll(int count) {
+    return 'Показати всі $count';
+  }
+
+  @override
+  String get unitAttributeAddTitle => 'Нова характеристика';
+
+  @override
+  String get unitAttributeEditTitle => 'Характеристика';
+
+  @override
+  String get unitAttributeName => 'Назва';
+
+  @override
+  String get unitAttributeNameHint => 'Рік побудови';
+
+  @override
+  String get unitAttributeNameRequired => 'Вкажіть назву';
+
+  @override
+  String get unitAttributeValue => 'Значення';
+
+  @override
+  String get unitAttributeValueHint => '1998';
+
+  @override
+  String get unitAttributeValueRequired => 'Вкажіть значення';
+
+  @override
+  String get editAttribute => 'Редагувати';
+
+  @override
+  String get deleteAttribute => 'Видалити';
+
+  @override
+  String get deleteAttributeTitle => 'Видалити характеристику?';
+
+  @override
+  String deleteAttributeBody(String name) {
+    return '«$name» зникне з опису цієї оселі.';
+  }
+
+  @override
   String get unitNested => 'Що входить';
 
   @override
