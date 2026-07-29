@@ -922,30 +922,6 @@ abstract class AppLocalizations {
   /// **'Вкажіть значення'**
   String get unitAttributeValueRequired;
 
-  /// No description provided for @unitAttributeSuggestionFloors.
-  ///
-  /// In uk, this message translates to:
-  /// **'Поверховість'**
-  String get unitAttributeSuggestionFloors;
-
-  /// No description provided for @unitAttributeSuggestionYearBuilt.
-  ///
-  /// In uk, this message translates to:
-  /// **'Рік побудови'**
-  String get unitAttributeSuggestionYearBuilt;
-
-  /// No description provided for @unitAttributeSuggestionWalls.
-  ///
-  /// In uk, this message translates to:
-  /// **'Матеріал стін'**
-  String get unitAttributeSuggestionWalls;
-
-  /// No description provided for @unitAttributeSuggestionPlotArea.
-  ///
-  /// In uk, this message translates to:
-  /// **'Площа ділянки'**
-  String get unitAttributeSuggestionPlotArea;
-
   /// No description provided for @editAttribute.
   ///
   /// In uk, this message translates to:

@@ -443,18 +443,6 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitAttributeValueRequired => 'Вкажіть значення';
 
   @override
-  String get unitAttributeSuggestionFloors => 'Поверховість';
-
-  @override
-  String get unitAttributeSuggestionYearBuilt => 'Рік побудови';
-
-  @override
-  String get unitAttributeSuggestionWalls => 'Матеріал стін';
-
-  @override
-  String get unitAttributeSuggestionPlotArea => 'Площа ділянки';
-
-  @override
   String get editAttribute => 'Редагувати';
 
   @override

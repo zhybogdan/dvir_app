@@ -1,6 +1,5 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
-import 'package:dvir/core/logging/tap_log.dart';
 import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
@@ -93,10 +92,6 @@ class _UnitAttributeSheetState extends State<UnitAttributeSheet> {
                   validator: (v) =>
                       validateRequired(v, l10n.unitAttributeNameRequired),
                 ),
-                if (isNew)
-                  _NameSuggestions(
-                    onPicked: (name) => _nameCtrl.text = name,
-                  ),
                 DvTextField(
                   controller: _valueCtrl,
                   label: l10n.unitAttributeValue,
@@ -113,43 +108,6 @@ class _UnitAttributeSheetState extends State<UnitAttributeSheet> {
           ),
         ),
       ),
-    );
-  }
-}
-
-/// The names most households write down first.
-///
-/// They fill the name field and nothing else — no type, no unit, no list to
-/// choose from. The point of the feature is that the keeper decides what is
-/// worth recording; these only save the typing on the four that are always the
-/// same.
-class _NameSuggestions extends StatelessWidget {
-  const _NameSuggestions({required this.onPicked});
-
-  final ValueChanged<String> onPicked;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final onPicked = this.onPicked;
-
-    final names = [
-      l10n.unitAttributeSuggestionFloors,
-      l10n.unitAttributeSuggestionYearBuilt,
-      l10n.unitAttributeSuggestionWalls,
-      l10n.unitAttributeSuggestionPlotArea,
-    ];
-
-    return Wrap(
-      spacing: AppSpacing.sm,
-      runSpacing: AppSpacing.sm,
-      children: [
-        for (final name in names)
-          ActionChip(
-            label: Text(name),
-            onPressed: loggedTap(name, () => onPicked(name)),
-          ),
-      ],
     );
   }
 }
