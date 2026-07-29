@@ -544,24 +544,6 @@ abstract class AppLocalizations {
   /// **'Тип оселі'**
   String get unitType;
 
-  /// No description provided for @unitArea.
-  ///
-  /// In uk, this message translates to:
-  /// **'Площа, м²'**
-  String get unitArea;
-
-  /// No description provided for @unitAreaHint.
-  ///
-  /// In uk, this message translates to:
-  /// **'72'**
-  String get unitAreaHint;
-
-  /// No description provided for @unitAreaInvalid.
-  ///
-  /// In uk, this message translates to:
-  /// **'Введіть коректну площу'**
-  String get unitAreaInvalid;
-
   /// No description provided for @createUnitCta.
   ///
   /// In uk, this message translates to:
@@ -729,12 +711,6 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Дати доступ'**
   String get giveAccess;
-
-  /// Object area with its unit of measure
-  ///
-  /// In uk, this message translates to:
-  /// **'{area} м²'**
-  String unitAreaValue(String area);
 
   /// No description provided for @unnamedMember.
   ///

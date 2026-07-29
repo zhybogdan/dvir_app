@@ -241,15 +241,6 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitType => 'Тип оселі';
 
   @override
-  String get unitArea => 'Площа, м²';
-
-  @override
-  String get unitAreaHint => '72';
-
-  @override
-  String get unitAreaInvalid => 'Введіть коректну площу';
-
-  @override
   String get createUnitCta => 'Створити оселю';
 
   @override
@@ -332,11 +323,6 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get giveAccess => 'Дати доступ';
-
-  @override
-  String unitAreaValue(String area) {
-    return '$area м²';
-  }
 
   @override
   String get unnamedMember => 'Мешканець';

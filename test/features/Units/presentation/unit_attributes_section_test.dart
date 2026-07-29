@@ -26,26 +26,38 @@ List<UnitAttribute> _many(int count) => [
     UnitAttribute(id: 'a$index', name: 'Факт $index', value: '$index'),
 ];
 
+/// Stands in for the record itself, so the section is tested against a list
+/// rather than against Supabase.
+class _StubAttributes extends UnitAttributes {
+  _StubAttributes(this.attributes);
+
+  final List<UnitAttribute> attributes;
+
+  @override
+  Future<List<UnitAttribute>> build(String unitId) async => attributes;
+}
+
 Future<void> _pump(
   WidgetTester tester, {
   required bool canEdit,
   List<UnitAttribute> attributes = _facts,
-  int? limit = unitAttributesPreview,
 }) async {
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
         isUnitKeeperProvider('u1').overrideWithValue(canEdit),
-        unitAttributesProvider.overrideWith((ref, unitId) => attributes),
+        unitAttributesProvider.overrideWith2(
+          (unitId) => _StubAttributes(attributes),
+        ),
       ],
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         // Scrollable, like both places that carry the section: a record long
         // enough to test the cut is longer than a test viewport.
-        home: Scaffold(
+        home: const Scaffold(
           body: SingleChildScrollView(
-            child: UnitAttributesSection(unitId: 'u1', limit: limit),
+            child: UnitAttributesSection(unitId: 'u1'),
           ),
         ),
       ),
@@ -107,13 +119,5 @@ void main() {
     expect(find.text('Факт 5'), findsNothing);
     // The whole record, not what is left over.
     expect(find.text(l10n.unitAttributesShowAll(12)), findsOneWidget);
-  });
-
-  // What the record's own screen asks for.
-  testWidgets('without a limit everything is on screen', (tester) async {
-    await _pump(tester, canEdit: true, attributes: _many(12), limit: null);
-
-    expect(find.text('Факт 11'), findsOneWidget);
-    expect(find.textContaining('Показати всі'), findsNothing);
   });
 }
