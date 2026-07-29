@@ -419,6 +419,11 @@ class AppLocalizationsUk extends AppLocalizations {
       'Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам\'ятати про цю оселю.';
 
   @override
+  String unitAttributesShowAll(int count) {
+    return 'Показати всі $count';
+  }
+
+  @override
   String get unitAttributeAddTitle => 'Нова характеристика';
 
   @override

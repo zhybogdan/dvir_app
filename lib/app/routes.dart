@@ -33,7 +33,11 @@ abstract final class AppRoutes {
   static const String unitEdit = '/unit/:unitId/edit';
   static const String unitAdd = '/unit/:unitId/add';
 
+  /// The object's whole record, for when the hub shows only the top of it.
+  static const String unitAttributes = '/unit/:unitId/attributes';
+
   static String unitPath(String unitId) => '/unit/$unitId';
   static String unitEditPath(String unitId) => '/unit/$unitId/edit';
   static String unitAddPath(String unitId) => '/unit/$unitId/add';
+  static String unitAttributesPath(String unitId) => '/unit/$unitId/attributes';
 }

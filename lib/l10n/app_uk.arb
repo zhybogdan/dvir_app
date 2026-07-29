@@ -195,6 +195,15 @@
   "deleteUnitBody": "Разом з ним зникне все, що всередині, і всі мешканці. Дію не можна скасувати.",
   "unitAttributes": "Характеристики",
   "unitAttributesEmpty": "Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам'ятати про цю оселю.",
+  "unitAttributesShowAll": "Показати всі {count}",
+  "@unitAttributesShowAll": {
+    "description": "Opens the screen with an object's whole record; count is the total number of facts",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "unitAttributeAddTitle": "Нова характеристика",
   "unitAttributeEditTitle": "Характеристика",
   "unitAttributeName": "Назва",

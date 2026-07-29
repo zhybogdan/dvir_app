@@ -19,10 +19,18 @@ const _facts = [
   UnitAttribute(id: 'a2', name: 'Матеріал стін', value: 'Цегла'),
 ];
 
+/// Enough facts to overflow the hub's preview, named so a row can be looked up
+/// by its position in the record.
+List<UnitAttribute> _many(int count) => [
+  for (var index = 0; index < count; index++)
+    UnitAttribute(id: 'a$index', name: 'Факт $index', value: '$index'),
+];
+
 Future<void> _pump(
   WidgetTester tester, {
   required bool canEdit,
   List<UnitAttribute> attributes = _facts,
+  int? limit = unitAttributesPreview,
 }) async {
   await tester.pumpWidget(
     ProviderScope(
@@ -33,7 +41,13 @@ Future<void> _pump(
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        home: const Scaffold(body: UnitAttributesSection(unitId: 'u1')),
+        // Scrollable, like both places that carry the section: a record long
+        // enough to test the cut is longer than a test viewport.
+        home: Scaffold(
+          body: SingleChildScrollView(
+            child: UnitAttributesSection(unitId: 'u1', limit: limit),
+          ),
+        ),
       ),
     ),
   );
@@ -71,5 +85,35 @@ void main() {
 
     expect(find.text(l10n.unitAttributesEmpty), findsOneWidget);
     expect(find.text(l10n.unitAddCta), findsOneWidget);
+  });
+
+  // The hub is a column of sections, and a long record would push the ones
+  // below it off the screen.
+  testWidgets('a record that fits is shown whole, with no way out', (
+    tester,
+  ) async {
+    await _pump(tester, canEdit: true, attributes: _many(5));
+
+    expect(find.text('Факт 4'), findsOneWidget);
+    expect(find.textContaining('Показати всі'), findsNothing);
+  });
+
+  testWidgets('a longer one is cut, and the rest is one tap away', (
+    tester,
+  ) async {
+    await _pump(tester, canEdit: true, attributes: _many(12));
+
+    expect(find.text('Факт 4'), findsOneWidget);
+    expect(find.text('Факт 5'), findsNothing);
+    // The whole record, not what is left over.
+    expect(find.text(l10n.unitAttributesShowAll(12)), findsOneWidget);
+  });
+
+  // What the record's own screen asks for.
+  testWidgets('without a limit everything is on screen', (tester) async {
+    await _pump(tester, canEdit: true, attributes: _many(12), limit: null);
+
+    expect(find.text('Факт 11'), findsOneWidget);
+    expect(find.textContaining('Показати всі'), findsNothing);
   });
 }

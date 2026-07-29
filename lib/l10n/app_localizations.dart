@@ -874,6 +874,12 @@ abstract class AppLocalizations {
   /// **'Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам\'ятати про цю оселю.'**
   String get unitAttributesEmpty;
 
+  /// Opens the screen with an object's whole record; count is the total number of facts
+  ///
+  /// In uk, this message translates to:
+  /// **'Показати всі {count}'**
+  String unitAttributesShowAll(int count);
+
   /// No description provided for @unitAttributeAddTitle.
   ///
   /// In uk, this message translates to:
