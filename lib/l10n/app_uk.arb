@@ -193,6 +193,32 @@
     }
   },
   "deleteUnitBody": "Разом з ним зникне все, що всередині, і всі мешканці. Дію не можна скасувати.",
+  "unitAttributes": "Характеристики",
+  "unitAttributesEmpty": "Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам'ятати про цю оселю.",
+  "unitAttributeAddTitle": "Нова характеристика",
+  "unitAttributeEditTitle": "Характеристика",
+  "unitAttributeName": "Назва",
+  "unitAttributeNameHint": "Рік побудови",
+  "unitAttributeNameRequired": "Вкажіть назву",
+  "unitAttributeValue": "Значення",
+  "unitAttributeValueHint": "1998",
+  "unitAttributeValueRequired": "Вкажіть значення",
+  "unitAttributeSuggestionFloors": "Поверховість",
+  "unitAttributeSuggestionYearBuilt": "Рік побудови",
+  "unitAttributeSuggestionWalls": "Матеріал стін",
+  "unitAttributeSuggestionPlotArea": "Площа ділянки",
+  "editAttribute": "Редагувати",
+  "deleteAttribute": "Видалити",
+  "deleteAttributeTitle": "Видалити характеристику?",
+  "deleteAttributeBody": "«{name}» зникне з опису цієї оселі.",
+  "@deleteAttributeBody": {
+    "description": "Confirmation before deleting one fact about an object",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "unitNested": "Що входить",
   "unitNestedEmpty": "Кімната, гараж, літня кухня, ділянка. Додайте те, що ведете окремо.",
   "unitAddTitle": "Додати",

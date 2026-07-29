@@ -9,10 +9,12 @@ import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
 import 'package:dvir/features/Units/application/unit_actions_controller.dart';
+import 'package:dvir/features/Units/application/unit_attributes_controller.dart';
 import 'package:dvir/features/Units/application/unit_children_controller.dart';
 import 'package:dvir/features/Units/application/unit_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/unit_nesting.dart';
+import 'package:dvir/features/Units/presentation/components/unit_attributes_section.dart';
 import 'package:dvir/features/Units/presentation/components/unit_children_list.dart';
 import 'package:dvir/features/Units/presentation/components/unit_invite_section.dart';
 import 'package:dvir/features/Units/presentation/components/unit_menu.dart';
@@ -49,9 +51,6 @@ class UnitHubScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final loaded = unit.value;
 
-    // Both controllers are driven from callbacks and watched by nobody, so
-    // these subscriptions are what keeps them alive long enough to answer —
-    // and what carries a refusal from the database to the user.
     ref
       ..listen(
         unitActionsProvider(unitId),
@@ -103,12 +102,15 @@ class _Hub extends ConsumerWidget {
         ref
           ..invalidate(unitProvider(unit.id))
           ..invalidate(unitMembersProvider(unit.id))
+          ..invalidate(unitAttributesProvider(unit.id))
           ..invalidate(unitChildrenProvider(unit.id));
       },
       child: ListView(
         padding: const EdgeInsets.all(AppSpacing.lg),
         children: [
           UnitSpecsCard(unit: unit),
+          const SizedBox(height: AppSpacing.lg),
+          UnitAttributesSection(unitId: unit.id),
           if (isOwner) ...[
             const SizedBox(height: AppSpacing.lg),
             UnitInviteSection(unit: unit),
@@ -116,8 +118,6 @@ class _Hub extends ConsumerWidget {
           const SizedBox(height: AppSpacing.lg),
           UnitSectionTitle(
             l10n.unitNested,
-            // A room holds nothing, so it is not offered the button — the
-            // picker behind it would have no types to show.
             action: isOwner && canHoldChildren(unit.type)
                 ? (
                     label: l10n.unitAddCta,

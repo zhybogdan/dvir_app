@@ -45,6 +45,19 @@ Future<UnitRole?> myUnitRole(Ref ref, String unitId) async {
 bool isUnitOwner(Ref ref, String unitId) =>
     ref.watch(myUnitRoleProvider(unitId)).value == UnitRole.owner;
 
+/// Whether the signed-in user keeps this object's record — mirrors
+/// `is_unit_keeper()` from `0008`, which is what actually decides.
+///
+/// A wider rule than [isUnitOwner] on purpose: a son may write down the year
+/// the house was built without being handed the house. A tenant reads
+/// everything and writes nothing, because none of it is theirs to record.
+@riverpod
+bool isUnitKeeper(Ref ref, String unitId) =>
+    switch (ref.watch(myUnitRoleProvider(unitId)).value) {
+      UnitRole.owner || UnitRole.family => true,
+      UnitRole.tenant || null => false,
+    };
+
 /// Deciding on the people of one object, and the loading / error state of it.
 ///
 /// Keyed by the object so a refusal on one screen cannot light up another, and

@@ -312,6 +312,116 @@ final class IsUnitOwnerFamily extends $Family
   String toString() => r'isUnitOwnerProvider';
 }
 
+/// Whether the signed-in user keeps this object's record — mirrors
+/// `is_unit_keeper()` from `0008`, which is what actually decides.
+///
+/// A wider rule than [isUnitOwner] on purpose: a son may write down the year
+/// the house was built without being handed the house. A tenant reads
+/// everything and writes nothing, because none of it is theirs to record.
+
+@ProviderFor(isUnitKeeper)
+final isUnitKeeperProvider = IsUnitKeeperFamily._();
+
+/// Whether the signed-in user keeps this object's record — mirrors
+/// `is_unit_keeper()` from `0008`, which is what actually decides.
+///
+/// A wider rule than [isUnitOwner] on purpose: a son may write down the year
+/// the house was built without being handed the house. A tenant reads
+/// everything and writes nothing, because none of it is theirs to record.
+
+final class IsUnitKeeperProvider extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
+  /// Whether the signed-in user keeps this object's record — mirrors
+  /// `is_unit_keeper()` from `0008`, which is what actually decides.
+  ///
+  /// A wider rule than [isUnitOwner] on purpose: a son may write down the year
+  /// the house was built without being handed the house. A tenant reads
+  /// everything and writes nothing, because none of it is theirs to record.
+  IsUnitKeeperProvider._({
+    required IsUnitKeeperFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'isUnitKeeperProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$isUnitKeeperHash();
+
+  @override
+  String toString() {
+    return r'isUnitKeeperProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $ProviderElement<bool> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  bool create(Ref ref) {
+    final argument = this.argument as String;
+    return isUnitKeeper(ref, argument);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is IsUnitKeeperProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$isUnitKeeperHash() => r'ff1841925c399c633f1e49d415bffd8a3d756132';
+
+/// Whether the signed-in user keeps this object's record — mirrors
+/// `is_unit_keeper()` from `0008`, which is what actually decides.
+///
+/// A wider rule than [isUnitOwner] on purpose: a son may write down the year
+/// the house was built without being handed the house. A tenant reads
+/// everything and writes nothing, because none of it is theirs to record.
+
+final class IsUnitKeeperFamily extends $Family
+    with $FunctionalFamilyOverride<bool, String> {
+  IsUnitKeeperFamily._()
+    : super(
+        retry: null,
+        name: r'isUnitKeeperProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  /// Whether the signed-in user keeps this object's record — mirrors
+  /// `is_unit_keeper()` from `0008`, which is what actually decides.
+  ///
+  /// A wider rule than [isUnitOwner] on purpose: a son may write down the year
+  /// the house was built without being handed the house. A tenant reads
+  /// everything and writes nothing, because none of it is theirs to record.
+
+  IsUnitKeeperProvider call(String unitId) =>
+      IsUnitKeeperProvider._(argument: unitId, from: this);
+
+  @override
+  String toString() => r'isUnitKeeperProvider';
+}
+
 /// Deciding on the people of one object, and the loading / error state of it.
 ///
 /// Keyed by the object so a refusal on one screen cannot light up another, and
