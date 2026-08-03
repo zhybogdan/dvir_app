@@ -9,11 +9,21 @@ part of 'documents_controller.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 /// The files one scope keeps, newest first.
+///
+/// Kept alive for the reason `unitChildren` is: the section is one of several
+/// in a long scroll, and an auto-disposing provider re-reads the list every
+/// time it comes back into view. Uploading, renaming and deleting all
+/// invalidate it, as does the hub's pull-to-refresh.
 
 @ProviderFor(documents)
 final documentsProvider = DocumentsFamily._();
 
 /// The files one scope keeps, newest first.
+///
+/// Kept alive for the reason `unitChildren` is: the section is one of several
+/// in a long scroll, and an auto-disposing provider re-reads the list every
+/// time it comes back into view. Uploading, renaming and deleting all
+/// invalidate it, as does the hub's pull-to-refresh.
 
 final class DocumentsProvider
     extends
@@ -24,13 +34,18 @@ final class DocumentsProvider
         >
     with $FutureModifier<List<Document>>, $FutureProvider<List<Document>> {
   /// The files one scope keeps, newest first.
+  ///
+  /// Kept alive for the reason `unitChildren` is: the section is one of several
+  /// in a long scroll, and an auto-disposing provider re-reads the list every
+  /// time it comes back into view. Uploading, renaming and deleting all
+  /// invalidate it, as does the hub's pull-to-refresh.
   DocumentsProvider._({
     required DocumentsFamily super.from,
     required DocumentScope super.argument,
   }) : super(
          retry: null,
          name: r'documentsProvider',
-         isAutoDispose: true,
+         isAutoDispose: false,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
@@ -68,9 +83,14 @@ final class DocumentsProvider
   }
 }
 
-String _$documentsHash() => r'2c21a44d0bb2f4594ff687aecfed3115ef9145c5';
+String _$documentsHash() => r'f6a49a28e5858cc02c426a4e1d8afc9f62aebc55';
 
 /// The files one scope keeps, newest first.
+///
+/// Kept alive for the reason `unitChildren` is: the section is one of several
+/// in a long scroll, and an auto-disposing provider re-reads the list every
+/// time it comes back into view. Uploading, renaming and deleting all
+/// invalidate it, as does the hub's pull-to-refresh.
 
 final class DocumentsFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<List<Document>>, DocumentScope> {
@@ -80,10 +100,15 @@ final class DocumentsFamily extends $Family
         name: r'documentsProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
-        isAutoDispose: true,
+        isAutoDispose: false,
       );
 
   /// The files one scope keeps, newest first.
+  ///
+  /// Kept alive for the reason `unitChildren` is: the section is one of several
+  /// in a long scroll, and an auto-disposing provider re-reads the list every
+  /// time it comes back into view. Uploading, renaming and deleting all
+  /// invalidate it, as does the hub's pull-to-refresh.
 
   DocumentsProvider call(DocumentScope scope) =>
       DocumentsProvider._(argument: scope, from: this);

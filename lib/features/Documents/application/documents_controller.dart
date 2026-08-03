@@ -12,7 +12,12 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'documents_controller.g.dart';
 
 /// The files one scope keeps, newest first.
-@riverpod
+///
+/// Kept alive for the reason `unitChildren` is: the section is one of several
+/// in a long scroll, and an auto-disposing provider re-reads the list every
+/// time it comes back into view. Uploading, renaming and deleting all
+/// invalidate it, as does the hub's pull-to-refresh.
+@Riverpod(keepAlive: true)
 Future<List<Document>> documents(Ref ref, DocumentScope scope) =>
     ref.watch(documentsRepositoryProvider).documentsOf(scope);
 
