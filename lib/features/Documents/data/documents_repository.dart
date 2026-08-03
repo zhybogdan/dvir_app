@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dvir/features/Documents/domain/models/document.dart';
 import 'package:dvir/features/Documents/domain/models/document_upload.dart';
 import 'package:dvir/features/Documents/domain/types/document_scope.dart';
@@ -32,6 +34,10 @@ abstract interface class DocumentsRepository {
   /// only the row is how a bucket fills with files nobody can see.
   Future<void> delete(Document document);
 
-  /// A signed, short-lived link to read [document] with.
-  Future<String> readUrl(Document document);
+  /// The file's contents, for showing it on the device.
+  ///
+  /// Bytes rather than a signed link: the app hands the file to whatever opens
+  /// that type, and a link would send the person to a browser that downloads it
+  /// again into a folder they then have to find.
+  Future<Uint8List> download(Document document);
 }

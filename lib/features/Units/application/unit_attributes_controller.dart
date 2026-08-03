@@ -13,7 +13,11 @@ part 'unit_attributes_controller.g.dart';
 ///
 /// A notifier rather than a plain future so the order can be shown before the
 /// database has agreed to it — see [applyOrder].
-@riverpod
+///
+/// Kept alive for the reason `unitChildren` is: a section scrolled out of the
+/// hub loses its listener, and an auto-disposing provider throws the record
+/// away and fetches it again on the way back. Every write invalidates it.
+@Riverpod(keepAlive: true)
 class UnitAttributes extends _$UnitAttributes {
   @override
   Future<List<UnitAttribute>> build(String unitId) =>

@@ -448,6 +448,74 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
+  String get documents => 'Документи';
+
+  @override
+  String get documentsEmpty =>
+      'Техпаспорт, договори, гарантії. Тут лежить папір, який доводить те, що записано вище.';
+
+  @override
+  String documentsShowAll(int count) {
+    return 'Показати всі $count';
+  }
+
+  @override
+  String get documentSourceTitle => 'Звідки взяти файл';
+
+  @override
+  String get documentSourceFile => 'Файл на пристрої';
+
+  @override
+  String get documentSourceGallery => 'Фото з галереї';
+
+  @override
+  String get documentSourceCamera => 'Сфотографувати';
+
+  @override
+  String get documentAddTitle => 'Новий документ';
+
+  @override
+  String get documentEditTitle => 'Назва документа';
+
+  @override
+  String get documentName => 'Назва';
+
+  @override
+  String get documentNameHint => 'Техпаспорт';
+
+  @override
+  String get documentNameRequired => 'Вкажіть назву';
+
+  @override
+  String documentSizeKb(String size) {
+    return '$size КБ';
+  }
+
+  @override
+  String documentSizeMb(String size) {
+    return '$size МБ';
+  }
+
+  @override
+  String documentAddedOn(String date) {
+    return 'Додано $date';
+  }
+
+  @override
+  String get editDocument => 'Перейменувати';
+
+  @override
+  String get deleteDocument => 'Видалити';
+
+  @override
+  String get deleteDocumentTitle => 'Видалити документ?';
+
+  @override
+  String deleteDocumentBody(String title) {
+    return '«$title» зникне разом із файлом. Дію не можна скасувати.';
+  }
+
+  @override
   String get unitNested => 'Що входить';
 
   @override
@@ -577,6 +645,9 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get errorFileUnknown => 'Не вдалося обробити файл';
+
+  @override
+  String get errorFileCannotOpen => 'Немає застосунку, який відкриє цей файл';
 
   @override
   String get errorTitle => 'Щось пішло не так';

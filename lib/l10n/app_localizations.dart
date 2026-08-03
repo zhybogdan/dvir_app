@@ -928,6 +928,120 @@ abstract class AppLocalizations {
   /// **'«{name}» зникне з опису цієї оселі.'**
   String deleteAttributeBody(String name);
 
+  /// No description provided for @documents.
+  ///
+  /// In uk, this message translates to:
+  /// **'Документи'**
+  String get documents;
+
+  /// No description provided for @documentsEmpty.
+  ///
+  /// In uk, this message translates to:
+  /// **'Техпаспорт, договори, гарантії. Тут лежить папір, який доводить те, що записано вище.'**
+  String get documentsEmpty;
+
+  /// Opens the screen with all of a scope's files; count is the total
+  ///
+  /// In uk, this message translates to:
+  /// **'Показати всі {count}'**
+  String documentsShowAll(int count);
+
+  /// No description provided for @documentSourceTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Звідки взяти файл'**
+  String get documentSourceTitle;
+
+  /// No description provided for @documentSourceFile.
+  ///
+  /// In uk, this message translates to:
+  /// **'Файл на пристрої'**
+  String get documentSourceFile;
+
+  /// No description provided for @documentSourceGallery.
+  ///
+  /// In uk, this message translates to:
+  /// **'Фото з галереї'**
+  String get documentSourceGallery;
+
+  /// No description provided for @documentSourceCamera.
+  ///
+  /// In uk, this message translates to:
+  /// **'Сфотографувати'**
+  String get documentSourceCamera;
+
+  /// No description provided for @documentAddTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Новий документ'**
+  String get documentAddTitle;
+
+  /// No description provided for @documentEditTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Назва документа'**
+  String get documentEditTitle;
+
+  /// No description provided for @documentName.
+  ///
+  /// In uk, this message translates to:
+  /// **'Назва'**
+  String get documentName;
+
+  /// No description provided for @documentNameHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'Техпаспорт'**
+  String get documentNameHint;
+
+  /// No description provided for @documentNameRequired.
+  ///
+  /// In uk, this message translates to:
+  /// **'Вкажіть назву'**
+  String get documentNameRequired;
+
+  /// File size in kilobytes
+  ///
+  /// In uk, this message translates to:
+  /// **'{size} КБ'**
+  String documentSizeKb(String size);
+
+  /// File size in megabytes
+  ///
+  /// In uk, this message translates to:
+  /// **'{size} МБ'**
+  String documentSizeMb(String size);
+
+  /// When a file was uploaded, as dd.MM.yyyy
+  ///
+  /// In uk, this message translates to:
+  /// **'Додано {date}'**
+  String documentAddedOn(String date);
+
+  /// No description provided for @editDocument.
+  ///
+  /// In uk, this message translates to:
+  /// **'Перейменувати'**
+  String get editDocument;
+
+  /// No description provided for @deleteDocument.
+  ///
+  /// In uk, this message translates to:
+  /// **'Видалити'**
+  String get deleteDocument;
+
+  /// No description provided for @deleteDocumentTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Видалити документ?'**
+  String get deleteDocumentTitle;
+
+  /// Confirmation before deleting a file and its row
+  ///
+  /// In uk, this message translates to:
+  /// **'«{title}» зникне разом із файлом. Дію не можна скасувати.'**
+  String deleteDocumentBody(String title);
+
   /// No description provided for @unitNested.
   ///
   /// In uk, this message translates to:
@@ -1167,6 +1281,12 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Не вдалося обробити файл'**
   String get errorFileUnknown;
+
+  /// No description provided for @errorFileCannotOpen.
+  ///
+  /// In uk, this message translates to:
+  /// **'Немає застосунку, який відкриє цей файл'**
+  String get errorFileCannotOpen;
 
   /// No description provided for @errorTitle.
   ///

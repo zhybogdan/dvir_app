@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dvir/core/config/supabase_providers.dart';
 import 'package:dvir/core/error/supabase_error_guard.dart';
 import 'package:dvir/features/Documents/data/document_storage.dart';
@@ -95,12 +97,8 @@ class DocumentsRepositoryImpl implements DocumentsRepository {
   });
 
   @override
-  Future<String> readUrl(Document document) => guardSupabase(
-    () => _bucket.createSignedUrl(
-      document.storagePath,
-      documentUrlLifetime.inSeconds,
-    ),
-  );
+  Future<Uint8List> download(Document document) =>
+      guardSupabase(() => _bucket.download(document.storagePath));
 }
 
 @Riverpod(keepAlive: true)

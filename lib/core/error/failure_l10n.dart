@@ -36,6 +36,7 @@ extension FailureL10n on Failure {
       StorageFailureReason.tooLarge => l10n.errorFileTooLarge,
       StorageFailureReason.typeNotAllowed => l10n.errorFileTypeNotAllowed,
       StorageFailureReason.missing => l10n.errorFileMissing,
+      StorageFailureReason.cannotOpen => l10n.errorFileCannotOpen,
       // The same sentence a refused row gets: from the user's side a policy
       // that says no is one thing, whichever half of the database said it.
       StorageFailureReason.notAllowed => l10n.errorNotAllowed,

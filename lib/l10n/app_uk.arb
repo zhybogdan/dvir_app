@@ -212,6 +212,65 @@
       }
     }
   },
+  "documents": "Документи",
+  "documentsEmpty": "Техпаспорт, договори, гарантії. Тут лежить папір, який доводить те, що записано вище.",
+  "documentsShowAll": "Показати всі {count}",
+  "@documentsShowAll": {
+    "description": "Opens the screen with all of a scope's files; count is the total",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "documentSourceTitle": "Звідки взяти файл",
+  "documentSourceFile": "Файл на пристрої",
+  "documentSourceGallery": "Фото з галереї",
+  "documentSourceCamera": "Сфотографувати",
+  "documentAddTitle": "Новий документ",
+  "documentEditTitle": "Назва документа",
+  "documentName": "Назва",
+  "documentNameHint": "Техпаспорт",
+  "documentNameRequired": "Вкажіть назву",
+  "documentSizeKb": "{size} КБ",
+  "@documentSizeKb": {
+    "description": "File size in kilobytes",
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "documentSizeMb": "{size} МБ",
+  "@documentSizeMb": {
+    "description": "File size in megabytes",
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "documentAddedOn": "Додано {date}",
+  "@documentAddedOn": {
+    "description": "When a file was uploaded, as dd.MM.yyyy",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "editDocument": "Перейменувати",
+  "deleteDocument": "Видалити",
+  "deleteDocumentTitle": "Видалити документ?",
+  "deleteDocumentBody": "«{title}» зникне разом із файлом. Дію не можна скасувати.",
+  "@deleteDocumentBody": {
+    "description": "Confirmation before deleting a file and its row",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
   "unitNested": "Що входить",
   "unitNestedEmpty": "Кімната, гараж, літня кухня, ділянка. Додайте те, що ведете окремо.",
   "unitAddTitle": "Додати",
@@ -282,6 +341,7 @@
   "errorFileTypeNotAllowed": "Такий тип файлу не підтримується",
   "errorFileMissing": "Файл не знайдено. Можливо, його вже видалили",
   "errorFileUnknown": "Не вдалося обробити файл",
+  "errorFileCannotOpen": "Немає застосунку, який відкриє цей файл",
 
   "errorTitle": "Щось пішло не так",
   "retry": "Повторити"

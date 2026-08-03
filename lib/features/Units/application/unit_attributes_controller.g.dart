@@ -12,6 +12,10 @@ part of 'unit_attributes_controller.dart';
 ///
 /// A notifier rather than a plain future so the order can be shown before the
 /// database has agreed to it — see [applyOrder].
+///
+/// Kept alive for the reason `unitChildren` is: a section scrolled out of the
+/// hub loses its listener, and an auto-disposing provider throws the record
+/// away and fetches it again on the way back. Every write invalidates it.
 
 @ProviderFor(UnitAttributes)
 final unitAttributesProvider = UnitAttributesFamily._();
@@ -20,19 +24,27 @@ final unitAttributesProvider = UnitAttributesFamily._();
 ///
 /// A notifier rather than a plain future so the order can be shown before the
 /// database has agreed to it — see [applyOrder].
+///
+/// Kept alive for the reason `unitChildren` is: a section scrolled out of the
+/// hub loses its listener, and an auto-disposing provider throws the record
+/// away and fetches it again on the way back. Every write invalidates it.
 final class UnitAttributesProvider
     extends $AsyncNotifierProvider<UnitAttributes, List<UnitAttribute>> {
   /// The record one object keeps about itself.
   ///
   /// A notifier rather than a plain future so the order can be shown before the
   /// database has agreed to it — see [applyOrder].
+  ///
+  /// Kept alive for the reason `unitChildren` is: a section scrolled out of the
+  /// hub loses its listener, and an auto-disposing provider throws the record
+  /// away and fetches it again on the way back. Every write invalidates it.
   UnitAttributesProvider._({
     required UnitAttributesFamily super.from,
     required String super.argument,
   }) : super(
          retry: null,
          name: r'unitAttributesProvider',
-         isAutoDispose: true,
+         isAutoDispose: false,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
@@ -62,12 +74,16 @@ final class UnitAttributesProvider
   }
 }
 
-String _$unitAttributesHash() => r'720907e46397e701442e0df9aace974d1ff44a5d';
+String _$unitAttributesHash() => r'ac192a264b08fb6a1a0ff744a08adc5ee10daa4e';
 
 /// The record one object keeps about itself.
 ///
 /// A notifier rather than a plain future so the order can be shown before the
 /// database has agreed to it — see [applyOrder].
+///
+/// Kept alive for the reason `unitChildren` is: a section scrolled out of the
+/// hub loses its listener, and an auto-disposing provider throws the record
+/// away and fetches it again on the way back. Every write invalidates it.
 
 final class UnitAttributesFamily extends $Family
     with
@@ -84,13 +100,17 @@ final class UnitAttributesFamily extends $Family
         name: r'unitAttributesProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
-        isAutoDispose: true,
+        isAutoDispose: false,
       );
 
   /// The record one object keeps about itself.
   ///
   /// A notifier rather than a plain future so the order can be shown before the
   /// database has agreed to it — see [applyOrder].
+  ///
+  /// Kept alive for the reason `unitChildren` is: a section scrolled out of the
+  /// hub loses its listener, and an auto-disposing provider throws the record
+  /// away and fetches it again on the way back. Every write invalidates it.
 
   UnitAttributesProvider call(String unitId) =>
       UnitAttributesProvider._(argument: unitId, from: this);
@@ -103,6 +123,10 @@ final class UnitAttributesFamily extends $Family
 ///
 /// A notifier rather than a plain future so the order can be shown before the
 /// database has agreed to it — see [applyOrder].
+///
+/// Kept alive for the reason `unitChildren` is: a section scrolled out of the
+/// hub loses its listener, and an auto-disposing provider throws the record
+/// away and fetches it again on the way back. Every write invalidates it.
 
 abstract class _$UnitAttributes extends $AsyncNotifier<List<UnitAttribute>> {
   late final _$args = ref.$arg as String;

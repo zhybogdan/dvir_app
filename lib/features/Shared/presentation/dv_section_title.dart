@@ -3,14 +3,17 @@ import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
 import 'package:flutter/material.dart';
 
 /// The one control that acts on a section, sitting in its heading.
-typedef UnitSectionAction = ({String label, VoidCallback onPressed});
+typedef DvSectionAction = ({String label, VoidCallback onPressed});
 
 /// A section heading, optionally with [action] at its right end.
-class UnitSectionTitle extends StatelessWidget {
-  const UnitSectionTitle(this.text, {super.key, this.action});
+///
+/// Shared rather than an object's own: the hub was the first screen made of
+/// sections, and documents are the second feature to need the same heading.
+class DvSectionTitle extends StatelessWidget {
+  const DvSectionTitle(this.text, {super.key, this.action});
 
   final String text;
-  final UnitSectionAction? action;
+  final DvSectionAction? action;
 
   @override
   Widget build(BuildContext context) {

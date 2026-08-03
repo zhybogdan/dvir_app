@@ -5,13 +5,6 @@
 /// them is a leak.
 const String documentsBucket = 'documents';
 
-/// How long a download link stays valid.
-///
-/// The bucket is private, so there is no permanent URL — each read is signed on
-/// demand. An hour is long enough to open a file and short enough that a link
-/// which escapes is not worth forwarding.
-const Duration documentUrlLifetime = Duration(hours: 1);
-
 /// `<scope_id>/<document_id>.<ext>`, the convention `0010`'s storage policies
 /// read.
 ///
@@ -55,3 +48,18 @@ String documentExtension(String fileName) {
 /// Letters and digits only, and short — eight is past `jpeg`, `webp`, `heic`
 /// and anything else a picker hands over.
 final RegExp _extension = RegExp(r'^[a-z0-9]{1,8}$');
+
+/// What to put in the title field before the person has typed anything.
+///
+/// The file name without its extension: "Договір_газ_2019.pdf" is already what
+/// they called it, and offering it saves the typing. A camera shot has no such
+/// name — `IMG_20260803_114233` — so the sheet still asks, it just starts from
+/// something rather than from an empty field.
+String suggestedDocumentTitle(String fileName) {
+  final extension = documentExtension(fileName);
+  final name = extension.isEmpty
+      ? fileName
+      : fileName.substring(0, fileName.length - extension.length - 1);
+
+  return name.trim();
+}

@@ -36,8 +36,12 @@ abstract final class AppRoutes {
   /// The object's whole record, for when the hub shows only the top of it.
   static const String unitAttributes = '/unit/:unitId/attributes';
 
+  /// Everything the object keeps in paper, for the same reason.
+  static const String unitDocuments = '/unit/:unitId/documents';
+
   static String unitPath(String unitId) => '/unit/$unitId';
   static String unitEditPath(String unitId) => '/unit/$unitId/edit';
   static String unitAddPath(String unitId) => '/unit/$unitId/add';
   static String unitAttributesPath(String unitId) => '/unit/$unitId/attributes';
+  static String unitDocumentsPath(String unitId) => '/unit/$unitId/documents';
 }
