@@ -32,6 +32,15 @@ extension FailureL10n on Failure {
       AuthFailureReason.tooManyRequests => l10n.errorTooManyRequests,
       AuthFailureReason.unknown => l10n.errorAuthUnknown,
     },
+    StorageFailure(:final reason) => switch (reason) {
+      StorageFailureReason.tooLarge => l10n.errorFileTooLarge,
+      StorageFailureReason.typeNotAllowed => l10n.errorFileTypeNotAllowed,
+      StorageFailureReason.missing => l10n.errorFileMissing,
+      // The same sentence a refused row gets: from the user's side a policy
+      // that says no is one thing, whichever half of the database said it.
+      StorageFailureReason.notAllowed => l10n.errorNotAllowed,
+      StorageFailureReason.unknown => l10n.errorFileUnknown,
+    },
     ScopeFailure(:final reason) => switch (reason) {
       ScopeFailureReason.invalidInviteCode => l10n.errorInvalidInviteCode,
       ScopeFailureReason.notAllowed => l10n.errorNotAllowed,

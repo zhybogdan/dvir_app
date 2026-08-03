@@ -46,6 +46,16 @@ final class ScopeFailure extends Failure {
   String toString() => 'ScopeFailure($reason)';
 }
 
+/// A file could not be stored, read back or removed.
+final class StorageFailure extends Failure {
+  const StorageFailure(this.reason);
+
+  final StorageFailureReason reason;
+
+  @override
+  String toString() => 'StorageFailure($reason)';
+}
+
 /// Anything we did not anticipate.
 final class UnknownFailure extends Failure {
   const UnknownFailure();
@@ -83,6 +93,25 @@ enum ScopeFailureReason {
 
   /// A moderator tried to approve, reject or block their own membership.
   selfModeration,
+
+  unknown,
+}
+
+/// Why a Storage call was rejected. Storage has no SQLSTATEs to raise, so this
+/// is mapped from HTTP status codes — see `storage_failure_mapper.dart`.
+enum StorageFailureReason {
+  /// Over the bucket's `file_size_limit` — 20 MB since `0010`.
+  tooLarge,
+
+  /// A type the bucket's `allowed_mime_types` does not list.
+  typeNotAllowed,
+
+  /// The object is not there: a row that outlived its file.
+  missing,
+
+  /// The storage policies refused — not a keeper of the object that owns the
+  /// file.
+  notAllowed,
 
   unknown,
 }
