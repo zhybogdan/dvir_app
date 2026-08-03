@@ -46,4 +46,16 @@ void main() {
 
     expect(messages, hasLength(ScopeFailureReason.values.length));
   });
+
+  test('every storage reason has its own non-empty message', () {
+    final messages = <String>{};
+
+    for (final reason in StorageFailureReason.values) {
+      final message = StorageFailure(reason).message(l10n);
+      expect(message, isNotEmpty, reason: '$reason');
+      messages.add(message);
+    }
+
+    expect(messages, hasLength(StorageFailureReason.values.length));
+  });
 }

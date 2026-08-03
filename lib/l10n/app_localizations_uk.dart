@@ -567,6 +567,18 @@ class AppLocalizationsUk extends AppLocalizations {
   String get errorScopeUnknown => 'Не вдалося виконати дію';
 
   @override
+  String get errorFileTooLarge => 'Файл завеликий. Максимум 20 МБ';
+
+  @override
+  String get errorFileTypeNotAllowed => 'Такий тип файлу не підтримується';
+
+  @override
+  String get errorFileMissing => 'Файл не знайдено. Можливо, його вже видалили';
+
+  @override
+  String get errorFileUnknown => 'Не вдалося обробити файл';
+
+  @override
   String get errorTitle => 'Щось пішло не так';
 
   @override

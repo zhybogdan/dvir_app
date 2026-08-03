@@ -72,6 +72,24 @@ void main() {
     expect(failure, isA<NetworkFailure>());
   });
 
+  // Storage answers with HTTP statuses rather than SQLSTATEs, so without a
+  // branch of its own "файл завеликий" arrives as the catch-all — the one thing
+  // the person could have fixed, replaced by the one sentence that helps least.
+  test('a refused upload keeps the reason its status carried', () async {
+    final failure = await _failureFrom(
+      const sb.StorageException('too big', statusCode: '413'),
+    );
+
+    expect(
+      failure,
+      isA<StorageFailure>().having(
+        (failure) => failure.reason,
+        'reason',
+        StorageFailureReason.tooLarge,
+      ),
+    );
+  });
+
   test('anything unforeseen is reported as unknown, not thrown raw', () async {
     final failure = await _failureFrom(StateError('nope'));
 

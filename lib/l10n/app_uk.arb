@@ -278,6 +278,11 @@
   "errorSelfModeration": "Не можна змінити власний статус",
   "errorScopeUnknown": "Не вдалося виконати дію",
 
+  "errorFileTooLarge": "Файл завеликий. Максимум 20 МБ",
+  "errorFileTypeNotAllowed": "Такий тип файлу не підтримується",
+  "errorFileMissing": "Файл не знайдено. Можливо, його вже видалили",
+  "errorFileUnknown": "Не вдалося обробити файл",
+
   "errorTitle": "Щось пішло не так",
   "retry": "Повторити"
 }

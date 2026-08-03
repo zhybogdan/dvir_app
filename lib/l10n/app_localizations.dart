@@ -1144,6 +1144,30 @@ abstract class AppLocalizations {
   /// **'Не вдалося виконати дію'**
   String get errorScopeUnknown;
 
+  /// No description provided for @errorFileTooLarge.
+  ///
+  /// In uk, this message translates to:
+  /// **'Файл завеликий. Максимум 20 МБ'**
+  String get errorFileTooLarge;
+
+  /// No description provided for @errorFileTypeNotAllowed.
+  ///
+  /// In uk, this message translates to:
+  /// **'Такий тип файлу не підтримується'**
+  String get errorFileTypeNotAllowed;
+
+  /// No description provided for @errorFileMissing.
+  ///
+  /// In uk, this message translates to:
+  /// **'Файл не знайдено. Можливо, його вже видалили'**
+  String get errorFileMissing;
+
+  /// No description provided for @errorFileUnknown.
+  ///
+  /// In uk, this message translates to:
+  /// **'Не вдалося обробити файл'**
+  String get errorFileUnknown;
+
   /// No description provided for @errorTitle.
   ///
   /// In uk, this message translates to:

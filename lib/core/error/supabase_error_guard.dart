@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dvir/core/error/failures.dart';
 import 'package:dvir/core/error/scope_failure_mapper.dart';
+import 'package:dvir/core/error/storage_failure_mapper.dart';
 import 'package:dvir/core/logging/app_logger.dart';
 import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
@@ -9,7 +10,7 @@ import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 /// Runs a Supabase call, translating its low-level errors into typed
 /// [Failure]s so nothing Supabase-shaped escapes the data layer.
 ///
-/// Shared by every repository rather than reimplemented in each: these four
+/// Shared by every repository rather than reimplemented in each: these five
 /// branches are the whole boundary between Supabase's error model and the
 /// app's, and a repository that missed one would hand a raw exception to
 /// `AsyncValue`, which renders it as the generic "unexpected error".
@@ -26,6 +27,17 @@ Future<T> guardSupabase<T>(Future<T> Function() call) async {
     appLogger.d('Postgres rejected a call: ${error.code} ${error.message}');
     Error.throwWithStackTrace(
       ScopeFailure(scopeFailureReasonFrom(error.code)),
+      stackTrace,
+    );
+  } on sb.StorageException catch (error, stackTrace) {
+    // Storage speaks HTTP, not SQLSTATE, so it needs a branch of its own —
+    // without it "файл завеликий" would reach the user as "щось пішло не так",
+    // which says nothing about the one thing they can act on.
+    appLogger.d(
+      'Storage rejected a call: ${error.statusCode} ${error.message}',
+    );
+    Error.throwWithStackTrace(
+      StorageFailure(storageFailureReasonFrom(error.statusCode, error.message)),
       stackTrace,
     );
   } on http.ClientException catch (error, stackTrace) {
