@@ -2,9 +2,9 @@ import 'package:dvir/app/routes.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_tile.dart';
+import 'package:dvir/features/Shared/presentation/dv_tiles_skeleton.dart';
 import 'package:dvir/features/Units/application/unit_children_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
-import 'package:dvir/features/Units/presentation/components/unit_tiles_skeleton.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class UnitChildrenList extends ConsumerWidget {
 
     return DvAsyncView<List<Unit>>(
       value: ref.watch(unitChildrenProvider(unitId)),
-      skeleton: const UnitTilesSkeleton(),
+      skeleton: const DvTilesSkeleton(),
       onRetry: () => ref.invalidate(unitChildrenProvider(unitId)),
       builder: (context, children) => children.isEmpty
           ? DvEmptyView(message: l10n.unitNestedEmpty)

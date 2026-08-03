@@ -49,7 +49,9 @@ class DocumentTile extends ConsumerWidget {
       // is what a tenant is here for.
       onTap: () =>
           ref.read(documentActionsProvider(scope).notifier).open(document),
-      trailing: canEdit ? _DocumentMenu(scope: scope, document: document) : null,
+      trailing: canEdit
+          ? _DocumentMenu(scope: scope, document: document)
+          : null,
     );
   }
 }

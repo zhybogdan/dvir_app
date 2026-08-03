@@ -13,7 +13,11 @@ import 'package:flutter/material.dart';
 /// the field is worth its step. It starts from the file's own name, so the
 /// person confirms rather than types.
 class DocumentTitleSheet extends StatefulWidget {
-  const DocumentTitleSheet({required this.title, required this.isNew, super.key});
+  const DocumentTitleSheet({
+    required this.title,
+    required this.isNew,
+    super.key,
+  });
 
   final String title;
 
@@ -71,9 +75,7 @@ class _DocumentTitleSheetState extends State<DocumentTitleSheet> {
               spacing: AppSpacing.md,
               children: [
                 Text(
-                  widget.isNew
-                      ? l10n.documentAddTitle
-                      : l10n.documentEditTitle,
+                  widget.isNew ? l10n.documentAddTitle : l10n.documentEditTitle,
                   style: context.textTheme.titleMedium,
                 ),
                 DvTextField(

@@ -3,13 +3,13 @@ import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
+import 'package:dvir/features/Shared/presentation/dv_section_title.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_tiles_skeleton.dart';
 import 'package:dvir/features/Units/application/unit_attributes_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit_attribute.dart';
 import 'package:dvir/features/Units/presentation/components/unit_attribute_sheet.dart';
 import 'package:dvir/features/Units/presentation/components/unit_attribute_tile.dart';
-import 'package:dvir/features/Units/presentation/components/unit_section_title.dart';
-import 'package:dvir/features/Units/presentation/components/unit_tiles_skeleton.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,7 +62,7 @@ class UnitAttributesSection extends ConsumerWidget {
 
     return Column(
       children: [
-        UnitSectionTitle(
+        DvSectionTitle(
           l10n.unitAttributes,
           action: canEdit ? (label: l10n.unitAddCta, onPressed: add) : null,
         ),
@@ -86,7 +86,7 @@ class _AttributesPreview extends ConsumerWidget {
 
     return DvAsyncView<List<UnitAttribute>>(
       value: ref.watch(unitAttributesProvider(unitId)),
-      skeleton: const UnitTilesSkeleton(),
+      skeleton: const DvTilesSkeleton(),
       onRetry: () => ref.invalidate(unitAttributesProvider(unitId)),
       builder: (context, attributes) {
         if (attributes.isEmpty) {

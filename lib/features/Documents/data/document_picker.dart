@@ -1,9 +1,8 @@
-import 'dart:typed_data';
-
 import 'package:dvir/core/logging/app_logger.dart';
 import 'package:dvir/features/Documents/data/document_storage.dart';
 import 'package:dvir/features/Documents/domain/models/document_upload.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
@@ -46,14 +45,26 @@ class DocumentPickerImpl implements DocumentPicker {
   const DocumentPickerImpl();
 
   @override
-  Future<DocumentUpload?> pick(DocumentSource source) => switch (source) {
-    DocumentSource.file => _fromFiles(),
-    DocumentSource.gallery => _fromCamera(ImageSource.gallery),
-    DocumentSource.camera => _fromCamera(ImageSource.camera),
-  };
+  Future<DocumentUpload?> pick(DocumentSource source) async {
+    try {
+      return await switch (source) {
+        DocumentSource.file => _fromFiles(),
+        DocumentSource.gallery => _fromCamera(ImageSource.gallery),
+        DocumentSource.camera => _fromCamera(ImageSource.camera),
+      };
+    } on PlatformException catch (error) {
+      // A picker that will not open — a denied permission, a device with no
+      // camera — has already told the person so in the system's own words.
+      // Repeating it as an app error would be the second dialog about one
+      // refusal, so this reads as "nothing was chosen".
+      appLogger.d('The picker refused to open: ${error.code}');
+
+      return null;
+    }
+  }
 
   Future<DocumentUpload?> _fromFiles() async {
-    final result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.pickFiles(
       type: FileType.custom,
       allowedExtensions: documentExtensions,
       // Bytes rather than a path: the file may live in a cloud provider the

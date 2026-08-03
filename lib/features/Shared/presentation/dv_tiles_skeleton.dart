@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 ///
 /// Shape rather than subject: the residents list and the list of nested
 /// objects are the same rows, so they wait behind the same placeholder.
-class UnitTilesSkeleton extends StatelessWidget {
-  const UnitTilesSkeleton({super.key});
+class DvTilesSkeleton extends StatelessWidget {
+  const DvTilesSkeleton({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -94,11 +94,7 @@ class _DocumentsPreview extends ConsumerWidget {
         return Column(
           children: [
             for (final document in documents.take(documentsPreview))
-              DocumentTile(
-                scope: scope,
-                document: document,
-                canEdit: canEdit,
-              ),
+              DocumentTile(scope: scope, document: document, canEdit: canEdit),
             // The count is everything kept here, not what is left over: "всі 8"
             // says something, "ще 3" only looks like an oversight.
             if (total > documentsPreview)

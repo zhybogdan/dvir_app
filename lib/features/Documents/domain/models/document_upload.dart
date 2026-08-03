@@ -23,4 +23,15 @@ class DocumentUpload {
   final String mimeType;
 
   final Uint8List bytes;
+
+  /// The same file under the name a person chose for it.
+  ///
+  /// The picker can only suggest a title — it knows the file name and nothing
+  /// else — so the sheet that asks replaces it before the upload starts.
+  DocumentUpload titled(String title) => DocumentUpload(
+    title: title,
+    fileName: fileName,
+    mimeType: mimeType,
+    bytes: bytes,
+  );
 }

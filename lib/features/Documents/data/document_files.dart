@@ -36,9 +36,7 @@ class DocumentFilesImpl implements DocumentFiles {
     // filling the cache with numbered copies.
     final directory = await getTemporaryDirectory();
     final extension = documentExtension(document.storagePath);
-    final name = extension.isEmpty
-        ? document.id
-        : '${document.id}.$extension';
+    final name = extension.isEmpty ? document.id : '${document.id}.$extension';
 
     final file = File('${directory.path}/$name');
     await file.writeAsBytes(bytes, flush: true);

@@ -113,5 +113,10 @@ enum StorageFailureReason {
   /// file.
   notAllowed,
 
+  /// The file came down but the device has nothing to show it with. Not a
+  /// Storage answer at all; it shares this type because from the reader's side
+  /// it is the same sentence — the file did not open.
+  cannotOpen,
+
   unknown,
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dvir/core/riverpod/guarded_actions.dart';
+import 'package:dvir/features/Documents/data/document_files.dart';
 import 'package:dvir/features/Documents/data/documents_repository.dart';
 import 'package:dvir/features/Documents/data/documents_repository_impl.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
@@ -37,14 +38,18 @@ class DocumentActions extends _$DocumentActions with GuardedActions {
   Future<bool> remove(Document document) =>
       _run((repository) => repository.delete(document));
 
-  /// A link to open [document] with, or null when it could not be signed.
+  /// Downloads [document] and hands it to whatever the device opens that type
+  /// with.
   ///
   /// Deliberately not one of the actions above: reading a file changes nothing
-  /// about the list, so nothing is invalidated afterwards.
-  Future<String?> readUrl(Document document) {
-    final repository = ref.read(documentsRepositoryProvider);
+  /// about the list, so nothing is invalidated afterwards. It still runs
+  /// through the guard, because the wait is long enough to show and the
+  /// refusals — a file that is gone, a device with no viewer — are worth
+  /// saying out loud.
+  Future<bool> open(Document document) {
+    final files = ref.read(documentFilesProvider);
 
-    return guarded(() => repository.readUrl(document));
+    return guardedVoid(() => files.open(document));
   }
 
   /// Every action here changes the same list, so what to re-read afterwards is

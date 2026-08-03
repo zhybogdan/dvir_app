@@ -4,7 +4,7 @@ import 'package:dvir/features/Members/domain/models/unit_member_view.dart';
 import 'package:dvir/features/Members/presentation/components/unit_member_tile.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
-import 'package:dvir/features/Units/presentation/components/unit_tiles_skeleton.dart';
+import 'package:dvir/features/Shared/presentation/dv_tiles_skeleton.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,7 +27,7 @@ class UnitPeopleList extends ConsumerWidget {
 
     return DvAsyncView<List<UnitMemberView>>(
       value: ref.watch(unitMembersProvider(unitId)),
-      skeleton: const UnitTilesSkeleton(),
+      skeleton: const DvTilesSkeleton(),
       onRetry: () => ref.invalidate(unitMembersProvider(unitId)),
       builder: (context, people) => people.isEmpty
           ? DvEmptyView(message: l10n.unitPeopleEmpty)

@@ -1,12 +1,16 @@
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
+import 'package:dvir/features/Documents/application/documents_controller.dart';
+import 'package:dvir/features/Documents/domain/types/document_scope.dart';
+import 'package:dvir/features/Documents/presentation/components/documents_section.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
+import 'package:dvir/features/Shared/presentation/dv_section_title.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
 import 'package:dvir/features/Units/application/unit_actions_controller.dart';
 import 'package:dvir/features/Units/application/unit_attributes_controller.dart';
@@ -19,7 +23,6 @@ import 'package:dvir/features/Units/presentation/components/unit_children_list.d
 import 'package:dvir/features/Units/presentation/components/unit_invite_section.dart';
 import 'package:dvir/features/Units/presentation/components/unit_menu.dart';
 import 'package:dvir/features/Units/presentation/components/unit_people_list.dart';
-import 'package:dvir/features/Units/presentation/components/unit_section_title.dart';
 import 'package:dvir/features/Units/presentation/components/unit_specs_card.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -103,6 +106,7 @@ class _Hub extends ConsumerWidget {
           ..invalidate(unitProvider(unit.id))
           ..invalidate(unitMembersProvider(unit.id))
           ..invalidate(unitAttributesProvider(unit.id))
+          ..invalidate(documentsProvider(DocumentScope.unit(unit.id)))
           ..invalidate(unitChildrenProvider(unit.id));
       },
       child: ListView(
@@ -111,12 +115,14 @@ class _Hub extends ConsumerWidget {
           UnitSpecsCard(unit: unit),
           const SizedBox(height: AppSpacing.lg),
           UnitAttributesSection(unitId: unit.id),
+          const SizedBox(height: AppSpacing.lg),
+          DocumentsSection(unitId: unit.id),
           if (isOwner) ...[
             const SizedBox(height: AppSpacing.lg),
             UnitInviteSection(unit: unit),
           ],
           const SizedBox(height: AppSpacing.lg),
-          UnitSectionTitle(
+          DvSectionTitle(
             l10n.unitNested,
             action: isOwner && canHoldChildren(unit.type)
                 ? (
@@ -128,7 +134,7 @@ class _Hub extends ConsumerWidget {
           ),
           UnitChildrenList(unitId: unit.id),
           const SizedBox(height: AppSpacing.lg),
-          UnitSectionTitle(l10n.unitPeople),
+          DvSectionTitle(l10n.unitPeople),
           UnitPeopleList(unitId: unit.id),
         ],
       ),

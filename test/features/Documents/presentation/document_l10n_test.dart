@@ -53,14 +53,15 @@ void main() {
 
     test('drops the half it does not have instead of leaving a separator', () {
       expect(documentSubtitle(_document(sizeBytes: null), l10n), 'PDF');
-      expect(
-        documentSubtitle(_document(path: 'scope/doc'), l10n),
-        '2,4 МБ',
-      );
+      expect(documentSubtitle(_document(path: 'scope/doc'), l10n), '2,4 МБ');
     });
 
     test('a row from before 0010 has no second line at all', () {
-      final bare = _document(path: 'scope/doc', mimeType: null, sizeBytes: null);
+      final bare = _document(
+        path: 'scope/doc',
+        mimeType: null,
+        sizeBytes: null,
+      );
 
       expect(documentSubtitle(bare, l10n), isEmpty);
     });
