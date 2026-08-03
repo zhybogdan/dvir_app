@@ -32,14 +32,14 @@ dependencies:
   flutter_svg: ^2.3.0
   logger: ^2.7.0
   flutter_secure_storage: ^10.3.1
-  # Held on 12.x on purpose: share_plus 13 wants win32 ^6 and every stable
-  # file_picker still wants win32 ^5, which pub solves globally even though
-  # neither Windows implementation is ever built for this app. The API used
-  # here — `SharePlus.instance.share(ShareParams(...))` — is the same since
-  # 11.0, so the two call sites do not care. Lift this the day file_picker 12
-  # leaves beta.
-  share_plus: ^12.0.2
-  file_picker: ^11.0.3
+  share_plus: ^13.2.1
+  # file_selector rather than file_picker, for two reasons found the hard way:
+  # file_picker's Gradle script skips the Kotlin plugin on AGP 9, so its own
+  # plugin class never compiles and the Android build dies (see
+  # android/gradle.properties), and it pins win32 ^5 while share_plus 13 needs
+  # ^6 — which pub solves globally, though no Windows build exists here.
+  # file_selector is Flutter's own, needs no win32, and builds as it is.
+  file_selector: ^1.1.0
   image_picker: ^1.2.3
   flutter_image_compress: ^2.5.1
   open_filex: ^4.7.0

@@ -1,7 +1,7 @@
 import 'package:dvir/core/logging/app_logger.dart';
 import 'package:dvir/features/Documents/data/document_storage.dart';
 import 'package:dvir/features/Documents/domain/models/document_upload.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
@@ -64,19 +64,14 @@ class DocumentPickerImpl implements DocumentPicker {
   }
 
   Future<DocumentUpload?> _fromFiles() async {
-    final result = await FilePicker.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: documentExtensions,
-      // Bytes rather than a path: the file may live in a cloud provider the
-      // device only streams, and the upload needs the contents either way.
-      withData: true,
-    );
+    const group = XTypeGroup(label: 'documents', extensions: documentExtensions);
 
-    final file = result?.files.singleOrNull;
-    final bytes = file?.bytes;
-    if (file == null || bytes == null) return null;
+    final file = await openFile(acceptedTypeGroups: const [group]);
+    if (file == null) return null;
 
-    return _upload(fileName: file.name, bytes: bytes);
+    // Bytes rather than the path: the file may live in a cloud provider the
+    // device only streams, and the upload needs the contents either way.
+    return _upload(fileName: file.name, bytes: await file.readAsBytes());
   }
 
   Future<DocumentUpload?> _fromCamera(ImageSource source) async {
