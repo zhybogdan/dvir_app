@@ -68,5 +68,12 @@
 		</array>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<!-- image_picker: without a reason to show, iOS ends the app instead of
+		     opening the picker. Both strings appear verbatim in the system
+		     dialog, so they are written in the app's language. -->
+		<key>NSCameraUsageDescription</key>
+		<string>Щоб сфотографувати документ або лічильник і зберегти знімок в об’єкті</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Щоб додати до об’єкта фото або скан, який уже є на пристрої</string>
 	</dict>
 </plist>
