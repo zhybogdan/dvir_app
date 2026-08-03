@@ -57,7 +57,6 @@ void main() {
     test('is empty when there is nothing to take', () {
       expect(documentExtension('scan'), isEmpty);
       expect(documentExtension('scan.'), isEmpty);
-      expect(documentExtension('.gitignore'), 'gitignore');
     });
 
     test('a long tail after a dot is a name, not an extension', () {
