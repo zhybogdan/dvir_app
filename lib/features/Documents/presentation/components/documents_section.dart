@@ -2,10 +2,10 @@ import 'package:dvir/app/routes.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/features/Documents/application/documents_controller.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
-import 'package:dvir/features/Documents/domain/types/document_scope.dart';
 import 'package:dvir/features/Documents/presentation/components/document_tile.dart';
 import 'package:dvir/features/Documents/presentation/document_add_flow.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
+import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_section_title.dart';
@@ -23,7 +23,7 @@ const int documentsPreview = 5;
 
 /// The papers kept against an object, as one section of its hub.
 ///
-/// Takes a `unitId` rather than a [DocumentScope] because the permission it
+/// Takes a `unitId` rather than a [ScopeRef] because the permission it
 /// asks about is an object's: whoever keeps the record files the papers. The
 /// community half of the table needs its own section with its own predicate,
 /// which is why nothing below this widget knows about units.
@@ -36,7 +36,7 @@ class DocumentsSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final unitId = this.unitId;
-    final scope = DocumentScope.unit(unitId);
+    final scope = ScopeRef.unit(unitId);
     final canEdit = ref.watch(isUnitKeeperProvider(unitId));
 
     // The actions are fired from callbacks and watched by nobody, so this
@@ -71,7 +71,7 @@ class DocumentsSection extends ConsumerWidget {
 class _DocumentsPreview extends ConsumerWidget {
   const _DocumentsPreview({required this.scope, required this.canEdit});
 
-  final DocumentScope scope;
+  final ScopeRef scope;
   final bool canEdit;
 
   @override

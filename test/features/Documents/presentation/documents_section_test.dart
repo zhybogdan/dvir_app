@@ -1,8 +1,8 @@
 import 'package:dvir/features/Documents/application/documents_controller.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
-import 'package:dvir/features/Documents/domain/types/document_scope.dart';
 import 'package:dvir/features/Documents/presentation/components/documents_section.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
+import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
@@ -15,7 +15,7 @@ import 'package:flutter_test/flutter_test.dart';
 // a tenant a button that ends at a refusal — so what is checked here is that
 // the section asks the question and shows only what the answer allows.
 
-const _scope = DocumentScope.unit('u1');
+const _scope = ScopeRef.unit('u1');
 
 Document _document(int index) => Document(
   id: 'd$index',

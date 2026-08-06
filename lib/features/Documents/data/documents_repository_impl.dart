@@ -6,7 +6,7 @@ import 'package:dvir/features/Documents/data/document_storage.dart';
 import 'package:dvir/features/Documents/data/documents_repository.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
 import 'package:dvir/features/Documents/domain/models/document_upload.dart';
-import 'package:dvir/features/Documents/domain/types/document_scope.dart';
+import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 import 'package:uuid/uuid.dart';
@@ -27,7 +27,7 @@ class DocumentsRepositoryImpl implements DocumentsRepository {
   sb.StorageFileApi get _bucket => _client.storage.from(documentsBucket);
 
   @override
-  Future<List<Document>> documentsOf(DocumentScope scope) =>
+  Future<List<Document>> documentsOf(ScopeRef scope) =>
       guardSupabase(() async {
         final rows = await _client
             .from('documents')
@@ -40,7 +40,7 @@ class DocumentsRepositoryImpl implements DocumentsRepository {
 
   @override
   Future<void> upload({
-    required DocumentScope scope,
+    required ScopeRef scope,
     required DocumentUpload file,
   }) => guardSupabase(() async {
     // The path carries the row's id, so the id has to exist before either

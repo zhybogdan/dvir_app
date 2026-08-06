@@ -2,9 +2,9 @@ import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/features/Documents/application/documents_controller.dart';
-import 'package:dvir/features/Documents/domain/types/document_scope.dart';
 import 'package:dvir/features/Documents/presentation/components/documents_section.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
+import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_background.dart';
@@ -106,7 +106,7 @@ class _Hub extends ConsumerWidget {
           ..invalidate(unitProvider(unit.id))
           ..invalidate(unitMembersProvider(unit.id))
           ..invalidate(unitAttributesProvider(unit.id))
-          ..invalidate(documentsProvider(DocumentScope.unit(unit.id)))
+          ..invalidate(documentsProvider(ScopeRef.unit(unit.id)))
           ..invalidate(unitChildrenProvider(unit.id));
       },
       child: ListView(

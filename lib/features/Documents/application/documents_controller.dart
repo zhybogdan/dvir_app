@@ -6,7 +6,7 @@ import 'package:dvir/features/Documents/data/documents_repository.dart';
 import 'package:dvir/features/Documents/data/documents_repository_impl.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
 import 'package:dvir/features/Documents/domain/models/document_upload.dart';
-import 'package:dvir/features/Documents/domain/types/document_scope.dart';
+import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'documents_controller.g.dart';
@@ -18,7 +18,7 @@ part 'documents_controller.g.dart';
 /// time it comes back into view. Uploading, renaming and deleting all
 /// invalidate it, as does the hub's pull-to-refresh.
 @Riverpod(keepAlive: true)
-Future<List<Document>> documents(Ref ref, DocumentScope scope) =>
+Future<List<Document>> documents(Ref ref, ScopeRef scope) =>
     ref.watch(documentsRepositoryProvider).documentsOf(scope);
 
 /// Adding, renaming, removing and opening the files of one scope.
@@ -32,7 +32,7 @@ Future<List<Document>> documents(Ref ref, DocumentScope scope) =>
 @riverpod
 class DocumentActions extends _$DocumentActions with GuardedActions {
   @override
-  FutureOr<void> build(DocumentScope scope) {}
+  FutureOr<void> build(ScopeRef scope) {}
 
   Future<bool> add(DocumentUpload file) =>
       _run((repository) => repository.upload(scope: scope, file: file));

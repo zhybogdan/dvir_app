@@ -2,10 +2,10 @@ import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/features/Documents/application/documents_controller.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
-import 'package:dvir/features/Documents/domain/types/document_scope.dart';
 import 'package:dvir/features/Documents/presentation/components/document_tile.dart';
 import 'package:dvir/features/Documents/presentation/document_add_flow.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
+import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_background.dart';
@@ -32,7 +32,7 @@ class UnitDocumentsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final unitId = this.unitId;
-    final scope = DocumentScope.unit(unitId);
+    final scope = ScopeRef.unit(unitId);
     final canEdit = ref.watch(isUnitKeeperProvider(unitId));
 
     ref.listen(
@@ -87,7 +87,7 @@ class _Papers extends StatelessWidget {
     required this.canEdit,
   });
 
-  final DocumentScope scope;
+  final ScopeRef scope;
   final List<Document> documents;
   final bool canEdit;
 
