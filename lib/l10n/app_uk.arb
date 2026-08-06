@@ -271,6 +271,41 @@
       }
     }
   },
+  "contacts": "Контакти",
+  "contactsEmpty": "Свій електрик, сантехник, аварійна газу. Номери, які шукають, коли вже нема часу шукати.",
+  "contactsShowAll": "Показати всі {count}",
+  "@contactsShowAll": {
+    "description": "Opens the screen with all of a scope's contacts; count is the total",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "contactAddTitle": "Новий контакт",
+  "contactEditTitle": "Контакт",
+  "contactName": "Ім'я",
+  "contactNameHint": "Сергій",
+  "contactNameRequired": "Вкажіть ім'я",
+  "contactRole": "Хто це",
+  "contactRoleHint": "Електрик",
+  "contactPhone": "Телефон",
+  "contactPhoneHint": "+38 067 123 45 67",
+  "contactPhoneRequired": "Вкажіть номер",
+  "contactPhoneInvalid": "Схоже, це не номер телефону",
+  "contactCallFailed": "Не вдалося відкрити набір номера",
+  "editContact": "Змінити",
+  "deleteContact": "Видалити",
+  "deleteContactTitle": "Видалити контакт?",
+  "deleteContactBody": "«{name}» зникне зі списку цієї оселі.",
+  "@deleteContactBody": {
+    "description": "Confirmation before deleting one contact",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "unitNested": "Що входить",
   "unitNestedEmpty": "Кімната, гараж, літня кухня, ділянка. Додайте те, що ведете окремо.",
   "unitAddTitle": "Додати",

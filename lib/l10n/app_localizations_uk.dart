@@ -516,6 +516,68 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
+  String get contacts => 'Контакти';
+
+  @override
+  String get contactsEmpty =>
+      'Свій електрик, сантехник, аварійна газу. Номери, які шукають, коли вже нема часу шукати.';
+
+  @override
+  String contactsShowAll(int count) {
+    return 'Показати всі $count';
+  }
+
+  @override
+  String get contactAddTitle => 'Новий контакт';
+
+  @override
+  String get contactEditTitle => 'Контакт';
+
+  @override
+  String get contactName => 'Ім\'я';
+
+  @override
+  String get contactNameHint => 'Сергій';
+
+  @override
+  String get contactNameRequired => 'Вкажіть ім\'я';
+
+  @override
+  String get contactRole => 'Хто це';
+
+  @override
+  String get contactRoleHint => 'Електрик';
+
+  @override
+  String get contactPhone => 'Телефон';
+
+  @override
+  String get contactPhoneHint => '+38 067 123 45 67';
+
+  @override
+  String get contactPhoneRequired => 'Вкажіть номер';
+
+  @override
+  String get contactPhoneInvalid => 'Схоже, це не номер телефону';
+
+  @override
+  String get contactCallFailed => 'Не вдалося відкрити набір номера';
+
+  @override
+  String get editContact => 'Змінити';
+
+  @override
+  String get deleteContact => 'Видалити';
+
+  @override
+  String get deleteContactTitle => 'Видалити контакт?';
+
+  @override
+  String deleteContactBody(String name) {
+    return '«$name» зникне зі списку цієї оселі.';
+  }
+
+  @override
   String get unitNested => 'Що входить';
 
   @override
