@@ -27,16 +27,15 @@ class DocumentsRepositoryImpl implements DocumentsRepository {
   sb.StorageFileApi get _bucket => _client.storage.from(documentsBucket);
 
   @override
-  Future<List<Document>> documentsOf(ScopeRef scope) =>
-      guardSupabase(() async {
-        final rows = await _client
-            .from('documents')
-            .select(_columns)
-            .eq(scope.column, scope.id)
-            .order('created_at', ascending: false);
+  Future<List<Document>> documentsOf(ScopeRef scope) => guardSupabase(() async {
+    final rows = await _client
+        .from('documents')
+        .select(_columns)
+        .eq(scope.column, scope.id)
+        .order('created_at', ascending: false);
 
-        return rows.map(Document.fromJson).toList();
-      });
+    return rows.map(Document.fromJson).toList();
+  });
 
   @override
   Future<void> upload({

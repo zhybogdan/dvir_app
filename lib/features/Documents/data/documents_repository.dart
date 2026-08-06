@@ -20,10 +20,7 @@ abstract interface class DocumentsRepository {
   /// an orphan when the second call fails, and the two orphans are not equal —
   /// a row without a file is a broken line a person has to notice and clear, a
   /// file without a row is invisible and costs a few hundred kilobytes.
-  Future<void> upload({
-    required ScopeRef scope,
-    required DocumentUpload file,
-  });
+  Future<void> upload({required ScopeRef scope, required DocumentUpload file});
 
   /// Renames the record. The file keeps its key: the key is a uuid, and the
   /// name a person reads was never part of it.

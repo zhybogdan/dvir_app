@@ -1,6 +1,8 @@
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
+import 'package:dvir/features/Contacts/application/contacts_controller.dart';
+import 'package:dvir/features/Contacts/presentation/components/contacts_section.dart';
 import 'package:dvir/features/Documents/application/documents_controller.dart';
 import 'package:dvir/features/Documents/presentation/components/documents_section.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
@@ -107,6 +109,7 @@ class _Hub extends ConsumerWidget {
           ..invalidate(unitMembersProvider(unit.id))
           ..invalidate(unitAttributesProvider(unit.id))
           ..invalidate(documentsProvider(ScopeRef.unit(unit.id)))
+          ..invalidate(contactsProvider(ScopeRef.unit(unit.id)))
           ..invalidate(unitChildrenProvider(unit.id));
       },
       child: ListView(
@@ -117,6 +120,8 @@ class _Hub extends ConsumerWidget {
           UnitAttributesSection(unitId: unit.id),
           const SizedBox(height: AppSpacing.lg),
           DocumentsSection(unitId: unit.id),
+          const SizedBox(height: AppSpacing.lg),
+          ContactsSection(unitId: unit.id),
           if (isOwner) ...[
             const SizedBox(height: AppSpacing.lg),
             UnitInviteSection(unit: unit),
