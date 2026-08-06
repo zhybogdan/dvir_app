@@ -1042,6 +1042,120 @@ abstract class AppLocalizations {
   /// **'«{title}» зникне разом із файлом. Дію не можна скасувати.'**
   String deleteDocumentBody(String title);
 
+  /// No description provided for @contacts.
+  ///
+  /// In uk, this message translates to:
+  /// **'Контакти'**
+  String get contacts;
+
+  /// No description provided for @contactsEmpty.
+  ///
+  /// In uk, this message translates to:
+  /// **'Свій електрик, сантехник, аварійна газу. Номери, які шукають, коли вже нема часу шукати.'**
+  String get contactsEmpty;
+
+  /// Opens the screen with all of a scope's contacts; count is the total
+  ///
+  /// In uk, this message translates to:
+  /// **'Показати всі {count}'**
+  String contactsShowAll(int count);
+
+  /// No description provided for @contactAddTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Новий контакт'**
+  String get contactAddTitle;
+
+  /// No description provided for @contactEditTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Контакт'**
+  String get contactEditTitle;
+
+  /// No description provided for @contactName.
+  ///
+  /// In uk, this message translates to:
+  /// **'Ім\'я'**
+  String get contactName;
+
+  /// No description provided for @contactNameHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'Сергій'**
+  String get contactNameHint;
+
+  /// No description provided for @contactNameRequired.
+  ///
+  /// In uk, this message translates to:
+  /// **'Вкажіть ім\'я'**
+  String get contactNameRequired;
+
+  /// No description provided for @contactRole.
+  ///
+  /// In uk, this message translates to:
+  /// **'Хто це'**
+  String get contactRole;
+
+  /// No description provided for @contactRoleHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'Електрик'**
+  String get contactRoleHint;
+
+  /// No description provided for @contactPhone.
+  ///
+  /// In uk, this message translates to:
+  /// **'Телефон'**
+  String get contactPhone;
+
+  /// No description provided for @contactPhoneHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'+38 067 123 45 67'**
+  String get contactPhoneHint;
+
+  /// No description provided for @contactPhoneRequired.
+  ///
+  /// In uk, this message translates to:
+  /// **'Вкажіть номер'**
+  String get contactPhoneRequired;
+
+  /// No description provided for @contactPhoneInvalid.
+  ///
+  /// In uk, this message translates to:
+  /// **'Схоже, це не номер телефону'**
+  String get contactPhoneInvalid;
+
+  /// No description provided for @contactCallFailed.
+  ///
+  /// In uk, this message translates to:
+  /// **'Не вдалося відкрити набір номера'**
+  String get contactCallFailed;
+
+  /// No description provided for @editContact.
+  ///
+  /// In uk, this message translates to:
+  /// **'Змінити'**
+  String get editContact;
+
+  /// No description provided for @deleteContact.
+  ///
+  /// In uk, this message translates to:
+  /// **'Видалити'**
+  String get deleteContact;
+
+  /// No description provided for @deleteContactTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Видалити контакт?'**
+  String get deleteContactTitle;
+
+  /// Confirmation before deleting one contact
+  ///
+  /// In uk, this message translates to:
+  /// **'«{name}» зникне зі списку цієї оселі.'**
+  String deleteContactBody(String name);
+
   /// No description provided for @unitNested.
   ///
   /// In uk, this message translates to:

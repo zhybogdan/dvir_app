@@ -64,7 +64,10 @@ class DocumentPickerImpl implements DocumentPicker {
   }
 
   Future<DocumentUpload?> _fromFiles() async {
-    const group = XTypeGroup(label: 'documents', extensions: documentExtensions);
+    const group = XTypeGroup(
+      label: 'documents',
+      extensions: documentExtensions,
+    );
 
     final file = await openFile(acceptedTypeGroups: const [group]);
     if (file == null) return null;

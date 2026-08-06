@@ -1,9 +1,9 @@
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Documents/application/documents_controller.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
-import 'package:dvir/features/Documents/domain/types/document_scope.dart';
 import 'package:dvir/features/Documents/presentation/components/document_title_sheet.dart';
 import 'package:dvir/features/Documents/presentation/document_l10n.dart';
+import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
 import 'package:dvir/features/Shared/presentation/dv_tile.dart';
@@ -23,7 +23,7 @@ class DocumentTile extends ConsumerWidget {
     super.key,
   });
 
-  final DocumentScope scope;
+  final ScopeRef scope;
   final Document document;
 
   /// Whether the person looking keeps this scope's papers.
@@ -60,7 +60,7 @@ class DocumentTile extends ConsumerWidget {
 class _DocumentMenu extends ConsumerWidget {
   const _DocumentMenu({required this.scope, required this.document});
 
-  final DocumentScope scope;
+  final ScopeRef scope;
   final Document document;
 
   @override

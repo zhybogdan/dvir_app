@@ -39,9 +39,13 @@ abstract final class AppRoutes {
   /// Everything the object keeps in paper, for the same reason.
   static const String unitDocuments = '/unit/:unitId/documents';
 
+  /// Every number it keeps, likewise.
+  static const String unitContacts = '/unit/:unitId/contacts';
+
   static String unitPath(String unitId) => '/unit/$unitId';
   static String unitEditPath(String unitId) => '/unit/$unitId/edit';
   static String unitAddPath(String unitId) => '/unit/$unitId/add';
   static String unitAttributesPath(String unitId) => '/unit/$unitId/attributes';
   static String unitDocumentsPath(String unitId) => '/unit/$unitId/documents';
+  static String unitContactsPath(String unitId) => '/unit/$unitId/contacts';
 }

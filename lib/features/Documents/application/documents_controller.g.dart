@@ -41,7 +41,7 @@ final class DocumentsProvider
   /// invalidate it, as does the hub's pull-to-refresh.
   DocumentsProvider._({
     required DocumentsFamily super.from,
-    required DocumentScope super.argument,
+    required ScopeRef super.argument,
   }) : super(
          retry: null,
          name: r'documentsProvider',
@@ -68,7 +68,7 @@ final class DocumentsProvider
 
   @override
   FutureOr<List<Document>> create(Ref ref) {
-    final argument = this.argument as DocumentScope;
+    final argument = this.argument as ScopeRef;
     return documents(ref, argument);
   }
 
@@ -83,7 +83,7 @@ final class DocumentsProvider
   }
 }
 
-String _$documentsHash() => r'f6a49a28e5858cc02c426a4e1d8afc9f62aebc55';
+String _$documentsHash() => r'f0c20193777eab4b4c2d6b3b30a2e097f132556c';
 
 /// The files one scope keeps, newest first.
 ///
@@ -93,7 +93,7 @@ String _$documentsHash() => r'f6a49a28e5858cc02c426a4e1d8afc9f62aebc55';
 /// invalidate it, as does the hub's pull-to-refresh.
 
 final class DocumentsFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<List<Document>>, DocumentScope> {
+    with $FunctionalFamilyOverride<FutureOr<List<Document>>, ScopeRef> {
   DocumentsFamily._()
     : super(
         retry: null,
@@ -110,7 +110,7 @@ final class DocumentsFamily extends $Family
   /// time it comes back into view. Uploading, renaming and deleting all
   /// invalidate it, as does the hub's pull-to-refresh.
 
-  DocumentsProvider call(DocumentScope scope) =>
+  DocumentsProvider call(ScopeRef scope) =>
       DocumentsProvider._(argument: scope, from: this);
 
   @override
@@ -149,7 +149,7 @@ final class DocumentActionsProvider
   /// failures reach nobody.
   DocumentActionsProvider._({
     required DocumentActionsFamily super.from,
-    required DocumentScope super.argument,
+    required ScopeRef super.argument,
   }) : super(
          retry: null,
          name: r'documentActionsProvider',
@@ -183,7 +183,7 @@ final class DocumentActionsProvider
   }
 }
 
-String _$documentActionsHash() => r'3b8d807508418f267cecc83f7c001d35c2c6c35a';
+String _$documentActionsHash() => r'cee504c4436c773995abfdba618b9f510528ae37';
 
 /// Adding, renaming, removing and opening the files of one scope.
 ///
@@ -201,7 +201,7 @@ final class DocumentActionsFamily extends $Family
           AsyncValue<void>,
           void,
           FutureOr<void>,
-          DocumentScope
+          ScopeRef
         > {
   DocumentActionsFamily._()
     : super(
@@ -221,7 +221,7 @@ final class DocumentActionsFamily extends $Family
   /// value, so without a listener it is disposed the moment it is read, and its
   /// failures reach nobody.
 
-  DocumentActionsProvider call(DocumentScope scope) =>
+  DocumentActionsProvider call(ScopeRef scope) =>
       DocumentActionsProvider._(argument: scope, from: this);
 
   @override
@@ -238,10 +238,10 @@ final class DocumentActionsFamily extends $Family
 /// failures reach nobody.
 
 abstract class _$DocumentActions extends $AsyncNotifier<void> {
-  late final _$args = ref.$arg as DocumentScope;
-  DocumentScope get scope => _$args;
+  late final _$args = ref.$arg as ScopeRef;
+  ScopeRef get scope => _$args;
 
-  FutureOr<void> build(DocumentScope scope);
+  FutureOr<void> build(ScopeRef scope);
   @$mustCallSuper
   @override
   WhenComplete runBuild() {

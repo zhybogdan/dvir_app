@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:dvir/features/Documents/domain/models/document.dart';
 import 'package:dvir/features/Documents/domain/models/document_upload.dart';
-import 'package:dvir/features/Documents/domain/types/document_scope.dart';
+import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 
 /// Contract for the files kept against a scope (Base).
 ///
@@ -11,7 +11,7 @@ import 'package:dvir/features/Documents/domain/types/document_scope.dart';
 /// gets screens it should find this already written for it.
 abstract interface class DocumentsRepository {
   /// One scope's files, newest first.
-  Future<List<Document>> documentsOf(DocumentScope scope);
+  Future<List<Document>> documentsOf(ScopeRef scope);
 
   /// Puts [file] in Storage and records it.
   ///
@@ -20,10 +20,7 @@ abstract interface class DocumentsRepository {
   /// an orphan when the second call fails, and the two orphans are not equal —
   /// a row without a file is a broken line a person has to notice and clear, a
   /// file without a row is invisible and costs a few hundred kilobytes.
-  Future<void> upload({
-    required DocumentScope scope,
-    required DocumentUpload file,
-  });
+  Future<void> upload({required ScopeRef scope, required DocumentUpload file});
 
   /// Renames the record. The file keeps its key: the key is a uuid, and the
   /// name a person reads was never part of it.

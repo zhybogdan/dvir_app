@@ -6,6 +6,7 @@ import 'package:dvir/features/Auth/application/auth_controller.dart';
 import 'package:dvir/features/Auth/domain/models/app_user.dart';
 import 'package:dvir/features/Auth/presentation/screens/login_screen.dart';
 import 'package:dvir/features/Auth/presentation/screens/register_screen.dart';
+import 'package:dvir/features/Contacts/presentation/screens/contacts_screen.dart';
 import 'package:dvir/features/Documents/presentation/screens/documents_screen.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Home/presentation/screens/scopes_screen.dart';
@@ -184,6 +185,16 @@ GoRouter router(Ref ref) {
           return unitId == null
               ? const SplashScreen()
               : UnitDocumentsScreen(unitId: unitId);
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.unitContacts,
+        builder: (context, state) {
+          final unitId = state.pathParameters['unitId'];
+
+          return unitId == null
+              ? const SplashScreen()
+              : UnitContactsScreen(unitId: unitId);
         },
       ),
     ],

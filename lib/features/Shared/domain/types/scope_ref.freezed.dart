@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'document_scope.dart';
+part of 'scope_ref.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,20 +12,20 @@ part of 'document_scope.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$DocumentScope {
+mixin _$ScopeRef {
 
  String get id;
-/// Create a copy of DocumentScope
+/// Create a copy of ScopeRef
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$DocumentScopeCopyWith<DocumentScope> get copyWith => _$DocumentScopeCopyWithImpl<DocumentScope>(this as DocumentScope, _$identity);
+$ScopeRefCopyWith<ScopeRef> get copyWith => _$ScopeRefCopyWithImpl<ScopeRef>(this as ScopeRef, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DocumentScope&&(identical(other.id, id) || other.id == id));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScopeRef&&(identical(other.id, id) || other.id == id));
 }
 
 
@@ -34,15 +34,15 @@ int get hashCode => Object.hash(runtimeType,id);
 
 @override
 String toString() {
-  return 'DocumentScope(id: $id)';
+  return 'ScopeRef(id: $id)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $DocumentScopeCopyWith<$Res>  {
-  factory $DocumentScopeCopyWith(DocumentScope value, $Res Function(DocumentScope) _then) = _$DocumentScopeCopyWithImpl;
+abstract mixin class $ScopeRefCopyWith<$Res>  {
+  factory $ScopeRefCopyWith(ScopeRef value, $Res Function(ScopeRef) _then) = _$ScopeRefCopyWithImpl;
 @useResult
 $Res call({
  String id
@@ -53,14 +53,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$DocumentScopeCopyWithImpl<$Res>
-    implements $DocumentScopeCopyWith<$Res> {
-  _$DocumentScopeCopyWithImpl(this._self, this._then);
+class _$ScopeRefCopyWithImpl<$Res>
+    implements $ScopeRefCopyWith<$Res> {
+  _$ScopeRefCopyWithImpl(this._self, this._then);
 
-  final DocumentScope _self;
-  final $Res Function(DocumentScope) _then;
+  final ScopeRef _self;
+  final $Res Function(ScopeRef) _then;
 
-/// Create a copy of DocumentScope
+/// Create a copy of ScopeRef
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,}) {
   return _then(_self.copyWith(
@@ -72,8 +72,8 @@ as String,
 }
 
 
-/// Adds pattern-matching-related methods to [DocumentScope].
-extension DocumentScopePatterns on DocumentScope {
+/// Adds pattern-matching-related methods to [ScopeRef].
+extension ScopeRefPatterns on ScopeRef {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -86,11 +86,11 @@ extension DocumentScopePatterns on DocumentScope {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( UnitDocuments value)?  unit,TResult Function( CommunityDocuments value)?  community,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( UnitScope value)?  unit,TResult Function( CommunityScope value)?  community,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case UnitDocuments() when unit != null:
-return unit(_that);case CommunityDocuments() when community != null:
+case UnitScope() when unit != null:
+return unit(_that);case CommunityScope() when community != null:
 return community(_that);case _:
   return orElse();
 
@@ -109,11 +109,11 @@ return community(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( UnitDocuments value)  unit,required TResult Function( CommunityDocuments value)  community,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( UnitScope value)  unit,required TResult Function( CommunityScope value)  community,}){
 final _that = this;
 switch (_that) {
-case UnitDocuments():
-return unit(_that);case CommunityDocuments():
+case UnitScope():
+return unit(_that);case CommunityScope():
 return community(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -128,11 +128,11 @@ return community(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( UnitDocuments value)?  unit,TResult? Function( CommunityDocuments value)?  community,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( UnitScope value)?  unit,TResult? Function( CommunityScope value)?  community,}){
 final _that = this;
 switch (_that) {
-case UnitDocuments() when unit != null:
-return unit(_that);case CommunityDocuments() when community != null:
+case UnitScope() when unit != null:
+return unit(_that);case CommunityScope() when community != null:
 return community(_that);case _:
   return null;
 
@@ -152,8 +152,8 @@ return community(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String id)?  unit,TResult Function( String id)?  community,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case UnitDocuments() when unit != null:
-return unit(_that.id);case CommunityDocuments() when community != null:
+case UnitScope() when unit != null:
+return unit(_that.id);case CommunityScope() when community != null:
 return community(_that.id);case _:
   return orElse();
 
@@ -174,8 +174,8 @@ return community(_that.id);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String id)  unit,required TResult Function( String id)  community,}) {final _that = this;
 switch (_that) {
-case UnitDocuments():
-return unit(_that.id);case CommunityDocuments():
+case UnitScope():
+return unit(_that.id);case CommunityScope():
 return community(_that.id);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -192,8 +192,8 @@ return community(_that.id);}
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String id)?  unit,TResult? Function( String id)?  community,}) {final _that = this;
 switch (_that) {
-case UnitDocuments() when unit != null:
-return unit(_that.id);case CommunityDocuments() when community != null:
+case UnitScope() when unit != null:
+return unit(_that.id);case CommunityScope() when community != null:
 return community(_that.id);case _:
   return null;
 
@@ -205,23 +205,23 @@ return community(_that.id);case _:
 /// @nodoc
 
 
-class UnitDocuments extends DocumentScope {
-  const UnitDocuments(this.id): super._();
+class UnitScope extends ScopeRef {
+  const UnitScope(this.id): super._();
   
 
 @override final  String id;
 
-/// Create a copy of DocumentScope
+/// Create a copy of ScopeRef
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$UnitDocumentsCopyWith<UnitDocuments> get copyWith => _$UnitDocumentsCopyWithImpl<UnitDocuments>(this, _$identity);
+$UnitScopeCopyWith<UnitScope> get copyWith => _$UnitScopeCopyWithImpl<UnitScope>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnitDocuments&&(identical(other.id, id) || other.id == id));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnitScope&&(identical(other.id, id) || other.id == id));
 }
 
 
@@ -230,15 +230,15 @@ int get hashCode => Object.hash(runtimeType,id);
 
 @override
 String toString() {
-  return 'DocumentScope.unit(id: $id)';
+  return 'ScopeRef.unit(id: $id)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $UnitDocumentsCopyWith<$Res> implements $DocumentScopeCopyWith<$Res> {
-  factory $UnitDocumentsCopyWith(UnitDocuments value, $Res Function(UnitDocuments) _then) = _$UnitDocumentsCopyWithImpl;
+abstract mixin class $UnitScopeCopyWith<$Res> implements $ScopeRefCopyWith<$Res> {
+  factory $UnitScopeCopyWith(UnitScope value, $Res Function(UnitScope) _then) = _$UnitScopeCopyWithImpl;
 @override @useResult
 $Res call({
  String id
@@ -249,17 +249,17 @@ $Res call({
 
 }
 /// @nodoc
-class _$UnitDocumentsCopyWithImpl<$Res>
-    implements $UnitDocumentsCopyWith<$Res> {
-  _$UnitDocumentsCopyWithImpl(this._self, this._then);
+class _$UnitScopeCopyWithImpl<$Res>
+    implements $UnitScopeCopyWith<$Res> {
+  _$UnitScopeCopyWithImpl(this._self, this._then);
 
-  final UnitDocuments _self;
-  final $Res Function(UnitDocuments) _then;
+  final UnitScope _self;
+  final $Res Function(UnitScope) _then;
 
-/// Create a copy of DocumentScope
+/// Create a copy of ScopeRef
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? id = null,}) {
-  return _then(UnitDocuments(
+  return _then(UnitScope(
 null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -271,23 +271,23 @@ as String,
 /// @nodoc
 
 
-class CommunityDocuments extends DocumentScope {
-  const CommunityDocuments(this.id): super._();
+class CommunityScope extends ScopeRef {
+  const CommunityScope(this.id): super._();
   
 
 @override final  String id;
 
-/// Create a copy of DocumentScope
+/// Create a copy of ScopeRef
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$CommunityDocumentsCopyWith<CommunityDocuments> get copyWith => _$CommunityDocumentsCopyWithImpl<CommunityDocuments>(this, _$identity);
+$CommunityScopeCopyWith<CommunityScope> get copyWith => _$CommunityScopeCopyWithImpl<CommunityScope>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityDocuments&&(identical(other.id, id) || other.id == id));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityScope&&(identical(other.id, id) || other.id == id));
 }
 
 
@@ -296,15 +296,15 @@ int get hashCode => Object.hash(runtimeType,id);
 
 @override
 String toString() {
-  return 'DocumentScope.community(id: $id)';
+  return 'ScopeRef.community(id: $id)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $CommunityDocumentsCopyWith<$Res> implements $DocumentScopeCopyWith<$Res> {
-  factory $CommunityDocumentsCopyWith(CommunityDocuments value, $Res Function(CommunityDocuments) _then) = _$CommunityDocumentsCopyWithImpl;
+abstract mixin class $CommunityScopeCopyWith<$Res> implements $ScopeRefCopyWith<$Res> {
+  factory $CommunityScopeCopyWith(CommunityScope value, $Res Function(CommunityScope) _then) = _$CommunityScopeCopyWithImpl;
 @override @useResult
 $Res call({
  String id
@@ -315,17 +315,17 @@ $Res call({
 
 }
 /// @nodoc
-class _$CommunityDocumentsCopyWithImpl<$Res>
-    implements $CommunityDocumentsCopyWith<$Res> {
-  _$CommunityDocumentsCopyWithImpl(this._self, this._then);
+class _$CommunityScopeCopyWithImpl<$Res>
+    implements $CommunityScopeCopyWith<$Res> {
+  _$CommunityScopeCopyWithImpl(this._self, this._then);
 
-  final CommunityDocuments _self;
-  final $Res Function(CommunityDocuments) _then;
+  final CommunityScope _self;
+  final $Res Function(CommunityScope) _then;
 
-/// Create a copy of DocumentScope
+/// Create a copy of ScopeRef
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? id = null,}) {
-  return _then(CommunityDocuments(
+  return _then(CommunityScope(
 null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,
   ));

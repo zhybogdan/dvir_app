@@ -53,5 +53,13 @@
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
         </intent>
+        <!-- Tapping a contact opens the dialler with its number. Since Android
+             11 an app cannot see another app it has not declared here, so
+             without this the launch simply reports that nothing can handle
+             `tel:` — on a phone that obviously can. -->
+        <intent>
+            <action android:name="android.intent.action.DIAL"/>
+            <data android:scheme="tel"/>
+        </intent>
     </queries>
 </manifest>

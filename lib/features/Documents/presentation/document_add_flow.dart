@@ -1,8 +1,8 @@
 import 'package:dvir/features/Documents/application/documents_controller.dart';
 import 'package:dvir/features/Documents/data/document_picker.dart';
-import 'package:dvir/features/Documents/domain/types/document_scope.dart';
 import 'package:dvir/features/Documents/presentation/components/document_source_sheet.dart';
 import 'package:dvir/features/Documents/presentation/components/document_title_sheet.dart';
+import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,7 +16,7 @@ abstract final class DocumentAddFlow {
   static Future<void> start(
     BuildContext context,
     WidgetRef ref,
-    DocumentScope scope,
+    ScopeRef scope,
   ) async {
     // Both are read before the first await: after a sheet closes, the ref may
     // no longer be the one this was started from.
