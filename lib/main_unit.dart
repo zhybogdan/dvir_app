@@ -3,6 +3,8 @@ import 'package:dvir/core/config/env.dart';
 import 'package:dvir/core/config/secure_local_storage.dart';
 import 'package:dvir/core/database/database_provider.dart';
 import 'package:dvir/core/logging/logging_http_client.dart';
+import 'package:dvir/features/Auth/data/auth_repository_impl.dart';
+import 'package:dvir/features/Auth/data/auth_repository_local.dart';
 import 'package:dvir/features/Contacts/data/contacts_repository_impl.dart';
 import 'package:dvir/features/Contacts/data/contacts_repository_local.dart';
 import 'package:dvir/features/Documents/data/document_file_store.dart';
@@ -24,9 +26,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 /// Entry point of the `unit` flavor — one household and its own object.
 ///
 /// What an object holds — its record, its papers, its numbers — is read from
-/// and written to the device. Supabase is still brought up because the account,
-/// the residents list and the profile have not moved yet; when they do, this
-/// callback stops needing a network at all.
+/// and written to the device, and so is the answer to who is using it.
+///
+/// Supabase is still brought up, and only for what has not moved yet: the
+/// profile and joining by code. Both still construct a client when their screen
+/// is opened, so removing the call now would trade a working screen for a
+/// crash. They go together on the step that drops those screens.
 Future<void> main() => bootstrap(() async {
   await dotenv.load(fileName: '.env');
 
@@ -43,6 +48,9 @@ Future<void> main() => bootstrap(() async {
   final files = await LocalDocumentFileStore.open();
 
   return [
+    // First, because everything else agrees with it: the router waits on this
+    // answer, and `myUnitRole` matches the id against the residents list.
+    authRepositoryProvider.overrideWith((ref) => const LocalAuthRepository()),
     unitsRepositoryProvider.overrideWith(
       (ref) => LocalUnitsRepository(ref.watch(appDatabaseProvider)),
     ),
