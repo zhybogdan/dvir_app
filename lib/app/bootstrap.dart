@@ -4,6 +4,8 @@ import 'package:dvir/core/logging/app_provider_observer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+// `Override` is the one runtime type flutter_riverpod does not re-export.
+import 'package:riverpod_annotation/riverpod_annotation.dart' show Override;
 
 /// Everything every flavor's `main()` does, in the order it has to happen.
 ///
@@ -15,7 +17,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// calling this, because the ordering is the point: the handlers have to be
 /// installed *before* it, or a failure while starting the backend is the one
 /// error nothing logs.
-Future<void> bootstrap(Future<void> Function() initialize) async {
+///
+/// What it returns is where the flavors actually differ: the same screens read
+/// the same providers in both, and only the implementations behind them change.
+Future<void> bootstrap(Future<List<Override>> Function() initialize) async {
   WidgetsFlutterBinding.ensureInitialized();
 
   FlutterError.onError = (details) => appLogger.e(
@@ -29,9 +34,13 @@ Future<void> bootstrap(Future<void> Function() initialize) async {
     return true;
   };
 
-  await initialize();
+  final overrides = await initialize();
 
   runApp(
-    const ProviderScope(observers: [AppProviderObserver()], child: DvirApp()),
+    ProviderScope(
+      overrides: overrides,
+      observers: const [AppProviderObserver()],
+      child: const DvirApp(),
+    ),
   );
 }

@@ -1,16 +1,10 @@
+import 'package:dvir/core/config/local_identity.dart';
 import 'package:dvir/features/Home/data/scopes_repository.dart';
 import 'package:dvir/features/Home/domain/models/scope_summary.dart';
 import 'package:dvir/features/Shared/domain/types/member_status.dart';
 import 'package:dvir/features/Units/data/units_repository.dart';
 import 'package:dvir/features/Units/domain/models/unit_membership.dart';
 import 'package:dvir/features/Units/domain/types/unit_role.dart';
-
-/// Who everything belongs to when there is no account to belong to.
-///
-/// A constant rather than an empty string so that a row carrying it reads as a
-/// deliberate answer, and so the router has something to compare against once
-/// it stops asking an auth repository who is signed in.
-const String localUserId = 'local';
 
 /// The home list without memberships (Impl).
 ///
