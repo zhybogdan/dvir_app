@@ -1,5 +1,6 @@
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
+import 'package:dvir/core/config/app_capabilities.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Community/presentation/community_type_l10n.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
@@ -34,6 +35,10 @@ class ScopesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    // The same button leads somewhere different depending on the build, and it
+    // should say so: a person icon over a screen with no person on it reads as
+    // a mistake.
+    final people = ref.watch(appCapabilitiesProvider).people;
 
     return DvScaffold(
       background: const DvAppGradient(),
@@ -51,8 +56,8 @@ class ScopesScreen extends ConsumerWidget {
           // this screen is a list of places rather than a settings page.
           DvIconButton(
             onPressed: () => context.push(AppRoutes.profile),
-            icon: Icons.person_outline,
-            tooltip: l10n.profileTitle,
+            icon: people ? Icons.person_outline : Icons.settings_outlined,
+            tooltip: people ? l10n.profileTitle : l10n.settingsTitle,
           ),
         ],
       ),
