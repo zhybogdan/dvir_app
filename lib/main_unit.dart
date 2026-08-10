@@ -1,4 +1,5 @@
 import 'package:dvir/app/bootstrap.dart';
+import 'package:dvir/core/config/app_capabilities.dart';
 import 'package:dvir/core/config/env.dart';
 import 'package:dvir/core/config/secure_local_storage.dart';
 import 'package:dvir/core/database/database_provider.dart';
@@ -48,8 +49,11 @@ Future<void> main() => bootstrap(() async {
   final files = await LocalDocumentFileStore.open();
 
   return [
-    // First, because everything else agrees with it: the router waits on this
-    // answer, and `myUnitRole` matches the id against the residents list.
+    // What this build is, which is what the screens ask before offering
+    // anything that needs a second person.
+    appCapabilitiesProvider.overrideWithValue(const AppCapabilities.onDevice()),
+    // Everything else agrees with this one: the router waits on its answer, and
+    // `myUnitRole` matches the id against the residents list.
     authRepositoryProvider.overrideWith((ref) => const LocalAuthRepository()),
     unitsRepositoryProvider.overrideWith(
       (ref) => LocalUnitsRepository(ref.watch(appDatabaseProvider)),
