@@ -1,8 +1,7 @@
 import 'package:dvir/app/bootstrap.dart';
-import 'package:dvir/core/config/env.dart';
-import 'package:dvir/core/config/secure_local_storage.dart';
+import 'package:dvir/core/config/app_capabilities.dart';
+import 'package:dvir/core/config/supabase_providers.dart';
 import 'package:dvir/core/database/database_provider.dart';
-import 'package:dvir/core/logging/logging_http_client.dart';
 import 'package:dvir/features/Auth/data/auth_repository_impl.dart';
 import 'package:dvir/features/Auth/data/auth_repository_local.dart';
 import 'package:dvir/features/Contacts/data/contacts_repository_impl.dart';
@@ -18,38 +17,36 @@ import 'package:dvir/features/Units/data/unit_attributes_repository_impl.dart';
 import 'package:dvir/features/Units/data/unit_attributes_repository_local.dart';
 import 'package:dvir/features/Units/data/units_repository_impl.dart';
 import 'package:dvir/features/Units/data/units_repository_local.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Entry point of the `unit` flavor — one household and its own object.
 ///
-/// What an object holds — its record, its papers, its numbers — is read from
-/// and written to the device, and so is the answer to who is using it.
+/// Nothing here reaches a network. Everything an object holds — its record, its
+/// papers, its numbers — and the answer to who is using the app come from the
+/// device, so the start-up has no backend to bring up and no keys to read.
 ///
-/// Supabase is still brought up, and only for what has not moved yet: the
-/// profile and joining by code. Both still construct a client when their screen
-/// is opened, so removing the call now would trade a working screen for a
-/// crash. They go together on the step that drops those screens.
+/// The Supabase package and the `.env` asset still travel in the build: both
+/// are declared for the whole project, and Flutter has no per-flavour
+/// dependencies. They cost bytes and nothing else — no call is made through
+/// either.
 Future<void> main() => bootstrap(() async {
-  await dotenv.load(fileName: '.env');
-
-  await Supabase.initialize(
-    url: Env.supabaseUrl,
-    publishableKey: Env.supabaseAnonKey,
-    authOptions: FlutterAuthClientOptions(localStorage: SecureLocalStorage()),
-    httpClient: kDebugMode ? LoggingHttpClient(http.Client()) : null,
-  );
-
   // Opened here rather than behind a provider: the documents directory is an
   // async lookup, and this callback is the one place in the app's start-up that
   // is allowed to wait.
   final files = await LocalDocumentFileStore.open();
 
   return [
-    // First, because everything else agrees with it: the router waits on this
-    // answer, and `myUnitRole` matches the id against the residents list.
+    // What this build is, which is what the screens ask before offering
+    // anything that needs a second person.
+    appCapabilitiesProvider.overrideWithValue(const AppCapabilities.onDevice()),
+    // Anything still reaching for a backend is a consumer this list forgot, and
+    // this is what says so. Without it the same mistake surfaces as Supabase's
+    // own "you must initialize before calling instance", which reads like a
+    // start-up bug rather than a missing override.
+    supabaseClientProvider.overrideWith(
+      (ref) => throw UnsupportedError('This build has no backend.'),
+    ),
+    // Everything else agrees with this one: the router waits on its answer, and
+    // `myUnitRole` matches the id against the residents list.
     authRepositoryProvider.overrideWith((ref) => const LocalAuthRepository()),
     unitsRepositoryProvider.overrideWith(
       (ref) => LocalUnitsRepository(ref.watch(appDatabaseProvider)),

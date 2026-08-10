@@ -1,5 +1,6 @@
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
+import 'package:dvir/core/config/app_capabilities.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/features/Contacts/application/contacts_controller.dart';
 import 'package:dvir/features/Contacts/presentation/components/contacts_section.dart';
@@ -101,6 +102,10 @@ class _Hub extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final unit = this.unit;
     final isOwner = ref.watch(isUnitOwnerProvider(unit.id));
+    // Both sections below are about other people. A build that has none would
+    // otherwise offer a code nobody can use and a list with only its reader in
+    // it.
+    final people = ref.watch(appCapabilitiesProvider).people;
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -122,7 +127,7 @@ class _Hub extends ConsumerWidget {
           DocumentsSection(unitId: unit.id),
           const SizedBox(height: AppSpacing.lg),
           ContactsSection(unitId: unit.id),
-          if (isOwner) ...[
+          if (isOwner && people) ...[
             const SizedBox(height: AppSpacing.lg),
             UnitInviteSection(unit: unit),
           ],
@@ -138,9 +143,11 @@ class _Hub extends ConsumerWidget {
                 : null,
           ),
           UnitChildrenList(unitId: unit.id),
-          const SizedBox(height: AppSpacing.lg),
-          DvSectionTitle(l10n.unitPeople),
-          UnitPeopleList(unitId: unit.id),
+          if (people) ...[
+            const SizedBox(height: AppSpacing.lg),
+            DvSectionTitle(l10n.unitPeople),
+            UnitPeopleList(unitId: unit.id),
+          ],
         ],
       ),
     );

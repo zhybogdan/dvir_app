@@ -1,4 +1,6 @@
 import 'package:dvir/app/theme.dart';
+import 'package:dvir/core/config/app_capabilities.dart';
+import 'package:dvir/core/config/app_version.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/notifications/toast_controller.dart';
@@ -18,25 +20,73 @@ import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Who the user is to everyone else.
+/// Who the user is to everyone else — or, where there is nobody else, the
+/// settings.
 ///
-/// The profile is resolved before the form is built rather than filled in as it
-/// arrives: the fields are controllers, and data landing late would overwrite
-/// whatever is already being typed.
+/// A profile exists to be read by other residents: the name is what they see
+/// instead of "Мешканець". With no other residents there is nothing to fill in
+/// and nobody to sign out from, so the screen keeps its place and becomes what
+/// it will grow into anyway — where backup and the paid plan land.
+///
+/// The connected build resolves the profile before the form is built rather
+/// than filling it in as it arrives: the fields are controllers, and data
+/// landing late would overwrite whatever is already being typed.
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final people = ref.watch(appCapabilitiesProvider).people;
 
+    // Branching on the whole body rather than on the fields inside it, so that
+    // a build with no account never asks the network who its user is.
     return DvScaffold(
       background: const DvAppGradient(),
-      appBar: DvAppBar(title: l10n.profileTitle),
-      body: DvAsyncView<Profile>(
-        value: ref.watch(myProfileProvider),
-        onRetry: () => ref.invalidate(myProfileProvider),
-        builder: (context, profile) => _ProfileForm(profile: profile),
+      appBar: DvAppBar(title: people ? l10n.profileTitle : l10n.settingsTitle),
+      body: people
+          ? DvAsyncView<Profile>(
+              value: ref.watch(myProfileProvider),
+              onRetry: () => ref.invalidate(myProfileProvider),
+              builder: (context, profile) => _ProfileForm(profile: profile),
+            )
+          : const _Settings(),
+    );
+  }
+}
+
+/// The settings, which so far are only the app naming itself.
+///
+/// The version sits at the foot rather than in the middle, where settings
+/// screens keep it — so the things that are coming (backup, the paid plan) are
+/// added above it instead of pushing it around.
+class _Settings extends ConsumerWidget {
+  const _Settings();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    // Null while it is being read, which is a frame or two: an empty foot is a
+    // quieter wait than a spinner under an empty screen.
+    final version = ref.watch(appVersionProvider).value;
+
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Spacer(),
+            if (version != null)
+              Text(
+                '${l10n.appTitle} · ${l10n.aboutVersion(version)}',
+                textAlign: TextAlign.center,
+                style: context.textTheme.bodySmall?.copyWith(
+                  color: context.colorScheme.onSurfaceVariant,
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

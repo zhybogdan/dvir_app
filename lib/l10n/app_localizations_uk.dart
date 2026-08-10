@@ -61,6 +61,14 @@ class AppLocalizationsUk extends AppLocalizations {
   String get profileSaved => 'Збережено';
 
   @override
+  String get settingsTitle => 'Налаштування';
+
+  @override
+  String aboutVersion(String version) {
+    return 'Версія $version';
+  }
+
+  @override
   String get signIn => 'Увійти';
 
   @override

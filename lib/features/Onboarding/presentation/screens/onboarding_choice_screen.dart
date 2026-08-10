@@ -1,5 +1,6 @@
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
+import 'package:dvir/core/config/app_capabilities.dart';
 import 'package:dvir/features/Auth/application/auth_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
@@ -21,6 +22,7 @@ class OnboardingChoiceScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final people = ref.watch(appCapabilitiesProvider).people;
 
     return DvScaffold(
       extendBodyBehindAppBar: true,
@@ -28,12 +30,15 @@ class OnboardingChoiceScreen extends ConsumerWidget {
         title: l10n.onboardingTitle,
         backgroundColor: Colors.transparent,
         actions: [
-          DvIconButton(
-            onPressed: () =>
-                ref.read(authControllerProvider.notifier).signOut(),
-            icon: Icons.logout,
-            tooltip: l10n.signOut,
-          ),
+          // Signing out of what: this build has no account to leave, and the
+          // button would refuse if it were pressed.
+          if (people)
+            DvIconButton(
+              onPressed: () =>
+                  ref.read(authControllerProvider.notifier).signOut(),
+              icon: Icons.logout,
+              tooltip: l10n.signOut,
+            ),
         ],
       ),
       body: Padding(
@@ -55,10 +60,13 @@ class OnboardingChoiceScreen extends ConsumerWidget {
               label: l10n.onboardingCreateUnit,
               onPressed: () => context.push(AppRoutes.onboardingUnit),
             ),
-            DvButton(
-              label: l10n.onboardingJoinByCode,
-              onPressed: () => context.push(AppRoutes.onboardingJoin),
-            ),
+            // A code is something another person hands you, so a build with
+            // nobody else in it has no way to have been given one.
+            if (people)
+              DvButton(
+                label: l10n.onboardingJoinByCode,
+                onPressed: () => context.push(AppRoutes.onboardingJoin),
+              ),
           ],
         ),
       ),
