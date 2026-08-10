@@ -49,6 +49,8 @@ dependencies:
   open_filex: ^4.7.0
   path_provider: ^2.1.6
   mime: ^2.0.0
+  drift: ^2.34.3
+  path: ^1.9.1
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +66,7 @@ dev_dependencies:
   flutter_gen_runner: ^5.14.1
   flutter_launcher_icons: ^0.14.4
   flutter_native_splash: ^2.4.6
+  drift_dev: ^2.34.0
 
 # Launcher icons, generated from tool/branding/ (sources live outside assets/ so
 # they are not bundled). Regenerate with:

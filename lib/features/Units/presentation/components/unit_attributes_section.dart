@@ -103,8 +103,8 @@ class _AttributesPreview extends ConsumerWidget {
                 attribute: attribute,
                 canEdit: canEdit,
               ),
-            // The count is the whole record, not what is left over: "показати
-            // всі 6" says something, "ще 1" only looks like an oversight.
+            // The count is the whole record, not what is left over: "show all
+            // 6" says something, "1 more" only looks like an oversight.
             if (total > unitAttributesPreview)
               DvTextButton(
                 label: l10n.unitAttributesShowAll(total),

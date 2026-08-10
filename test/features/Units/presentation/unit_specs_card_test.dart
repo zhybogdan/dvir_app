@@ -57,7 +57,7 @@ void main() {
     expect(find.text(UnitType.garage.label(l10n)), findsOneWidget);
   });
 
-  // Площа left the card when the product became a household record book: it is
+  // Area left the card when the product became a household record book: it is
   // one fact among many — the plot's area is not the building's, and neither is
   // a room's — and singling it out claimed it was the one that mattered. The
   // column stays for the day communities charge by it.

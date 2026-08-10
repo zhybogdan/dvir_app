@@ -19,7 +19,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 /// `CommunityType`: rows are read through json_serializable, but `create_unit`
 /// takes the type as an RPC argument and has to write it back.
 enum UnitType {
-  // Стоїть за адресою.
+  // Standing at an address.
   @JsonValue('house')
   house('house'),
   @JsonValue('apartment')
@@ -27,7 +27,7 @@ enum UnitType {
   @JsonValue('plot')
   plot('plot'),
 
-  // Усередині.
+  // Inside it.
   @JsonValue('room')
   room('room'),
   @JsonValue('bathroom')
@@ -43,7 +43,7 @@ enum UnitType {
   @JsonValue('basement')
   basement('basement'),
 
-  // Окремі споруди.
+  // Separate structures.
   @JsonValue('garage')
   garage('garage'),
   @JsonValue('summer_kitchen')
@@ -63,4 +63,14 @@ enum UnitType {
   const UnitType(this.dbValue);
 
   final String dbValue;
+
+  /// A stored value back to the enum, for the local database — which hands back
+  /// a plain string and has no generated parser to lean on the way a PostgREST
+  /// row does.
+  ///
+  /// An unknown value reads as [custom] rather than throwing: a type this build
+  /// has not heard of is still an object someone keeps, and refusing to open the
+  /// row would lose them everything hanging off it.
+  static UnitType fromDbValue(String value) =>
+      values.firstWhere((type) => type.dbValue == value, orElse: () => custom);
 }

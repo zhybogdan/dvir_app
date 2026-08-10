@@ -3,7 +3,7 @@ import 'package:dvir/features/Documents/domain/models/document.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
-/// How a stored file describes itself in a list — "PDF · 2,4 МБ".
+/// How a stored file describes itself in a list — "PDF · 2,4 MB".
 ///
 /// Both halves can be missing: `mime_type` and `size_bytes` arrived with `0010`
 /// and a row written before it has neither. An empty string rather than a
@@ -27,7 +27,7 @@ String documentKind(Document document) =>
 /// A size in the largest unit that leaves a number worth reading.
 ///
 /// Bytes are never shown: a document measured in bytes is an empty file, and
-/// "812 КБ" answers the only question a person asks here — whether this is the
+/// "812 KB" answers the only question a person asks here — whether this is the
 /// scan or the thumbnail.
 String? documentSize(int? bytes, AppLocalizations l10n) {
   if (bytes == null || bytes <= 0) return null;
@@ -37,7 +37,7 @@ String? documentSize(int? bytes, AppLocalizations l10n) {
 
   if (bytes < mb) return l10n.documentSizeKb('${(bytes / kb).ceil()}');
 
-  // One decimal, with the comma this locale writes: 2,4 МБ.
+  // One decimal, with the comma this locale writes: 2,4 MB.
   final size = (bytes / mb).toStringAsFixed(1).replaceAll('.', ',');
 
   return l10n.documentSizeMb(size);

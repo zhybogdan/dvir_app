@@ -7,7 +7,7 @@ import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 /// Contract for the files kept against a scope (Base).
 ///
 /// A feature of its own rather than a corner of `UnitsRepository`: documents
-/// serve a community exactly as they serve a house, and the day the ОСББ half
+/// serve a community exactly as they serve a house, and the day the OSBB half
 /// gets screens it should find this already written for it.
 abstract interface class DocumentsRepository {
   /// One scope's files, newest first.

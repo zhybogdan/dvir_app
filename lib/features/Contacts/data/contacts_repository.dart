@@ -4,7 +4,7 @@ import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 /// Contract for the telephone numbers kept against a scope (Base).
 ///
 /// A feature of its own, and written against [ScopeRef] rather than an object:
-/// an ОСББ publishes a directory from the same table, so the day that half gets
+/// an OSBB publishes a directory from the same table, so the day that half gets
 /// screens it finds this already written for it.
 abstract interface class ContactsRepository {
   /// One scope's contacts, in alphabetical order.

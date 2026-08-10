@@ -2,9 +2,9 @@
 -- 0011 — a household keeps its own telephone numbers
 --
 --   `contacts` was written in 0001 for a community: the chairperson, the
---   accountant, the emergency line an ОСББ publishes to its residents. A house
---   standing on its own has a list too, and it is a different list — "мій
---   електрик", "мій сантехник", the gas service — kept beside the house they
+--   accountant, the emergency line an OSBB publishes to its residents. A house
+--   standing on its own has a list too, and it is a different list — "my
+--   electrician", "my plumber", the gas service — kept beside the house they
 --   serve rather than in one person's phone, where nobody else in the family
 --   can reach it.
 --
@@ -29,7 +29,7 @@ alter table contacts add constraint contacts_one_scope
 
 -- The community index from 0001 stays; this is its counterpart. Sorted by name
 -- rather than by time, because that is how the list is read: a person looks for
--- "електрик", not for whoever was added last.
+-- "electrician", not for whoever was added last.
 create index contacts_unit_idx on contacts(unit_id, name);
 
 -- ═════════════════════════════════════════════════════════════

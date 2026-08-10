@@ -66,8 +66,8 @@ class DocumentsRepositoryImpl implements DocumentsRepository {
         'mime_type': file.mimeType,
         'size_bytes': file.bytes.length,
         'original_name': file.fileName,
-        // Not read by anything yet; recorded because the answer to "хто це
-        // додав" cannot be reconstructed afterwards.
+        // Not read by anything yet; recorded because the answer to "who added
+        // this" cannot be reconstructed afterwards.
         'uploaded_by': _client.auth.currentUser?.id,
       });
     } catch (_) {

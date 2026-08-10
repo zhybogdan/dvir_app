@@ -3,8 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'contact.freezed.dart';
 part 'contact.g.dart';
 
-/// One telephone number the scope keeps — "Сергій, електрик", the gas service's
-/// emergency line.
+/// One telephone number the scope keeps — "Serhii, the electrician", the gas
+/// service's emergency line.
 ///
 /// The scope id is missing for the reason it is missing from `Document`: a list
 /// is always read for one scope, so the scope is what the caller already holds.
