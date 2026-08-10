@@ -182,6 +182,15 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
     ref.invalidate(myScopesProvider);
 
     if (parentId == null) {
+      // The screen that follows exists to hand over the invite code, and a
+      // build with nobody to invite creates an object without one. Then there
+      // is nothing to celebrate and nothing to copy — the object itself is what
+      // they came for, so go straight to it.
+      if (created.inviteCode == null) {
+        context.go(AppRoutes.home);
+        return;
+      }
+
       ref
           .read(createdScopeControllerProvider.notifier)
           .remember(CreatedScope.unit(created));

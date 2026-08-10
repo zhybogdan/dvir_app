@@ -1,4 +1,5 @@
 import 'package:drift/native.dart';
+import 'package:dvir/core/config/local_identity.dart';
 import 'package:dvir/core/database/app_database.dart';
 import 'package:dvir/features/Home/data/scopes_repository_local.dart';
 import 'package:dvir/features/Home/domain/models/scope_summary.dart';
