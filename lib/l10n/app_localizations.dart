@@ -196,6 +196,18 @@ abstract class AppLocalizations {
   /// **'Збережено'**
   String get profileSaved;
 
+  /// No description provided for @settingsTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Налаштування'**
+  String get settingsTitle;
+
+  /// Sits at the foot of the settings screen; the build number is included so a bug report can name it
+  ///
+  /// In uk, this message translates to:
+  /// **'Версія {version}'**
+  String aboutVersion(String version);
+
   /// No description provided for @signIn.
   ///
   /// In uk, this message translates to:

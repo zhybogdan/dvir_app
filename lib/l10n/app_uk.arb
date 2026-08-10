@@ -22,6 +22,17 @@
   "profilePhoneHint": "+380 67 123 45 67",
   "profileSaved": "Збережено",
 
+  "settingsTitle": "Налаштування",
+  "aboutVersion": "Версія {version}",
+  "@aboutVersion": {
+    "description": "Sits at the foot of the settings screen; the build number is included so a bug report can name it",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+
   "signIn": "Увійти",
   "signUp": "Зареєструватися",
   "signOut": "Вийти",
