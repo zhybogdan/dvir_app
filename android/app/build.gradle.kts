@@ -36,6 +36,23 @@ android {
         versionName = flutter.versionName
     }
 
+    // One flavour per product: `unit` is a household's own object, and the ОСББ
+    // half joins it as `community` once communities have screens of their own.
+    //
+    // A dimension holding a single flavour looks premature, and is deliberate:
+    // it makes `--flavor` part of every build command and run configuration from
+    // the start, instead of a migration of all of them on the day the second
+    // product appears.
+    //
+    // No `applicationId` here on purpose — `unit` keeps the base id and
+    // `community` takes a suffix when it exists. Overriding it now would rename
+    // an app that is already installed, for nothing.
+    flavorDimensions += "product"
+
+    productFlavors {
+        create("unit") { dimension = "product" }
+    }
+
     signingConfigs {
         if (hasReleaseKeystore) {
             create("release") {
