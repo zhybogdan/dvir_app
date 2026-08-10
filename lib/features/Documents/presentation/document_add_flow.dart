@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Choosing a file, naming it, and sending it — the three steps behind one
-/// "Додати".
+/// "Add".
 ///
 /// Lives apart from both places that offer it: the hub's section and the
 /// screen. Written twice it would drift, and the drift would be in the order of

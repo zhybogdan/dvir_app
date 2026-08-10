@@ -95,8 +95,8 @@ class _ContactsPreview extends ConsumerWidget {
           children: [
             for (final contact in contacts.take(contactsPreview))
               ContactTile(scope: scope, contact: contact, canEdit: canEdit),
-            // The count is the whole list, not what is left over: "всі 8" says
-            // something, "ще 3" only looks like an oversight.
+            // The count is the whole list, not what is left over: "all 8" says
+            // something, "3 more" only looks like an oversight.
             if (total > contactsPreview)
               DvTextButton(
                 label: l10n.contactsShowAll(total),

@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 // The two limits the bucket enforces — 20 MB and the mime whitelist (`0010`) —
 // are the only refusals a person can act on, and Storage reports both without a
-// code of its own. Losing them means telling someone "щось пішло не так" about
+// code of its own. Losing them means telling someone "something went wrong" about
 // a file they could simply have made smaller.
 void main() {
   test('a status Storage is explicit about maps on its own', () {

@@ -30,7 +30,7 @@ String documentStoragePath({
 /// The name arrives from a file picker, which means it arrives from the device
 /// and not from us: it can carry directories, spaces, or a dot that belongs to
 /// a date. The tail is judged whole rather than cleaned character by character,
-/// because cleaning turns "акт від 12.03 про приймання" into "03" — a name
+/// because cleaning turns "report of 12.03 on acceptance" into "03" — a name
 /// dressed up as a file type.
 ///
 /// Rejecting it outright is also what keeps the key one segment: a name that
@@ -51,7 +51,7 @@ final RegExp _extension = RegExp(r'^[a-z0-9]{1,8}$');
 
 /// What to put in the title field before the person has typed anything.
 ///
-/// The file name without its extension: "Договір_газ_2019.pdf" is already what
+/// The file name without its extension: "gas_contract_2019.pdf" is already what
 /// they called it, and offering it saves the typing. A camera shot has no such
 /// name — `IMG_20260803_114233` — so the sheet still asks, it just starts from
 /// something rather than from an empty field.

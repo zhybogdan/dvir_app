@@ -110,7 +110,7 @@ class _ContactSheetState extends State<ContactSheet> {
                   validator: (v) =>
                       validateRequired(v, l10n.contactNameRequired),
                 ),
-                // Optional on purpose: "мама" needs no job title, and forcing
+                // Optional on purpose: "mum" needs no job title, and forcing
                 // one would have people type the name twice.
                 DvTextField(
                   controller: _roleCtrl,

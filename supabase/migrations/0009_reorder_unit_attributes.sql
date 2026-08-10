@@ -3,7 +3,7 @@
 --
 --   `position` has been filled in by an insert trigger since 0008, so facts
 --   stand in the order they were written. That is not the order they are read
---   in: what the object shows first — рік побудови, площа ділянки — is rarely
+--   in: what the object shows first — year built, plot area — is rarely
 --   what its keeper happened to type first.
 --
 --   Reordering is one call that rewrites the positions of the whole object,

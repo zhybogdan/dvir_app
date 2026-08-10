@@ -2,9 +2,9 @@
 -- 0010 — a document belongs to a scope, and a house is a scope
 --
 --   `documents` was written in 0001 for a community and only a community:
---   community_id is not null, so a house standing outside any ОСББ has
---   nowhere to put the scan of its техпаспорт. The record an object keeps of
---   itself (0008) is text; this is the paper that proves it.
+--   community_id is not null, so a house standing outside any OSBB has
+--   nowhere to put the scan of its property passport. The record an object
+--   keeps of itself (0008) is text; this is the paper that proves it.
 --
 --   The shape is the one Phase 4 predicted for every table that has to serve
 --   both scopes: community_id stays, unit_id joins it, and a check makes
@@ -44,9 +44,9 @@ create index documents_unit_idx on documents(unit_id, created_at desc);
 --   one makes it a data migration. The row knows where its file is; nothing
 --   else has to know the convention.
 --
---   original_name because the storage key is a uuid and "Договір_газ_2019.pdf"
+--   original_name because the storage key is a uuid and "gas_contract_2019.pdf"
 --   is what a person recognises. mime_type and size_bytes so a list can render
---   "PDF · 2,4 МБ" without touching Storage at all.
+--   "PDF · 2,4 MB" without touching Storage at all.
 -- ─────────────────────────────────────────────────────────────
 alter table documents rename column file_url to storage_path;
 

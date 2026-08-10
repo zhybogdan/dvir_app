@@ -31,8 +31,8 @@ Future<T> guardSupabase<T>(Future<T> Function() call) async {
     );
   } on sb.StorageException catch (error, stackTrace) {
     // Storage speaks HTTP, not SQLSTATE, so it needs a branch of its own —
-    // without it "файл завеликий" would reach the user as "щось пішло не так",
-    // which says nothing about the one thing they can act on.
+    // without it "the file is too large" would reach the user as "something
+    // went wrong", which says nothing about the one thing they can act on.
     appLogger.d(
       'Storage rejected a call: ${error.statusCode} ${error.message}',
     );

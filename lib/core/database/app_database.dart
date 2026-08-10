@@ -40,7 +40,7 @@ class Units extends Table {
   Set<Column> get primaryKey => {id};
 }
 
-/// One free-form fact about an object — "Рік побудови: 1998".
+/// One free-form fact about an object — "Year built: 1998".
 ///
 /// `createdAt` earns its place as the tiebreaker: the list reads by [position]
 /// first, and two attributes added without reordering share one.
@@ -59,7 +59,7 @@ class UnitAttributes extends Table {
   Set<Column> get primaryKey => {id};
 }
 
-/// A file kept against an object — a scan of the техпаспорт, a contract.
+/// A file kept against an object — a scan of the property passport, a contract.
 ///
 /// [storagePath] keeps its cloud name although it now points inside the app's
 /// own directory: the row knowing where its file is, rather than deriving it,
@@ -81,7 +81,7 @@ class Documents extends Table {
   Set<Column> get primaryKey => {id};
 }
 
-/// One telephone number the object keeps — "Сергій, електрик".
+/// One telephone number the object keeps — "Serhii, the electrician".
 @DataClassName('ContactRow')
 @TableIndex(name: 'contacts_unit', columns: {#unitId, #name})
 class Contacts extends Table {

@@ -36,7 +36,7 @@ android {
         versionName = flutter.versionName
     }
 
-    // One flavour per product: `unit` is a household's own object, and the ОСББ
+    // One flavour per product: `unit` is a household's own object, and the OSBB
     // half joins it as `community` once communities have screens of their own.
     //
     // A dimension holding a single flavour looks premature, and is deliberate:

@@ -15,7 +15,7 @@ String dialableNumber(String phone) {
   final digits = trimmed.replaceAll(RegExp('[^0-9]'), '');
 
   // Three, because 101, 102, 103 and 112 are numbers a household writes down.
-  // Below that the digits came from prose — "дзвонити після 18" would otherwise
+  // Below that the digits came from prose — "call after 18" would otherwise
   // dial 18, and the tap would look like it worked.
   if (digits.length < 3) return '';
 

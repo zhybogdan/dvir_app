@@ -9,7 +9,7 @@ import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 // Every repository in the app goes through this one function, and its four
 // branches are the whole boundary between Supabase's error model and ours. A
 // branch that stops matching does not throw or fail loudly — it quietly
-// downgrades a real reason to "неочікувана помилка", which is the least useful
+// downgrades a real reason to "unexpected error", which is the least useful
 // sentence the app can say.
 
 Future<Failure> _failureFrom(Object error) async {
@@ -58,8 +58,8 @@ void main() {
 
   // PostgREST does not wrap transport failures the way GoTrue does, so a dead
   // connection arrives as the HTTP client's own exception. Told apart from the
-  // catch-all, this is the difference between "немає з'єднання" and "щось пішло
-  // не так" — the first tells the user what to do about it.
+  // catch-all, this is the difference between "no connection" and "something
+  // went wrong" — the first tells the user what to do about it.
   test('an unreachable backend is a network failure', () async {
     final failure = await _failureFrom(http.ClientException('failed host'));
 
@@ -73,7 +73,7 @@ void main() {
   });
 
   // Storage answers with HTTP statuses rather than SQLSTATEs, so without a
-  // branch of its own "файл завеликий" arrives as the catch-all — the one thing
+  // branch of its own "the file is too large" arrives as the catch-all — the
   // the person could have fixed, replaced by the one sentence that helps least.
   test('a refused upload keeps the reason its status carried', () async {
     final failure = await _failureFrom(

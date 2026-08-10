@@ -3,8 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'document.freezed.dart';
 part 'document.g.dart';
 
-/// One file kept against a scope — a scan of the техпаспорт, a contract, a
-/// photo of the meter cabinet.
+/// One file kept against a scope — a scan of the property passport, a contract,
+/// a photo of the meter cabinet.
 ///
 /// Neither scope id is here, for the reason `UnitAttribute` leaves out its own:
 /// a list is always read for one scope, so the scope is what the caller already

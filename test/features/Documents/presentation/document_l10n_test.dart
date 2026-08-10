@@ -34,7 +34,7 @@ void main() {
       expect(documentSize(831488, l10n), '812 КБ');
     });
 
-    // Rounding up, not down: a 400-byte file reading "0 КБ" looks like the
+    // Rounding up, not down: a 400-byte file reading "0 KB" looks like the
     // upload lost it.
     test('a tiny file is still a kilobyte', () {
       expect(documentSize(400, l10n), '1 КБ');

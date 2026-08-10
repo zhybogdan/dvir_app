@@ -25,7 +25,7 @@ import 'package:go_router/go_router.dart';
 /// belongs to.
 ///
 /// A list rather than one current scope with a switcher at the top. Someone can
-/// own a house, rent a flat and sit on an ОСББ board at once, and none of those
+/// own a house, rent a flat and sit on an OSBB board at once, and none of those
 /// is a mode the app is in — so there is nothing to switch between, only places
 /// to open.
 class ScopesScreen extends ConsumerWidget {
@@ -159,8 +159,8 @@ class _ScopeCard extends StatelessWidget {
     );
   }
 
-  /// The objects folded into this card, named rather than counted — "Квартира
-  /// 1 · Квартира 2" says what is in there, "2 об'єкти" only says how many.
+  /// The objects folded into this card, named rather than counted — "Flat 1 ·
+  /// Flat 2" says what is in there, "2 objects" only says how many.
   ///
   /// Three fit on a line on a phone; the rest become a tally so the card keeps
   /// its height whatever the house holds.

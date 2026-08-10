@@ -11,7 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 // The rule is covered in unit_keeper_test. What is checked here is the other
 // half: that the section asks it, and offers only what the answer allows. A
-// tenant handed an "Додати" button ends at a refusal from the database, and no
+// tenant handed an "Add" button ends at a refusal from the database, and no
 // amount of testing the rule as a function catches that.
 
 const _facts = [

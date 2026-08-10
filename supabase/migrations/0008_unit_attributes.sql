@@ -3,8 +3,8 @@
 --
 --   `units` describes an object the way the system needs it: a label, a type,
 --   an address, an area it charges by. What the keeper of a house actually
---   wants written down is none of that — поверховість, рік побудови, матеріал
---   стін, площа ділянки — and no fixed set of columns is going to be the right
+--   wants written down is none of that — number of floors, year built, wall
+--   material, plot area — and no fixed set of columns is going to be the right
 --   one, because every household records something else.
 --
 --   So the facts get a table of their own rather than a json column on `units`,

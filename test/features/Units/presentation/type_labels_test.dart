@@ -11,7 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 // The switches are exhaustive, so a missing label cannot compile. What cannot
 // be caught that way is two values pointing at the same string — easy to do by
-// copy-paste, and invisible until a picker shows "Кімната" twice.
+// copy-paste, and invisible until a picker shows "Room" twice.
 void main() {
   final l10n = AppLocalizationsUk();
 

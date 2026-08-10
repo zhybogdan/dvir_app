@@ -3,7 +3,7 @@
 --
 --   0001 modelled a unit as a row inside a community: it needed a community,
 --   it had a single owner, and a "house" was a text column on the apartment.
---   That cannot express the product: a family runs "Будинок 223" with no ОСББ
+--   That cannot express the product: a family runs "House 223" with no OSBB
 --   around it, adds relatives to it, and those relatives are full users.
 --
 --   So a unit gets what a community already has — an invite code, its own

@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'unit_attribute.freezed.dart';
 part 'unit_attribute.g.dart';
 
-/// One free-form fact about an object — "Рік побудови: 1998".
+/// One free-form fact about an object — "Year built: 1998".
 ///
 /// Neither `unit_id` nor `position` is here, and both are absences worth
 /// stating: the list is always read for one object, so the object is what the

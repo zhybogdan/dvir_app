@@ -25,7 +25,7 @@ class ContactsRepositoryImpl implements ContactsRepository {
         .select(_columns)
         .eq(scope.column, scope.id)
         // Spelled out: PostgREST sorts descending unless told otherwise, and an
-        // alphabetical list running Я→А reads as a bug rather than a choice.
+        // alphabetical list running Z→A reads as a bug rather than a choice.
         .order('name', ascending: true);
 
     return rows.map(Contact.fromJson).toList();

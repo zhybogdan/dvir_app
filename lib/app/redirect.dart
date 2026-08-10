@@ -15,7 +15,7 @@ typedef RedirectDecision = ({String? target, String reason});
 ///
 /// The question it asks about scopes is "does this user belong *anywhere* with
 /// access", never "which scope are they in". A person can own a house, rent a
-/// flat and sit on an ОСББ board at once; picking one of those to route by is
+/// flat and sit on an OSBB board at once; picking one of those to route by is
 /// what used to strand a house owner on the waiting screen because a community
 /// they had applied to was still deciding.
 RedirectDecision resolveRedirect({

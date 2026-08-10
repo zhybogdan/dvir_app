@@ -95,8 +95,8 @@ class _DocumentsPreview extends ConsumerWidget {
           children: [
             for (final document in documents.take(documentsPreview))
               DocumentTile(scope: scope, document: document, canEdit: canEdit),
-            // The count is everything kept here, not what is left over: "всі 8"
-            // says something, "ще 3" only looks like an oversight.
+            // The count is everything kept here, not what is left over: "all 8"
+            // says something, "3 more" only looks like an oversight.
             if (total > documentsPreview)
               DvTextButton(
                 label: l10n.documentsShowAll(total),
