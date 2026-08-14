@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:dvir/core/database/app_database.dart';
 import 'package:dvir/core/database/local_scope.dart';
+import 'package:dvir/core/error/failures.dart';
 import 'package:dvir/features/Documents/data/document_file_store.dart';
 import 'package:dvir/features/Documents/data/document_storage.dart';
 import 'package:dvir/features/Documents/data/documents_repository.dart';
@@ -39,6 +40,13 @@ class LocalDocumentsRepository implements DocumentsRepository {
     required ScopeRef scope,
     required DocumentUpload file,
   }) async {
+    // Before the bytes are written, not after: refusing a file the disk is
+    // already holding would mean deleting it again, and the disk is the thing
+    // being protected.
+    if (file.bytes.length > maxDocumentBytes) {
+      throw const StorageFailure(StorageFailureReason.tooLarge);
+    }
+
     // The path carries the row's id, so the id has to exist before either write.
     final id = const Uuid().v4();
     final path = documentStoragePath(

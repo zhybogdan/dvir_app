@@ -4,8 +4,10 @@ import 'dart:typed_data';
 import 'package:drift/native.dart';
 import 'package:dvir/core/database/app_database.dart';
 import 'package:dvir/core/database/local_scope.dart';
+import 'package:dvir/core/error/failures.dart';
 import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:dvir/features/Documents/data/document_file_store.dart';
+import 'package:dvir/features/Documents/data/document_storage.dart';
 import 'package:dvir/features/Documents/data/documents_repository_local.dart';
 import 'package:dvir/features/Documents/domain/models/document_upload.dart';
 import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
@@ -87,6 +89,47 @@ void main() {
       'Другий',
       'Перший',
     ]);
+  });
+
+  test('a file past the limit is refused before it reaches the disk', () async {
+    await expectLater(
+      repository.upload(
+        scope: scope,
+        file: DocumentUpload(
+          title: 'Відео з двору',
+          fileName: 'yard.mp4',
+          mimeType: 'video/mp4',
+          bytes: Uint8List(maxDocumentBytes + 1),
+        ),
+      ),
+      throwsA(
+        isA<StorageFailure>().having(
+          (failure) => failure.reason,
+          'reason',
+          StorageFailureReason.tooLarge,
+        ),
+      ),
+    );
+
+    expect(await repository.documentsOf(scope), isEmpty);
+    expect(storedFiles(), isEmpty);
+  });
+
+  test('a file exactly at the limit is kept', () async {
+    await repository.upload(
+      scope: scope,
+      file: DocumentUpload(
+        title: 'Скан',
+        fileName: 'scan.pdf',
+        mimeType: 'application/pdf',
+        bytes: Uint8List(maxDocumentBytes),
+      ),
+    );
+
+    expect(
+      (await repository.documentsOf(scope)).single.sizeBytes,
+      maxDocumentBytes,
+    );
   });
 
   test('a file whose row is refused does not stay behind', () async {

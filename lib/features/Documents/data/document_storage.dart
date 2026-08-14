@@ -5,6 +5,15 @@
 /// them is a leak.
 const String documentsBucket = 'documents';
 
+/// The largest file a document may be, matching `0010`'s `file_size_limit` and
+/// the size named in `errorFileTooLarge`.
+///
+/// Written down here because on the device there is no bucket to refuse on the
+/// app's behalf: the cloud answers an oversized upload with a 413, and local
+/// storage answers by filling the phone. The two builds refuse at the same
+/// number so the sentence the person reads stays true in both.
+const int maxDocumentBytes = 20971520; // 20 MB
+
 /// `<scope_id>/<document_id>.<ext>`, the convention `0010`'s storage policies
 /// read.
 ///
