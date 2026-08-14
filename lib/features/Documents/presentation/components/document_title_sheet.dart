@@ -1,5 +1,6 @@
-import 'package:dvir/app/theme.dart';
+﻿import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
+import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
@@ -68,7 +69,6 @@ class _DocumentTitleSheetState extends State<DocumentTitleSheet> {
           padding: const EdgeInsets.all(AppSpacing.lg),
           child: Form(
             key: _formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -82,11 +82,17 @@ class _DocumentTitleSheetState extends State<DocumentTitleSheet> {
                   controller: _titleCtrl,
                   label: l10n.documentName,
                   hint: l10n.documentNameHint,
+                  maxLength: FieldLength.documentTitle,
                   textInputAction: TextInputAction.done,
                   textCapitalization: TextCapitalization.sentences,
                   onSubmitted: (_) => _submit(),
                   validator: (v) =>
-                      validateRequired(v, l10n.documentNameRequired),
+                      validateRequired(v, l10n.documentNameRequired) ??
+                      validateMaxLength(
+                        v,
+                        FieldLength.documentTitle,
+                        l10n.fieldTooLong,
+                      ),
                 ),
                 DvButton(label: l10n.saveCta, onPressed: _submit),
               ],

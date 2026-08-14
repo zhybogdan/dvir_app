@@ -16,12 +16,8 @@ void main() {
   });
   tearDown(() => database.close());
 
-  Future<Unit> create({required String label, String? parentId}) =>
-      repository.createUnit(
-        label: label,
-        type: UnitType.house,
-        parentId: parentId,
-      );
+  Future<Unit> create({required String label, String? parentId}) => repository
+      .createUnit(label: label, type: UnitType.house, parentId: parentId);
 
   test('a created object reads back with what it was given', () async {
     final created = await repository.createUnit(
@@ -58,10 +54,9 @@ void main() {
     final dacha = await create(label: 'Дача');
     await create(label: 'Гараж', parentId: house.id);
 
-    expect(
-      (await repository.childrenOf(house.id)).map((unit) => unit.label),
-      ['Гараж'],
-    );
+    expect((await repository.childrenOf(house.id)).map((unit) => unit.label), [
+      'Гараж',
+    ]);
     expect(await repository.childrenOf(dacha.id), isEmpty);
   });
 

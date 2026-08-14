@@ -1,6 +1,8 @@
-import 'package:dvir/app/routes.dart';
+﻿import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
+import 'package:dvir/core/utils/field_lengths.dart';
+import 'package:dvir/core/utils/text_input.dart';
 import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Community/domain/types/community_type.dart';
 import 'package:dvir/features/Community/presentation/community_type_l10n.dart';
@@ -51,8 +53,8 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
         .createCommunity(
           name: _nameCtrl.text.trim(),
           type: _type,
-          address: _trimmedOrNull(_addressCtrl),
-          city: _trimmedOrNull(_cityCtrl),
+          address: trimmedOrNull(_addressCtrl.text),
+          city: trimmedOrNull(_cityCtrl.text),
         );
 
     if (community == null || !mounted) return;
@@ -61,11 +63,6 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
         .read(createdScopeControllerProvider.notifier)
         .remember(CreatedScope.community(community));
     context.go(AppRoutes.onboardingCommunitySuccess);
-  }
-
-  String? _trimmedOrNull(TextEditingController controller) {
-    final value = controller.text.trim();
-    return value.isEmpty ? null : value;
   }
 
   @override
@@ -89,7 +86,6 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
           padding: const EdgeInsets.all(AppSpacing.lg),
           child: Form(
             key: _formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -97,9 +93,15 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
                   controller: _nameCtrl,
                   label: l10n.communityName,
                   hint: l10n.communityNameHint,
+                  maxLength: FieldLength.communityName,
                   textInputAction: TextInputAction.next,
                   validator: (v) =>
-                      validateRequired(v, l10n.communityNameRequired),
+                      validateRequired(v, l10n.communityNameRequired) ??
+                      validateMaxLength(
+                        v,
+                        FieldLength.communityName,
+                        l10n.fieldTooLong,
+                      ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 DvSelectField<CommunityType>(
@@ -111,19 +113,31 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
                   onChanged: (type) => setState(() => _type = type),
                 ),
                 const SizedBox(height: AppSpacing.md),
+                // An address is an address: the numbers the object form uses are
+                // reused here rather than copied under a community's own name,
+                // although this table sets no bound of its own.
                 DvTextField(
                   controller: _addressCtrl,
                   label: '${l10n.communityAddress} · ${l10n.optional}',
                   hint: l10n.communityAddressHint,
+                  maxLength: FieldLength.address,
                   textInputAction: TextInputAction.next,
+                  validator: (v) => validateMaxLength(
+                    v,
+                    FieldLength.address,
+                    l10n.fieldTooLong,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 DvTextField(
                   controller: _cityCtrl,
                   label: '${l10n.communityCity} · ${l10n.optional}',
                   hint: l10n.communityCityHint,
+                  maxLength: FieldLength.city,
                   textInputAction: TextInputAction.done,
                   onSubmitted: (_) => _submit(),
+                  validator: (v) =>
+                      validateMaxLength(v, FieldLength.city, l10n.fieldTooLong),
                 ),
                 const SizedBox(height: AppSpacing.lg),
                 DvButton(

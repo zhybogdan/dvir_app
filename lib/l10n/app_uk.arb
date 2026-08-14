@@ -20,6 +20,7 @@
   "profileNameRequired": "Введіть ім'я",
   "profilePhone": "Телефон",
   "profilePhoneHint": "+380 67 123 45 67",
+  "profilePhoneInvalid": "Схоже, це не номер телефону",
   "profileSaved": "Збережено",
 
   "settingsTitle": "Налаштування",
@@ -91,6 +92,15 @@
   "communityCity": "Місто",
   "communityCityHint": "Київ",
   "optional": "необов’язково",
+  "fieldTooLong": "Занадто довго — максимум {max} символів",
+  "@fieldTooLong": {
+    "description": "Shown when a field holds more than its column can store; the field's own cap stops ordinary typing, so this answers the cases it cannot — a paste, or emoji, which the keyboard and the database count differently",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
   "createCommunityCta": "Створити спільноту",
   "communityTypeOsbb": "ОСББ",
   "communityTypeResidentialComplex": "Житловий комплекс",

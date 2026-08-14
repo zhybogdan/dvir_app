@@ -1,3 +1,6 @@
+﻿import 'dart:math' as math;
+
+import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:flutter/services.dart';
 
 /// Forces field input to upper case as the user types — for invite codes,
@@ -10,6 +13,61 @@ class UpperCaseTextFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) => newValue.copyWith(text: newValue.text.toUpperCase());
+}
+
+/// Keeps a field to one line of visible text.
+///
+/// Every field in this app is a single line, and every one of them ends up in a
+/// tile — so a value pasted out of a PDF brings its line breaks along and makes
+/// one card twice the height of its neighbours.
+///
+/// A break becomes a space rather than nothing, because "вул. Соборна⏎15" is
+/// two things and joining them without a gap invents "Соборна15". One break is
+/// beyond reach: for a single-line field `EditableText` prepends its own
+/// `deny('\n')` ahead of any formatter given to it, so a bare newline is
+/// already deleted — glued — before this runs. A Windows or PDF paste arrives
+/// as CR LF, and the CR is still here to become the space. The newline stays
+/// in the pattern below for the same reason a belt is worn with braces: this
+/// class is not owned by one widget.
+///
+/// The invisible characters go for a different reason. They arrive from the web
+/// with a copied string, cannot be seen in the field or in the list, and the
+/// direction overrides among them render everything after them backwards. What
+/// is *not* stripped is the zero-width joiner: it is what holds a family emoji
+/// together, and removing it would quietly break the text it was meant to
+/// protect.
+class SingleLineTextFormatter extends TextInputFormatter {
+  const SingleLineTextFormatter();
+
+  static final _breaks = RegExp(r'[\r\n\t\v\f]');
+
+  /// Zero-width space and byte-order mark, then the direction marks and the
+  /// two override ranges. Written as escapes on purpose: as literals these are
+  /// invisible in the source too, and nobody could review the line.
+  static final _invisible = RegExp(
+    r'[\u200B\uFEFF\u200E\u200F\u202A-\u202E\u2066-\u2069]',
+  );
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final cleaned = newValue.text
+        .replaceAll(_breaks, ' ')
+        .replaceAll(_invisible, '');
+
+    if (cleaned == newValue.text) return newValue;
+
+    // Cleaning only ever shortens, so the caret is clamped rather than
+    // recomputed — after a paste it lands at the end of what arrived.
+    return TextEditingValue(
+      text: cleaned,
+      selection: TextSelection.collapsed(
+        offset: math.min(newValue.selection.end, cleaned.length),
+      ),
+    );
+  }
 }
 
 /// How many characters `generate_invite_code()` produces.
@@ -26,6 +84,20 @@ final inviteCodeFormatters = <TextInputFormatter>[
   FilteringTextInputFormatter.allow(RegExp('[A-Za-z0-9]')),
   LengthLimitingTextInputFormatter(inviteCodeLength),
   const UpperCaseTextFormatter(),
+];
+
+/// What a telephone number is made of, spacing included.
+///
+/// Shared because the same number is typed in two places — a household contact
+/// and the profile — and only one of them was keeping letters out. The keyboard
+/// offers them on some devices whatever `TextInputType.phone` asks for.
+///
+/// The cap is the contact column's own: it is the only one of the two that is
+/// stored with a length, and a profile phone longer than a contact's would be a
+/// number neither field could hold.
+final phoneFormatters = <TextInputFormatter>[
+  FilteringTextInputFormatter.allow(RegExp(r'[0-9+()\-\s]')),
+  LengthLimitingTextInputFormatter(FieldLength.phone),
 ];
 
 /// What an optional text field actually holds: its trimmed text, or null when

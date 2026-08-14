@@ -1,6 +1,6 @@
-import 'package:dvir/app/theme.dart';
+﻿import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
-import 'package:dvir/core/utils/phone.dart';
+import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:dvir/core/utils/text_input.dart';
 import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Contacts/domain/models/contact.dart';
@@ -8,7 +8,6 @@ import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 /// What the sheet hands back — a contact as typed, not as stored.
 typedef ContactDraft = ({String name, String? role, String phone});
@@ -68,17 +67,6 @@ class _ContactSheetState extends State<ContactSheet> {
     ));
   }
 
-  String? _validatePhone(String? value, AppLocalizations l10n) {
-    final required = validateRequired(value, l10n.contactPhoneRequired);
-    if (required != null) return required;
-
-    // Judged by what will actually be dialled: a field full of words passes
-    // "not empty" and then opens an empty dialler.
-    final number = dialableNumber(value ?? '');
-
-    return number.isEmpty ? l10n.contactPhoneInvalid : null;
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -91,7 +79,6 @@ class _ContactSheetState extends State<ContactSheet> {
           padding: const EdgeInsets.all(AppSpacing.lg),
           child: Form(
             key: _formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -105,10 +92,16 @@ class _ContactSheetState extends State<ContactSheet> {
                   controller: _nameCtrl,
                   label: l10n.contactName,
                   hint: l10n.contactNameHint,
+                  maxLength: FieldLength.contactName,
                   textInputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.words,
                   validator: (v) =>
-                      validateRequired(v, l10n.contactNameRequired),
+                      validateRequired(v, l10n.contactNameRequired) ??
+                      validateMaxLength(
+                        v,
+                        FieldLength.contactName,
+                        l10n.fieldTooLong,
+                      ),
                 ),
                 // Optional on purpose: "mum" needs no job title, and forcing
                 // one would have people type the name twice.
@@ -116,8 +109,14 @@ class _ContactSheetState extends State<ContactSheet> {
                   controller: _roleCtrl,
                   label: l10n.contactRole,
                   hint: l10n.contactRoleHint,
+                  maxLength: FieldLength.contactRole,
                   textInputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.sentences,
+                  validator: (v) => validateMaxLength(
+                    v,
+                    FieldLength.contactRole,
+                    l10n.fieldTooLong,
+                  ),
                 ),
                 DvTextField(
                   controller: _phoneCtrl,
@@ -125,13 +124,11 @@ class _ContactSheetState extends State<ContactSheet> {
                   hint: l10n.contactPhoneHint,
                   keyboardType: TextInputType.phone,
                   textInputAction: TextInputAction.done,
-                  // The keyboard offers letters on some devices; this keeps the
-                  // field to what a number is made of, spacing included.
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[0-9+()\-\s]')),
-                  ],
+                  inputFormatters: phoneFormatters,
                   onSubmitted: (_) => _submit(),
-                  validator: (v) => _validatePhone(v, l10n),
+                  validator: (v) =>
+                      validateRequired(v, l10n.contactPhoneRequired) ??
+                      validatePhone(v, l10n.contactPhoneInvalid),
                 ),
                 DvButton(label: l10n.saveCta, onPressed: _submit),
               ],

@@ -1,5 +1,6 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
+import 'package:dvir/core/utils/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -23,6 +24,7 @@ class DvTextField extends StatefulWidget {
     this.autofillHints,
     this.onSubmitted,
     this.inputFormatters,
+    this.maxLength,
     this.textCapitalization = TextCapitalization.none,
     this.autocorrect = true,
     this.enableSuggestions = true,
@@ -40,6 +42,15 @@ class DvTextField extends StatefulWidget {
   final Iterable<String>? autofillHints;
   final ValueChanged<String>? onSubmitted;
   final List<TextInputFormatter>? inputFormatters;
+
+  /// The longest text this field accepts — a `FieldLength` constant, so the
+  /// keyboard stops where the column does.
+  ///
+  /// Enforced by a formatter rather than `TextField.maxLength`, which draws a
+  /// "12/120" counter of its own below the field and would fight the blank
+  /// helper line every field here reserves for its error.
+  final int? maxLength;
+
   final TextCapitalization textCapitalization;
   final bool autocorrect;
   final bool enableSuggestions;
@@ -67,7 +78,21 @@ class _DvTextFieldState extends State<DvTextField> {
     final autofillHints = widget.autofillHints;
     final onSubmitted = widget.onSubmitted;
     final inputFormatters = widget.inputFormatters;
+    final maxLength = widget.maxLength;
     final textCapitalization = widget.textCapitalization;
+
+    // Cleaning first, the cap last: what is counted should be what is kept, and
+    // trimming before the disallowed characters are dropped would cut the field
+    // short of its own limit.
+    //
+    // A password is the one thing never rewritten on its way in. It is matched
+    // elsewhere character for character, and what looks like a stray mark in
+    // any other field may be a deliberate part of it.
+    final formatters = <TextInputFormatter>[
+      if (!obscure) const SingleLineTextFormatter(),
+      ...?inputFormatters,
+      if (maxLength != null) LengthLimitingTextInputFormatter(maxLength),
+    ];
     final autocorrect = widget.autocorrect;
     final enableSuggestions = widget.enableSuggestions;
 
@@ -91,8 +116,14 @@ class _DvTextFieldState extends State<DvTextField> {
           textCapitalization: textCapitalization,
           autocorrect: autocorrect,
           enableSuggestions: enableSuggestions,
-          inputFormatters: inputFormatters,
+          inputFormatters: formatters.isEmpty ? null : formatters,
           validator: validator,
+          // Asked of the field rather than of the `Form` around it, which is
+          // where this used to live. A form's "has been interacted with" is
+          // `_fields.any(...)`, so touching one field made every other field
+          // validate itself on the next rebuild: typing a contact's name lit
+          // up "Вкажіть номер" under a telephone box nobody had reached yet.
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           autofillHints: autofillHints,
           onFieldSubmitted: onSubmitted,
           decoration: InputDecoration(

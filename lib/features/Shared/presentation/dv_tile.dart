@@ -127,8 +127,13 @@ class _Lines extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: AppSpacing.xs,
       children: [
+        // Two lines, because a nested object carries its parent in its name and
+        // one line cuts most of them off. Past that it is a list of cards, and
+        // a card that grows with its title makes the list ragged.
         Text(
           tile.title,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
           style: tile.dense ? text.titleSmall : text.titleMedium,
         ),
         ?tile.badge,

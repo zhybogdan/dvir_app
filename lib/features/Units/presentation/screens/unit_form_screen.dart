@@ -1,6 +1,7 @@
-import 'package:dvir/app/routes.dart';
+﻿import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
+import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:dvir/core/utils/text_input.dart';
 import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
@@ -274,7 +275,6 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
           padding: const EdgeInsets.all(AppSpacing.lg),
           child: Form(
             key: _formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               spacing: AppSpacing.md,
@@ -283,8 +283,15 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
                   controller: _nameCtrl,
                   label: l10n.unitName,
                   hint: l10n.unitNameHint,
+                  maxLength: FieldLength.label,
                   textInputAction: TextInputAction.next,
-                  validator: (v) => validateRequired(v, l10n.unitNameRequired),
+                  validator: (v) =>
+                      validateRequired(v, l10n.unitNameRequired) ??
+                      validateMaxLength(
+                        v,
+                        FieldLength.label,
+                        l10n.fieldTooLong,
+                      ),
                 ),
                 DvSelectField<UnitType>(
                   label: l10n.unitType,
@@ -300,14 +307,26 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
                     controller: _addressCtrl,
                     label: '${l10n.communityAddress} · ${l10n.optional}',
                     hint: l10n.communityAddressHint,
+                    maxLength: FieldLength.address,
                     textInputAction: TextInputAction.next,
+                    validator: (v) => validateMaxLength(
+                      v,
+                      FieldLength.address,
+                      l10n.fieldTooLong,
+                    ),
                   ),
                   DvTextField(
                     controller: _cityCtrl,
                     label: '${l10n.communityCity} · ${l10n.optional}',
                     hint: l10n.communityCityHint,
+                    maxLength: FieldLength.city,
                     textInputAction: TextInputAction.done,
                     onSubmitted: (_) => _submit(type),
+                    validator: (v) => validateMaxLength(
+                      v,
+                      FieldLength.city,
+                      l10n.fieldTooLong,
+                    ),
                   ),
                 ],
                 DvButton(

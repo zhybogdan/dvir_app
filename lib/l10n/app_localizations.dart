@@ -190,6 +190,12 @@ abstract class AppLocalizations {
   /// **'+380 67 123 45 67'**
   String get profilePhoneHint;
 
+  /// No description provided for @profilePhoneInvalid.
+  ///
+  /// In uk, this message translates to:
+  /// **'Схоже, це не номер телефону'**
+  String get profilePhoneInvalid;
+
   /// No description provided for @profileSaved.
   ///
   /// In uk, this message translates to:
@@ -483,6 +489,12 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'необов’язково'**
   String get optional;
+
+  /// Shown when a field holds more than its column can store; the field's own cap stops ordinary typing, so this answers the cases it cannot — a paste, or emoji, which the keyboard and the database count differently
+  ///
+  /// In uk, this message translates to:
+  /// **'Занадто довго — максимум {max} символів'**
+  String fieldTooLong(int max);
 
   /// No description provided for @createCommunityCta.
   ///
