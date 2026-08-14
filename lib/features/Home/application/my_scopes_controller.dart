@@ -28,3 +28,26 @@ Future<MyScopes?> myScopes(Ref ref) async {
 
   return (userId: user.id, scopes: scopes);
 }
+
+/// Re-reads the list and **waits for it**, so the router never decides on the
+/// answer from before whatever just changed.
+///
+/// Invalidating alone hands control straight back while the fetch is still in
+/// flight, and `resolveRedirect` then reads the value underneath — which is the
+/// list as it was. Both directions hurt: someone who has just created their
+/// first object is ruled to belong nowhere and sent back to onboarding, and
+/// someone who has just deleted their last one lands on a home screen still
+/// showing a card for it.
+///
+/// Belongs to an action that changes where a person belongs, passed as
+/// `GuardedActions`' `onSuccess` — which awaits it, and is exactly what the
+/// caller must not outrun. `ref.mounted` is checked because this awaits: the
+/// notifier that started it may be gone by the time the list lands.
+Future<void> refreshMyScopes(Ref ref) async {
+  if (!ref.mounted) return;
+
+  // Invalidate then read, rather than `refresh`: the first marks the list
+  // stale, the second is what waits for the replacement to land.
+  ref.invalidate(myScopesProvider);
+  await ref.read(myScopesProvider.future);
+}
