@@ -1,5 +1,6 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
+import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:dvir/core/utils/phone.dart';
 import 'package:dvir/core/utils/text_input.dart';
 import 'package:dvir/core/utils/validators.dart';
@@ -105,10 +106,16 @@ class _ContactSheetState extends State<ContactSheet> {
                   controller: _nameCtrl,
                   label: l10n.contactName,
                   hint: l10n.contactNameHint,
+                  maxLength: FieldLength.contactName,
                   textInputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.words,
                   validator: (v) =>
-                      validateRequired(v, l10n.contactNameRequired),
+                      validateRequired(v, l10n.contactNameRequired) ??
+                      validateMaxLength(
+                        v,
+                        FieldLength.contactName,
+                        l10n.fieldTooLong,
+                      ),
                 ),
                 // Optional on purpose: "mum" needs no job title, and forcing
                 // one would have people type the name twice.
@@ -116,8 +123,14 @@ class _ContactSheetState extends State<ContactSheet> {
                   controller: _roleCtrl,
                   label: l10n.contactRole,
                   hint: l10n.contactRoleHint,
+                  maxLength: FieldLength.contactRole,
                   textInputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.sentences,
+                  validator: (v) => validateMaxLength(
+                    v,
+                    FieldLength.contactRole,
+                    l10n.fieldTooLong,
+                  ),
                 ),
                 DvTextField(
                   controller: _phoneCtrl,

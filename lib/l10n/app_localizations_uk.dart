@@ -213,6 +213,11 @@ class AppLocalizationsUk extends AppLocalizations {
   String get optional => 'необов’язково';
 
   @override
+  String fieldTooLong(int max) {
+    return 'Занадто довго — максимум $max символів';
+  }
+
+  @override
   String get createCommunityCta => 'Створити спільноту';
 
   @override

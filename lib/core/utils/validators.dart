@@ -20,6 +20,25 @@ String? validatePassword(String? value, AppLocalizations l10n) {
 String? validateRequired(String? value, String message) =>
     (value?.trim().isEmpty ?? true) ? message : null;
 
+/// Text no longer than the column that will hold it. [message] is given the
+/// limit, because a refusal that does not say how much is too much leaves the
+/// person deleting characters one at a time.
+///
+/// Counts UTF-16 code units, the way drift's `withLength` counts, and not the
+/// graphemes the field's own cap is measured in. The two agree on every
+/// alphabet and part company on emoji, where 120 of them are 120 characters to
+/// the keyboard and 480 to the database — which is exactly the case this is
+/// here to answer, with a sentence rather than a failed write.
+String? validateMaxLength(
+  String? value,
+  int max,
+  String Function(int) message,
+) {
+  final length = value?.trim().length ?? 0;
+
+  return length > max ? message(max) : null;
+}
+
 /// An optional positive number (area, …). Empty passes; anything present must
 /// parse to a number greater than zero. Accepts both ',' and '.' as separator.
 String? validateOptionalPositiveNumber(String? value, String message) {

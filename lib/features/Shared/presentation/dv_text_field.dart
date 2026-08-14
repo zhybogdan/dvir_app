@@ -23,6 +23,7 @@ class DvTextField extends StatefulWidget {
     this.autofillHints,
     this.onSubmitted,
     this.inputFormatters,
+    this.maxLength,
     this.textCapitalization = TextCapitalization.none,
     this.autocorrect = true,
     this.enableSuggestions = true,
@@ -40,6 +41,15 @@ class DvTextField extends StatefulWidget {
   final Iterable<String>? autofillHints;
   final ValueChanged<String>? onSubmitted;
   final List<TextInputFormatter>? inputFormatters;
+
+  /// The longest text this field accepts — a `FieldLength` constant, so the
+  /// keyboard stops where the column does.
+  ///
+  /// Enforced by a formatter rather than `TextField.maxLength`, which draws a
+  /// "12/120" counter of its own below the field and would fight the blank
+  /// helper line every field here reserves for its error.
+  final int? maxLength;
+
   final TextCapitalization textCapitalization;
   final bool autocorrect;
   final bool enableSuggestions;
@@ -67,7 +77,15 @@ class _DvTextFieldState extends State<DvTextField> {
     final autofillHints = widget.autofillHints;
     final onSubmitted = widget.onSubmitted;
     final inputFormatters = widget.inputFormatters;
+    final maxLength = widget.maxLength;
     final textCapitalization = widget.textCapitalization;
+
+    // The cap goes last: trimming before the disallowed characters are dropped
+    // would cut the field short of its own limit.
+    final formatters = <TextInputFormatter>[
+      ...?inputFormatters,
+      if (maxLength != null) LengthLimitingTextInputFormatter(maxLength),
+    ];
     final autocorrect = widget.autocorrect;
     final enableSuggestions = widget.enableSuggestions;
 
@@ -91,7 +109,7 @@ class _DvTextFieldState extends State<DvTextField> {
           textCapitalization: textCapitalization,
           autocorrect: autocorrect,
           enableSuggestions: enableSuggestions,
-          inputFormatters: inputFormatters,
+          inputFormatters: formatters.isEmpty ? null : formatters,
           validator: validator,
           autofillHints: autofillHints,
           onFieldSubmitted: onSubmitted,

@@ -1,5 +1,6 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
+import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
@@ -87,20 +88,32 @@ class _UnitAttributeSheetState extends State<UnitAttributeSheet> {
                   controller: _nameCtrl,
                   label: l10n.unitAttributeName,
                   hint: l10n.unitAttributeNameHint,
+                  maxLength: FieldLength.attributeName,
                   textInputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.sentences,
                   validator: (v) =>
-                      validateRequired(v, l10n.unitAttributeNameRequired),
+                      validateRequired(v, l10n.unitAttributeNameRequired) ??
+                      validateMaxLength(
+                        v,
+                        FieldLength.attributeName,
+                        l10n.fieldTooLong,
+                      ),
                 ),
                 DvTextField(
                   controller: _valueCtrl,
                   label: l10n.unitAttributeValue,
                   hint: l10n.unitAttributeValueHint,
+                  maxLength: FieldLength.attributeValue,
                   textInputAction: TextInputAction.done,
                   textCapitalization: TextCapitalization.sentences,
                   onSubmitted: (_) => _submit(),
                   validator: (v) =>
-                      validateRequired(v, l10n.unitAttributeValueRequired),
+                      validateRequired(v, l10n.unitAttributeValueRequired) ??
+                      validateMaxLength(
+                        v,
+                        FieldLength.attributeValue,
+                        l10n.fieldTooLong,
+                      ),
                 ),
                 DvButton(label: l10n.saveCta, onPressed: _submit),
               ],
