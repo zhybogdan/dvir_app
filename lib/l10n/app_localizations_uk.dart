@@ -58,6 +58,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get profilePhoneHint => '+380 67 123 45 67';
 
   @override
+  String get profilePhoneInvalid => 'Схоже, це не номер телефону';
+
+  @override
   String get profileSaved => 'Збережено';
 
   @override

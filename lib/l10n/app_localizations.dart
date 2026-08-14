@@ -190,6 +190,12 @@ abstract class AppLocalizations {
   /// **'+380 67 123 45 67'**
   String get profilePhoneHint;
 
+  /// No description provided for @profilePhoneInvalid.
+  ///
+  /// In uk, this message translates to:
+  /// **'Схоже, це не номер телефону'**
+  String get profilePhoneInvalid;
+
   /// No description provided for @profileSaved.
   ///
   /// In uk, this message translates to:

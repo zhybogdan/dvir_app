@@ -178,7 +178,9 @@ class _ProfileFormState extends ConsumerState<_ProfileForm> {
               hint: l10n.profilePhoneHint,
               keyboardType: TextInputType.phone,
               textInputAction: TextInputAction.done,
+              inputFormatters: phoneFormatters,
               onSubmitted: (_) => _save(),
+              validator: (v) => validatePhone(v, l10n.profilePhoneInvalid),
             ),
             DvButton(
               label: l10n.saveCta,

@@ -1,3 +1,4 @@
+import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:dvir/core/utils/text_input.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,6 +43,22 @@ void main() {
       );
 
       expect(pasted.length, inviteCodeLength);
+    });
+  });
+
+  group('phoneFormatters', () {
+    test('keep what a number is written with, drop the rest', () {
+      expect(
+        _run(phoneFormatters, '+38 (067) 123-45-67'),
+        '+38 (067) 123-45-67',
+      );
+      expect(_run(phoneFormatters, 'дзвонити 067 після 18'), ' 067  18');
+    });
+
+    test('cap at what the column stores', () {
+      final pasted = _run(phoneFormatters, '0' * 60);
+
+      expect(pasted.length, FieldLength.phone);
     });
   });
 

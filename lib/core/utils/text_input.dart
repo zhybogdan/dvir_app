@@ -1,3 +1,4 @@
+import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:flutter/services.dart';
 
 /// Forces field input to upper case as the user types — for invite codes,
@@ -26,6 +27,20 @@ final inviteCodeFormatters = <TextInputFormatter>[
   FilteringTextInputFormatter.allow(RegExp('[A-Za-z0-9]')),
   LengthLimitingTextInputFormatter(inviteCodeLength),
   const UpperCaseTextFormatter(),
+];
+
+/// What a telephone number is made of, spacing included.
+///
+/// Shared because the same number is typed in two places — a household contact
+/// and the profile — and only one of them was keeping letters out. The keyboard
+/// offers them on some devices whatever `TextInputType.phone` asks for.
+///
+/// The cap is the contact column's own: it is the only one of the two that is
+/// stored with a length, and a profile phone longer than a contact's would be a
+/// number neither field could hold.
+final phoneFormatters = <TextInputFormatter>[
+  FilteringTextInputFormatter.allow(RegExp(r'[0-9+()\-\s]')),
+  LengthLimitingTextInputFormatter(FieldLength.phone),
 ];
 
 /// What an optional text field actually holds: its trimmed text, or null when
