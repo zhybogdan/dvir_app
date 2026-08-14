@@ -118,6 +118,12 @@ class _DvTextFieldState extends State<DvTextField> {
           enableSuggestions: enableSuggestions,
           inputFormatters: formatters.isEmpty ? null : formatters,
           validator: validator,
+          // Asked of the field rather than of the `Form` around it, which is
+          // where this used to live. A form's "has been interacted with" is
+          // `_fields.any(...)`, so touching one field made every other field
+          // validate itself on the next rebuild: typing a contact's name lit
+          // up "Вкажіть номер" under a telephone box nobody had reached yet.
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           autofillHints: autofillHints,
           onFieldSubmitted: onSubmitted,
           decoration: InputDecoration(

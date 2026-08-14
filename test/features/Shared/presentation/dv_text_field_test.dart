@@ -11,6 +11,7 @@ Future<TextEditingController> _field(
   WidgetTester tester, {
   int? maxLength,
   bool obscure = false,
+  String? Function(String?)? validator,
 }) async {
   final controller = TextEditingController();
   addTearDown(controller.dispose);
@@ -23,6 +24,7 @@ Future<TextEditingController> _field(
           controller: controller,
           maxLength: maxLength,
           obscure: obscure,
+          validator: validator,
         ),
       ),
     ),
@@ -32,6 +34,56 @@ Future<TextEditingController> _field(
 }
 
 void main() {
+  // The bug this pins: a `Form` asked to autovalidate on user interaction
+  // treats "interacted" as `_fields.any(...)`, so filling one field made every
+  // other field mark itself wrong. Typing a contact's name lit up "Вкажіть
+  // номер" under a telephone box nobody had reached yet.
+  testWidgets('a field nobody has touched keeps quiet', (tester) async {
+    final first = TextEditingController();
+    final second = TextEditingController();
+    addTearDown(first.dispose);
+    addTearDown(second.dispose);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light,
+        home: Scaffold(
+          body: Form(
+            child: Column(
+              children: [
+                DvTextField(
+                  controller: first,
+                  validator: (v) => v!.isEmpty ? 'Заповніть перше' : null,
+                ),
+                DvTextField(
+                  controller: second,
+                  validator: (v) => v!.isEmpty ? 'Заповніть друге' : null,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    await tester.enterText(find.byType(TextField).first, 'Сергій');
+    await tester.pump();
+
+    expect(find.text('Заповніть друге'), findsNothing);
+  });
+
+  testWidgets('a field says so once it has been emptied', (tester) async {
+    final controller = await _field(tester, validator: (v) => 'завжди погано');
+
+    expect(find.text('завжди погано'), findsNothing);
+
+    await tester.enterText(find.byType(TextField), 'щось');
+    await tester.pump();
+
+    expect(find.text('завжди погано'), findsOneWidget);
+    expect(controller.text, 'щось');
+  });
+
   testWidgets('typing stops at the limit', (tester) async {
     final controller = await _field(tester, maxLength: 10);
 

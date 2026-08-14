@@ -1,4 +1,4 @@
-import 'package:dvir/app/routes.dart';
+﻿import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/core/utils/field_lengths.dart';
@@ -275,7 +275,6 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
           padding: const EdgeInsets.all(AppSpacing.lg),
           child: Form(
             key: _formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               spacing: AppSpacing.md,

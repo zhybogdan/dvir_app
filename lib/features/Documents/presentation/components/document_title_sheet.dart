@@ -1,4 +1,4 @@
-import 'package:dvir/app/theme.dart';
+﻿import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:dvir/core/utils/validators.dart';
@@ -69,7 +69,6 @@ class _DocumentTitleSheetState extends State<DocumentTitleSheet> {
           padding: const EdgeInsets.all(AppSpacing.lg),
           child: Form(
             key: _formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
