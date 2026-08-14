@@ -19,9 +19,16 @@ class UpperCaseTextFormatter extends TextInputFormatter {
 ///
 /// Every field in this app is a single line, and every one of them ends up in a
 /// tile — so a value pasted out of a PDF brings its line breaks along and makes
-/// one card twice the height of its neighbours. Replaced with a space rather
-/// than dropped: "вул. Соборна\n15" is two things, and joining them without a
-/// gap invents "Соборна15".
+/// one card twice the height of its neighbours.
+///
+/// A break becomes a space rather than nothing, because "вул. Соборна⏎15" is
+/// two things and joining them without a gap invents "Соборна15". One break is
+/// beyond reach: for a single-line field `EditableText` prepends its own
+/// `deny('\n')` ahead of any formatter given to it, so a bare newline is
+/// already deleted — glued — before this runs. A Windows or PDF paste arrives
+/// as CR LF, and the CR is still here to become the space. The newline stays
+/// in the pattern below for the same reason a belt is worn with braces: this
+/// class is not owned by one widget.
 ///
 /// The invisible characters go for a different reason. They arrive from the web
 /// with a copied string, cannot be seen in the field or in the list, and the
