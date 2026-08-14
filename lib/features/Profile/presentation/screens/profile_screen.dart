@@ -4,6 +4,7 @@ import 'package:dvir/core/config/app_version.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/notifications/toast_controller.dart';
+import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:dvir/core/utils/text_input.dart';
 import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Auth/application/auth_controller.dart';
@@ -160,9 +161,16 @@ class _ProfileFormState extends ConsumerState<_ProfileForm> {
               controller: _nameCtrl,
               label: l10n.profileName,
               hint: l10n.profileNameHint,
+              maxLength: FieldLength.profileFullName,
               textCapitalization: TextCapitalization.words,
               textInputAction: TextInputAction.next,
-              validator: (v) => validateRequired(v, l10n.profileNameRequired),
+              validator: (v) =>
+                  validateRequired(v, l10n.profileNameRequired) ??
+                  validateMaxLength(
+                    v,
+                    FieldLength.profileFullName,
+                    l10n.fieldTooLong,
+                  ),
             ),
             DvTextField(
               controller: _phoneCtrl,

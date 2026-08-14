@@ -24,10 +24,9 @@ class LocalUnitsRepository implements UnitsRepository {
 
   @override
   Future<List<Unit>> myUnits() async {
-    final rows =
-        await (_database.select(_database.units)
-              ..orderBy([(row) => OrderingTerm.asc(row.label)]))
-            .get();
+    final rows = await (_database.select(
+      _database.units,
+    )..orderBy([(row) => OrderingTerm.asc(row.label)])).get();
 
     return rows.map(_toUnit).toList();
   }
@@ -49,10 +48,9 @@ class LocalUnitsRepository implements UnitsRepository {
 
   @override
   Future<Unit> unitById(String id) async {
-    final row =
-        await (_database.select(_database.units)
-              ..where((row) => row.id.equals(id)))
-            .getSingleOrNull();
+    final row = await (_database.select(
+      _database.units,
+    )..where((row) => row.id.equals(id))).getSingleOrNull();
 
     if (row == null) throw const NotFoundFailure();
 
@@ -100,17 +98,17 @@ class LocalUnitsRepository implements UnitsRepository {
     // Written out column by column for the reason the cloud implementation
     // does it: this is the list of what an owner may edit, and where the object
     // sits is not part of it.
-    await (_database.update(_database.units)
-          ..where((row) => row.id.equals(unit.id)))
-        .write(
-          UnitsCompanion(
-            label: Value(unit.label),
-            type: Value(unit.type.dbValue),
-            address: Value(unit.address),
-            city: Value(unit.city),
-            areaM2: Value(unit.areaM2),
-          ),
-        );
+    await (_database.update(
+      _database.units,
+    )..where((row) => row.id.equals(unit.id))).write(
+      UnitsCompanion(
+        label: Value(unit.label),
+        type: Value(unit.type.dbValue),
+        address: Value(unit.address),
+        city: Value(unit.city),
+        areaM2: Value(unit.areaM2),
+      ),
+    );
 
     return unitById(unit.id);
   }
@@ -118,9 +116,9 @@ class LocalUnitsRepository implements UnitsRepository {
   /// Deletes an object and, through the schema's cascades, everything nested
   /// under it along with its attributes, documents and contacts.
   @override
-  Future<void> deleteUnit(String id) =>
-      (_database.delete(_database.units)..where((row) => row.id.equals(id)))
-          .go();
+  Future<void> deleteUnit(String id) => (_database.delete(
+    _database.units,
+  )..where((row) => row.id.equals(id))).go();
 
   @override
   Future<String> inviteCode(String unitId) =>

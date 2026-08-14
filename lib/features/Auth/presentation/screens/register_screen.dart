@@ -2,6 +2,7 @@ import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
+import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Auth/application/auth_controller.dart';
 import 'package:dvir/features/Auth/domain/types/sign_up_outcome.dart';
@@ -88,6 +89,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               label: l10n.email,
               hint: 'name@email.com',
               prefixIcon: Icons.mail_outline,
+              maxLength: FieldLength.email,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               autofillHints: const [AutofillHints.email],
