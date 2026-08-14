@@ -1,4 +1,4 @@
-import 'package:dvir/core/utils/field_lengths.dart';
+﻿import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:dvir/core/utils/text_input.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -43,6 +43,49 @@ void main() {
       );
 
       expect(pasted.length, inviteCodeLength);
+    });
+  });
+
+  group('SingleLineTextFormatter', () {
+    const formatter = SingleLineTextFormatter();
+
+    String clean(String text) => _run([formatter], text);
+
+    test('a paste out of a document keeps its words apart', () {
+      expect(clean('вул. Соборна\n15'), 'вул. Соборна 15');
+      expect(clean('Рік\tпобудови'), 'Рік побудови');
+    });
+
+    test('invisible characters are dropped', () {
+      expect(clean('Договір\u200B\uFEFF'), 'Договір');
+      expect(clean('\u202EДоговір'), 'Договір');
+    });
+
+    // Removing it would split one emoji into four, which is the opposite of
+    // protecting what was typed.
+    test('the joiner inside an emoji is left alone', () {
+      const family = '👨‍👩‍👧‍👦';
+
+      expect(clean(family), family);
+    });
+
+    test('ordinary text is handed back untouched', () {
+      const text = 'Будинок 223';
+
+      expect(clean(text), text);
+    });
+
+    test('the caret cannot outrun the shortened text', () {
+      final result = formatter.formatEditUpdate(
+        TextEditingValue.empty,
+        const TextEditingValue(
+          text: 'Дім\u200B',
+          selection: TextSelection.collapsed(offset: 4),
+        ),
+      );
+
+      expect(result.text, 'Дім');
+      expect(result.selection.baseOffset, 3);
     });
   });
 

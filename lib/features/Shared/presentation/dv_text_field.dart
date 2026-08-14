@@ -1,5 +1,6 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
+import 'package:dvir/core/utils/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -80,9 +81,15 @@ class _DvTextFieldState extends State<DvTextField> {
     final maxLength = widget.maxLength;
     final textCapitalization = widget.textCapitalization;
 
-    // The cap goes last: trimming before the disallowed characters are dropped
-    // would cut the field short of its own limit.
+    // Cleaning first, the cap last: what is counted should be what is kept, and
+    // trimming before the disallowed characters are dropped would cut the field
+    // short of its own limit.
+    //
+    // A password is the one thing never rewritten on its way in. It is matched
+    // elsewhere character for character, and what looks like a stray mark in
+    // any other field may be a deliberate part of it.
     final formatters = <TextInputFormatter>[
+      if (!obscure) const SingleLineTextFormatter(),
       ...?inputFormatters,
       if (maxLength != null) LengthLimitingTextInputFormatter(maxLength),
     ];
