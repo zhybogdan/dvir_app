@@ -178,9 +178,10 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
           city: trimmedOrNull(_cityCtrl.text),
         );
 
+    // The scope list is already refreshed and waited for — the controller does
+    // it, because the router reads that list to decide where this person may
+    // stand and must not be asked before it lands.
     if (created == null || !mounted) return;
-
-    ref.invalidate(myScopesProvider);
 
     if (parentId == null) {
       // The screen that follows exists to hand over the invite code, and a
