@@ -2,6 +2,7 @@ import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/core/utils/field_lengths.dart';
+import 'package:dvir/core/utils/text_input.dart';
 import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Community/domain/types/community_type.dart';
 import 'package:dvir/features/Community/presentation/community_type_l10n.dart';
@@ -52,8 +53,8 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
         .createCommunity(
           name: _nameCtrl.text.trim(),
           type: _type,
-          address: _trimmedOrNull(_addressCtrl),
-          city: _trimmedOrNull(_cityCtrl),
+          address: trimmedOrNull(_addressCtrl.text),
+          city: trimmedOrNull(_cityCtrl.text),
         );
 
     if (community == null || !mounted) return;
@@ -62,11 +63,6 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
         .read(createdScopeControllerProvider.notifier)
         .remember(CreatedScope.community(community));
     context.go(AppRoutes.onboardingCommunitySuccess);
-  }
-
-  String? _trimmedOrNull(TextEditingController controller) {
-    final value = controller.text.trim();
-    return value.isEmpty ? null : value;
   }
 
   @override

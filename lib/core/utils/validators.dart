@@ -60,18 +60,3 @@ String? validateMaxLength(
 
   return length > max ? message(max) : null;
 }
-
-/// An optional positive number (area, …). Empty passes; anything present must
-/// parse to a number greater than zero. Accepts both ',' and '.' as separator.
-String? validateOptionalPositiveNumber(String? value, String message) {
-  final raw = value?.trim().replaceAll(',', '.') ?? '';
-  if (raw.isEmpty) return null;
-  final number = double.tryParse(raw);
-  return (number == null || number <= 0) ? message : null;
-}
-
-/// Parses an optional decimal field; null when empty or unparseable.
-double? parseOptionalDouble(String? value) {
-  final raw = value?.trim().replaceAll(',', '.') ?? '';
-  return raw.isEmpty ? null : double.tryParse(raw);
-}

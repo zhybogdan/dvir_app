@@ -65,41 +65,4 @@ void main() {
       expect(validateMaxLength('😀' * 6, 10, message), 'max 10');
     });
   });
-
-  group('validateOptionalPositiveNumber', () {
-    test('empty is allowed — the field is optional', () {
-      expect(validateOptionalPositiveNumber(null, 'bad'), isNull);
-      expect(validateOptionalPositiveNumber('', 'bad'), isNull);
-      expect(validateOptionalPositiveNumber('  ', 'bad'), isNull);
-    });
-
-    test('accepts a positive number with dot or comma', () {
-      expect(validateOptionalPositiveNumber('72', 'bad'), isNull);
-      expect(validateOptionalPositiveNumber('72,5', 'bad'), isNull);
-      expect(validateOptionalPositiveNumber('0.25', 'bad'), isNull);
-    });
-
-    test('rejects zero, negatives and non-numbers', () {
-      expect(validateOptionalPositiveNumber('0', 'bad'), 'bad');
-      expect(validateOptionalPositiveNumber('-3', 'bad'), 'bad');
-      expect(validateOptionalPositiveNumber('abc', 'bad'), 'bad');
-    });
-  });
-
-  group('parseOptionalDouble', () {
-    test('empty maps to null', () {
-      expect(parseOptionalDouble(null), isNull);
-      expect(parseOptionalDouble(''), isNull);
-    });
-
-    test('parses with either separator', () {
-      expect(parseOptionalDouble('72'), 72.0);
-      expect(parseOptionalDouble('72,5'), 72.5);
-      expect(parseOptionalDouble('0.25'), 0.25);
-    });
-
-    test('unparseable maps to null rather than throwing', () {
-      expect(parseOptionalDouble('abc'), isNull);
-    });
-  });
 }
