@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:flutter/material.dart';
 
@@ -66,7 +67,7 @@ class DvImage extends StatelessWidget {
             width: width,
             height: height,
             child: Icon(
-              Icons.broken_image_outlined,
+              AppIcons.brokenImage,
               color: context.colorScheme.onSurfaceVariant,
             ),
           ),

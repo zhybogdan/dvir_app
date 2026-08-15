@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
@@ -108,7 +109,7 @@ class _AttributesPreview extends ConsumerWidget {
             if (total > unitAttributesPreview)
               DvTextButton(
                 label: l10n.unitAttributesShowAll(total),
-                icon: Icons.expand_more_rounded,
+                icon: AppIcons.expand,
                 onPressed: () =>
                     context.push(AppRoutes.unitAttributesPath(unitId)),
               ),

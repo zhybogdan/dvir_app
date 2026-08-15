@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
 import 'package:dvir/features/Units/application/unit_attributes_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit_attribute.dart';
@@ -71,10 +72,7 @@ void main() {
   ) async {
     await _pump(tester, canEdit: true);
 
-    expect(
-      find.byIcon(Icons.drag_indicator_rounded),
-      findsNWidgets(_facts.length),
-    );
+    expect(find.byIcon(AppIcons.drag), findsNWidgets(_facts.length));
     expect(find.byTooltip(l10n.unitAddCta), findsOneWidget);
   });
 
@@ -84,7 +82,7 @@ void main() {
     await _pump(tester, canEdit: false);
 
     expect(find.text('Рік побудови'), findsOneWidget);
-    expect(find.byIcon(Icons.drag_indicator_rounded), findsNothing);
+    expect(find.byIcon(AppIcons.drag), findsNothing);
     expect(find.byTooltip(l10n.unitAddCta), findsNothing);
   });
 
@@ -95,7 +93,7 @@ void main() {
   ) async {
     final actions = await _pump(tester, canEdit: true);
 
-    final handle = find.byIcon(Icons.drag_indicator_rounded).first;
+    final handle = find.byIcon(AppIcons.drag).first;
     final drag = await tester.startGesture(tester.getCenter(handle));
     // The handle starts the drag on touch, but the list still needs a frame to
     // pick the row up before it can be moved.

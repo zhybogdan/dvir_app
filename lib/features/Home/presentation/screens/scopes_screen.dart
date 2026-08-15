@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/config/app_capabilities.dart';
@@ -9,13 +10,14 @@ import 'package:dvir/features/Home/domain/scope_arrangement.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_background.dart';
+import 'package:dvir/features/Shared/presentation/dv_icon_badge.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
 import 'package:dvir/features/Shared/presentation/dv_tile.dart';
 import 'package:dvir/features/Shared/presentation/member_status_l10n.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
-import 'package:dvir/features/Units/domain/types/unit_type.dart';
+import 'package:dvir/features/Units/presentation/unit_type_icon.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -49,14 +51,14 @@ class ScopesScreen extends ConsumerWidget {
             // Pushed rather than `go`: adding a scope is a detour from here,
             // and the back arrow is how it gets abandoned.
             onPressed: () => context.push(AppRoutes.onboarding),
-            icon: Icons.add,
+            icon: AppIcons.add,
             tooltip: l10n.addScope,
           ),
           // Signing out moved inside the profile: it is an account action, and
           // this screen is a list of places rather than a settings page.
           DvIconButton(
             onPressed: () => context.push(AppRoutes.profile),
-            icon: people ? Icons.person_outline : Icons.settings_outlined,
+            icon: people ? AppIcons.profile : AppIcons.settings,
             tooltip: people ? l10n.profileTitle : l10n.settingsTitle,
           ),
         ],
@@ -138,12 +140,14 @@ class _ScopeCard extends StatelessWidget {
 
     final (icon, name, kind) = switch (scope) {
       CommunitySummary(:final community) => (
-        Icons.apartment_rounded,
+        AppIcons.community,
         community?.name,
         community?.type.label(l10n),
       ),
       UnitSummary(:final unit) => (
-        _iconFor(unit?.type),
+        // Null while the scope is still pending, when there is no object to
+        // read a type from yet.
+        unit?.type.icon ?? AppIcons.unitOther,
         unit?.label,
         unit?.type.label(l10n),
       ),
@@ -159,7 +163,7 @@ class _ScopeCard extends StatelessWidget {
       title: name ?? l10n.scopePending,
       subtitle: kind ?? scope.status.label(l10n),
       caption: nested.isEmpty ? null : _nestedCaption(nested, l10n),
-      leading: _ScopeIcon(icon: icon, muted: !scope.isActive),
+      leading: DvIconBadge(icon: icon, muted: !scope.isActive),
       onTap: destination == null ? null : () => context.push(destination),
     );
   }
@@ -189,48 +193,6 @@ class _ScopeCard extends StatelessWidget {
       AppRoutes.unitPath(unit.id),
     _ => null,
   };
-
-  IconData _iconFor(UnitType? type) => switch (type) {
-    UnitType.house || UnitType.summerHouse => Icons.home_rounded,
-    UnitType.apartment => Icons.apartment_rounded,
-    UnitType.room || UnitType.corridor => Icons.meeting_room_rounded,
-    UnitType.garage => Icons.garage_rounded,
-    UnitType.plot => Icons.grass_rounded,
-    UnitType.basement || UnitType.storeroom => Icons.inventory_2_outlined,
-    UnitType.summerKitchen => Icons.outdoor_grill_rounded,
-    UnitType.shed => Icons.cabin_rounded,
-    UnitType.pool => Icons.pool_rounded,
-    UnitType.balcony || UnitType.loggia => Icons.balcony_rounded,
-    UnitType.bathroom => Icons.shower_rounded,
-    UnitType.office => Icons.business_rounded,
-    UnitType.custom || null => Icons.place_rounded,
-  };
-}
-
-class _ScopeIcon extends StatelessWidget {
-  const _ScopeIcon({required this.icon, required this.muted});
-
-  final IconData icon;
-
-  /// A scope still waiting for approval cannot be opened yet, so it reads as a
-  /// request rather than as one of the places this person already lives in.
-  final bool muted;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = context.colorScheme;
-    final color = muted ? scheme.onSurfaceVariant : scheme.primary;
-
-    return Container(
-      width: 44,
-      height: 44,
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(AppRadius.md),
-      ),
-      child: Icon(icon, color: color, size: 24),
-    );
-  }
 }
 
 class _ScopesSkeleton extends StatelessWidget {

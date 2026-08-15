@@ -1,4 +1,5 @@
-﻿import 'package:dvir/app/routes.dart';
+﻿import 'package:dvir/app/icons.dart';
+import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
@@ -68,7 +69,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               controller: _emailCtrl,
               label: l10n.email,
               hint: 'name@email.com',
-              prefixIcon: Icons.mail_outline,
+              prefixIcon: AppIcons.email,
               maxLength: FieldLength.email,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,

@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/logging/tap_log.dart';
@@ -69,7 +70,7 @@ class DvMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DvIconButton(
-      icon: Icons.more_vert_rounded,
+      icon: AppIcons.more,
       tooltip: tooltip,
       onPressed: () => _open(context),
     );

@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Shared/presentation/dv_image.dart';
@@ -38,7 +39,7 @@ class DvAppMark extends StatelessWidget {
             height: logoSize,
             fit: BoxFit.contain,
             fallback: Icon(
-              Icons.holiday_village_outlined,
+              AppIcons.appMark,
               color: AppColors.white,
               size: logoSize,
             ),

@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class DvSectionTitle extends StatelessWidget {
         if (action != null)
           DvTextButton(
             label: action.label,
-            icon: Icons.add,
+            icon: AppIcons.add,
             onPressed: action.onPressed,
           ),
       ],

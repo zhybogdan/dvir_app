@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/notifications/dv_toast.dart';
@@ -343,7 +344,7 @@ class _CloseButton extends StatelessWidget {
       label: MaterialLocalizations.of(context).closeButtonLabel,
       child: IconButton(
         onPressed: onClose,
-        icon: const Icon(Icons.close_rounded, size: 18),
+        icon: const Icon(AppIcons.close, size: 18),
         color: context.colorScheme.onSurfaceVariant,
         visualDensity: VisualDensity.compact,
         padding: EdgeInsets.zero,
@@ -397,9 +398,9 @@ extension _DvToastTypeStyle on DvToastType {
   };
 
   IconData get icon => switch (this) {
-    DvToastType.success => Icons.check_circle_rounded,
-    DvToastType.error => Icons.error_rounded,
-    DvToastType.warning => Icons.warning_amber_rounded,
-    DvToastType.info => Icons.info_rounded,
+    DvToastType.success => AppIcons.success,
+    DvToastType.error => AppIcons.error,
+    DvToastType.warning => AppIcons.warning,
+    DvToastType.info => AppIcons.info,
   };
 }

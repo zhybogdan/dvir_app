@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
@@ -56,7 +57,7 @@ class UnitAttributesScreen extends ConsumerWidget {
           if (canEdit)
             DvIconButton(
               onPressed: add,
-              icon: Icons.add,
+              icon: AppIcons.add,
               tooltip: l10n.unitAddCta,
             ),
         ],
@@ -69,7 +70,10 @@ class UnitAttributesScreen extends ConsumerWidget {
         ),
         onRetry: () => ref.invalidate(unitAttributesProvider(unitId)),
         builder: (context, attributes) => attributes.isEmpty
-            ? DvEmptyView(message: l10n.unitAttributesEmpty)
+            ? DvEmptyView(
+                message: l10n.unitAttributesEmpty,
+                icon: AppIcons.attribute,
+              )
             : _Record(unitId: unitId, attributes: attributes, canEdit: canEdit),
       ),
     );

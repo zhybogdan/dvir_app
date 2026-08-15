@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
@@ -49,7 +50,7 @@ class UnitAttributeTile extends StatelessWidget {
           : ReorderableDragStartListener(
               index: dragIndex,
               child: Icon(
-                Icons.drag_indicator_rounded,
+                AppIcons.drag,
                 color: context.colorScheme.onSurfaceVariant,
               ),
             ),
@@ -94,7 +95,7 @@ class _AttributeMenu extends ConsumerWidget {
         title: l10n.deleteAttributeTitle,
         message: l10n.deleteAttributeBody(attribute.name),
         confirmLabel: l10n.deleteAttribute,
-        icon: Icons.delete_outline_rounded,
+        icon: AppIcons.delete,
       );
       if (!confirmed) return;
 
@@ -106,12 +107,12 @@ class _AttributeMenu extends ConsumerWidget {
       items: [
         DvMenuItem(
           label: l10n.editAttribute,
-          icon: Icons.edit_outlined,
+          icon: AppIcons.edit,
           onSelected: edit,
         ),
         DvMenuItem(
           label: l10n.deleteAttribute,
-          icon: Icons.delete_outline_rounded,
+          icon: AppIcons.delete,
           onSelected: remove,
           isDestructive: true,
         ),

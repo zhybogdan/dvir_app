@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
@@ -71,7 +72,7 @@ class PendingApprovalScreen extends ConsumerWidget {
           DvIconButton(
             onPressed: () =>
                 ref.read(authControllerProvider.notifier).signOut(),
-            icon: Icons.logout,
+            icon: AppIcons.signOut,
             tooltip: l10n.signOut,
           ),
         ],
@@ -92,7 +93,7 @@ class PendingApprovalScreen extends ConsumerWidget {
               const SizedBox(height: AppSpacing.xl),
               DvButton(
                 label: l10n.refreshCta,
-                icon: Icons.refresh,
+                icon: AppIcons.refresh,
                 onPressed: () => ref.invalidate(myScopesProvider),
               ),
               // Waiting for one answer must not be the only thing on offer:
@@ -122,17 +123,17 @@ class PendingApprovalScreen extends ConsumerWidget {
     MemberStatus.rejected => (
       title: l10n.rejectedTitle,
       body: l10n.rejectedBody,
-      icon: Icons.cancel_outlined,
+      icon: AppIcons.rejected,
     ),
     MemberStatus.blocked => (
       title: l10n.blockedTitle,
       body: l10n.blockedBody,
-      icon: Icons.block,
+      icon: AppIcons.blocked,
     ),
     _ => (
       title: l10n.pendingApprovalTitle,
       body: l10n.pendingApprovalBody,
-      icon: Icons.hourglass_top,
+      icon: AppIcons.pending,
     ),
   };
 }

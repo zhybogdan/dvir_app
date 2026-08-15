@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/notifications/toast_controller.dart';
@@ -51,7 +52,7 @@ class _UnitInviteSectionState extends ConsumerState<UnitInviteSection> {
       return Align(
         child: DvTextButton(
           label: l10n.giveAccess,
-          icon: Icons.person_add_alt_outlined,
+          icon: AppIcons.addPerson,
           onPressed: () => setState(() => _opened = true),
         ),
       );
@@ -77,7 +78,7 @@ class _UnitInviteSectionState extends ConsumerState<UnitInviteSection> {
           const SizedBox(height: AppSpacing.sm),
           DvButton(
             label: l10n.shareCode,
-            icon: Icons.ios_share,
+            icon: AppIcons.share,
             onPressed: () => shareText(l10n.shareInviteText(unit.label, code)),
           ),
           Row(
@@ -85,12 +86,12 @@ class _UnitInviteSectionState extends ConsumerState<UnitInviteSection> {
             children: [
               DvTextButton(
                 label: l10n.copyCode,
-                icon: Icons.copy_outlined,
+                icon: AppIcons.copy,
                 onPressed: () => _copy(code, l10n),
               ),
               DvTextButton(
                 label: l10n.rotateCode,
-                icon: Icons.autorenew_rounded,
+                icon: AppIcons.regenerate,
                 onPressed: () => _rotate(l10n),
               ),
             ],

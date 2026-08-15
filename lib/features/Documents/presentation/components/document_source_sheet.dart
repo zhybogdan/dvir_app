@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Documents/data/document_picker.dart';
@@ -37,17 +38,17 @@ class DocumentSourceSheet extends StatelessWidget {
             ),
           ),
           _Source(
-            icon: Icons.folder_outlined,
+            icon: AppIcons.sourceFiles,
             label: l10n.documentSourceFile,
             source: DocumentSource.file,
           ),
           _Source(
-            icon: Icons.photo_library_outlined,
+            icon: AppIcons.sourceGallery,
             label: l10n.documentSourceGallery,
             source: DocumentSource.gallery,
           ),
           _Source(
-            icon: Icons.photo_camera_outlined,
+            icon: AppIcons.sourceCamera,
             label: l10n.documentSourceCamera,
             source: DocumentSource.camera,
           ),

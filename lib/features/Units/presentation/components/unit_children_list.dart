@@ -1,10 +1,12 @@
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
+import 'package:dvir/features/Shared/presentation/dv_icon_badge.dart';
 import 'package:dvir/features/Shared/presentation/dv_tile.dart';
 import 'package:dvir/features/Shared/presentation/dv_tiles_skeleton.dart';
 import 'package:dvir/features/Units/application/unit_children_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
+import 'package:dvir/features/Units/presentation/unit_type_icon.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +36,7 @@ class UnitChildrenList extends ConsumerWidget {
                   DvTile(
                     title: child.label,
                     subtitle: child.type.label(l10n),
+                    leading: DvIconBadge(icon: child.type.icon, dense: true),
                     dense: true,
                     onTap: () => context.push(AppRoutes.unitPath(child.id)),
                   ),

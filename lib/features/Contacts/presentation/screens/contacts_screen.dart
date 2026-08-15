@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/features/Contacts/application/contacts_controller.dart';
@@ -57,7 +58,7 @@ class UnitContactsScreen extends ConsumerWidget {
           if (canEdit)
             DvIconButton(
               onPressed: add,
-              icon: Icons.add,
+              icon: AppIcons.add,
               tooltip: l10n.unitAddCta,
             ),
         ],
@@ -70,7 +71,7 @@ class UnitContactsScreen extends ConsumerWidget {
         ),
         onRetry: () => ref.invalidate(contactsProvider(scope)),
         builder: (context, contacts) => contacts.isEmpty
-            ? DvEmptyView(message: l10n.contactsEmpty)
+            ? DvEmptyView(message: l10n.contactsEmpty, icon: AppIcons.call)
             : _Numbers(scope: scope, contacts: contacts, canEdit: canEdit),
       ),
     );

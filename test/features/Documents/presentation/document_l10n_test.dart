@@ -1,7 +1,7 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
 import 'package:dvir/features/Documents/presentation/document_l10n.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 // The second line of a row answers one question — is this the scan or the
@@ -71,13 +71,10 @@ void main() {
     test('tells a photo from the paper about it', () {
       expect(
         documentIcon(_document(mimeType: 'image/jpeg')),
-        Icons.image_outlined,
+        AppIcons.documentImage,
       );
-      expect(documentIcon(_document()), Icons.picture_as_pdf_outlined);
-      expect(
-        documentIcon(_document(mimeType: null)),
-        Icons.description_outlined,
-      );
+      expect(documentIcon(_document()), AppIcons.documentPdf);
+      expect(documentIcon(_document(mimeType: null)), AppIcons.documentGeneric);
     });
   });
 
