@@ -70,7 +70,10 @@ class UnitAttributesScreen extends ConsumerWidget {
         ),
         onRetry: () => ref.invalidate(unitAttributesProvider(unitId)),
         builder: (context, attributes) => attributes.isEmpty
-            ? DvEmptyView(message: l10n.unitAttributesEmpty)
+            ? DvEmptyView(
+                message: l10n.unitAttributesEmpty,
+                icon: AppIcons.attribute,
+              )
             : _Record(unitId: unitId, attributes: attributes, canEdit: canEdit),
       ),
     );

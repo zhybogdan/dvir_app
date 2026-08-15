@@ -1,4 +1,5 @@
-﻿import 'package:dvir/app/routes.dart';
+﻿import 'package:dvir/app/icons.dart';
+import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/core/utils/field_lengths.dart';
@@ -246,7 +247,10 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
     if (options.isEmpty) {
       return _FormScaffold(
         title: l10n.unitAddTitle,
-        body: DvEmptyView(message: l10n.unitAddNotAllowed),
+        body: DvEmptyView(
+          message: l10n.unitAddNotAllowed,
+          icon: AppIcons.blocked,
+        ),
       );
     }
 

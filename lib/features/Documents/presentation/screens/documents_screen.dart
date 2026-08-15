@@ -67,7 +67,10 @@ class UnitDocumentsScreen extends ConsumerWidget {
               ),
               onRetry: () => ref.invalidate(documentsProvider(scope)),
               builder: (context, documents) => documents.isEmpty
-                  ? DvEmptyView(message: l10n.documentsEmpty)
+                  ? DvEmptyView(
+                      message: l10n.documentsEmpty,
+                      icon: AppIcons.documentGeneric,
+                    )
                   : _Papers(
                       scope: scope,
                       documents: documents,

@@ -53,8 +53,16 @@ void main() {
 
     // Still recognisably the same card, so the absence above is the address
     // being dropped and not the card failing to build.
-    expect(find.text('Гараж 1'), findsOneWidget);
     expect(find.text(UnitType.garage.label(l10n)), findsOneWidget);
+  });
+
+  // The app bar above the card already carries the name, and carries it while
+  // the page scrolls — printing it twice made the hub open on the same word
+  // said twice.
+  testWidgets('the name is left to the app bar', (tester) async {
+    await _pump(tester, _unit());
+
+    expect(find.text('Гараж 1'), findsNothing);
   });
 
   // Area left the card when the product became a household record book: it is

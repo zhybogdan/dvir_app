@@ -93,6 +93,9 @@ abstract final class AppIcons {
   // Contacts.
   static const IconData call = Icons.call_outlined;
 
+  /// The object's own free-form facts — what it is, in its owner's words.
+  static const IconData attribute = Icons.list_alt_outlined;
+
   // The kinds of place an object can be. Mapped from `UnitType` next to its
   // wording, so the enum stays a plain list of database values.
   static const IconData unitHouse = Icons.home_rounded;

@@ -71,7 +71,7 @@ class UnitContactsScreen extends ConsumerWidget {
         ),
         onRetry: () => ref.invalidate(contactsProvider(scope)),
         builder: (context, contacts) => contacts.isEmpty
-            ? DvEmptyView(message: l10n.contactsEmpty)
+            ? DvEmptyView(message: l10n.contactsEmpty, icon: AppIcons.call)
             : _Numbers(scope: scope, contacts: contacts, canEdit: canEdit),
       ),
     );

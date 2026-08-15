@@ -4,6 +4,7 @@ import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// The question asked before something that cannot be taken back.
 ///
@@ -123,7 +124,13 @@ class DvConfirmDialog extends StatelessWidget {
                       Expanded(
                         child: DvButton.danger(
                           label: confirmLabel,
-                          onPressed: () => navigator.pop(true),
+                          // The one place in the app that answers in the hand:
+                          // every irreversible action is confirmed here, so the
+                          // knock lands on all of them at once.
+                          onPressed: () {
+                            HapticFeedback.mediumImpact();
+                            navigator.pop(true);
+                          },
                         ),
                       ),
                     ],
