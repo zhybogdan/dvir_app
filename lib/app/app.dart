@@ -19,8 +19,14 @@ class DvirApp extends ConsumerWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       routerConfig: router,
-      builder: (context, child) =>
-          DvToastOverlay(child: child ?? const SizedBox.shrink()),
+      // System font size is honoured, but only up to a point: Android hands out
+      // scales up to 2.0, and past ~1.4 a card of two-line titles stops being a
+      // list and starts being one row per screen. Clamped here rather than in
+      // each screen so no layout has to defend itself.
+      builder: (context, child) => MediaQuery.withClampedTextScaling(
+        maxScaleFactor: AppTextScale.max,
+        child: DvToastOverlay(child: child ?? const SizedBox.shrink()),
+      ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
     );

@@ -106,6 +106,15 @@ abstract final class AppSpacing {
   static const double xl = 32;
 }
 
+/// Bounds on the system text size the app will follow.
+///
+/// A ceiling rather than a fixed 1.0: someone who set a larger font did it
+/// because they need it, and pinning the scale takes that away. The cap is what
+/// the layouts were checked against — see `test/app/text_scale_test.dart`.
+abstract final class AppTextScale {
+  static const double max = 1.4;
+}
+
 /// Corner-radius scale for cards, fields and buttons.
 abstract final class AppRadius {
   static const double sm = 8;
