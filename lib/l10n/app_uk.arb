@@ -20,7 +20,7 @@
   "profileNameRequired": "Введіть ім'я",
   "profilePhone": "Телефон",
   "profilePhoneHint": "+380 67 123 45 67",
-  "profilePhoneInvalid": "Схоже, це не номер телефону",
+  "profilePhoneInvalid": "Схоже, це не номер",
   "profileSaved": "Збережено",
 
   "settingsTitle": "Налаштування",
@@ -45,7 +45,7 @@
   "dontHaveAccount": "Немає акаунту? Зареєструйтесь",
   "alreadyHaveAccount": "Вже маєте акаунт? Увійдіть",
   "emailRequired": "Введіть ел. пошту",
-  "invalidEmail": "Введіть коректну ел. пошту",
+  "invalidEmail": "Перевірте адресу",
   "passwordRequired": "Введіть пароль",
   "passwordTooShort": "Щонайменше 6 символів",
   "passwordsDontMatch": "Паролі не збігаються",
@@ -92,7 +92,7 @@
   "communityCity": "Місто",
   "communityCityHint": "Київ",
   "optional": "необов’язково",
-  "fieldTooLong": "Занадто довго — максимум {max} символів",
+  "fieldTooLong": "Максимум {max} символів",
   "@fieldTooLong": {
     "description": "Shown when a field holds more than its column can store; the field's own cap stops ordinary typing, so this answers the cases it cannot — a paste, or emoji, which the keyboard and the database count differently",
     "placeholders": {
@@ -313,7 +313,7 @@
   "contactPhone": "Телефон",
   "contactPhoneHint": "+38 067 123 45 67",
   "contactPhoneRequired": "Вкажіть номер",
-  "contactPhoneInvalid": "Схоже, це не номер телефону",
+  "contactPhoneInvalid": "Схоже, це не номер",
   "contactCallFailed": "Не вдалося відкрити набір номера",
   "editContact": "Змінити",
   "deleteContact": "Видалити",

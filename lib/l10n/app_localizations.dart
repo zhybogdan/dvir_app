@@ -193,7 +193,7 @@ abstract class AppLocalizations {
   /// No description provided for @profilePhoneInvalid.
   ///
   /// In uk, this message translates to:
-  /// **'Схоже, це не номер телефону'**
+  /// **'Схоже, це не номер'**
   String get profilePhoneInvalid;
 
   /// No description provided for @profileSaved.
@@ -283,7 +283,7 @@ abstract class AppLocalizations {
   /// No description provided for @invalidEmail.
   ///
   /// In uk, this message translates to:
-  /// **'Введіть коректну ел. пошту'**
+  /// **'Перевірте адресу'**
   String get invalidEmail;
 
   /// No description provided for @passwordRequired.
@@ -493,7 +493,7 @@ abstract class AppLocalizations {
   /// Shown when a field holds more than its column can store; the field's own cap stops ordinary typing, so this answers the cases it cannot — a paste, or emoji, which the keyboard and the database count differently
   ///
   /// In uk, this message translates to:
-  /// **'Занадто довго — максимум {max} символів'**
+  /// **'Максимум {max} символів'**
   String fieldTooLong(int max);
 
   /// No description provided for @createCommunityCta.
@@ -1147,7 +1147,7 @@ abstract class AppLocalizations {
   /// No description provided for @contactPhoneInvalid.
   ///
   /// In uk, this message translates to:
-  /// **'Схоже, це не номер телефону'**
+  /// **'Схоже, це не номер'**
   String get contactPhoneInvalid;
 
   /// No description provided for @contactCallFailed.

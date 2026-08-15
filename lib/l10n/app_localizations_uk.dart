@@ -58,7 +58,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get profilePhoneHint => '+380 67 123 45 67';
 
   @override
-  String get profilePhoneInvalid => 'Схоже, це не номер телефону';
+  String get profilePhoneInvalid => 'Схоже, це не номер';
 
   @override
   String get profileSaved => 'Збережено';
@@ -105,7 +105,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get emailRequired => 'Введіть ел. пошту';
 
   @override
-  String get invalidEmail => 'Введіть коректну ел. пошту';
+  String get invalidEmail => 'Перевірте адресу';
 
   @override
   String get passwordRequired => 'Введіть пароль';
@@ -217,7 +217,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String fieldTooLong(int max) {
-    return 'Занадто довго — максимум $max символів';
+    return 'Максимум $max символів';
   }
 
   @override
@@ -574,7 +574,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get contactPhoneRequired => 'Вкажіть номер';
 
   @override
-  String get contactPhoneInvalid => 'Схоже, це не номер телефону';
+  String get contactPhoneInvalid => 'Схоже, це не номер';
 
   @override
   String get contactCallFailed => 'Не вдалося відкрити набір номера';
