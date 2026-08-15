@@ -42,11 +42,15 @@ class UnitActions extends _$UnitActions with GuardedActions {
 
     return guardedVoid(
       () => repository.deleteUnit(unitId),
-      onSuccess: () {
-        // The home list names every object the user belongs to, and this one is
-        // no longer among them.
-        ref.invalidate(myScopesProvider);
+      onSuccess: () async {
         if (parentId != null) ref.invalidate(unitChildrenProvider(parentId));
+
+        // Waited for, not merely invalidated: the caller goes home the moment
+        // this returns, and the home screen is drawn from this list. Asked too
+        // early it still holds the object that has just been deleted — so the
+        // list renders a card for it, and the redirect, seeing a member of
+        // something, leaves the person there until the real answer lands.
+        await refreshMyScopes(ref);
       },
     );
   }

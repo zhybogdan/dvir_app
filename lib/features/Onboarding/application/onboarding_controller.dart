@@ -34,10 +34,20 @@ class OnboardingController extends _$OnboardingController with GuardedActions {
   }) {
     final repository = ref.read(onboardingRepositoryProvider);
 
-    // Unlike joining, creating does not refresh membership here: the creator is
-    // already an active admin, so refreshing would let the router pull them to
-    // home before they have seen the invite code. The success screen refreshes
-    // once the user leaves it.
+    // Unlike joining, creating does not refresh the scope list here; the
+    // success screen does it as the user leaves.
+    //
+    // The reason this was written for is gone: the redirect used to send an
+    // active member home from anywhere under `/onboarding`, which would have
+    // carried the creator off before they had read the invite code, and it
+    // stopped doing that when routing moved to the list of scopes. An active
+    // member is now left standing on an onboarding page — that is how a second
+    // scope gets added — and the redirect tests name both success screens.
+    //
+    // It stays as it is because there is no way to try the change: communities
+    // have no screens and the entry to this flow is commented out, so nothing
+    // here can be exercised on a device. When they come back, this should
+    // simply refresh like joining does.
     return guarded(
       () => repository.createCommunity(
         name: name,
@@ -53,7 +63,7 @@ class OnboardingController extends _$OnboardingController with GuardedActions {
 
     return guarded(
       () => repository.joinByInvite(inviteCode),
-      onSuccess: _refreshScopes,
+      onSuccess: () => refreshMyScopes(ref),
     );
   }
 
@@ -73,27 +83,7 @@ class OnboardingController extends _$OnboardingController with GuardedActions {
           membership.id,
         ),
       },
-      onSuccess: _refreshScopes,
+      onSuccess: () => refreshMyScopes(ref),
     );
-  }
-
-  /// Re-reads the scope list and **waits for it**, so the router never decides
-  /// on the answer from before the join.
-  ///
-  /// Merely invalidating returned control while the fetch was still in flight,
-  /// and the redirect read the empty list underneath as "belongs nowhere" —
-  /// which threw someone who had just sent a request back to onboarding for as
-  /// long as the round trip took, before the waiting screen finally appeared.
-  ///
-  /// Only ever runs on success (it is passed as `onSuccess`), but still checks
-  /// `ref.mounted`: it awaits, so the screen that started the call may be gone
-  /// by the time the list lands.
-  Future<void> _refreshScopes() async {
-    if (!ref.mounted) return;
-
-    // Invalidate then read, rather than `refresh`: the first marks the list
-    // stale, the second is what waits for the replacement to land.
-    ref.invalidate(myScopesProvider);
-    await ref.read(myScopesProvider.future);
   }
 }

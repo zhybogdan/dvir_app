@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dvir/core/riverpod/guarded_actions.dart';
+import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Units/data/units_repository_impl.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/types/unit_type.dart';
@@ -38,6 +39,11 @@ class UnitFormController extends _$UnitFormController with GuardedActions {
         city: city,
         areaM2: areaM2,
       ),
+      // Awaited, and that is the point: the caller navigates the moment this
+      // returns, and the router decides where they may stand from this list.
+      // Handing control back mid-fetch let `resolveRedirect` read the list from
+      // before the object existed and rule that its owner belongs nowhere.
+      onSuccess: () => refreshMyScopes(ref),
     );
   }
 

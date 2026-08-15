@@ -282,11 +282,19 @@ void main() {
 
     // Adding a second scope means walking back into onboarding on purpose. The
     // old single-scope rule threw an active member straight back out of it.
+    //
+    // The two success screens are named here for a reason: they are where a
+    // creator reads the invite code, and they are the pages the old rule pulled
+    // people off. They match the same prefix as the rest, so they were always
+    // covered — but nothing said so, and an out-of-date comment elsewhere went
+    // on warning about a hazard these lines rule out.
     test('lets them into onboarding to add another scope', () {
       for (final location in [
         AppRoutes.onboarding,
         AppRoutes.onboardingUnit,
         AppRoutes.onboardingJoin,
+        AppRoutes.onboardingUnitSuccess,
+        AppRoutes.onboardingCommunitySuccess,
       ]) {
         final decision = resolveRedirect(
           auth: _signedIn,
