@@ -10,13 +10,14 @@ import 'package:dvir/features/Home/domain/scope_arrangement.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_background.dart';
+import 'package:dvir/features/Shared/presentation/dv_icon_badge.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
 import 'package:dvir/features/Shared/presentation/dv_tile.dart';
 import 'package:dvir/features/Shared/presentation/member_status_l10n.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
-import 'package:dvir/features/Units/domain/types/unit_type.dart';
+import 'package:dvir/features/Units/presentation/unit_type_icon.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -144,7 +145,9 @@ class _ScopeCard extends StatelessWidget {
         community?.type.label(l10n),
       ),
       UnitSummary(:final unit) => (
-        _iconFor(unit?.type),
+        // Null while the scope is still pending, when there is no object to
+        // read a type from yet.
+        unit?.type.icon ?? AppIcons.unitOther,
         unit?.label,
         unit?.type.label(l10n),
       ),
@@ -160,7 +163,7 @@ class _ScopeCard extends StatelessWidget {
       title: name ?? l10n.scopePending,
       subtitle: kind ?? scope.status.label(l10n),
       caption: nested.isEmpty ? null : _nestedCaption(nested, l10n),
-      leading: _ScopeIcon(icon: icon, muted: !scope.isActive),
+      leading: DvIconBadge(icon: icon, muted: !scope.isActive),
       onTap: destination == null ? null : () => context.push(destination),
     );
   }
@@ -190,48 +193,6 @@ class _ScopeCard extends StatelessWidget {
       AppRoutes.unitPath(unit.id),
     _ => null,
   };
-
-  IconData _iconFor(UnitType? type) => switch (type) {
-    UnitType.house || UnitType.summerHouse => AppIcons.unitHouse,
-    UnitType.apartment => AppIcons.unitApartment,
-    UnitType.room || UnitType.corridor => AppIcons.unitRoom,
-    UnitType.garage => AppIcons.unitGarage,
-    UnitType.plot => AppIcons.unitPlot,
-    UnitType.basement || UnitType.storeroom => AppIcons.unitStorage,
-    UnitType.summerKitchen => AppIcons.unitSummerKitchen,
-    UnitType.shed => AppIcons.unitShed,
-    UnitType.pool => AppIcons.unitPool,
-    UnitType.balcony || UnitType.loggia => AppIcons.unitBalcony,
-    UnitType.bathroom => AppIcons.unitBathroom,
-    UnitType.office => AppIcons.unitOffice,
-    UnitType.custom || null => AppIcons.unitOther,
-  };
-}
-
-class _ScopeIcon extends StatelessWidget {
-  const _ScopeIcon({required this.icon, required this.muted});
-
-  final IconData icon;
-
-  /// A scope still waiting for approval cannot be opened yet, so it reads as a
-  /// request rather than as one of the places this person already lives in.
-  final bool muted;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = context.colorScheme;
-    final color = muted ? scheme.onSurfaceVariant : scheme.primary;
-
-    return Container(
-      width: 44,
-      height: 44,
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(AppRadius.md),
-      ),
-      child: Icon(icon, color: color, size: 24),
-    );
-  }
 }
 
 class _ScopesSkeleton extends StatelessWidget {
