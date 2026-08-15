@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
@@ -95,13 +96,13 @@ class ScopeCreatedScreen extends ConsumerWidget {
                 const Spacer(),
                 DvButton(
                   label: l10n.shareCode,
-                  icon: Icons.ios_share,
+                  icon: AppIcons.share,
                   onPressed: () => _share(l10n, name, inviteCode),
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 DvTextButton(
                   label: l10n.copyCode,
-                  icon: Icons.copy_outlined,
+                  icon: AppIcons.copy,
                   onPressed: () => _copyCode(context, ref, inviteCode),
                 ),
                 // Navigates rather than leaving it to the redirect: the creator

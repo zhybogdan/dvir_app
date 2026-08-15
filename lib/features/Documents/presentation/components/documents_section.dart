@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/features/Documents/application/documents_controller.dart';
@@ -100,7 +101,7 @@ class _DocumentsPreview extends ConsumerWidget {
             if (total > documentsPreview)
               DvTextButton(
                 label: l10n.documentsShowAll(total),
-                icon: Icons.expand_more_rounded,
+                icon: AppIcons.expand,
                 onPressed: () =>
                     context.push(AppRoutes.unitDocumentsPath(scope.id)),
               ),

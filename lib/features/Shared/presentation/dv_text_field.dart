@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/utils/text_input.dart';
@@ -133,11 +134,7 @@ class _DvTextFieldState extends State<DvTextField> {
             suffixIcon: obscure
                 ? IconButton(
                     onPressed: _toggleObscured,
-                    icon: Icon(
-                      _obscured
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
-                    ),
+                    icon: Icon(_obscured ? AppIcons.reveal : AppIcons.conceal),
                   )
                 : null,
           ),

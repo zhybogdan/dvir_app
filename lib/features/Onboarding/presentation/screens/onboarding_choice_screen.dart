@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/config/app_capabilities.dart';
@@ -36,7 +37,7 @@ class OnboardingChoiceScreen extends ConsumerWidget {
             DvIconButton(
               onPressed: () =>
                   ref.read(authControllerProvider.notifier).signOut(),
-              icon: Icons.logout,
+              icon: AppIcons.signOut,
               tooltip: l10n.signOut,
             ),
         ],

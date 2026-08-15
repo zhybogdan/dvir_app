@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
@@ -137,7 +138,7 @@ class _RequestActions extends ConsumerWidget {
         title: l10n.rejectTitle,
         message: l10n.rejectBody(name),
         confirmLabel: l10n.reject,
-        icon: Icons.person_off_outlined,
+        icon: AppIcons.rejectPerson,
       );
       if (!confirmed) return;
 
@@ -193,7 +194,7 @@ class _MemberMenu extends ConsumerWidget {
         title: l10n.removeMemberTitle,
         message: l10n.removeMemberBody(name),
         confirmLabel: l10n.removeMember,
-        icon: Icons.person_remove_outlined,
+        icon: AppIcons.removePerson,
       );
       if (!confirmed) return;
 
@@ -212,13 +213,13 @@ class _MemberMenu extends ConsumerWidget {
         if (actions.canChangeRole)
           DvMenuItem(
             label: l10n.changeRole,
-            icon: Icons.badge_outlined,
+            icon: AppIcons.changeRole,
             onSelected: changeRole,
           ),
         if (actions.canChangeStatus)
           DvMenuItem(
             label: l10n.removeMember,
-            icon: Icons.person_remove_outlined,
+            icon: AppIcons.removePerson,
             onSelected: remove,
             isDestructive: true,
           ),
@@ -247,7 +248,9 @@ class _MemberMenu extends ConsumerWidget {
             for (final role in UnitRole.values)
               ListTile(
                 title: Text(role.label(l10n)),
-                trailing: role == current ? const Icon(Icons.check) : null,
+                trailing: role == current
+                    ? const Icon(AppIcons.selected)
+                    : null,
                 onTap: () => Navigator.of(context).pop(role),
               ),
           ],

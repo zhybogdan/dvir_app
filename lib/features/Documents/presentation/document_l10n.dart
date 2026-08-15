@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/features/Documents/data/document_storage.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
 import 'package:dvir/l10n/app_localizations.dart';
@@ -51,10 +52,10 @@ String? documentSize(int? bytes, AppLocalizations l10n) {
 IconData documentIcon(Document document) {
   final mimeType = document.mimeType ?? '';
 
-  if (mimeType.startsWith('image/')) return Icons.image_outlined;
-  if (mimeType == 'application/pdf') return Icons.picture_as_pdf_outlined;
+  if (mimeType.startsWith('image/')) return AppIcons.documentImage;
+  if (mimeType == 'application/pdf') return AppIcons.documentPdf;
 
-  return Icons.description_outlined;
+  return AppIcons.documentGeneric;
 }
 
 /// The date a file was added, as `dd.MM.yyyy`.

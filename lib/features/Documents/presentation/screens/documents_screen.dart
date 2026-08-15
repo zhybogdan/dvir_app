@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/features/Documents/application/documents_controller.dart';
@@ -48,7 +49,7 @@ class UnitDocumentsScreen extends ConsumerWidget {
           if (canEdit)
             DvIconButton(
               onPressed: () => DocumentAddFlow.start(context, ref, scope),
-              icon: Icons.add,
+              icon: AppIcons.add,
               tooltip: l10n.unitAddCta,
             ),
         ],

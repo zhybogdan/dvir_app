@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ DvMenuItem _item(
   bool danger = false,
 }) => DvMenuItem(
   label: label,
-  icon: Icons.delete_outline_rounded,
+  icon: AppIcons.delete,
   onSelected: onSelected ?? () {},
   isDestructive: danger,
 );

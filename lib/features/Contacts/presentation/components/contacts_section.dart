@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/features/Contacts/application/contacts_controller.dart';
@@ -100,7 +101,7 @@ class _ContactsPreview extends ConsumerWidget {
             if (total > contactsPreview)
               DvTextButton(
                 label: l10n.contactsShowAll(total),
-                icon: Icons.expand_more_rounded,
+                icon: AppIcons.expand,
                 onPressed: () =>
                     context.push(AppRoutes.unitContactsPath(scope.id)),
               ),

@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/notifications/toast_controller.dart';
 import 'package:dvir/core/utils/phone.dart';
@@ -62,10 +63,7 @@ class ContactTile extends ConsumerWidget {
       // screen that does not exist.
       trailing: canEdit
           ? _ContactMenu(scope: scope, contact: contact)
-          : Icon(
-              Icons.call_outlined,
-              color: context.colorScheme.onSurfaceVariant,
-            ),
+          : Icon(AppIcons.call, color: context.colorScheme.onSurfaceVariant),
     );
   }
 }
@@ -105,7 +103,7 @@ class _ContactMenu extends ConsumerWidget {
         title: l10n.deleteContactTitle,
         message: l10n.deleteContactBody(contact.name),
         confirmLabel: l10n.deleteContact,
-        icon: Icons.delete_outline_rounded,
+        icon: AppIcons.delete,
       );
       if (!confirmed) return;
 
@@ -117,12 +115,12 @@ class _ContactMenu extends ConsumerWidget {
       items: [
         DvMenuItem(
           label: l10n.editContact,
-          icon: Icons.edit_outlined,
+          icon: AppIcons.edit,
           onSelected: edit,
         ),
         DvMenuItem(
           label: l10n.deleteContact,
-          icon: Icons.delete_outline_rounded,
+          icon: AppIcons.delete,
           onSelected: remove,
           isDestructive: true,
         ),

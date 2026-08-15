@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +82,7 @@ class DvSelectField<T> extends StatelessWidget {
                   ),
                 ),
                 Icon(
-                  Icons.expand_more,
+                  AppIcons.expand,
                   color: context.colorScheme.onSurfaceVariant,
                 ),
               ],
@@ -144,7 +145,10 @@ class _OptionsSheet<T> extends StatelessWidget {
                   ListTile(
                     title: Text(labelOf(option)),
                     trailing: option == selected
-                        ? Icon(Icons.check, color: context.colorScheme.primary)
+                        ? Icon(
+                            AppIcons.selected,
+                            color: context.colorScheme.primary,
+                          )
                         : null,
                     onTap: () => Navigator.of(context).pop(option),
                   ),

@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/features/Contacts/application/contacts_controller.dart';
 import 'package:dvir/features/Contacts/domain/models/contact.dart';
 import 'package:dvir/features/Contacts/presentation/components/contacts_section.dart';
@@ -72,7 +73,7 @@ void main() {
     expect(find.text('Контакт 0'), findsOneWidget);
     expect(find.text(l10n.unitAddCta), findsNothing);
     expect(find.byType(DvMenu), findsNothing);
-    expect(find.byIcon(Icons.call_outlined), findsNWidgets(2));
+    expect(find.byIcon(AppIcons.call), findsNWidgets(2));
   });
 
   testWidgets('an object with no numbers says what belongs here', (

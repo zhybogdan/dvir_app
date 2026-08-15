@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Units/domain/types/unit_role.dart';
@@ -51,8 +52,8 @@ class UnitRoleChip extends StatelessWidget {
   }
 
   IconData _iconFor(UnitRole role) => switch (role) {
-    UnitRole.owner => Icons.key_rounded,
-    UnitRole.family => Icons.people_alt_outlined,
-    UnitRole.tenant => Icons.badge_outlined,
+    UnitRole.owner => AppIcons.roleOwner,
+    UnitRole.family => AppIcons.roleFamily,
+    UnitRole.tenant => AppIcons.roleTenant,
   };
 }

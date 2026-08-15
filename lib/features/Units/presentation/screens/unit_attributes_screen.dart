@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
@@ -56,7 +57,7 @@ class UnitAttributesScreen extends ConsumerWidget {
           if (canEdit)
             DvIconButton(
               onPressed: add,
-              icon: Icons.add,
+              icon: AppIcons.add,
               tooltip: l10n.unitAddCta,
             ),
         ],

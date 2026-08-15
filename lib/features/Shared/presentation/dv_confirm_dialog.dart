@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
@@ -20,7 +21,7 @@ class DvConfirmDialog extends StatelessWidget {
     required this.message,
     required this.confirmLabel,
     super.key,
-    this.icon = Icons.warning_amber_rounded,
+    this.icon = AppIcons.warning,
   });
 
   /// Wide enough to read, narrow enough to stay a question rather than become
@@ -34,7 +35,7 @@ class DvConfirmDialog extends StatelessWidget {
     required String title,
     required String message,
     required String confirmLabel,
-    IconData icon = Icons.warning_amber_rounded,
+    IconData icon = AppIcons.warning,
   }) async {
     final confirmed = await showGeneralDialog<bool>(
       context: context,

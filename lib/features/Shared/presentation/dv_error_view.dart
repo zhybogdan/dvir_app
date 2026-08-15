@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
@@ -39,7 +40,7 @@ class DvErrorView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              Icons.cloud_off_rounded,
+              AppIcons.offline,
               size: 48,
               color: context.colorScheme.onSurfaceVariant,
             ),
@@ -61,7 +62,7 @@ class DvErrorView extends StatelessWidget {
               const SizedBox(height: AppSpacing.lg),
               DvButton(
                 label: l10n.retry,
-                icon: Icons.refresh_rounded,
+                icon: AppIcons.refresh,
                 onPressed: onRetry,
               ),
             ],

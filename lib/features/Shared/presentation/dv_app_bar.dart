@@ -1,6 +1,6 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
-import 'package:dvir/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 /// Shared app bar so screens declare a title, not an [AppBar].
@@ -41,8 +41,8 @@ class DvAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       automaticallyImplyLeading: false,
       leading: canPop
-          ? DvIconButton.svg(
-              Assets.icons.chevronLeft,
+          ? DvIconButton(
+              icon: AppIcons.back,
               tooltip: MaterialLocalizations.of(context).backButtonTooltip,
               onPressed: () => Navigator.of(context).maybePop(),
             )

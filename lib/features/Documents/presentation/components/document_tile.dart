@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Documents/application/documents_controller.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
@@ -89,7 +90,7 @@ class _DocumentMenu extends ConsumerWidget {
         title: l10n.deleteDocumentTitle,
         message: l10n.deleteDocumentBody(document.title),
         confirmLabel: l10n.deleteDocument,
-        icon: Icons.delete_outline_rounded,
+        icon: AppIcons.delete,
       );
       if (!confirmed) return;
 
@@ -101,12 +102,12 @@ class _DocumentMenu extends ConsumerWidget {
       items: [
         DvMenuItem(
           label: l10n.editDocument,
-          icon: Icons.edit_outlined,
+          icon: AppIcons.edit,
           onSelected: rename,
         ),
         DvMenuItem(
           label: l10n.deleteDocument,
-          icon: Icons.delete_outline_rounded,
+          icon: AppIcons.delete,
           onSelected: remove,
           isDestructive: true,
         ),

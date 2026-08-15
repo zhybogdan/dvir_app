@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/config/app_capabilities.dart';
@@ -75,7 +76,7 @@ class UnitHubScreen extends ConsumerWidget {
           if (isOwner && loaded != null) ...[
             DvIconButton(
               onPressed: () => context.push(AppRoutes.unitEditPath(unitId)),
-              icon: Icons.edit_outlined,
+              icon: AppIcons.edit,
               tooltip: l10n.unitEditTitle,
             ),
             UnitMenu(unit: loaded),

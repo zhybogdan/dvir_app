@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/config/app_capabilities.dart';
@@ -49,14 +50,14 @@ class ScopesScreen extends ConsumerWidget {
             // Pushed rather than `go`: adding a scope is a detour from here,
             // and the back arrow is how it gets abandoned.
             onPressed: () => context.push(AppRoutes.onboarding),
-            icon: Icons.add,
+            icon: AppIcons.add,
             tooltip: l10n.addScope,
           ),
           // Signing out moved inside the profile: it is an account action, and
           // this screen is a list of places rather than a settings page.
           DvIconButton(
             onPressed: () => context.push(AppRoutes.profile),
-            icon: people ? Icons.person_outline : Icons.settings_outlined,
+            icon: people ? AppIcons.profile : AppIcons.settings,
             tooltip: people ? l10n.profileTitle : l10n.settingsTitle,
           ),
         ],
@@ -138,7 +139,7 @@ class _ScopeCard extends StatelessWidget {
 
     final (icon, name, kind) = switch (scope) {
       CommunitySummary(:final community) => (
-        Icons.apartment_rounded,
+        AppIcons.community,
         community?.name,
         community?.type.label(l10n),
       ),
@@ -191,19 +192,19 @@ class _ScopeCard extends StatelessWidget {
   };
 
   IconData _iconFor(UnitType? type) => switch (type) {
-    UnitType.house || UnitType.summerHouse => Icons.home_rounded,
-    UnitType.apartment => Icons.apartment_rounded,
-    UnitType.room || UnitType.corridor => Icons.meeting_room_rounded,
-    UnitType.garage => Icons.garage_rounded,
-    UnitType.plot => Icons.grass_rounded,
-    UnitType.basement || UnitType.storeroom => Icons.inventory_2_outlined,
-    UnitType.summerKitchen => Icons.outdoor_grill_rounded,
-    UnitType.shed => Icons.cabin_rounded,
-    UnitType.pool => Icons.pool_rounded,
-    UnitType.balcony || UnitType.loggia => Icons.balcony_rounded,
-    UnitType.bathroom => Icons.shower_rounded,
-    UnitType.office => Icons.business_rounded,
-    UnitType.custom || null => Icons.place_rounded,
+    UnitType.house || UnitType.summerHouse => AppIcons.unitHouse,
+    UnitType.apartment => AppIcons.unitApartment,
+    UnitType.room || UnitType.corridor => AppIcons.unitRoom,
+    UnitType.garage => AppIcons.unitGarage,
+    UnitType.plot => AppIcons.unitPlot,
+    UnitType.basement || UnitType.storeroom => AppIcons.unitStorage,
+    UnitType.summerKitchen => AppIcons.unitSummerKitchen,
+    UnitType.shed => AppIcons.unitShed,
+    UnitType.pool => AppIcons.unitPool,
+    UnitType.balcony || UnitType.loggia => AppIcons.unitBalcony,
+    UnitType.bathroom => AppIcons.unitBathroom,
+    UnitType.office => AppIcons.unitOffice,
+    UnitType.custom || null => AppIcons.unitOther,
   };
 }
 

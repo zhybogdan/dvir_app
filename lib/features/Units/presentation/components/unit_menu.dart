@@ -1,3 +1,4 @@
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
@@ -29,7 +30,7 @@ class UnitMenu extends ConsumerWidget {
         title: l10n.deleteUnitTitle(unit.label),
         message: l10n.deleteUnitBody,
         confirmLabel: l10n.deleteUnit,
-        icon: Icons.delete_outline_rounded,
+        icon: AppIcons.delete,
       );
       if (!confirmed || !context.mounted) return;
 
@@ -51,7 +52,7 @@ class UnitMenu extends ConsumerWidget {
       items: [
         DvMenuItem(
           label: l10n.deleteUnit,
-          icon: Icons.delete_outline_rounded,
+          icon: AppIcons.delete,
           onSelected: delete,
           isDestructive: true,
         ),

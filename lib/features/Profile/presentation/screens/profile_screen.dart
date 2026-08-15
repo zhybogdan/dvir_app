@@ -1,4 +1,5 @@
-﻿import 'package:dvir/app/theme.dart';
+﻿import 'package:dvir/app/icons.dart';
+import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/config/app_capabilities.dart';
 import 'package:dvir/core/config/app_version.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
@@ -192,7 +193,7 @@ class _ProfileFormState extends ConsumerState<_ProfileForm> {
             // places, not a settings page.
             DvTextButton(
               label: l10n.signOut,
-              icon: Icons.logout,
+              icon: AppIcons.signOut,
               onPressed: () =>
                   ref.read(authControllerProvider.notifier).signOut(),
             ),
