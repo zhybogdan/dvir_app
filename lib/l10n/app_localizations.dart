@@ -1426,6 +1426,48 @@ abstract class AppLocalizations {
   /// **'Немає застосунку, який відкриє цей файл'**
   String get errorFileCannotOpen;
 
+  /// No description provided for @errorNotABackup.
+  ///
+  /// In uk, this message translates to:
+  /// **'Це не схоже на резервну копію'**
+  String get errorNotABackup;
+
+  /// No description provided for @errorBackupFromNewerApp.
+  ///
+  /// In uk, this message translates to:
+  /// **'Копію зробила новіша версія застосунку. Спочатку оновіть його'**
+  String get errorBackupFromNewerApp;
+
+  /// No description provided for @errorBackupCannotWrite.
+  ///
+  /// In uk, this message translates to:
+  /// **'Не вдалося створити копію. Можливо, на пристрої немає місця'**
+  String get errorBackupCannotWrite;
+
+  /// No description provided for @errorBackupCannotRead.
+  ///
+  /// In uk, this message translates to:
+  /// **'Не вдалося прочитати цей файл'**
+  String get errorBackupCannotRead;
+
+  /// No description provided for @errorRestoreFailed.
+  ///
+  /// In uk, this message translates to:
+  /// **'Не вдалося відновити з копії. Дані не змінено'**
+  String get errorRestoreFailed;
+
+  /// No description provided for @errorRestoreFilesIncomplete.
+  ///
+  /// In uk, this message translates to:
+  /// **'Записи відновлено, але не всі файли. Спробуйте відновити з тієї самої копії ще раз'**
+  String get errorRestoreFilesIncomplete;
+
+  /// No description provided for @errorBackupUnknown.
+  ///
+  /// In uk, this message translates to:
+  /// **'Не вдалося виконати дію з резервною копією'**
+  String get errorBackupUnknown;
+
   /// No description provided for @errorTitle.
   ///
   /// In uk, this message translates to:

@@ -728,6 +728,31 @@ class AppLocalizationsUk extends AppLocalizations {
   String get errorFileCannotOpen => 'Немає застосунку, який відкриє цей файл';
 
   @override
+  String get errorNotABackup => 'Це не схоже на резервну копію';
+
+  @override
+  String get errorBackupFromNewerApp =>
+      'Копію зробила новіша версія застосунку. Спочатку оновіть його';
+
+  @override
+  String get errorBackupCannotWrite =>
+      'Не вдалося створити копію. Можливо, на пристрої немає місця';
+
+  @override
+  String get errorBackupCannotRead => 'Не вдалося прочитати цей файл';
+
+  @override
+  String get errorRestoreFailed =>
+      'Не вдалося відновити з копії. Дані не змінено';
+
+  @override
+  String get errorRestoreFilesIncomplete =>
+      'Записи відновлено, але не всі файли. Спробуйте відновити з тієї самої копії ще раз';
+
+  @override
+  String get errorBackupUnknown => 'Не вдалося виконати дію з резервною копією';
+
+  @override
   String get errorTitle => 'Щось пішло не так';
 
   @override
