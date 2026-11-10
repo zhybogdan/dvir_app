@@ -1,0 +1,76 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:dvir/core/config/app_version.dart';
+import 'package:dvir/core/database/database_provider.dart';
+import 'package:dvir/core/riverpod/guarded_actions.dart';
+import 'package:dvir/core/utils/share.dart';
+import 'package:dvir/features/Backup/data/backup_file_picker.dart';
+import 'package:dvir/features/Backup/data/backup_service.dart';
+import 'package:dvir/features/Backup/domain/models/backup_manifest.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'backup_controller.g.dart';
+
+/// Making a copy of everything on the phone, and putting one back.
+///
+/// **A screen driving this must also listen to it** — nothing watches it for a
+/// value, so without a listener it is disposed as soon as it is read and its
+/// refusals reach nobody.
+///
+/// Restoring is deliberately three calls and not one: pick, read, replace. What
+/// sits between the second and the third is the person being shown what they
+/// are about to swap in and saying yes, and a single method would have to ask
+/// that question from inside the data layer.
+@riverpod
+class BackupActions extends _$BackupActions with GuardedActions {
+  @override
+  FutureOr<void> build() {}
+
+  /// Writes a copy and opens the share sheet on it. False when it failed, in
+  /// which case the listener has already said why.
+  Future<bool> share() {
+    final service = ref.read(backupServiceProvider);
+
+    return guardedVoid(() async {
+      // Both before the file is written, so that a slow version lookup cannot
+      // land between the archive and the sheet.
+      final workspace = await ref.read(backupWorkspaceProvider.future);
+      final version = await ref.read(appVersionProvider.future);
+
+      final archive = await service.write(into: workspace, appVersion: version);
+
+      await shareFile(archive.path);
+    });
+  }
+
+  /// What the person picked, or null when they backed out — the one answer that
+  /// is not a failure and must not be reported as one.
+  Future<File?> pick() => ref.read(backupFilePickerProvider).pick();
+
+  /// What [file] says about itself, or null when it is not a copy this build
+  /// can read.
+  Future<BackupManifest?> read(File file) {
+    final service = ref.read(backupServiceProvider);
+
+    return guarded(() => service.read(file));
+  }
+
+  /// Replaces everything on the phone with what [file] holds.
+  ///
+  /// Afterwards the database provider is thrown away rather than a list of
+  /// screens being refreshed. Every repository watches it, so one line is what
+  /// makes the whole tree below stale — and a hand-written list of what to
+  /// re-read is what the next feature forgets to join.
+  Future<bool> restore(File file) {
+    final service = ref.read(backupServiceProvider);
+
+    return guardedVoid(
+      () async => service.restore(
+        file,
+        work: await ref.read(backupWorkspaceProvider.future),
+      ),
+      onSuccess: () => ref.invalidate(appDatabaseProvider),
+    );
+  }
+}

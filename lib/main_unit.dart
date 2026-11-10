@@ -4,6 +4,7 @@ import 'package:dvir/core/config/supabase_providers.dart';
 import 'package:dvir/core/database/database_provider.dart';
 import 'package:dvir/features/Auth/data/auth_repository_impl.dart';
 import 'package:dvir/features/Auth/data/auth_repository_local.dart';
+import 'package:dvir/features/Backup/data/backup_service.dart';
 import 'package:dvir/features/Contacts/data/contacts_repository_impl.dart';
 import 'package:dvir/features/Contacts/data/contacts_repository_local.dart';
 import 'package:dvir/features/Documents/data/document_file_store.dart';
@@ -65,6 +66,15 @@ Future<void> main() => bootstrap(() async {
     ),
     documentsRepositoryProvider.overrideWith(
       (ref) => LocalDocumentsRepository(ref.watch(appDatabaseProvider), files),
+    ),
+    // The one place that can hand this over: it needs both the database and the
+    // folder resolved above, and this build is the only one where a copy of the
+    // device is what a backup means.
+    backupServiceProvider.overrideWith(
+      (ref) => BackupService(
+        database: ref.watch(appDatabaseProvider),
+        documents: files.root,
+      ),
     ),
     // Not a data source so much as the answer to "who am I here": `myUnitRole`
     // reads this list, and everything the hub offers a keeper hangs off it.

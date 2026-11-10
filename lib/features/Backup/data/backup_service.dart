@@ -7,6 +7,30 @@ import 'package:dvir/core/error/failures.dart';
 import 'package:dvir/core/logging/app_logger.dart';
 import 'package:dvir/features/Backup/domain/models/backup_manifest.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'backup_service.g.dart';
+
+/// Defaults to throwing, and `main_unit.dart` overrides it.
+///
+/// The mirror of what that file does to `supabaseClientProvider`, for the
+/// opposite reason: a copy of the whole phone only means something where the
+/// phone is the only place the data lives. A build with a backend behind it
+/// backs up on the server, not by zipping a device, so there is nothing here
+/// for it to be given.
+@Riverpod(keepAlive: true)
+BackupService backupService(Ref ref) =>
+    throw UnsupportedError('This build has no backup.');
+
+/// Where a copy is written and where one is unpacked.
+///
+/// The system temp folder on purpose. The copy is handed straight to the share
+/// sheet and is of no use afterwards, and the app's own documents folder is
+/// where the object's files live — copies accumulating in there would be
+/// counted as the weight of the object they are a copy of.
+@Riverpod(keepAlive: true)
+Future<Directory> backupWorkspace(Ref ref) => getTemporaryDirectory();
 
 /// The tables a copy carries, parents before children.
 ///
