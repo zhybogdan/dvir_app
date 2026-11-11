@@ -2,6 +2,7 @@ import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/error/failure_l10n.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_mark.dart';
+import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:dvir/features/Shared/presentation/dv_error_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/l10n/app_localizations.dart';
@@ -28,6 +29,7 @@ class SplashScreen extends ConsumerWidget {
     final error = ref.watch(myScopesProvider).error;
 
     return DvScaffold(
+      background: const DvBackground(),
       body: Center(
         child: error == null
             ? const _Waiting()

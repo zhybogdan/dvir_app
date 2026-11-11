@@ -6,6 +6,7 @@ import 'package:dvir/core/utils/text_input.dart';
 import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Onboarding/application/onboarding_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
+import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
@@ -63,6 +64,7 @@ class _JoinScopeScreenState extends ConsumerState<JoinScopeScreen> {
     );
 
     return DvScaffold(
+      background: const DvBackground(),
       extendBodyBehindAppBar: true,
       appBar: DvAppBar(
         title: l10n.onboardingJoinByCode,

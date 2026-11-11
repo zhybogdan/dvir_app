@@ -8,6 +8,7 @@ import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Onboarding/application/created_scope_controller.dart';
 import 'package:dvir/features/Onboarding/domain/models/created_scope.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
+import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon.dart';
 import 'package:dvir/features/Shared/presentation/dv_invite_code_card.dart';
@@ -64,6 +65,7 @@ class ScopeCreatedScreen extends ConsumerWidget {
     return PopScope(
       canPop: false,
       child: DvScaffold(
+        background: const DvBackground(),
         extendBodyBehindAppBar: true,
         appBar: DvAppBar(
           title: title,
