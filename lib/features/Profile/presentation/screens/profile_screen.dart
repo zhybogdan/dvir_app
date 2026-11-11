@@ -13,7 +13,6 @@ import 'package:dvir/features/Profile/application/profile_controller.dart';
 import 'package:dvir/features/Shared/domain/models/profile.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
-import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
@@ -44,7 +43,6 @@ class ProfileScreen extends ConsumerWidget {
     // Branching on the whole body rather than on the fields inside it, so that
     // a build with no account never asks the network who its user is.
     return DvScaffold(
-      background: const DvAppGradient(),
       appBar: DvAppBar(title: people ? l10n.profileTitle : l10n.settingsTitle),
       body: people
           ? DvAsyncView<Profile>(

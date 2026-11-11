@@ -9,7 +9,6 @@ import 'package:dvir/features/Home/domain/models/scope_summary.dart';
 import 'package:dvir/features/Home/domain/scope_arrangement.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
-import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_badge.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
@@ -43,7 +42,6 @@ class ScopesScreen extends ConsumerWidget {
     final people = ref.watch(appCapabilitiesProvider).people;
 
     return DvScaffold(
-      background: const DvAppGradient(),
       appBar: DvAppBar(
         title: l10n.appTitle,
         actions: [

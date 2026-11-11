@@ -10,7 +10,6 @@ import 'package:dvir/features/Onboarding/application/created_scope_controller.da
 import 'package:dvir/features/Onboarding/domain/models/created_scope.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
-import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
@@ -98,7 +97,6 @@ class _FormScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DvScaffold(
-    background: const DvBackground(),
     extendBodyBehindAppBar: true,
     appBar: DvAppBar(title: title, backgroundColor: Colors.transparent),
     body: body,
