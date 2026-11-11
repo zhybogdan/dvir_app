@@ -72,6 +72,39 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
+  String get backupCreate => 'Створити копію';
+
+  @override
+  String get backupCreateHint =>
+      'Усі записи, документи й контакти одним архівом. Збережіть його в хмарі або на компʼютері — тоді втрачений телефон не забере оселю разом із собою.';
+
+  @override
+  String get backupRestore => 'Відновити з копії';
+
+  @override
+  String get backupRestoreHint =>
+      'Візьме архів і замінить ним усе, що зараз у застосунку.';
+
+  @override
+  String get backupRestoreConfirmTitle => 'Відновити з копії?';
+
+  @override
+  String backupRestoreConfirmBody(
+    String date,
+    int units,
+    int documents,
+    int contacts,
+  ) {
+    return 'Копія від $date.\nОселі та приміщення: $units\nДокументи: $documents\nКонтакти: $contacts\n\nУсе, що зараз у застосунку, буде замінено тим, що в копії.';
+  }
+
+  @override
+  String get backupRestoreConfirmCta => 'Відновити';
+
+  @override
+  String get backupRestored => 'Відновлено з копії';
+
+  @override
   String get signIn => 'Увійти';
 
   @override

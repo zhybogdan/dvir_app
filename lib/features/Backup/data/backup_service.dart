@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:archive/archive_io.dart';
 import 'package:dvir/core/database/app_database.dart';
 import 'package:dvir/core/error/failures.dart';
+import 'package:dvir/core/extensions/date_time_x.dart';
 import 'package:dvir/core/logging/app_logger.dart';
 import 'package:dvir/features/Backup/domain/models/backup_manifest.dart';
 import 'package:path/path.dart' as p;
@@ -137,7 +138,11 @@ class BackupService {
         ),
       );
 
-      final archive = File(p.join(into.path, _fileName(DateTime.now())));
+      // Dated, because somebody keeping three copies in one folder has nothing
+      // else to tell them apart by.
+      final archive = File(
+        p.join(into.path, 'dvir-${DateTime.now().asFileStamp}.zip'),
+      );
       final encoder = ZipFileEncoder()..create(archive.path);
 
       try {
@@ -393,15 +398,6 @@ class BackupService {
   Iterable<File> _filesUnder(Directory directory) => directory.existsSync()
       ? directory.listSync(recursive: true).whereType<File>()
       : const [];
-
-  /// Dated, because somebody keeping three copies in one folder has nothing
-  /// else to tell them apart by.
-  String _fileName(DateTime at) {
-    final month = at.month.toString().padLeft(2, '0');
-    final day = at.day.toString().padLeft(2, '0');
-
-    return 'dvir-${at.year}-$month-$day.zip';
-  }
 
   /// Gets rid of a working folder, and says so rather than failing if it
   /// cannot.

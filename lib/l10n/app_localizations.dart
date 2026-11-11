@@ -214,6 +214,59 @@ abstract class AppLocalizations {
   /// **'Версія {version}'**
   String aboutVersion(String version);
 
+  /// No description provided for @backupCreate.
+  ///
+  /// In uk, this message translates to:
+  /// **'Створити копію'**
+  String get backupCreate;
+
+  /// No description provided for @backupCreateHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'Усі записи, документи й контакти одним архівом. Збережіть його в хмарі або на компʼютері — тоді втрачений телефон не забере оселю разом із собою.'**
+  String get backupCreateHint;
+
+  /// No description provided for @backupRestore.
+  ///
+  /// In uk, this message translates to:
+  /// **'Відновити з копії'**
+  String get backupRestore;
+
+  /// No description provided for @backupRestoreHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'Візьме архів і замінить ним усе, що зараз у застосунку.'**
+  String get backupRestoreHint;
+
+  /// No description provided for @backupRestoreConfirmTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Відновити з копії?'**
+  String get backupRestoreConfirmTitle;
+
+  /// Shown before a restore replaces everything. The counts come from the archive's own manifest, so the person can tell one copy from another; named with a colon rather than counted in words because Ukrainian would need a plural form for each number
+  ///
+  /// In uk, this message translates to:
+  /// **'Копія від {date}.\nОселі та приміщення: {units}\nДокументи: {documents}\nКонтакти: {contacts}\n\nУсе, що зараз у застосунку, буде замінено тим, що в копії.'**
+  String backupRestoreConfirmBody(
+    String date,
+    int units,
+    int documents,
+    int contacts,
+  );
+
+  /// No description provided for @backupRestoreConfirmCta.
+  ///
+  /// In uk, this message translates to:
+  /// **'Відновити'**
+  String get backupRestoreConfirmCta;
+
+  /// No description provided for @backupRestored.
+  ///
+  /// In uk, this message translates to:
+  /// **'Відновлено з копії'**
+  String get backupRestored;
+
   /// No description provided for @signIn.
   ///
   /// In uk, this message translates to:

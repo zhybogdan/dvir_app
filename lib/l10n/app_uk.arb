@@ -34,6 +34,32 @@
     }
   },
 
+  "backupCreate": "Створити копію",
+  "backupCreateHint": "Усі записи, документи й контакти одним архівом. Збережіть його в хмарі або на компʼютері — тоді втрачений телефон не забере оселю разом із собою.",
+  "backupRestore": "Відновити з копії",
+  "backupRestoreHint": "Візьме архів і замінить ним усе, що зараз у застосунку.",
+  "backupRestoreConfirmTitle": "Відновити з копії?",
+  "backupRestoreConfirmBody": "Копія від {date}.\nОселі та приміщення: {units}\nДокументи: {documents}\nКонтакти: {contacts}\n\nУсе, що зараз у застосунку, буде замінено тим, що в копії.",
+  "@backupRestoreConfirmBody": {
+    "description": "Shown before a restore replaces everything. The counts come from the archive's own manifest, so the person can tell one copy from another; named with a colon rather than counted in words because Ukrainian would need a plural form for each number",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "units": {
+        "type": "int"
+      },
+      "documents": {
+        "type": "int"
+      },
+      "contacts": {
+        "type": "int"
+      }
+    }
+  },
+  "backupRestoreConfirmCta": "Відновити",
+  "backupRestored": "Відновлено з копії",
+
   "signIn": "Увійти",
   "signUp": "Зареєструватися",
   "signOut": "Вийти",
