@@ -1,11 +1,11 @@
 import 'package:dvir/app/icons.dart';
-import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Documents/application/documents_controller.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
 import 'package:dvir/features/Documents/presentation/components/document_title_sheet.dart';
 import 'package:dvir/features/Documents/presentation/document_l10n.dart';
 import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
+import 'package:dvir/features/Shared/presentation/dv_icon_badge.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
 import 'package:dvir/features/Shared/presentation/dv_tile.dart';
 import 'package:dvir/l10n/app_localizations.dart';
@@ -42,9 +42,10 @@ class DocumentTile extends ConsumerWidget {
       subtitle: subtitle.isEmpty ? null : subtitle,
       caption: documentAddedOn(document.createdAt, l10n),
       dense: true,
-      leading: Icon(
-        documentIcon(document),
-        color: context.colorScheme.onSurfaceVariant,
+      leading: DvIconBadge(
+        icon: documentIcon(document),
+        tone: documentTone(document),
+        dense: true,
       ),
       // Opening is offered to everyone who can see the row: reading the papers
       // is what a tenant is here for.

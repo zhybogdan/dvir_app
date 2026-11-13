@@ -203,6 +203,88 @@ abstract final class AppSurfaces {
   );
 }
 
+/// A colour that says what kind of thing a row is, in both themes.
+///
+/// Two values and not one, for the reason `primary` has two: a fill that reads
+/// at 9.9:1 on a white card is 1.75:1 on a dark one, and the badge stops being
+/// a badge. The glyph drawn on it reads [AppTones.on], which inverts with it.
+@immutable
+class Tone {
+  const Tone({required this.light, required this.dark});
+
+  final Color light;
+  final Color dark;
+
+  Color of(Brightness brightness) =>
+      brightness == Brightness.dark ? dark : light;
+}
+
+/// The colour of each kind of row.
+///
+/// This is the rule "difference is carried by form, not by colour" being
+/// lifted — by the owner, on 2026-11-13, after the screens read as one grey
+/// sheet. The glyph still says *what* the thing is; the colour says which
+/// family it belongs to, and there are seven of them rather than one per type:
+/// a colour per type would multiply the single accent into fifteen, which is
+/// why the rule existed in the first place.
+///
+/// The grouping is not new either — [place], [room] and [building] are the
+/// three groups `UnitTypeL10n.groupLabel` already draws in the type picker.
+///
+/// Every pair below was measured: white on the light fill never drops under
+/// 5:1, the fill never drops under 5:1 against a white card, and in dark the
+/// fill clears 8:1 against the card with near-black on it.
+abstract final class AppTones {
+  /// What stands at an address — a house, a flat, a plot. The brand itself,
+  /// because the object is what the app is about.
+  static const Tone place = Tone(
+    light: Color(0xFF3730A3),
+    dark: Color(0xFFB9BDFF),
+  );
+
+  /// What is inside the walls — a room, a bathroom, a cellar.
+  static const Tone room = Tone(
+    light: Color(0xFF0F766E),
+    dark: Color(0xFF6AD6C8),
+  );
+
+  /// What stands apart in the yard — a garage, a shed, a summer kitchen.
+  static const Tone building = Tone(
+    light: Color(0xFFB45309),
+    dark: Color(0xFFF0B35E),
+  );
+
+  /// Everything unforeseen, and a file that is neither picture nor paper.
+  static const Tone other = Tone(
+    light: Color(0xFF475569),
+    dark: Color(0xFFAAB4C4),
+  );
+
+  /// A document that proves something — the contract, the passport.
+  static const Tone paper = Tone(
+    light: Color(0xFFB4342C),
+    dark: Color(0xFFFF9D93),
+  );
+
+  /// A photograph: the meter cabinet, the boiler, the crack in the wall.
+  static const Tone picture = Tone(
+    light: Color(0xFF0369A1),
+    dark: Color(0xFF7CC4F0),
+  );
+
+  /// A telephone number, and the person behind it.
+  static const Tone person = Tone(
+    light: Color(0xFF15803D),
+    dark: Color(0xFF74D48F),
+  );
+
+  /// What is drawn **on** a tone — never a literal white, which in dark would
+  /// read 1.3:1 on these fills.
+  static Color on(Brightness brightness) => brightness == Brightness.dark
+      ? const Color(0xFF0F1115)
+      : const Color(0xFFFFFFFF);
+}
+
 /// Fixed brand colours that are not derived from the scheme and stay constant
 /// across light and dark — e.g. the mark inside an illustration.
 abstract final class AppColors {

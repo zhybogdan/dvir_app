@@ -9,6 +9,7 @@ import 'package:dvir/features/Units/application/unit_children_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/presentation/unit_type_icon.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
+import 'package:dvir/features/Units/presentation/unit_type_tone.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -67,6 +68,7 @@ class UnitChildrenSection extends ConsumerWidget {
                         subtitle: child.type.label(l10n),
                         leading: DvIconBadge(
                           icon: child.type.icon,
+                          tone: child.type.tone,
                           dense: true,
                         ),
                         dense: true,

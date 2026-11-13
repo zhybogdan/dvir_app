@@ -18,6 +18,7 @@ import 'package:dvir/features/Shared/presentation/member_status_l10n.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/presentation/unit_type_icon.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
+import 'package:dvir/features/Units/presentation/unit_type_tone.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -136,11 +137,14 @@ class _ScopeCard extends StatelessWidget {
     final scope = row.scope;
     final nested = row.nested;
 
-    final (icon, name, kind) = switch (scope) {
+    final (icon, name, kind, tone) = switch (scope) {
       CommunitySummary(:final community) => (
         AppIcons.community,
         community?.name,
         community?.type.label(l10n),
+        // A community is a place you belong to, so it takes the tone of a
+        // place rather than one of its own.
+        AppTones.place,
       ),
       UnitSummary(:final unit) => (
         // Null while the scope is still pending, when there is no object to
@@ -148,6 +152,7 @@ class _ScopeCard extends StatelessWidget {
         unit?.type.icon ?? AppIcons.unitOther,
         unit?.label,
         unit?.type.label(l10n),
+        unit?.type.tone ?? AppTones.other,
       ),
     };
 
@@ -161,7 +166,7 @@ class _ScopeCard extends StatelessWidget {
       title: name ?? l10n.scopePending,
       subtitle: kind ?? scope.status.label(l10n),
       caption: nested.isEmpty ? null : _nestedCaption(nested, l10n),
-      leading: DvIconBadge(icon: icon, muted: !scope.isActive),
+      leading: DvIconBadge(icon: icon, tone: tone, muted: !scope.isActive),
       onTap: destination == null ? null : () => context.push(destination),
     );
   }
