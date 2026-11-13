@@ -61,6 +61,7 @@ class ContactsSection extends ConsumerWidget {
       children: [
         DvSectionTitle(
           l10n.contacts,
+          count: ref.watch(contactsProvider(scope)).value?.length,
           action: canEdit ? (label: l10n.unitAddCta, onPressed: add) : null,
         ),
         _ContactsPreview(scope: scope, canEdit: canEdit),

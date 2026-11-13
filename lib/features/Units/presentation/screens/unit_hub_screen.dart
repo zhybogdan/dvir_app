@@ -13,7 +13,6 @@ import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
-import 'package:dvir/features/Shared/presentation/dv_section_title.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
 import 'package:dvir/features/Units/application/unit_actions_controller.dart';
 import 'package:dvir/features/Units/application/unit_attributes_controller.dart';
@@ -22,10 +21,10 @@ import 'package:dvir/features/Units/application/unit_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/unit_nesting.dart';
 import 'package:dvir/features/Units/presentation/components/unit_attributes_section.dart';
-import 'package:dvir/features/Units/presentation/components/unit_children_list.dart';
+import 'package:dvir/features/Units/presentation/components/unit_children_section.dart';
 import 'package:dvir/features/Units/presentation/components/unit_invite_section.dart';
 import 'package:dvir/features/Units/presentation/components/unit_menu.dart';
-import 'package:dvir/features/Units/presentation/components/unit_people_list.dart';
+import 'package:dvir/features/Units/presentation/components/unit_people_section.dart';
 import 'package:dvir/features/Units/presentation/components/unit_specs_card.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -98,7 +97,6 @@ class _Hub extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
     final unit = this.unit;
     final isOwner = ref.watch(isUnitOwnerProvider(unit.id));
     // Both sections below are about other people. A build that has none would
@@ -131,21 +129,13 @@ class _Hub extends ConsumerWidget {
             UnitInviteSection(unit: unit),
           ],
           const SizedBox(height: AppSpacing.lg),
-          DvSectionTitle(
-            l10n.unitNested,
-            action: isOwner && canHoldChildren(unit.type)
-                ? (
-                    label: l10n.unitAddCta,
-                    onPressed: () =>
-                        context.push(AppRoutes.unitAddPath(unit.id)),
-                  )
-                : null,
+          UnitChildrenSection(
+            unitId: unit.id,
+            canAdd: isOwner && canHoldChildren(unit.type),
           ),
-          UnitChildrenList(unitId: unit.id),
           if (people) ...[
             const SizedBox(height: AppSpacing.lg),
-            DvSectionTitle(l10n.unitPeople),
-            UnitPeopleList(unitId: unit.id),
+            UnitPeopleSection(unitId: unit.id),
           ],
         ],
       ),

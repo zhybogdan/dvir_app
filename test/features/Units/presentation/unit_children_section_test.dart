@@ -2,7 +2,7 @@ import 'package:dvir/app/icons.dart';
 import 'package:dvir/features/Units/application/unit_children_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/types/unit_type.dart';
-import 'package:dvir/features/Units/presentation/components/unit_children_list.dart';
+import 'package:dvir/features/Units/presentation/components/unit_children_section.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +25,9 @@ Future<void> _pump(WidgetTester tester, List<Unit> children) async {
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        home: const Scaffold(body: UnitChildrenList(unitId: 'u1')),
+        home: const Scaffold(
+          body: UnitChildrenSection(unitId: 'u1', canAdd: false),
+        ),
       ),
     ),
   );
@@ -56,5 +58,17 @@ void main() {
     ]);
 
     expect(find.byIcon(AppIcons.unitRoom), findsNWidgets(2));
+  });
+
+  // The reason heading and list were joined into one widget: written apart,
+  // the heading on the hub could not say how many rows were under it.
+  testWidgets('the heading counts what is in the section', (tester) async {
+    await _pump(tester, [
+      _unit('a', UnitType.room),
+      _unit('b', UnitType.garage),
+      _unit('c', UnitType.pool),
+    ]);
+
+    expect(find.text('3'), findsOneWidget);
   });
 }

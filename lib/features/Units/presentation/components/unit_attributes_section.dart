@@ -65,6 +65,7 @@ class UnitAttributesSection extends ConsumerWidget {
       children: [
         DvSectionTitle(
           l10n.unitAttributes,
+          count: ref.watch(unitAttributesProvider(unitId)).value?.length,
           action: canEdit ? (label: l10n.unitAddCta, onPressed: add) : null,
         ),
         _AttributesPreview(unitId: unitId, canEdit: canEdit),
