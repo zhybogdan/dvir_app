@@ -34,10 +34,7 @@ class UnitSpecsCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: context.colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-      ),
+      decoration: AppSurfaces.card(context.colorScheme),
       child: Row(
         spacing: AppSpacing.md,
         children: [

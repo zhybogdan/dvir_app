@@ -160,6 +160,41 @@ abstract final class AppRadius {
   static const double lg = 20;
 }
 
+/// The shadows the app draws for itself, where Material's own elevation gives
+/// one soft blur and the palette asks for something tighter.
+abstract final class AppShadows {
+  /// The lift under a card: two close shadows rather than one wide blur, which
+  /// reads as a smudge. The tint is 6% and 4% of the palette's ink and not
+  /// `scheme.shadow`, which is pure black and goes muddy over a cold page.
+  ///
+  /// Empty in dark. A shadow over a near-black page shows nothing, and there
+  /// the card's own lighter fill does the separating instead.
+  static List<BoxShadow> card(Brightness brightness) =>
+      brightness == Brightness.dark ? const [] : _card;
+
+  static const List<BoxShadow> _card = [
+    BoxShadow(color: Color(0x0F14181A), blurRadius: 2, offset: Offset(0, 1)),
+    BoxShadow(color: Color(0x0A14181A), blurRadius: 3, offset: Offset(0, 1)),
+  ];
+}
+
+/// What tells a block from the page: the fill, the hairline and the lift.
+///
+/// All three together, because none of them works alone here. A card is 1.11:1
+/// against the page and no better grey exists — that measurement is in
+/// `test/app/theme_contrast_test.dart` — so a block given the fill and nothing
+/// else is a white hole in a grey page rather than a card. The app draws four
+/// of these blocks (a tile, an empty state, the invite code, the object's
+/// specs); they are one shape, and this is where that shape is decided.
+abstract final class AppSurfaces {
+  static BoxDecoration card(ColorScheme scheme) => BoxDecoration(
+    color: scheme.surfaceContainerLow,
+    borderRadius: BorderRadius.circular(AppRadius.lg),
+    border: Border.all(color: scheme.outlineVariant),
+    boxShadow: AppShadows.card(scheme.brightness),
+  );
+}
+
 /// Fixed brand colours that are not derived from the scheme and stay constant
 /// across light and dark — e.g. the mark inside an illustration.
 abstract final class AppColors {
