@@ -77,10 +77,15 @@ flutter_launcher_icons:
   ios: true
   image_path: tool/branding/app_icon.png
   # The adaptive layers are separate because Android masks them to the device's
-  # shape: the foreground is inset so no mask can clip the mark, and the
-  # background is a flat brand fill rather than an image.
-  adaptive_icon_background: "#0D9488"
+  # shape: the foreground holds the mark at 52% of the canvas so no mask can
+  # clip it, and the background is an image rather than a flat hex because the
+  # indigo is a gradient — one colour there would flatten the launcher while
+  # every other surface kept its light.
+  adaptive_icon_background: tool/branding/adaptive_background.png
   adaptive_icon_foreground: tool/branding/adaptive_foreground.png
+  # The generator adds padding of its own unless told not to; the foreground
+  # already carries its safe margin.
+  adaptive_icon_foreground_inset: 0
   # Android 13+ themed icons: the system tints this silhouette itself.
   adaptive_icon_monochrome: tool/branding/adaptive_monochrome.png
   # App Store rejects an icon with an alpha channel; the source is already
@@ -97,8 +102,8 @@ flutter_native_splash:
   web: false
   # The scheme's surface, matching what DvScaffold paints underneath the Flutter
   # splash, so the handover is a swap of contents rather than of background.
-  color: "#F4FBF8"
-  color_dark: "#0E1513"
+  color: "#F1F3F7"
+  color_dark: "#0F1115"
   # The DvAppMark tile at 72dp (supplied at 4x), not the bare glyph: the glyph
   # is white and would vanish on the light surface.
   image: tool/branding/splash_tile.png
@@ -107,12 +112,14 @@ flutter_native_splash:
     # Android 12+ ignores the legacy window background: it masks the image into
     # a circle and paints icon_background_color behind it, so here the tile is
     # split back into a plain glyph over a brand fill.
-    color: "#F4FBF8"
-    color_dark: "#0E1513"
+    color: "#F1F3F7"
+    color_dark: "#0F1115"
     image: tool/branding/splash_android12.png
     image_dark: tool/branding/splash_android12.png
-    icon_background_color: "#0D9488"
-    icon_background_color_dark: "#0D9488"
+    # A flat stand-in for the launcher's gradient, and the same value the app
+    # paints its own mark on, so the two hold still together.
+    icon_background_color: "#3730A3"
+    icon_background_color_dark: "#3730A3"
 
 # Typed asset references generated into lib/gen/ (e.g. Assets.images.authBackground).
 flutter_gen:
