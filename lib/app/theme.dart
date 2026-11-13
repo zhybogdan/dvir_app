@@ -13,9 +13,8 @@ class AppTheme {
   static ThemeData get dark => _build(Brightness.dark);
 
   static ThemeData _build(Brightness brightness) {
-    final scheme = ColorScheme.fromSeed(
-      seedColor: _seed,
-      brightness: brightness,
+    final scheme = _krayda(
+      ColorScheme.fromSeed(seedColor: _seed, brightness: brightness),
     );
 
     final base = ThemeData(
@@ -42,10 +41,11 @@ class AppTheme {
         hintStyle: TextStyle(
           color: scheme.onSurfaceVariant.withValues(alpha: 0.5),
         ),
-        border: _fieldBorder(BorderSide(color: scheme.surfaceContainerHighest)),
-        enabledBorder: _fieldBorder(
-          BorderSide(color: scheme.surfaceContainerHighest),
-        ),
+        // `outline` and not the quiet fill a field used to be bordered with:
+        // the field is filled with the same white a card is, so a border of
+        // that fill reads 1.21:1 and the field stops looking like a field.
+        border: _fieldBorder(BorderSide(color: scheme.outline)),
+        enabledBorder: _fieldBorder(BorderSide(color: scheme.outline)),
         focusedBorder: _fieldBorder(
           BorderSide(color: scheme.primary, width: 2),
         ),
@@ -77,6 +77,44 @@ class AppTheme {
       ),
     );
   }
+
+  /// The generated scheme with its surfaces replaced by cold neutrals.
+  ///
+  /// Every surface M3 derives is a tint of the seed, which is how a teal app
+  /// ended up with a teal page and an accent that had nowhere to sound. The
+  /// values are measured rather than picked — each one's ratios are in the
+  /// design system beside it — and none of them moves a text contrast, because
+  /// the text roles move together with the grounds they sit on.
+  ///
+  /// What stays generated: `primary`, `onPrimary` and the error family. What is
+  /// new to the app: `outline`, which nothing read before, and `outlineVariant`
+  /// for the hairline the card takes in its own step.
+  ///
+  /// A card is 1.11:1 against the page here and 1.10:1 in dark. That is not a
+  /// value to improve — no pair of light surfaces reaches 3:1 — so the card is
+  /// separated by its shadow, its hairline and the gap, and never by its tint.
+  static ColorScheme _krayda(ColorScheme base) => switch (base.brightness) {
+    Brightness.light => base.copyWith(
+      surface: const Color(0xFFF1F4F5),
+      onSurface: const Color(0xFF14181A),
+      onSurfaceVariant: const Color(0xFF5D676B),
+      surfaceContainerLow: const Color(0xFFFFFFFF),
+      surfaceContainerHigh: const Color(0xFFFFFFFF),
+      surfaceContainerHighest: const Color(0xFFE6EAEC),
+      outline: const Color(0xFF7F8A8E),
+      outlineVariant: const Color(0xFFDFE3E5),
+    ),
+    Brightness.dark => base.copyWith(
+      surface: const Color(0xFF101314),
+      onSurface: const Color(0xFFE4EAEC),
+      onSurfaceVariant: const Color(0xFF9AA4A8),
+      surfaceContainerLow: const Color(0xFF191D1E),
+      surfaceContainerHigh: const Color(0xFF1F2426),
+      surfaceContainerHighest: const Color(0xFF242A2C),
+      outline: const Color(0xFF79858A),
+      outlineVariant: const Color(0xFF2A3032),
+    ),
+  };
 
   /// Heavier weights for titles and headlines; body and label keep the M3
   /// defaults (Regular / Medium) so running text stays comfortable to read.

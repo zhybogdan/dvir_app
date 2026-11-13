@@ -101,7 +101,10 @@ class DvSkeletonBox extends StatelessWidget {
 /// sweep of light — so it blends white in either way; a dark surface needs far
 /// less of it before the band starts to glare.
 extension _SkeletonColors on ColorScheme {
-  Color get skeletonBase => surfaceContainerHigh;
+  /// The `Highest` role and not the `High` one a dialog and a toast are filled
+  /// with: on the neutral palette that one is the same white as a card, and a
+  /// skeleton over a card would shimmer invisibly.
+  Color get skeletonBase => surfaceContainerHighest;
 
   Color get skeletonHighlight => Color.alphaBlend(
     AppColors.white.withValues(
