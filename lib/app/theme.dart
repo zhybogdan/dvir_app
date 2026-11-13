@@ -78,41 +78,49 @@ class AppTheme {
     );
   }
 
-  /// The generated scheme with its surfaces replaced by cold neutrals.
+  /// The generated scheme with its accent and its surfaces replaced.
   ///
-  /// Every surface M3 derives is a tint of the seed, which is how a teal app
-  /// ended up with a teal page and an accent that had nowhere to sound. The
-  /// values are measured rather than picked — each one's ratios are in the
-  /// design system beside it — and none of them moves a text contrast, because
-  /// the text roles move together with the grounds they sit on.
+  /// Every surface M3 derives is a tint of the seed, which is how the app once
+  /// ended up with a tinted page and an accent that had nowhere to sound. The
+  /// values are measured rather than picked — `theme_contrast_test.dart` holds
+  /// every pair of them to its floor — and the text roles move together with
+  /// the grounds they sit on, so no reading gets worse.
   ///
-  /// What stays generated: `primary`, `onPrimary` and the error family. What is
-  /// new to the app: `outline`, which nothing read before, and `outlineVariant`
-  /// for the hairline the card takes in its own step.
+  /// `primary` is pinned rather than left generated, which it was while the
+  /// accent happened to be what the seed derived. It no longer is: the accent
+  /// is a chosen value, and a seed that lands near it by luck is not a
+  /// decision. What stays generated is the error family and the roles nothing
+  /// reads.
   ///
-  /// A card is 1.11:1 against the page here and 1.10:1 in dark. That is not a
+  /// A card is 1.11:1 against the page here and 1.09:1 in dark. That is not a
   /// value to improve — no pair of light surfaces reaches 3:1 — so the card is
   /// separated by its shadow, its hairline and the gap, and never by its tint.
   static ColorScheme _krayda(ColorScheme base) => switch (base.brightness) {
     Brightness.light => base.copyWith(
-      surface: const Color(0xFFF1F4F5),
-      onSurface: const Color(0xFF14181A),
-      onSurfaceVariant: const Color(0xFF5D676B),
+      primary: const Color(0xFF3730A3),
+      onPrimary: const Color(0xFFFFFFFF),
+      surface: const Color(0xFFF1F3F7),
+      onSurface: const Color(0xFF13161C),
+      onSurfaceVariant: const Color(0xFF5B6170),
       surfaceContainerLow: const Color(0xFFFFFFFF),
       surfaceContainerHigh: const Color(0xFFFFFFFF),
-      surfaceContainerHighest: const Color(0xFFE6EAEC),
-      outline: const Color(0xFF7F8A8E),
-      outlineVariant: const Color(0xFFDFE3E5),
+      surfaceContainerHighest: const Color(0xFFE4E7EF),
+      outline: const Color(0xFF7A8295),
+      outlineVariant: const Color(0xFFDDE0E8),
     ),
+    // The accent inverts in dark, as `onPrimary` does with it: a label drawn
+    // white on this periwinkle would read 1.8:1.
     Brightness.dark => base.copyWith(
-      surface: const Color(0xFF101314),
-      onSurface: const Color(0xFFE4EAEC),
-      onSurfaceVariant: const Color(0xFF9AA4A8),
-      surfaceContainerLow: const Color(0xFF191D1E),
-      surfaceContainerHigh: const Color(0xFF1F2426),
-      surfaceContainerHighest: const Color(0xFF242A2C),
-      outline: const Color(0xFF79858A),
-      outlineVariant: const Color(0xFF2A3032),
+      primary: const Color(0xFFB9BDFF),
+      onPrimary: const Color(0xFF222063),
+      surface: const Color(0xFF0F1115),
+      onSurface: const Color(0xFFE5E7EE),
+      onSurfaceVariant: const Color(0xFF9AA0B0),
+      surfaceContainerLow: const Color(0xFF171A21),
+      surfaceContainerHigh: const Color(0xFF1D2029),
+      surfaceContainerHighest: const Color(0xFF232733),
+      outline: const Color(0xFF7B8294),
+      outlineVariant: const Color(0xFF2A2E3A),
     ),
   };
 
@@ -200,14 +208,18 @@ abstract final class AppSurfaces {
 abstract final class AppColors {
   static const Color white = Color(0xFFFFFFFF);
 
-  /// The brand teal: the seed the whole scheme grows from, and the fill the
+  /// The brand indigo: the seed the whole scheme grows from, and the fill the
   /// launcher icon is painted in.
   ///
-  /// Used directly rather than `colorScheme.primary`, which Material derives per
-  /// theme (a deep teal in light, a pale mint in dark). An app icon cannot
-  /// follow the theme, so anything meant to read as *the icon* — the app mark,
-  /// the splash — has to hold still with it.
-  static const Color brand = Color(0xFF0D9488);
+  /// Used directly rather than `colorScheme.primary`, which inverts per theme
+  /// (deep in light, a pale periwinkle in dark). An app icon cannot follow the
+  /// theme, so anything meant to read as *the icon* — the app mark, the
+  /// splash — has to hold still with it.
+  ///
+  /// The artwork under `tool/branding/` is still the old teal, so until it is
+  /// redrawn the app reads indigo inside and teal on the home screen. That is
+  /// a missing drawing, not a value to change back.
+  static const Color brand = Color(0xFF3730A3);
 
   // Status accents the seeded M3 scheme has no role for: `error` lives on the
   // scheme, but success and warning do not. Toasts (and later banners/chips)
