@@ -1,4 +1,5 @@
 import 'package:dvir/app/icons.dart';
+import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/notifications/toast_controller.dart';
 import 'package:dvir/core/utils/phone.dart';
@@ -7,6 +8,7 @@ import 'package:dvir/features/Contacts/domain/models/contact.dart';
 import 'package:dvir/features/Contacts/presentation/components/contact_sheet.dart';
 import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
+import 'package:dvir/features/Shared/presentation/dv_icon_badge.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
 import 'package:dvir/features/Shared/presentation/dv_tile.dart';
 import 'package:dvir/l10n/app_localizations.dart';
@@ -54,6 +56,14 @@ class ContactTile extends ConsumerWidget {
       subtitle: contact.role,
       caption: phone,
       dense: true,
+      // A person and not a receiver, although the row is here to be dialled:
+      // the handset already sits on the button at the other end, and the same
+      // glyph twice in one row says nothing the second time.
+      leading: const DvIconBadge(
+        icon: AppIcons.profile,
+        tone: AppTones.person,
+        dense: true,
+      ),
       // The whole row dials, because that is the one thing anybody opens this
       // list for. A row without a number is still shown and still readable —
       // it just does nothing when tapped.

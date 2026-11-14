@@ -96,6 +96,17 @@ abstract final class AppIcons {
   /// The object's own free-form facts — what it is, in its owner's words.
   static const IconData attribute = Icons.list_alt_outlined;
 
+  /// Objects standing inside another, where a card counts them instead of
+  /// drawing them. Not one of the `unit*` glyphs below: what is nested can be
+  /// a flat or a cellar, and the count is about the nesting rather than the
+  /// kind.
+  ///
+  /// Chosen by looking at six candidates drawn at the 14px the card uses
+  /// (2026-11-14). The ones that meant the most — `home_work`,
+  /// `maps_home_work` — are the ones that turn to mush at that size, and
+  /// `account_tree` reads as a wiring diagram.
+  static const IconData nested = Icons.widgets_outlined;
+
   // The kinds of place an object can be. Mapped from `UnitType` next to its
   // wording, so the enum stays a plain list of database values.
   static const IconData unitHouse = Icons.home_rounded;

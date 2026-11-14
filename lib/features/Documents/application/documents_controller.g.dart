@@ -183,7 +183,7 @@ final class DocumentActionsProvider
   }
 }
 
-String _$documentActionsHash() => r'cee504c4436c773995abfdba618b9f510528ae37';
+String _$documentActionsHash() => r'444e451291ab9fa998a06126420bebd58b773457';
 
 /// Adding, renaming, removing and opening the files of one scope.
 ///

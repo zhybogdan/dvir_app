@@ -12,11 +12,17 @@ class DvIconBadge extends StatelessWidget {
   const DvIconBadge({
     required this.icon,
     super.key,
+    this.tone,
     this.muted = false,
     this.dense = false,
   });
 
   final IconData icon;
+
+  /// What kind of thing the row is. Given one, the square is filled with it
+  /// solid and the glyph is drawn in [AppTones.on]; left out, the badge keeps
+  /// the quiet wash of the accent it has always had.
+  final Tone? tone;
 
   /// For a row that cannot be opened yet — a scope still waiting for approval,
   /// which reads as a request rather than as a place this person already lives
@@ -30,18 +36,28 @@ class DvIconBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = context.colorScheme;
-    final color = muted ? scheme.onSurfaceVariant : scheme.primary;
+    final brightness = Theme.of(context).brightness;
     final box = dense ? 36.0 : 44.0;
     final glyph = dense ? 20.0 : 24.0;
+
+    // A muted row is one that cannot be opened yet, so it keeps the wash
+    // whatever kind of thing it is: colour here would say the row is live.
+    final tone = muted ? null : this.tone;
+    final fill = tone?.of(brightness);
+    final color = muted ? scheme.onSurfaceVariant : scheme.primary;
 
     return Container(
       width: box,
       height: box,
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
+        color: fill ?? color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(AppRadius.md),
       ),
-      child: Icon(icon, color: color, size: glyph),
+      child: Icon(
+        icon,
+        color: fill == null ? color : AppTones.on(brightness),
+        size: glyph,
+      ),
     );
   }
 }

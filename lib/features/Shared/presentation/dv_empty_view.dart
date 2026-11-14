@@ -25,10 +25,10 @@ class DvEmptyView extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: scheme.surfaceContainerLow.withValues(alpha: 0.6),
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-      ),
+      // The whole card surface, not a 60% wash of it. The wash was there to
+      // say "not a row yet"; over a grey page a 60% white says nothing at all.
+      // What is missing here is the shape of the list, so it keeps that shape.
+      decoration: AppSurfaces.card(scheme),
       child: Column(
         spacing: AppSpacing.sm,
         children: [

@@ -9,6 +9,7 @@ import 'package:dvir/features/Home/domain/models/scope_summary.dart';
 import 'package:dvir/features/Onboarding/application/onboarding_controller.dart';
 import 'package:dvir/features/Shared/domain/types/member_status.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
+import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
@@ -64,6 +65,7 @@ class PendingApprovalScreen extends ConsumerWidget {
     );
 
     return DvScaffold(
+      background: const DvBackground(),
       extendBodyBehindAppBar: true,
       appBar: DvAppBar(
         title: view.title,

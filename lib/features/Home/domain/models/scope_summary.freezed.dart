@@ -119,11 +119,11 @@ return unit(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( CommunityMembership membership,  Community? community)?  community,TResult Function( UnitMembership membership,  Unit? unit)?  unit,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( CommunityMembership membership,  Community? community)?  community,TResult Function( UnitMembership membership,  Unit? unit,  ScopeCounts? counts)?  unit,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case CommunitySummary() when community != null:
 return community(_that.membership,_that.community);case UnitSummary() when unit != null:
-return unit(_that.membership,_that.unit);case _:
+return unit(_that.membership,_that.unit,_that.counts);case _:
   return orElse();
 
 }
@@ -141,11 +141,11 @@ return unit(_that.membership,_that.unit);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( CommunityMembership membership,  Community? community)  community,required TResult Function( UnitMembership membership,  Unit? unit)  unit,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( CommunityMembership membership,  Community? community)  community,required TResult Function( UnitMembership membership,  Unit? unit,  ScopeCounts? counts)  unit,}) {final _that = this;
 switch (_that) {
 case CommunitySummary():
 return community(_that.membership,_that.community);case UnitSummary():
-return unit(_that.membership,_that.unit);}
+return unit(_that.membership,_that.unit,_that.counts);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -159,11 +159,11 @@ return unit(_that.membership,_that.unit);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( CommunityMembership membership,  Community? community)?  community,TResult? Function( UnitMembership membership,  Unit? unit)?  unit,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( CommunityMembership membership,  Community? community)?  community,TResult? Function( UnitMembership membership,  Unit? unit,  ScopeCounts? counts)?  unit,}) {final _that = this;
 switch (_that) {
 case CommunitySummary() when community != null:
 return community(_that.membership,_that.community);case UnitSummary() when unit != null:
-return unit(_that.membership,_that.unit);case _:
+return unit(_that.membership,_that.unit,_that.counts);case _:
   return null;
 
 }
@@ -264,11 +264,12 @@ $CommunityCopyWith<$Res>? get community {
 
 
 class UnitSummary extends ScopeSummary {
-  const UnitSummary({required this.membership, this.unit}): super._();
+  const UnitSummary({required this.membership, this.unit, this.counts}): super._();
   
 
 @override final  UnitMembership membership;
  final  Unit? unit;
+ final  ScopeCounts? counts;
 
 /// Create a copy of ScopeSummary
 /// with the given fields replaced by the non-null parameter values.
@@ -280,16 +281,16 @@ $UnitSummaryCopyWith<UnitSummary> get copyWith => _$UnitSummaryCopyWithImpl<Unit
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnitSummary&&(identical(other.membership, membership) || other.membership == membership)&&(identical(other.unit, unit) || other.unit == unit));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnitSummary&&(identical(other.membership, membership) || other.membership == membership)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.counts, counts) || other.counts == counts));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,membership,unit);
+int get hashCode => Object.hash(runtimeType,membership,unit,counts);
 
 @override
 String toString() {
-  return 'ScopeSummary.unit(membership: $membership, unit: $unit)';
+  return 'ScopeSummary.unit(membership: $membership, unit: $unit, counts: $counts)';
 }
 
 
@@ -300,7 +301,7 @@ abstract mixin class $UnitSummaryCopyWith<$Res> implements $ScopeSummaryCopyWith
   factory $UnitSummaryCopyWith(UnitSummary value, $Res Function(UnitSummary) _then) = _$UnitSummaryCopyWithImpl;
 @useResult
 $Res call({
- UnitMembership membership, Unit? unit
+ UnitMembership membership, Unit? unit, ScopeCounts? counts
 });
 
 
@@ -317,11 +318,12 @@ class _$UnitSummaryCopyWithImpl<$Res>
 
 /// Create a copy of ScopeSummary
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? membership = null,Object? unit = freezed,}) {
+@pragma('vm:prefer-inline') $Res call({Object? membership = null,Object? unit = freezed,Object? counts = freezed,}) {
   return _then(UnitSummary(
 membership: null == membership ? _self.membership : membership // ignore: cast_nullable_to_non_nullable
 as UnitMembership,unit: freezed == unit ? _self.unit : unit // ignore: cast_nullable_to_non_nullable
-as Unit?,
+as Unit?,counts: freezed == counts ? _self.counts : counts // ignore: cast_nullable_to_non_nullable
+as ScopeCounts?,
   ));
 }
 

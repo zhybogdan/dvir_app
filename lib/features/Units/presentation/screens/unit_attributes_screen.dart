@@ -4,7 +4,6 @@ import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
-import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
@@ -50,7 +49,6 @@ class UnitAttributesScreen extends ConsumerWidget {
     }
 
     return DvScaffold(
-      background: const DvAppGradient(),
       appBar: DvAppBar(
         title: l10n.unitAttributes,
         actions: [

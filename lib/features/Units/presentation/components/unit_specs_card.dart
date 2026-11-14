@@ -4,6 +4,7 @@ import 'package:dvir/features/Shared/presentation/dv_icon_badge.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/presentation/unit_type_icon.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
+import 'package:dvir/features/Units/presentation/unit_type_tone.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -34,14 +35,11 @@ class UnitSpecsCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: context.colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-      ),
+      decoration: AppSurfaces.card(context.colorScheme),
       child: Row(
         spacing: AppSpacing.md,
         children: [
-          DvIconBadge(icon: unit.type.icon),
+          DvIconBadge(icon: unit.type.icon, tone: unit.type.tone),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

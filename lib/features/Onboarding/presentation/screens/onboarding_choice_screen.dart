@@ -4,6 +4,7 @@ import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/config/app_capabilities.dart';
 import 'package:dvir/features/Auth/application/auth_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
+import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
@@ -26,6 +27,7 @@ class OnboardingChoiceScreen extends ConsumerWidget {
     final people = ref.watch(appCapabilitiesProvider).people;
 
     return DvScaffold(
+      background: const DvBackground(),
       extendBodyBehindAppBar: true,
       appBar: DvAppBar(
         title: l10n.onboardingTitle,

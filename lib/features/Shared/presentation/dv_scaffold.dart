@@ -10,16 +10,21 @@ class DvScaffold extends StatelessWidget {
     super.key,
     this.appBar,
     this.extendBodyBehindAppBar = false,
-    this.background = const DvBackground(),
+    this.background,
   });
 
   final Widget body;
   final PreferredSizeWidget? appBar;
 
-  /// What is painted behind the body. Defaults to the watermark the pre-app
-  /// screens share; screens inside the app pass [DvAppGradient], whose plain
-  /// top edge lets them keep an opaque app bar without a seam.
-  final Widget background;
+  /// What is painted behind the body, or nothing at all — which is the default
+  /// because it is what a screen inside the app wants: a plain page is the
+  /// ground its cards are read against, and anything painted on it competes
+  /// with them.
+  ///
+  /// The screens before the app ([DvBackground]'s watermark on the splash and
+  /// the onboarding) pass it themselves. Defaulting the other way round would
+  /// mean a new screen is decorated until someone notices.
+  final Widget? background;
 
   /// Extends the watermark under the app bar (pair with a transparent
   /// [DvAppBar]) so the background reads as one surface. The body is inset below
@@ -29,6 +34,7 @@ class DvScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appBar = this.appBar;
+    final background = this.background;
 
     // When the body sits under the bar, reserve the bar's height plus the
     // status bar so content still starts just below it.
@@ -42,12 +48,16 @@ class DvScaffold extends StatelessWidget {
     return Scaffold(
       appBar: appBar,
       extendBodyBehindAppBar: extendBodyBehindAppBar,
-      body: Stack(
-        children: [
-          Positioned.fill(child: background),
-          Positioned.fill(child: content),
-        ],
-      ),
+      // No background, no Stack: a screen with nothing behind it should not
+      // pay for the layer, and an empty one still composites.
+      body: background == null
+          ? content
+          : Stack(
+              children: [
+                Positioned.fill(child: background),
+                Positioned.fill(child: content),
+              ],
+            ),
     );
   }
 }

@@ -10,6 +10,7 @@ import 'package:dvir/features/Onboarding/application/created_scope_controller.da
 import 'package:dvir/features/Onboarding/application/onboarding_controller.dart';
 import 'package:dvir/features/Onboarding/domain/models/created_scope.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
+import 'package:dvir/features/Shared/presentation/dv_background.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_select_field.dart';
@@ -76,6 +77,7 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
     );
 
     return DvScaffold(
+      background: const DvBackground(),
       extendBodyBehindAppBar: true,
       appBar: DvAppBar(
         title: l10n.onboardingCreateCommunity,

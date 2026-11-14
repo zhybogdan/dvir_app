@@ -80,12 +80,18 @@ class DvTile extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-      child: Material(
-        color: scheme.surfaceContainerLow,
-        borderRadius: radius,
-        child: onTap == null
-            ? content
-            : InkWell(onTap: onTap, borderRadius: radius, child: content),
+      child: DecoratedBox(
+        decoration: AppSurfaces.card(scheme),
+        // Transparent, because the fill belongs to the decoration now: a
+        // Material of its own colour would paint over the hairline drawn
+        // underneath it, and the ink of a tap has to land above the fill.
+        child: Material(
+          color: Colors.transparent,
+          borderRadius: radius,
+          child: onTap == null
+              ? content
+              : InkWell(onTap: onTap, borderRadius: radius, child: content),
+        ),
       ),
     );
   }

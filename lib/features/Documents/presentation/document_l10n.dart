@@ -1,4 +1,5 @@
 import 'package:dvir/app/icons.dart';
+import 'package:dvir/app/theme.dart';
 import 'package:dvir/features/Documents/data/document_storage.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
 import 'package:dvir/l10n/app_localizations.dart';
@@ -56,6 +57,17 @@ IconData documentIcon(Document document) {
   if (mimeType == 'application/pdf') return AppIcons.documentPdf;
 
   return AppIcons.documentGeneric;
+}
+
+/// The colour that row is drawn in — the same three shapes as [documentIcon],
+/// so the two never disagree about what a file is.
+Tone documentTone(Document document) {
+  final mimeType = document.mimeType ?? '';
+
+  if (mimeType.startsWith('image/')) return AppTones.picture;
+  if (mimeType == 'application/pdf') return AppTones.paper;
+
+  return AppTones.other;
 }
 
 /// The date a file was added, as `dd.MM.yyyy`.

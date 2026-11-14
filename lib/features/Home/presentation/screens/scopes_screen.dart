@@ -7,18 +7,18 @@ import 'package:dvir/features/Community/presentation/community_type_l10n.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Home/domain/models/scope_summary.dart';
 import 'package:dvir/features/Home/domain/scope_arrangement.dart';
+import 'package:dvir/features/Home/presentation/components/scope_card.dart';
+import 'package:dvir/features/Home/presentation/scope_counts_l10n.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
-import 'package:dvir/features/Shared/presentation/dv_background.dart';
-import 'package:dvir/features/Shared/presentation/dv_icon_badge.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
-import 'package:dvir/features/Shared/presentation/dv_tile.dart';
 import 'package:dvir/features/Shared/presentation/member_status_l10n.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/presentation/unit_type_icon.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
+import 'package:dvir/features/Units/presentation/unit_type_tone.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,7 +43,6 @@ class ScopesScreen extends ConsumerWidget {
     final people = ref.watch(appCapabilitiesProvider).people;
 
     return DvScaffold(
-      background: const DvAppGradient(),
       appBar: DvAppBar(
         title: l10n.appTitle,
         actions: [
@@ -95,11 +94,11 @@ class _ScopeList extends ConsumerWidget {
         children: [
           if (communities.isNotEmpty) ...[
             _SectionTitle(l10n.scopesCommunities),
-            for (final row in communities) _ScopeCard(row: row),
+            for (final row in communities) _ScopeRow(row: row),
           ],
           if (units.isNotEmpty) ...[
             _SectionTitle(l10n.scopesUnits),
-            for (final row in units) _ScopeCard(row: row),
+            for (final row in units) _ScopeRow(row: row),
           ],
         ],
       ),
@@ -127,29 +126,70 @@ class _SectionTitle extends StatelessWidget {
   }
 }
 
-class _ScopeCard extends StatelessWidget {
-  const _ScopeCard({required this.row});
+/// A place, and under it the objects of the user's own that stand inside it.
+///
+/// Nesting is drawn rather than written: the child is a card of its own, a
+/// step to the right. The line of small print it used to be named in said how
+/// many and which, and nothing about what was in there.
+class _ScopeRow extends StatelessWidget {
+  const _ScopeRow({required this.row});
 
   final ScopeRow row;
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
+    final row = this.row;
     final scope = row.scope;
     final nested = row.nested;
 
-    final (icon, name, kind) = switch (scope) {
+    return Column(
+      children: [
+        _ScopeCard(scope: scope, nestedCount: nested.length),
+        for (final child in nested)
+          Padding(
+            padding: const EdgeInsets.only(left: AppSpacing.lg),
+            child: _NestedCard(summary: child, parent: _nameOf(scope)),
+          ),
+      ],
+    );
+  }
+
+  String? _nameOf(ScopeSummary scope) => switch (scope) {
+    CommunitySummary(:final community) => community?.name,
+    UnitSummary(:final unit) => unit?.label,
+  };
+}
+
+class _ScopeCard extends StatelessWidget {
+  const _ScopeCard({required this.scope, required this.nestedCount});
+
+  final ScopeSummary scope;
+
+  /// Counted from the row rather than asked of the database: the list already
+  /// holds the children by name.
+  final int nestedCount;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final scope = this.scope;
+
+    final (icon, name, subtitle, tone) = switch (scope) {
       CommunitySummary(:final community) => (
         AppIcons.community,
         community?.name,
         community?.type.label(l10n),
+        // A community is a place you belong to, so it takes the tone of a
+        // place rather than one of its own.
+        AppTones.place,
       ),
       UnitSummary(:final unit) => (
         // Null while the scope is still pending, when there is no object to
         // read a type from yet.
         unit?.type.icon ?? AppIcons.unitOther,
         unit?.label,
-        unit?.type.label(l10n),
+        unit == null ? null : _whereItIs(unit, l10n),
+        unit?.type.tone ?? AppTones.other,
       ),
     };
 
@@ -159,28 +199,25 @@ class _ScopeCard extends StatelessWidget {
     // stands.
     final destination = _destinationOf(scope);
 
-    return DvTile(
+    return ScopeCard(
+      icon: icon,
       title: name ?? l10n.scopePending,
-      subtitle: kind ?? scope.status.label(l10n),
-      caption: nested.isEmpty ? null : _nestedCaption(nested, l10n),
-      leading: DvIconBadge(icon: icon, muted: !scope.isActive),
+      subtitle: subtitle ?? scope.status.label(l10n),
+      tone: scope.isActive ? tone : null,
+      counts: scope.countsRow(l10n, nested: nestedCount),
       onTap: destination == null ? null : () => context.push(destination),
     );
   }
 
-  /// The objects folded into this card, named rather than counted — "Flat 1 ·
-  /// Flat 2" says what is in there, "2 objects" only says how many.
+  /// The kind of place and where it stands — "Будинок · Київ, Садова 14".
   ///
-  /// Three fit on a line on a phone; the rest become a tally so the card keeps
-  /// its height whatever the house holds.
-  String _nestedCaption(List<Unit> nested, AppLocalizations l10n) {
-    const shown = 3;
-    final names = nested.take(shown).map((unit) => unit.label).join(' · ');
-    final hidden = nested.length - shown;
+  /// The address collapses to nothing when it was never filled in, which is
+  /// most objects on the day they are created.
+  String _whereItIs(Unit unit, AppLocalizations l10n) {
+    final where = [unit.city, unit.address].nonNulls.join(', ');
+    final kind = unit.type.label(l10n);
 
-    return l10n.scopeNested(
-      hidden > 0 ? '$names ${l10n.scopeNestedMore(hidden)}' : names,
-    );
+    return where.isEmpty ? kind : '$kind · $where';
   }
 
   /// Where the card leads, or null when it leads nowhere yet.
@@ -193,6 +230,38 @@ class _ScopeCard extends StatelessWidget {
       AppRoutes.unitPath(unit.id),
     _ => null,
   };
+}
+
+/// An object inside the card above it.
+///
+/// Its own type is carried by the glyph and the colour, so the line of words
+/// is spent on the one thing the card above cannot say: which place it is in.
+class _NestedCard extends StatelessWidget {
+  const _NestedCard({required this.summary, required this.parent});
+
+  final UnitSummary summary;
+  final String? parent;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final unit = summary.unit;
+    final parent = this.parent;
+
+    if (unit == null) return const SizedBox.shrink();
+
+    return ScopeCard(
+      dense: true,
+      icon: unit.type.icon,
+      title: unit.label,
+      subtitle: parent == null
+          ? unit.type.label(l10n)
+          : l10n.scopeNested(parent),
+      tone: unit.type.tone,
+      counts: summary.countsRow(l10n, nested: 0),
+      onTap: () => context.push(AppRoutes.unitPath(unit.id)),
+    );
+  }
 }
 
 class _ScopesSkeleton extends StatelessWidget {

@@ -23,10 +23,7 @@ class DvInviteCodeCard extends StatelessWidget {
         vertical: AppSpacing.lg,
         horizontal: AppSpacing.md,
       ),
-      decoration: BoxDecoration(
-        color: context.colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-      ),
+      decoration: AppSurfaces.card(context.colorScheme),
       child: Column(
         children: [
           Text(

@@ -72,7 +72,7 @@ void main() {
 
     expect(rows, hasLength(1), reason: 'only the house stays on top');
     expect(
-      rows.single.nested.map((unit) => unit.id),
+      rows.single.nested.map((summary) => summary.unit?.id),
       ['flat-1', 'flat-2'],
       reason: 'and it names what of mine is inside it',
     );

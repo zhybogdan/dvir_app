@@ -40,7 +40,7 @@ void main() {
         ),
         unitsRepositoryProvider.overrideWith((ref) => units),
         scopesRepositoryProvider.overrideWith(
-          (ref) => LocalScopesRepository(units),
+          (ref) => LocalScopesRepository(units, database),
         ),
       ],
     );

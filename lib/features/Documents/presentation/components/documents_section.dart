@@ -52,6 +52,7 @@ class DocumentsSection extends ConsumerWidget {
       children: [
         DvSectionTitle(
           l10n.documents,
+          count: ref.watch(documentsProvider(scope)).value?.length,
           action: canEdit
               ? (
                   label: l10n.unitAddCta,
