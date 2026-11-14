@@ -77,7 +77,7 @@ final class UnitActionsProvider
   }
 }
 
-String _$unitActionsHash() => r'267f028f4eb995ad5ae2fde5dd6013f8d60e7053';
+String _$unitActionsHash() => r'ebc507e9a39917bef2036875e8f197df4b405033';
 
 /// What an owner can do to the object itself, as opposed to its contents.
 ///

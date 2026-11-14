@@ -61,6 +61,12 @@ class ScopesRepositoryImpl implements ScopesRepository {
             community: _embedded(row, 'communities', Community.fromJson),
           ),
         for (final row in units)
+          // `counts` is left unset, which reads as "unknown" and shows no
+          // numbers on the card. Deliberate rather than missing: nothing runs
+          // this implementation yet — `main_unit.dart` is the only entry point
+          // — and an aggregate written against a server no build talks to
+          // would be unverifiable the day it is relied on. It belongs to
+          // whoever opens the community half, with a project to test it on.
           ScopeSummary.unit(
             membership: UnitMembership.fromJson(row),
             unit: _embedded(row, 'units', Unit.fromJson),

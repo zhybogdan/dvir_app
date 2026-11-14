@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dvir/core/riverpod/guarded_actions.dart';
 import 'package:dvir/core/utils/list_reorder.dart';
+import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Units/data/unit_attributes_repository.dart';
 import 'package:dvir/features/Units/data/unit_attributes_repository_impl.dart';
 import 'package:dvir/features/Units/domain/models/unit_attribute.dart';
@@ -98,7 +99,14 @@ class UnitAttributeActions extends _$UnitAttributeActions with GuardedActions {
 
     return guardedVoid(
       () => call(repository),
-      onSuccess: () => ref.invalidate(unitAttributesProvider(unitId)),
+      onSuccess: () {
+        ref.invalidate(unitAttributesProvider(unitId));
+        // The home card counts what this changed, so the list it is drawn from
+        // is stale the moment this succeeds. Invalidated rather than awaited:
+        // nothing navigates after an upload, and making the caller wait on a
+        // second round trip would only slow the screen it is already on.
+        ref.invalidate(myScopesProvider);
+      },
     );
   }
 }

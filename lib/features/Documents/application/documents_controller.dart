@@ -6,6 +6,7 @@ import 'package:dvir/features/Documents/data/documents_repository.dart';
 import 'package:dvir/features/Documents/data/documents_repository_impl.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
 import 'package:dvir/features/Documents/domain/models/document_upload.dart';
+import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -64,7 +65,14 @@ class DocumentActions extends _$DocumentActions with GuardedActions {
 
     return guardedVoid(
       () => call(repository),
-      onSuccess: () => ref.invalidate(documentsProvider(scope)),
+      onSuccess: () {
+        ref.invalidate(documentsProvider(scope));
+        // The home card counts what this changed, so the list it is drawn from
+        // is stale the moment this succeeds. Invalidated rather than awaited:
+        // nothing navigates after an upload, and making the caller wait on a
+        // second round trip would only slow the screen it is already on.
+        ref.invalidate(myScopesProvider);
+      },
     );
   }
 }

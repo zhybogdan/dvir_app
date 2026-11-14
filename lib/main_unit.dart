@@ -55,7 +55,10 @@ Future<void> main() => bootstrap(() async {
     // objects" keeps one definition — hence the provider and not a second
     // instance.
     scopesRepositoryProvider.overrideWith(
-      (ref) => LocalScopesRepository(ref.watch(unitsRepositoryProvider)),
+      (ref) => LocalScopesRepository(
+        ref.watch(unitsRepositoryProvider),
+        ref.watch(appDatabaseProvider),
+      ),
     ),
     unitAttributesRepositoryProvider.overrideWith(
       (ref) => LocalUnitAttributesRepository(ref.watch(appDatabaseProvider)),

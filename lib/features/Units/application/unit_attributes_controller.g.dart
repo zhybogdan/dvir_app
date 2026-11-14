@@ -217,7 +217,7 @@ final class UnitAttributeActionsProvider
 }
 
 String _$unitAttributeActionsHash() =>
-    r'30f8d7fbefc0550e94489749ad030b922bf72e4e';
+    r'bbaabd2c78407bb9319ea20c9ca4bacefb5a2ea0';
 
 /// Adding, rewording, dropping and reordering the facts of one object.
 ///
