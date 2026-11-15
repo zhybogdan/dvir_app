@@ -12,6 +12,10 @@ class AppTheme {
   static ThemeData get light => _build(Brightness.light);
   static ThemeData get dark => _build(Brightness.dark);
 
+  /// The app's typeface, named once because two places need it by name: the
+  /// theme itself, and the button style that does not inherit from it.
+  static const String fontFamily = 'Inter';
+
   static ThemeData _build(Brightness brightness) {
     final scheme = _krayda(
       ColorScheme.fromSeed(seedColor: _seed, brightness: brightness),
@@ -20,7 +24,7 @@ class AppTheme {
     final base = ThemeData(
       colorScheme: scheme,
       useMaterial3: true,
-      fontFamily: 'Inter',
+      fontFamily: fontFamily,
     );
 
     return base.copyWith(
@@ -69,7 +73,16 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.md),
           ),
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          // The family is spelled out although the theme already carries it.
+          // A button's label is not merged with the text theme the way a
+          // field's label is: `ButtonStyle.textStyle` is handed to the label
+          // as it stands, so a null family here is the platform's font — and
+          // the one string in the app not drawn in Inter.
+          textStyle: const TextStyle(
+            fontFamily: fontFamily,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
