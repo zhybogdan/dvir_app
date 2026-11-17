@@ -88,6 +88,44 @@ class AppTheme {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(foregroundColor: scheme.primary),
       ),
+      segmentedButtonTheme: SegmentedButtonThemeData(
+        style: ButtonStyle(
+          minimumSize: const WidgetStatePropertyAll(Size.fromHeight(48)),
+          // Material fills the chosen segment with `secondaryContainer` — a
+          // tone at low alpha over a surface, which is the thing this palette
+          // was rebuilt to stop doing. In dark it arrives a muddy grey-violet
+          // and the chosen option ends up quieter than the ones beside it.
+          // Solid, the way every other mark in the app is.
+          backgroundColor: WidgetStateProperty.resolveWith(
+            (states) => states.contains(WidgetState.selected)
+                ? scheme.primary
+                : Colors.transparent,
+          ),
+          foregroundColor: WidgetStateProperty.resolveWith(
+            (states) => states.contains(WidgetState.selected)
+                ? scheme.onPrimary
+                : scheme.onSurface,
+          ),
+          // `outline` and not `outlineVariant`, for the reason the input
+          // field's border carries: a hairline meant for a card's edge reads
+          // about 1.1:1 against the page this control stands on.
+          side: WidgetStatePropertyAll(BorderSide(color: scheme.outline)),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppRadius.md),
+            ),
+          ),
+          // Spelled out for the same reason the filled button spells it out:
+          // `ButtonStyle.textStyle` is handed to the label as written.
+          textStyle: const WidgetStatePropertyAll(
+            TextStyle(
+              fontFamily: fontFamily,
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
     );
   }
 
