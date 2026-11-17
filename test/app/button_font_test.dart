@@ -1,5 +1,6 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_segmented.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -21,7 +22,7 @@ void main() {
     (name: 'light', data: AppTheme.light),
     (name: 'dark', data: AppTheme.dark),
   ]) {
-    testWidgets('a filled button draws its label in ${AppTheme.fontFamily} '
+    testWidgets('a button draws its label in ${AppTheme.fontFamily} '
         '(${theme.name})', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -33,6 +34,18 @@ void main() {
                 DvButton(label: 'Зберегти', onPressed: () {}),
                 DvButton.tonal(label: 'Скасувати', onPressed: () {}),
                 DvButton.danger(label: 'Видалити', onPressed: () {}),
+                // A segmented control's labels go through the same
+                // `ButtonStyle.textStyle`, so they fall into the same hole.
+                // Both states are here: the chosen segment resolves its style
+                // separately from the ones beside it.
+                DvSegmented<int>(
+                  value: 0,
+                  onChanged: (_) {},
+                  segments: const [
+                    DvSegment(value: 0, label: 'Світла'),
+                    DvSegment(value: 1, label: 'Темна'),
+                  ],
+                ),
               ],
             ),
           ),
@@ -51,7 +64,13 @@ void main() {
       // theme stopped carrying the typeface at all, which is a different bug.
       expect(familyOf('довільний рядок'), AppTheme.fontFamily);
 
-      for (final label in ['Зберегти', 'Скасувати', 'Видалити']) {
+      for (final label in [
+        'Зберегти',
+        'Скасувати',
+        'Видалити',
+        'Світла',
+        'Темна',
+      ]) {
         expect(
           familyOf(label),
           AppTheme.fontFamily,
