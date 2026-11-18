@@ -23,9 +23,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 /// How many files the hub shows before sending the reader to the screen holding
-/// all of them — the same five the record above it shows, so the hub keeps one
-/// rhythm rather than one per section.
-const int documentsPreview = 5;
+/// all of them — two full rows of three, so the grid never ends on a row with
+/// one tile and two holes in it.
+const int documentsPreview = 6;
 
 /// The papers kept against an object, as one section of its hub.
 ///
@@ -34,11 +34,12 @@ const int documentsPreview = 5;
 /// community half of the table needs its own section with its own predicate,
 /// which is why nothing below this widget knows about units.
 ///
-/// **Draws to the edge of the screen and pads itself.** The papers are a row
-/// that scrolls sideways, and a row that stops at the page's gutter reads as a
-/// box with its contents cut off rather than as more to swipe to; so the hub
-/// leaves this one section unpadded, and the heading, the empty state and the
-/// link below carry the gutter themselves.
+/// The papers are a grid three to a row, where what stands inside the object
+/// is a grid two to a row: the whole page scrolls one way and nothing hides
+/// past an edge. A sideways row was drawn first and refused on the device —
+/// next to the grid below it, two white tiles that looked alike and behaved
+/// differently read as an accident, and the third paper sat cut off at the
+/// edge.
 class DocumentsSection extends ConsumerWidget {
   const DocumentsSection({required this.unitId, super.key});
 
@@ -61,17 +62,15 @@ class DocumentsSection extends ConsumerWidget {
 
     return Column(
       children: [
-        _Gutter(
-          child: DvSectionTitle(
-            l10n.documents,
-            count: ref.watch(documentsProvider(scope)).value?.length,
-            action: canEdit
-                ? (
-                    label: l10n.unitAddCta,
-                    onPressed: () => DocumentAddFlow.start(context, ref, scope),
-                  )
-                : null,
-          ),
+        DvSectionTitle(
+          l10n.documents,
+          count: ref.watch(documentsProvider(scope)).value?.length,
+          action: canEdit
+              ? (
+                  label: l10n.unitAddCta,
+                  onPressed: () => DocumentAddFlow.start(context, ref, scope),
+                )
+              : null,
         ),
         // An upload of a few megabytes takes long enough that a section which
         // shows nothing reads as a tap that did not land.
@@ -97,11 +96,11 @@ class _DocumentsPreview extends ConsumerWidget {
 
     return DvAsyncView<List<Document>>(
       value: ref.watch(documentsProvider(scope)),
-      skeleton: const _Gutter(child: DvTilesSkeleton()),
+      skeleton: const DvTilesSkeleton(),
       onRetry: () => ref.invalidate(documentsProvider(scope)),
       builder: (context, documents) {
         if (documents.isEmpty) {
-          return _Gutter(child: DvEmptyView(message: l10n.documentsEmpty));
+          return DvEmptyView(message: l10n.documentsEmpty);
         }
 
         final total = documents.length;
@@ -109,35 +108,37 @@ class _DocumentsPreview extends ConsumerWidget {
 
         return Column(
           children: [
-            SizedBox(
-              // Two single lines under an 88 card, sized for the largest text
-              // scale the app follows rather than for 1.0: a row of fixed
-              // height that clips its titles at 1.4 is worse than a little air
-              // at 1.0.
-              height: 148,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-                itemCount: shown.length,
-                separatorBuilder: (context, index) =>
-                    const SizedBox(width: AppSpacing.md),
-                itemBuilder: (context, index) => _PaperTile(
-                  scope: scope,
-                  document: shown[index],
-                  canEdit: canEdit,
-                ),
-              ),
+            LayoutBuilder(
+              // A third of the width less the gaps, so the grid stays three to
+              // a row whatever the phone.
+              builder: (context, constraints) {
+                final width = (constraints.maxWidth - AppSpacing.md * 2) / 3;
+
+                return Wrap(
+                  spacing: AppSpacing.md,
+                  runSpacing: AppSpacing.md,
+                  children: [
+                    for (final document in shown)
+                      SizedBox(
+                        width: width,
+                        child: _PaperTile(
+                          scope: scope,
+                          document: document,
+                          canEdit: canEdit,
+                        ),
+                      ),
+                  ],
+                );
+              },
             ),
             // The count is everything kept here, not what is left over: "all 8"
             // says something, "3 more" only looks like an oversight.
             if (total > documentsPreview)
-              _Gutter(
-                child: DvTextButton(
-                  label: l10n.documentsShowAll(total),
-                  icon: AppIcons.expand,
-                  onPressed: () =>
-                      context.push(AppRoutes.unitDocumentsPath(scope.id)),
-                ),
+              DvTextButton(
+                label: l10n.documentsShowAll(total),
+                icon: AppIcons.expand,
+                onPressed: () =>
+                    context.push(AppRoutes.unitDocumentsPath(scope.id)),
               ),
           ],
         );
@@ -151,8 +152,9 @@ class _DocumentsPreview extends ConsumerWidget {
 /// A scan is a picture, and three of them side by side say more about what is
 /// kept here than three identical grey lines. Tapping opens the file, which is
 /// what a tenant is here for as much as a keeper; renaming and dropping sit
-/// behind a long press, because a tile 128 wide has no room for three dots and
-/// the row would read as a list of settings again if it had them.
+/// behind a long press, because a tile a third of the screen wide has no room
+/// for three dots and the grid would read as a list of settings again if it
+/// had them.
 class _PaperTile extends ConsumerWidget {
   const _PaperTile({
     required this.scope,
@@ -187,79 +189,65 @@ class _PaperTile extends ConsumerWidget {
           )
         : null;
 
-    return SizedBox(
-      width: 128,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          DecoratedBox(
-            decoration: AppSurfaces.card(scheme),
-            // Transparent, so the ink lands above the card's own fill — the
-            // same reason DvTile gives for it.
-            child: Material(
-              color: Colors.transparent,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        DecoratedBox(
+          decoration: AppSurfaces.card(scheme),
+          // Transparent, so the ink lands above the card's own fill — the
+          // same reason DvTile gives for it.
+          child: Material(
+            color: Colors.transparent,
+            borderRadius: radius,
+            child: InkWell(
               borderRadius: radius,
-              child: InkWell(
-                borderRadius: radius,
-                onTap: open,
-                onLongPress: menu,
-                child: SizedBox(
-                  height: 88,
-                  width: double.infinity,
-                  child: Center(
-                    child: DvIconBadge(
-                      icon: documentIcon(document),
-                      tone: documentTone(document),
-                    ),
+              onTap: open,
+              onLongPress: menu,
+              // Square: three to a row, a card taller than it is wide
+              // stands out of the grid, and a flatter one loses the mark.
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: Center(
+                  child: DvIconBadge(
+                    icon: documentIcon(document),
+                    tone: documentTone(document),
                   ),
                 ),
               ),
             ),
           ),
-          // The name is what a finger aims at as often as the card above it,
-          // so it answers the same two gestures. The ink stays on the card:
-          // spread over the labels it would paint outside the tile's shape.
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: open,
-            onLongPress: menu,
-            child: Padding(
-              padding: const EdgeInsets.only(top: AppSpacing.sm),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    document.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: context.textTheme.labelLarge,
+        ),
+        // The name is what a finger aims at as often as the card above it,
+        // so it answers the same two gestures. The ink stays on the card:
+        // spread over the labels it would paint outside the tile's shape.
+        GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: open,
+          onLongPress: menu,
+          child: Padding(
+            padding: const EdgeInsets.only(top: AppSpacing.sm),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  document.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.textTheme.labelLarge,
+                ),
+                Text(
+                  documentSubtitle(document, l10n),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.textTheme.labelSmall?.copyWith(
+                    color: scheme.onSurfaceVariant,
                   ),
-                  Text(
-                    documentSubtitle(document, l10n),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: context.textTheme.labelSmall?.copyWith(
-                      color: scheme.onSurfaceVariant,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
-}
-
-class _Gutter extends StatelessWidget {
-  const _Gutter({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-    child: child,
-  );
 }

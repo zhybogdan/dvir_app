@@ -113,8 +113,9 @@ void main() {
   ) async {
     await _pump(tester, canEdit: true, documents: _many(8));
 
-    expect(find.text('Документ 4'), findsOneWidget);
-    expect(find.text('Документ 5'), findsNothing);
+    // Two full rows of three, so the grid never ends on a lone tile.
+    expect(find.text('Документ ${documentsPreview - 1}'), findsOneWidget);
+    expect(find.text('Документ $documentsPreview'), findsNothing);
     expect(find.text(l10n.documentsShowAll(8)), findsOneWidget);
   });
 }

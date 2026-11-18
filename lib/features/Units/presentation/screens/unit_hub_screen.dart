@@ -133,56 +133,39 @@ class _Hub extends ConsumerWidget {
           ..invalidate(contactsProvider(ScopeRef.unit(unit.id)))
           ..invalidate(unitChildrenProvider(unit.id));
       },
-      // Vertical padding only: the gutter is given to each section below
-      // rather than to the list, because the papers run to the screen's edge
-      // and a list-wide gutter would cut their row off at it.
       child: ListView(
-        padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         children: [
-          _Gutter(child: UnitHead(unit: unit)),
+          UnitHead(unit: unit),
           const SizedBox(height: AppSpacing.xl),
           if (showStart)
-            _Gutter(child: UnitStartBlock(unit: unit))
+            UnitStartBlock(unit: unit)
           else ...[
-            _Gutter(child: UnitAttributesSection(unitId: unit.id)),
+            UnitAttributesSection(unitId: unit.id),
             const SizedBox(height: AppSpacing.xl),
             DocumentsSection(unitId: unit.id),
             const SizedBox(height: AppSpacing.xl),
             // Before the phones, as drawn: what stands inside is part of what
             // the place is, and the numbers are what is called about it.
-            _Gutter(
-              child: UnitChildrenSection(
-                unitId: unit.id,
-                canAdd: isOwner && canHoldChildren(unit.type),
-              ),
+            UnitChildrenSection(
+              unitId: unit.id,
+              canAdd: isOwner && canHoldChildren(unit.type),
             ),
             const SizedBox(height: AppSpacing.xl),
-            _Gutter(child: ContactsSection(unitId: unit.id)),
+            ContactsSection(unitId: unit.id),
             if (isOwner && people) ...[
               const SizedBox(height: AppSpacing.xl),
-              _Gutter(child: UnitInviteSection(unit: unit)),
+              UnitInviteSection(unit: unit),
             ],
             if (people) ...[
               const SizedBox(height: AppSpacing.xl),
-              _Gutter(child: UnitPeopleSection(unitId: unit.id)),
+              UnitPeopleSection(unitId: unit.id),
             ],
           ],
         ],
       ),
     );
   }
-}
-
-class _Gutter extends StatelessWidget {
-  const _Gutter({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-    child: child,
-  );
 }
 
 class _HubSkeleton extends StatelessWidget {
