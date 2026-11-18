@@ -139,10 +139,7 @@ class _Hub extends ConsumerWidget {
           UnitHead(unit: unit),
           const SizedBox(height: AppSpacing.xl),
           if (showStart)
-            UnitStartBlock(
-              unitId: unit.id,
-              canHoldChildren: canHoldChildren(unit.type),
-            )
+            UnitStartBlock(unit: unit)
           else ...[
             UnitAttributesSection(unitId: unit.id),
             const SizedBox(height: AppSpacing.lg),

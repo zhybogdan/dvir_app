@@ -14,6 +14,7 @@ import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/models/unit_attribute.dart';
 import 'package:dvir/features/Units/domain/types/unit_type.dart';
 import 'package:dvir/features/Units/presentation/screens/unit_hub_screen.dart';
+import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +92,10 @@ void main() {
     await _pump(tester);
 
     expect(find.text(l10n.unitStartLead), findsOneWidget);
-    expect(find.text(l10n.unitStartFacts), findsOneWidget);
+    expect(
+      find.text(l10n.unitStartFacts(UnitType.house.label(l10n).toLowerCase())),
+      findsOneWidget,
+    );
     expect(find.text(l10n.unitStartDocument), findsOneWidget);
     expect(find.text(l10n.unitStartContact), findsOneWidget);
 

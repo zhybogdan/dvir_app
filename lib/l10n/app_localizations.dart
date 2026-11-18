@@ -1195,19 +1195,19 @@ abstract class AppLocalizations {
   /// No description provided for @unitStartLead.
   ///
   /// In uk, this message translates to:
-  /// **'Дім заповнюється не за один раз. Почніть з того, що доведеться шукати першим.'**
+  /// **'Усе одразу записувати не треба. Почніть з того, що доведеться шукати першим.'**
   String get unitStartLead;
 
-  /// No description provided for @unitStartFacts.
+  /// First step on an empty object; type is its kind, lowercased — дім, квартира, гараж
   ///
   /// In uk, this message translates to:
-  /// **'Запишіть, що це за дім'**
-  String get unitStartFacts;
+  /// **'Запишіть, що це за {type}'**
+  String unitStartFacts(String type);
 
   /// No description provided for @unitStartFactsWhy.
   ///
   /// In uk, this message translates to:
-  /// **'Те, що варто пам\'ятати про цю оселю'**
+  /// **'Те, що варто пам\'ятати'**
   String get unitStartFactsWhy;
 
   /// No description provided for @unitStartDocument.
@@ -1215,6 +1215,12 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Покладіть техпаспорт'**
   String get unitStartDocument;
+
+  /// No description provided for @unitStartDocumentNested.
+  ///
+  /// In uk, this message translates to:
+  /// **'Покладіть папір'**
+  String get unitStartDocumentNested;
 
   /// No description provided for @unitStartDocumentWhy.
   ///
@@ -1269,6 +1275,12 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Зберегти'**
   String get saveCta;
+
+  /// Under the name of a nested object: what it is and which object it stands in
+  ///
+  /// In uk, this message translates to:
+  /// **'{type} · усередині: {parent}'**
+  String unitHeadInside(String type, String parent);
 
   /// Small caption naming the objects nested in a scope card
   ///

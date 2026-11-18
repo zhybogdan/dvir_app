@@ -602,16 +602,21 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get unitStartLead =>
-      'Дім заповнюється не за один раз. Почніть з того, що доведеться шукати першим.';
+      'Усе одразу записувати не треба. Почніть з того, що доведеться шукати першим.';
 
   @override
-  String get unitStartFacts => 'Запишіть, що це за дім';
+  String unitStartFacts(String type) {
+    return 'Запишіть, що це за $type';
+  }
 
   @override
-  String get unitStartFactsWhy => 'Те, що варто пам\'ятати про цю оселю';
+  String get unitStartFactsWhy => 'Те, що варто пам\'ятати';
 
   @override
   String get unitStartDocument => 'Покладіть техпаспорт';
+
+  @override
+  String get unitStartDocumentNested => 'Покладіть папір';
 
   @override
   String get unitStartDocumentWhy =>
@@ -641,6 +646,11 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get saveCta => 'Зберегти';
+
+  @override
+  String unitHeadInside(String type, String parent) {
+    return '$type · усередині: $parent';
+  }
 
   @override
   String scopeNested(String items) {

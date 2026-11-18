@@ -1,9 +1,11 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
+import 'package:dvir/features/Units/application/unit_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// The object's name, and where the place stands.
 ///
@@ -13,26 +15,35 @@ import 'package:flutter/material.dart';
 /// was tapped. Nothing else belongs here — every number that used to sit at
 /// the top is printed beside the heading of the section it counts.
 ///
-/// A nested object stands at the address of the house around it, which is its
-/// parent's fact: it says what it is and stops there.
-class UnitHead extends StatelessWidget {
+/// What the second line says depends on what the object *is*:
+///
+/// - standing on its own, it says its kind and its address;
+/// - standing inside another, it says its kind and which object it is in. The
+///   address below it belongs to the house around it, which is its parent's
+///   fact rather than its own.
+///
+/// A name that is already the kind — a garage somebody called "Гараж" — drops
+/// the kind and keeps only where it stands, because the line existed to say
+/// something the name had not.
+class UnitHead extends ConsumerWidget {
   const UnitHead({required this.unit, super.key});
 
   final Unit unit;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final unit = this.unit;
     final l10n = AppLocalizations.of(context);
     final text = context.textTheme;
 
-    final place = <String>[
-      if (unit.parentId == null) ...[?unit.city, ?unit.address],
-    ];
-    final line = <String>[
-      unit.type.label(l10n),
-      if (place.isNotEmpty) place.join(', '),
-    ].join(' · ');
+    final parentId = unit.parentId;
+    final type = unit.type.label(l10n);
+    // Null while the object above is still being read, and for good after a
+    // failure — in both cases the kind alone is true, where a half-written
+    // "усередині:" would not be.
+    final parent = parentId == null
+        ? null
+        : ref.watch(unitProvider(parentId)).value?.label;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,12 +57,26 @@ class UnitHead extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.sm),
         Text(
-          line,
+          _line(l10n, type, parent),
           style: text.bodyMedium?.copyWith(
             color: context.colorScheme.onSurfaceVariant,
           ),
         ),
       ],
     );
+  }
+
+  String _line(AppLocalizations l10n, String type, String? parent) {
+    if (parent != null) {
+      return unit.label.toLowerCase() == type.toLowerCase()
+          ? l10n.scopeNested(parent)
+          : l10n.unitHeadInside(type, parent);
+    }
+
+    final place = <String>[
+      if (unit.parentId == null) ...[?unit.city, ?unit.address],
+    ];
+
+    return <String>[type, if (place.isNotEmpty) place.join(', ')].join(' · ');
   }
 }
