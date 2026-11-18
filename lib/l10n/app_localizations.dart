@@ -868,6 +868,12 @@ abstract class AppLocalizations {
   /// **'Характеристики'**
   String get unitAttributes;
 
+  /// No description provided for @unitAttributesEdit.
+  ///
+  /// In uk, this message translates to:
+  /// **'Змінити'**
+  String get unitAttributesEdit;
+
   /// No description provided for @unitAttributesEmpty.
   ///
   /// In uk, this message translates to:

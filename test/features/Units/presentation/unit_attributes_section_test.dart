@@ -70,13 +70,17 @@ Future<void> _pump(
 void main() {
   final l10n = AppLocalizationsUk();
 
-  testWidgets('a keeper is offered a way to add and to change each fact', (
+  // The hub reads the record and the record's own screen changes it: one
+  // "Змінити" in the heading rather than a menu on every pair, which is what
+  // made five facts read as five settings.
+  testWidgets('a keeper is offered one way into changing the record', (
     tester,
   ) async {
     await _pump(tester, canEdit: true);
 
-    expect(find.text(l10n.unitAddCta), findsOneWidget);
-    expect(find.byType(DvMenu), findsNWidgets(_facts.length));
+    expect(find.text(l10n.unitAttributesEdit), findsOneWidget);
+    expect(find.text(l10n.unitAddCta), findsNothing);
+    expect(find.byType(DvMenu), findsNothing);
   });
 
   testWidgets('a tenant reads the same facts and is offered neither', (
@@ -87,6 +91,7 @@ void main() {
     expect(find.text('Рік побудови'), findsOneWidget);
     expect(find.text('1998'), findsOneWidget);
     expect(find.text(l10n.unitAddCta), findsNothing);
+    expect(find.text(l10n.unitAttributesEdit), findsNothing);
     expect(find.byType(DvMenu), findsNothing);
   });
 
@@ -96,7 +101,10 @@ void main() {
     await _pump(tester, canEdit: true, attributes: const []);
 
     expect(find.text(l10n.unitAttributesEmpty), findsOneWidget);
+    // Nothing to change yet: the heading offers the first fact, not a screen
+    // holding an empty list.
     expect(find.text(l10n.unitAddCta), findsOneWidget);
+    expect(find.text(l10n.unitAttributesEdit), findsNothing);
   });
 
   // The hub is a column of sections, and a long record would push the ones

@@ -417,6 +417,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitAttributes => 'Характеристики';
 
   @override
+  String get unitAttributesEdit => 'Змінити';
+
+  @override
   String get unitAttributesEmpty =>
       'Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам\'ятати про цю оселю.';
 

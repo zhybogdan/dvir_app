@@ -203,6 +203,7 @@
   },
   "deleteUnitBody": "Разом з ним зникне все, що всередині, і всі мешканці. Дію не можна скасувати.",
   "unitAttributes": "Характеристики",
+  "unitAttributesEdit": "Змінити",
   "unitAttributesEmpty": "Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам'ятати про цю оселю.",
   "unitAttributesShowAll": "Показати всі {count}",
   "@unitAttributesShowAll": {

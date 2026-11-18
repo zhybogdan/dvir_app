@@ -54,17 +54,26 @@ Future<void> _pump(
 void main() {
   final l10n = AppLocalizationsUk();
 
-  testWidgets('a keeper is offered a way to add, and a menu on each row', (
+  // A phone on the hub is a name and a call, with no three dots beside it:
+  // changing or dropping it sits behind a long press, and what is pinned is
+  // that it is still there for a keeper.
+  testWidgets('a keeper is offered a way to add, and a menu on a long press', (
     tester,
   ) async {
     await _pump(tester, canEdit: true);
 
     expect(find.text(l10n.unitAddCta), findsOneWidget);
-    expect(find.byType(DvMenu), findsNWidgets(2));
+    expect(find.byType(DvMenu), findsNothing);
+    // The handset says what a tap does, for a keeper as much as for anyone.
+    expect(find.byIcon(AppIcons.call), findsNWidgets(2));
+
+    await tester.longPress(find.text('Контакт 0'));
+    await tester.pumpAndSettle();
+
+    expect(find.text(l10n.editContact), findsOneWidget);
+    expect(find.text(l10n.deleteContact), findsOneWidget);
   });
 
-  // The row still dials — the handset in its place says so, where a keeper sees
-  // the menu instead.
   testWidgets('a tenant reads the same numbers and is offered no menu', (
     tester,
   ) async {
@@ -72,8 +81,13 @@ void main() {
 
     expect(find.text('Контакт 0'), findsOneWidget);
     expect(find.text(l10n.unitAddCta), findsNothing);
-    expect(find.byType(DvMenu), findsNothing);
     expect(find.byIcon(AppIcons.call), findsNWidgets(2));
+
+    // Asked of the widget rather than acted out: a long press with nothing
+    // bound to it falls through to a tap, and a tap dials.
+    final rows = tester.widgetList<InkWell>(find.byType(InkWell));
+    expect(rows, isNotEmpty);
+    expect(rows.every((row) => row.onLongPress == null), isTrue);
   });
 
   testWidgets('an object with no numbers says what belongs here', (

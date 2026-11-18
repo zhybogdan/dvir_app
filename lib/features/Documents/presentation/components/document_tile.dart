@@ -56,19 +56,20 @@ class DocumentTile extends ConsumerWidget {
           : null,
     );
   }
-}
 
-/// Renaming a file, or dropping it and the object behind it.
-class _DocumentMenu extends ConsumerWidget {
-  const _DocumentMenu({required this.scope, required this.document});
-
-  final ScopeRef scope;
-  final Document document;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  /// Renaming the file, or dropping it and the object behind it — the items
+  /// of its menu.
+  ///
+  /// Static so a paper drawn as a tile in the hub's row, which has no room for
+  /// three dots and opens the same menu on a long press, offers exactly what
+  /// this row does rather than a second copy of it.
+  static List<DvMenuItem> actionsFor(
+    BuildContext context,
+    WidgetRef ref, {
+    required ScopeRef scope,
+    required Document document,
+  }) {
     final l10n = AppLocalizations.of(context);
-    final document = this.document;
 
     // Held before the sheet and the dialog: after an await the ref may no
     // longer be the one this row was built with.
@@ -98,21 +99,36 @@ class _DocumentMenu extends ConsumerWidget {
       await actions.remove(document);
     }
 
-    return DvMenu(
-      tooltip: l10n.moreActions,
-      items: [
-        DvMenuItem(
-          label: l10n.editDocument,
-          icon: AppIcons.edit,
-          onSelected: rename,
-        ),
-        DvMenuItem(
-          label: l10n.deleteDocument,
-          icon: AppIcons.delete,
-          onSelected: remove,
-          isDestructive: true,
-        ),
-      ],
-    );
+    return [
+      DvMenuItem(
+        label: l10n.editDocument,
+        icon: AppIcons.edit,
+        onSelected: rename,
+      ),
+      DvMenuItem(
+        label: l10n.deleteDocument,
+        icon: AppIcons.delete,
+        onSelected: remove,
+        isDestructive: true,
+      ),
+    ];
   }
+}
+
+class _DocumentMenu extends ConsumerWidget {
+  const _DocumentMenu({required this.scope, required this.document});
+
+  final ScopeRef scope;
+  final Document document;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) => DvMenu(
+    tooltip: AppLocalizations.of(context).moreActions,
+    items: DocumentTile.actionsFor(
+      context,
+      ref,
+      scope: scope,
+      document: document,
+    ),
+  );
 }
