@@ -93,7 +93,7 @@ class _Numbers extends StatelessWidget {
     final canEdit = this.canEdit;
 
     return ListView.builder(
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      padding: context.pagePadding,
       itemCount: contacts.length,
       itemBuilder: (context, index) =>
           ContactTile(scope: scope, contact: contacts[index], canEdit: canEdit),

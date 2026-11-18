@@ -1,3 +1,4 @@
+import 'package:dvir/app/app_shell.dart';
 import 'package:dvir/app/redirect.dart';
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/core/logging/app_logger.dart';
@@ -6,7 +7,9 @@ import 'package:dvir/features/Auth/application/auth_controller.dart';
 import 'package:dvir/features/Auth/domain/models/app_user.dart';
 import 'package:dvir/features/Auth/presentation/screens/login_screen.dart';
 import 'package:dvir/features/Auth/presentation/screens/register_screen.dart';
+import 'package:dvir/features/Contacts/presentation/screens/all_contacts_screen.dart';
 import 'package:dvir/features/Contacts/presentation/screens/contacts_screen.dart';
+import 'package:dvir/features/Documents/presentation/screens/all_documents_screen.dart';
 import 'package:dvir/features/Documents/presentation/screens/documents_screen.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Home/presentation/screens/scopes_screen.dart';
@@ -20,7 +23,7 @@ import 'package:dvir/features/Shared/presentation/splash_screen.dart';
 import 'package:dvir/features/Units/presentation/screens/unit_attributes_screen.dart';
 import 'package:dvir/features/Units/presentation/screens/unit_form_screen.dart';
 import 'package:dvir/features/Units/presentation/screens/unit_hub_screen.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -57,6 +60,10 @@ GoRouter router(Ref ref) {
   final refresh = ValueNotifier<int>(0);
   ref.onDispose(refresh.dispose);
 
+  // The navigator above the tabs. Forms are pushed onto it rather than onto
+  // a tab's own, so the island is not under a form that has one way out.
+  final rootNavigatorKey = GlobalKey<NavigatorState>();
+
   final subscription = ref.listen<NavigationState>(
     navigationStateProvider,
     (previous, next) => refresh.value++,
@@ -65,6 +72,7 @@ GoRouter router(Ref ref) {
   ref.onDispose(subscription.close);
 
   return GoRouter(
+    navigatorKey: rootNavigatorKey,
     initialLocation: AppRoutes.splash,
     refreshListenable: refresh,
     observers: [AppRouteObserver()],
@@ -100,14 +108,6 @@ GoRouter router(Ref ref) {
         builder: (context, state) => const RegisterScreen(),
       ),
       GoRoute(
-        path: AppRoutes.home,
-        builder: (context, state) => const ScopesScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.profile,
-        builder: (context, state) => const ProfileScreen(),
-      ),
-      GoRoute(
         path: AppRoutes.onboarding,
         builder: (context, state) => const OnboardingChoiceScreen(),
       ),
@@ -135,19 +135,91 @@ GoRouter router(Ref ref) {
         path: AppRoutes.pending,
         builder: (context, state) => const PendingApprovalScreen(),
       ),
-      GoRoute(
-        path: AppRoutes.unit,
-        builder: (context, state) {
-          final unitId = state.pathParameters['unitId'];
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            AppShell(navigationShell: navigationShell),
+        branches: [
+          // Objects, and everything opened from one. The object's screens sit
+          // in this branch rather than above the shell, so the island stays
+          // under them and the tab remembers which house was open.
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.home,
+                builder: (context, state) => const ScopesScreen(),
+              ),
+              GoRoute(
+                path: AppRoutes.unit,
+                builder: (context, state) {
+                  final unitId = state.pathParameters['unitId'];
 
-          // Only reachable through a hand-typed link: the path declares the
-          // parameter, so the router fills it in for every real navigation.
-          return unitId == null
-              ? const SplashScreen()
-              : UnitHubScreen(unitId: unitId);
-        },
+                  // Only reachable through a hand-typed link: the path declares the
+                  // parameter, so the router fills it in for every real navigation.
+                  return unitId == null
+                      ? const SplashScreen()
+                      : UnitHubScreen(unitId: unitId);
+                },
+              ),
+              GoRoute(
+                path: AppRoutes.unitAttributes,
+                builder: (context, state) {
+                  final unitId = state.pathParameters['unitId'];
+
+                  return unitId == null
+                      ? const SplashScreen()
+                      : UnitAttributesScreen(unitId: unitId);
+                },
+              ),
+              GoRoute(
+                path: AppRoutes.unitDocuments,
+                builder: (context, state) {
+                  final unitId = state.pathParameters['unitId'];
+
+                  return unitId == null
+                      ? const SplashScreen()
+                      : UnitDocumentsScreen(unitId: unitId);
+                },
+              ),
+              GoRoute(
+                path: AppRoutes.unitContacts,
+                builder: (context, state) {
+                  final unitId = state.pathParameters['unitId'];
+
+                  return unitId == null
+                      ? const SplashScreen()
+                      : UnitContactsScreen(unitId: unitId);
+                },
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.documents,
+                builder: (context, state) => const AllDocumentsScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.contacts,
+                builder: (context, state) => const AllContactsScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.profile,
+                builder: (context, state) => const ProfileScreen(),
+              ),
+            ],
+          ),
+        ],
       ),
       GoRoute(
+        parentNavigatorKey: rootNavigatorKey,
         path: AppRoutes.unitEdit,
         builder: (context, state) {
           final unitId = state.pathParameters['unitId'];
@@ -158,6 +230,7 @@ GoRouter router(Ref ref) {
         },
       ),
       GoRoute(
+        parentNavigatorKey: rootNavigatorKey,
         path: AppRoutes.unitAdd,
         builder: (context, state) {
           final unitId = state.pathParameters['unitId'];
@@ -165,36 +238,6 @@ GoRouter router(Ref ref) {
           return unitId == null
               ? const SplashScreen()
               : UnitFormScreen(parentId: unitId);
-        },
-      ),
-      GoRoute(
-        path: AppRoutes.unitAttributes,
-        builder: (context, state) {
-          final unitId = state.pathParameters['unitId'];
-
-          return unitId == null
-              ? const SplashScreen()
-              : UnitAttributesScreen(unitId: unitId);
-        },
-      ),
-      GoRoute(
-        path: AppRoutes.unitDocuments,
-        builder: (context, state) {
-          final unitId = state.pathParameters['unitId'];
-
-          return unitId == null
-              ? const SplashScreen()
-              : UnitDocumentsScreen(unitId: unitId);
-        },
-      ),
-      GoRoute(
-        path: AppRoutes.unitContacts,
-        builder: (context, state) {
-          final unitId = state.pathParameters['unitId'];
-
-          return unitId == null
-              ? const SplashScreen()
-              : UnitContactsScreen(unitId: unitId);
         },
       ),
     ],

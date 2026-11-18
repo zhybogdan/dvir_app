@@ -4,6 +4,8 @@ import 'package:dvir/core/riverpod/guarded_actions.dart';
 import 'package:dvir/features/Contacts/data/contacts_repository.dart';
 import 'package:dvir/features/Contacts/data/contacts_repository_impl.dart';
 import 'package:dvir/features/Contacts/domain/models/contact.dart';
+import 'package:dvir/features/Home/application/my_scopes_controller.dart';
+import 'package:dvir/features/Home/application/object_groups.dart';
 import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -58,3 +60,13 @@ class ContactActions extends _$ContactActions with GuardedActions {
     );
   }
 }
+
+/// Every number across every object, grouped by object — the third tab.
+///
+/// Synchronous for the reason `allDocuments` is: it composes lists that are
+/// already held rather than reading anything of its own.
+@riverpod
+AsyncValue<List<ObjectGroup<Contact>>> allContacts(Ref ref) => groupByObject(
+  ref.watch(myScopesProvider),
+  (scope) => ref.watch(contactsProvider(scope)),
+);

@@ -154,6 +154,12 @@ abstract class AppLocalizations {
   /// **'Профіль'**
   String get profileTitle;
 
+  /// No description provided for @navObjects.
+  ///
+  /// In uk, this message translates to:
+  /// **'Об\'єкти'**
+  String get navObjects;
+
   /// No description provided for @profileHint.
   ///
   /// In uk, this message translates to:
@@ -964,6 +970,12 @@ abstract class AppLocalizations {
   /// **'Документи'**
   String get documents;
 
+  /// No description provided for @allDocumentsEmpty.
+  ///
+  /// In uk, this message translates to:
+  /// **'Тут зберуться папери з усіх ваших об\'єктів. Перший додають на екрані об\'єкта.'**
+  String get allDocumentsEmpty;
+
   /// No description provided for @documentsEmpty.
   ///
   /// In uk, this message translates to:
@@ -1077,6 +1089,12 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Контакти'**
   String get contacts;
+
+  /// No description provided for @allContactsEmpty.
+  ///
+  /// In uk, this message translates to:
+  /// **'Тут зберуться номери з усіх ваших об\'єктів. Перший додають на екрані об\'єкта.'**
+  String get allContactsEmpty;
 
   /// No description provided for @contactsEmpty.
   ///

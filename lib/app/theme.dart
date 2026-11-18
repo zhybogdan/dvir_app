@@ -203,6 +203,22 @@ abstract final class AppSpacing {
   static const double xl = 32;
 }
 
+/// The padding a scrolling page gives its content.
+///
+/// The gutter on three sides, and on the fourth the gutter *plus* whatever the
+/// screen keeps for itself at the bottom: the system's gesture bar, and inside
+/// the tabs the island floating over the content. A list padded with a bare
+/// `EdgeInsets.all` ends its last row under the island, where it can be seen
+/// through the blur and not tapped.
+extension PagePadding on BuildContext {
+  EdgeInsets get pagePadding => EdgeInsets.fromLTRB(
+    AppSpacing.lg,
+    AppSpacing.lg,
+    AppSpacing.lg,
+    AppSpacing.lg + MediaQuery.paddingOf(this).bottom,
+  );
+}
+
 /// Bounds on the system text size the app will follow.
 ///
 /// A ceiling rather than a fixed 1.0: someone who set a larger font did it

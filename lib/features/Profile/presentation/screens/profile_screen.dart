@@ -142,7 +142,7 @@ class _ProfileFormState extends ConsumerState<_ProfileForm> {
     );
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      padding: context.pagePadding,
       child: Form(
         key: _formKey,
         child: Column(

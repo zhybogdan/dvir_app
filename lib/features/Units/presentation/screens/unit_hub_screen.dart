@@ -134,7 +134,7 @@ class _Hub extends ConsumerWidget {
           ..invalidate(unitChildrenProvider(unit.id));
       },
       child: ListView(
-        padding: const EdgeInsets.all(AppSpacing.lg),
+        padding: context.pagePadding,
         children: [
           UnitHead(unit: unit),
           const SizedBox(height: AppSpacing.xl),

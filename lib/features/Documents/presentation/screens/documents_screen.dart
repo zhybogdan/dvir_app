@@ -99,7 +99,7 @@ class _Papers extends StatelessWidget {
     final canEdit = this.canEdit;
 
     return ListView.builder(
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      padding: context.pagePadding,
       itemCount: documents.length,
       itemBuilder: (context, index) => DocumentTile(
         scope: scope,

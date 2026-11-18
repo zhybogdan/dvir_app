@@ -1,7 +1,6 @@
 import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
-import 'package:dvir/core/config/app_capabilities.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Community/presentation/community_type_l10n.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
@@ -37,10 +36,6 @@ class ScopesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    // The same button leads somewhere different depending on the build, and it
-    // should say so: a person icon over a screen with no person on it reads as
-    // a mistake.
-    final people = ref.watch(appCapabilitiesProvider).people;
 
     return DvScaffold(
       appBar: DvAppBar(
@@ -52,13 +47,6 @@ class ScopesScreen extends ConsumerWidget {
             onPressed: () => context.push(AppRoutes.onboarding),
             icon: AppIcons.add,
             tooltip: l10n.addScope,
-          ),
-          // Signing out moved inside the profile: it is an account action, and
-          // this screen is a list of places rather than a settings page.
-          DvIconButton(
-            onPressed: () => context.push(AppRoutes.profile),
-            icon: people ? AppIcons.profile : AppIcons.settings,
-            tooltip: people ? l10n.profileTitle : l10n.settingsTitle,
           ),
         ],
       ),
@@ -90,7 +78,7 @@ class _ScopeList extends ConsumerWidget {
     return RefreshIndicator(
       onRefresh: () => ref.refresh(myScopesProvider.future),
       child: ListView(
-        padding: const EdgeInsets.all(AppSpacing.lg),
+        padding: context.pagePadding,
         children: [
           if (communities.isNotEmpty) ...[
             _SectionTitle(l10n.scopesCommunities),
@@ -271,7 +259,7 @@ class _ScopesSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     return DvShimmer(
       child: ListView(
-        padding: const EdgeInsets.all(AppSpacing.lg),
+        padding: context.pagePadding,
         children: [
           const Padding(
             padding: EdgeInsets.only(top: AppSpacing.md, bottom: AppSpacing.sm),

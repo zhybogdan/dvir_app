@@ -39,6 +39,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get profileTitle => 'Профіль';
 
   @override
+  String get navObjects => 'Об\'єкти';
+
+  @override
   String get profileHint =>
       'Ім\'я побачать люди у ваших оселях — без нього ви для них просто «Мешканець».';
 
@@ -470,6 +473,10 @@ class AppLocalizationsUk extends AppLocalizations {
   String get documents => 'Документи';
 
   @override
+  String get allDocumentsEmpty =>
+      'Тут зберуться папери з усіх ваших об\'єктів. Перший додають на екрані об\'єкта.';
+
+  @override
   String get documentsEmpty =>
       'Техпаспорт, договори, гарантії. Тут лежить папір, який доводить те, що записано вище.';
 
@@ -536,6 +543,10 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get contacts => 'Контакти';
+
+  @override
+  String get allContactsEmpty =>
+      'Тут зберуться номери з усіх ваших об\'єктів. Перший додають на екрані об\'єкта.';
 
   @override
   String get contactsEmpty =>
