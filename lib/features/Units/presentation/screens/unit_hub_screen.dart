@@ -22,10 +22,10 @@ import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/unit_nesting.dart';
 import 'package:dvir/features/Units/presentation/components/unit_attributes_section.dart';
 import 'package:dvir/features/Units/presentation/components/unit_children_section.dart';
+import 'package:dvir/features/Units/presentation/components/unit_head.dart';
 import 'package:dvir/features/Units/presentation/components/unit_invite_section.dart';
 import 'package:dvir/features/Units/presentation/components/unit_menu.dart';
 import 'package:dvir/features/Units/presentation/components/unit_people_section.dart';
-import 'package:dvir/features/Units/presentation/components/unit_specs_card.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -68,7 +68,9 @@ class UnitHubScreen extends ConsumerWidget {
 
     return DvScaffold(
       appBar: DvAppBar(
-        title: loaded?.label ?? '',
+        // The name is on the page, under the bar: the bar is left to the
+        // controls that act on the object.
+        title: '',
         actions: [
           if (isOwner && loaded != null) ...[
             DvIconButton(
@@ -117,8 +119,8 @@ class _Hub extends ConsumerWidget {
       child: ListView(
         padding: const EdgeInsets.all(AppSpacing.lg),
         children: [
-          UnitSpecsCard(unit: unit),
-          const SizedBox(height: AppSpacing.lg),
+          UnitHead(unit: unit),
+          const SizedBox(height: AppSpacing.xl),
           UnitAttributesSection(unitId: unit.id),
           const SizedBox(height: AppSpacing.lg),
           DocumentsSection(unitId: unit.id),

@@ -17,6 +17,7 @@ class DvTextButton extends StatelessWidget {
     this.onPressed,
     this.icon,
     this.isDestructive = false,
+    this.padding,
   });
 
   final String label;
@@ -30,15 +31,27 @@ class DvTextButton extends StatelessWidget {
   /// such as withdrawing a request.
   final bool isDestructive;
 
+  /// Overrides Material's own 12dp on each side.
+  ///
+  /// `EdgeInsets.zero` is what a button standing at the edge of the page needs:
+  /// in a section heading the label has to end on the same line as the content
+  /// under it, and Material's padding leaves it hanging short of the gutter.
+  /// The height of the tap target is untouched.
+  final EdgeInsetsGeometry? padding;
+
   @override
   Widget build(BuildContext context) {
     final icon = this.icon;
     final onPressed = loggedTap(label, this.onPressed);
 
-    // Null keeps the theme's own foreground; only the destructive case departs
-    // from it.
-    final style = isDestructive
-        ? TextButton.styleFrom(foregroundColor: context.colorScheme.error)
+    // Null keeps the theme's own foreground and padding; only a caller that
+    // asked, and the destructive case, depart from it.
+    final padding = this.padding;
+    final style = isDestructive || padding != null
+        ? TextButton.styleFrom(
+            foregroundColor: isDestructive ? context.colorScheme.error : null,
+            padding: padding,
+          )
         : null;
 
     if (icon != null) {

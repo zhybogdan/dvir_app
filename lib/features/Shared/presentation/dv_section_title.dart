@@ -1,4 +1,3 @@
-import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
@@ -12,20 +11,24 @@ typedef DvSectionAction = ({String label, VoidCallback onPressed});
 ///
 /// Shared rather than an object's own: the hub was the first screen made of
 /// sections, and documents are the second feature to need the same heading.
+///
+/// It is the page's own heading, not a label stuck above a card: the sections
+/// below it stopped being five identical lists, and a row of capitals over
+/// each of them was the last thing still saying they were.
 class DvSectionTitle extends StatelessWidget {
   const DvSectionTitle(this.text, {super.key, this.count, this.action});
 
   final String text;
 
-  /// How many things the section holds, shown in a pill beside the label.
+  /// How many things the section holds, printed beside the label.
   ///
   /// The cheapest piece of information a column of sections can give: how much
   /// is behind a heading, before anyone scrolls into it.
   ///
-  /// Null renders no pill, which is why the type is nullable rather than
+  /// Null renders no number, which is why the type is nullable rather than
   /// defaulted to zero — while the list is still loading there is no number,
   /// and a `0` printed in its place is a claim. An empty section says what it
-  /// is for in the words of its empty state instead, so zero draws no pill
+  /// is for in the words of its empty state instead, so zero prints nothing
   /// either.
   final int? count;
 
@@ -39,7 +42,7 @@ class DvSectionTitle extends StatelessWidget {
       // The gap down to the first card belongs to the heading: a heading never
       // stands on its own, and five call sites spacing it themselves are five
       // chances to space it differently.
-      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+      padding: const EdgeInsets.only(bottom: AppSpacing.md),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -49,8 +52,8 @@ class DvSectionTitle extends StatelessWidget {
           if (action != null)
             DvTextButton(
               label: action.label,
-              icon: AppIcons.add,
               onPressed: action.onPressed,
+              padding: EdgeInsets.zero,
             ),
         ],
       ),
@@ -67,55 +70,24 @@ class _Label extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final count = this.count;
+    final style = context.textTheme.titleMedium;
 
     return Row(
       spacing: AppSpacing.sm,
       children: [
-        // Capitals are what keep a heading from competing with a card title at
-        // the same size, and the one thing that may have to give at a large
-        // text scale is the length of the words, never the number beside them.
         Flexible(
           child: Text(
-            text.toUpperCase(),
+            text,
             overflow: TextOverflow.ellipsis,
-            style: context.textTheme.labelSmall?.copyWith(
-              color: context.colorScheme.onSurfaceVariant,
-              letterSpacing: 1,
-            ),
+            style: style?.copyWith(fontWeight: FontWeight.w700),
           ),
         ),
-        if (count != null && count > 0) _CountPill(count: count),
+        if (count != null && count > 0)
+          Text(
+            '$count',
+            style: style?.copyWith(color: context.colorScheme.onSurfaceVariant),
+          ),
       ],
-    );
-  }
-}
-
-class _CountPill extends StatelessWidget {
-  const _CountPill({required this.count});
-
-  final int count;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = context.colorScheme;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-      decoration: BoxDecoration(
-        color: scheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(AppRadius.sm),
-      ),
-      child: Text(
-        '$count',
-        style: context.textTheme.labelSmall?.copyWith(
-          color: scheme.onSurfaceVariant,
-          // No letter-spacing, which the heading's capitals need and digits do
-          // not, and tabular figures so a column of sections does not jitter
-          // as one of them goes from 9 to 10.
-          letterSpacing: 0,
-          fontFeatures: const [FontFeature.tabularFigures()],
-        ),
-      ),
     );
   }
 }
