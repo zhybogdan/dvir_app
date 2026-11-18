@@ -38,6 +38,24 @@ class UnitAttributesSection extends ConsumerWidget {
 
   final String unitId;
 
+  /// Opens the sheet that writes one fact down, and files what comes back.
+  ///
+  /// Static because an empty object offers the same first step from its start
+  /// block, where this section is not on screen at all: two copies of these
+  /// four lines are two places for a draft to be dropped on the floor.
+  static Future<void> add(
+    BuildContext context,
+    WidgetRef ref,
+    String unitId,
+  ) async {
+    final actions = ref.read(unitAttributeActionsProvider(unitId).notifier);
+
+    final draft = await UnitAttributeSheet.open(context);
+    if (draft == null) return;
+
+    await actions.add(name: draft.name, value: draft.value);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
@@ -52,21 +70,17 @@ class UnitAttributesSection extends ConsumerWidget {
       (previous, next) => next.showFailure(context, ref),
     );
 
-    Future<void> add() async {
-      final actions = ref.read(unitAttributeActionsProvider(unitId).notifier);
-
-      final draft = await UnitAttributeSheet.open(context);
-      if (draft == null) return;
-
-      await actions.add(name: draft.name, value: draft.value);
-    }
-
     return Column(
       children: [
         DvSectionTitle(
           l10n.unitAttributes,
           count: ref.watch(unitAttributesProvider(unitId)).value?.length,
-          action: canEdit ? (label: l10n.unitAddCta, onPressed: add) : null,
+          action: canEdit
+              ? (
+                  label: l10n.unitAddCta,
+                  onPressed: () => add(context, ref, unitId),
+                )
+              : null,
         ),
         _AttributesPreview(unitId: unitId, canEdit: canEdit),
       ],

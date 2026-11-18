@@ -1192,6 +1192,60 @@ abstract class AppLocalizations {
   /// **'Кімната, гараж, літня кухня, ділянка. Додайте те, що ведете окремо.'**
   String get unitNestedEmpty;
 
+  /// No description provided for @unitStartLead.
+  ///
+  /// In uk, this message translates to:
+  /// **'Дім заповнюється не за один раз. Почніть з того, що доведеться шукати першим.'**
+  String get unitStartLead;
+
+  /// No description provided for @unitStartFacts.
+  ///
+  /// In uk, this message translates to:
+  /// **'Запишіть, що це за дім'**
+  String get unitStartFacts;
+
+  /// No description provided for @unitStartFactsWhy.
+  ///
+  /// In uk, this message translates to:
+  /// **'Те, що варто пам\'ятати про цю оселю'**
+  String get unitStartFactsWhy;
+
+  /// No description provided for @unitStartDocument.
+  ///
+  /// In uk, this message translates to:
+  /// **'Покладіть техпаспорт'**
+  String get unitStartDocument;
+
+  /// No description provided for @unitStartDocumentWhy.
+  ///
+  /// In uk, this message translates to:
+  /// **'Папір, який доводить те, що записано вище'**
+  String get unitStartDocumentWhy;
+
+  /// No description provided for @unitStartContact.
+  ///
+  /// In uk, this message translates to:
+  /// **'Додайте телефон'**
+  String get unitStartContact;
+
+  /// No description provided for @unitStartContactWhy.
+  ///
+  /// In uk, this message translates to:
+  /// **'Номер, який шукають, коли вже нема часу шукати'**
+  String get unitStartContactWhy;
+
+  /// No description provided for @unitStartAlso.
+  ///
+  /// In uk, this message translates to:
+  /// **'Також:'**
+  String get unitStartAlso;
+
+  /// No description provided for @unitStartAlsoNested.
+  ///
+  /// In uk, this message translates to:
+  /// **'об\'єкт усередині'**
+  String get unitStartAlsoNested;
+
   /// No description provided for @unitAddTitle.
   ///
   /// In uk, this message translates to:

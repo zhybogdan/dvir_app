@@ -26,6 +26,7 @@ import 'package:dvir/features/Units/presentation/components/unit_head.dart';
 import 'package:dvir/features/Units/presentation/components/unit_invite_section.dart';
 import 'package:dvir/features/Units/presentation/components/unit_menu.dart';
 import 'package:dvir/features/Units/presentation/components/unit_people_section.dart';
+import 'package:dvir/features/Units/presentation/components/unit_start_block.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -105,6 +106,22 @@ class _Hub extends ConsumerWidget {
     // otherwise offer a code nobody can use and a list with only its reader in
     // it.
     final people = ref.watch(appCapabilitiesProvider).people;
+    final scope = ScopeRef.unit(unit.id);
+
+    // What the object holds, in the four sections that make up its record.
+    // The start block stands in for all of them only while every one of them
+    // is *known* to be empty: a list that has not loaded yet is not empty, and
+    // a block that flashes on every open is worse than no block at all.
+    final record = <AsyncValue<List<Object>>>[
+      ref.watch(unitAttributesProvider(unit.id)),
+      ref.watch(documentsProvider(scope)),
+      ref.watch(contactsProvider(scope)),
+      ref.watch(unitChildrenProvider(unit.id)),
+    ];
+    final isUntouched = record.every((value) => value.value?.isEmpty ?? false);
+    // A reader who may not write gets the ordinary screen: the block is three
+    // first moves, and none of them is theirs to make.
+    final showStart = isUntouched && ref.watch(isUnitKeeperProvider(unit.id));
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -121,23 +138,30 @@ class _Hub extends ConsumerWidget {
         children: [
           UnitHead(unit: unit),
           const SizedBox(height: AppSpacing.xl),
-          UnitAttributesSection(unitId: unit.id),
-          const SizedBox(height: AppSpacing.lg),
-          DocumentsSection(unitId: unit.id),
-          const SizedBox(height: AppSpacing.lg),
-          ContactsSection(unitId: unit.id),
-          if (isOwner && people) ...[
+          if (showStart)
+            UnitStartBlock(
+              unitId: unit.id,
+              canHoldChildren: canHoldChildren(unit.type),
+            )
+          else ...[
+            UnitAttributesSection(unitId: unit.id),
             const SizedBox(height: AppSpacing.lg),
-            UnitInviteSection(unit: unit),
-          ],
-          const SizedBox(height: AppSpacing.lg),
-          UnitChildrenSection(
-            unitId: unit.id,
-            canAdd: isOwner && canHoldChildren(unit.type),
-          ),
-          if (people) ...[
+            DocumentsSection(unitId: unit.id),
             const SizedBox(height: AppSpacing.lg),
-            UnitPeopleSection(unitId: unit.id),
+            ContactsSection(unitId: unit.id),
+            if (isOwner && people) ...[
+              const SizedBox(height: AppSpacing.lg),
+              UnitInviteSection(unit: unit),
+            ],
+            const SizedBox(height: AppSpacing.lg),
+            UnitChildrenSection(
+              unitId: unit.id,
+              canAdd: isOwner && canHoldChildren(unit.type),
+            ),
+            if (people) ...[
+              const SizedBox(height: AppSpacing.lg),
+              UnitPeopleSection(unitId: unit.id),
+            ],
           ],
         ],
       ),

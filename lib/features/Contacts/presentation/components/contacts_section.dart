@@ -33,6 +33,26 @@ class ContactsSection extends ConsumerWidget {
 
   final String unitId;
 
+  /// Opens the sheet that takes one number, and files what comes back.
+  ///
+  /// Static because an empty object offers the same first step from its start
+  /// block, where this section is not on screen at all: two copies of these
+  /// four lines are two places for a draft to be dropped on the floor.
+  static Future<void> add(
+    BuildContext context,
+    WidgetRef ref,
+    String unitId,
+  ) async {
+    final actions = ref.read(
+      contactActionsProvider(ScopeRef.unit(unitId)).notifier,
+    );
+
+    final draft = await ContactSheet.open(context);
+    if (draft == null) return;
+
+    await actions.add(name: draft.name, role: draft.role, phone: draft.phone);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
@@ -48,21 +68,17 @@ class ContactsSection extends ConsumerWidget {
       (previous, next) => next.showFailure(context, ref),
     );
 
-    Future<void> add() async {
-      final actions = ref.read(contactActionsProvider(scope).notifier);
-
-      final draft = await ContactSheet.open(context);
-      if (draft == null) return;
-
-      await actions.add(name: draft.name, role: draft.role, phone: draft.phone);
-    }
-
     return Column(
       children: [
         DvSectionTitle(
           l10n.contacts,
           count: ref.watch(contactsProvider(scope)).value?.length,
-          action: canEdit ? (label: l10n.unitAddCta, onPressed: add) : null,
+          action: canEdit
+              ? (
+                  label: l10n.unitAddCta,
+                  onPressed: () => add(context, ref, unitId),
+                )
+              : null,
         ),
         _ContactsPreview(scope: scope, canEdit: canEdit),
       ],

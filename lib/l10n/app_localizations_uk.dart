@@ -601,6 +601,36 @@ class AppLocalizationsUk extends AppLocalizations {
       'Кімната, гараж, літня кухня, ділянка. Додайте те, що ведете окремо.';
 
   @override
+  String get unitStartLead =>
+      'Дім заповнюється не за один раз. Почніть з того, що доведеться шукати першим.';
+
+  @override
+  String get unitStartFacts => 'Запишіть, що це за дім';
+
+  @override
+  String get unitStartFactsWhy => 'Те, що варто пам\'ятати про цю оселю';
+
+  @override
+  String get unitStartDocument => 'Покладіть техпаспорт';
+
+  @override
+  String get unitStartDocumentWhy =>
+      'Папір, який доводить те, що записано вище';
+
+  @override
+  String get unitStartContact => 'Додайте телефон';
+
+  @override
+  String get unitStartContactWhy =>
+      'Номер, який шукають, коли вже нема часу шукати';
+
+  @override
+  String get unitStartAlso => 'Також:';
+
+  @override
+  String get unitStartAlsoNested => 'об\'єкт усередині';
+
+  @override
   String get unitAddTitle => 'Додати';
 
   @override
