@@ -4,6 +4,34 @@
   "@appTitle": {
     "description": "Application name"
   },
+  "scopesTitle": "Мої об'єкти",
+  "scopePapers": "{count, plural, one{{count} папір} few{{count} папери} many{{count} паперів} other{{count} паперу}}",
+  "@scopePapers": {
+    "description": "How many documents an object holds, on its card in the list",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scopeFacts": "{count, plural, one{{count} факт} few{{count} факти} many{{count} фактів} other{{count} факту}}",
+  "@scopeFacts": {
+    "description": "How many facts an object's record holds, on its card in the list",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scopeInside": "{count} усередині",
+  "@scopeInside": {
+    "description": "How many objects stand inside this one, on its card in the list",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "scopesCommunities": "Спільноти",
   "scopesUnits": "Оселі",
   "scopePending": "Заявка на розгляді",

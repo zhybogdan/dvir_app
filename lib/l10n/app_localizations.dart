@@ -100,6 +100,30 @@ abstract class AppLocalizations {
   /// **'Двір'**
   String get appTitle;
 
+  /// No description provided for @scopesTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Мої об\'єкти'**
+  String get scopesTitle;
+
+  /// How many documents an object holds, on its card in the list
+  ///
+  /// In uk, this message translates to:
+  /// **'{count, plural, one{{count} папір} few{{count} папери} many{{count} паперів} other{{count} паперу}}'**
+  String scopePapers(int count);
+
+  /// How many facts an object's record holds, on its card in the list
+  ///
+  /// In uk, this message translates to:
+  /// **'{count, plural, one{{count} факт} few{{count} факти} many{{count} фактів} other{{count} факту}}'**
+  String scopeFacts(int count);
+
+  /// How many objects stand inside this one, on its card in the list
+  ///
+  /// In uk, this message translates to:
+  /// **'{count} усередині'**
+  String scopeInside(int count);
+
   /// No description provided for @scopesCommunities.
   ///
   /// In uk, this message translates to:

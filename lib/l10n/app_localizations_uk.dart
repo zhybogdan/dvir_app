@@ -12,6 +12,40 @@ class AppLocalizationsUk extends AppLocalizations {
   String get appTitle => 'Двір';
 
   @override
+  String get scopesTitle => 'Мої об\'єкти';
+
+  @override
+  String scopePapers(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count паперу',
+      many: '$count паперів',
+      few: '$count папери',
+      one: '$count папір',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String scopeFacts(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count факту',
+      many: '$count фактів',
+      few: '$count факти',
+      one: '$count факт',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String scopeInside(int count) {
+    return '$count усередині';
+  }
+
+  @override
   String get scopesCommunities => 'Спільноти';
 
   @override

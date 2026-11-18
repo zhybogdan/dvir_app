@@ -17,10 +17,11 @@ typedef ScopeRow = ({ScopeSummary scope, List<UnitSummary> nested});
 /// its parent is a scope of this user's too**. A tenant let into one flat does
 /// not belong to the house, so their flat stays where they can reach it.
 ///
-/// [nested] is what the parent card draws underneath itself, indented. It
-/// lists the user's own objects rather than every child — the home screen
-/// answers "where do I belong", and the object's own screen is where the full
-/// contents live.
+/// [nested] is counted on the parent's card, not drawn under it: the list
+/// holds what stands on its own, and what stands inside is one tap away on the
+/// parent's own screen. It lists the user's own objects rather than every
+/// child — the home screen answers "where do I belong", and the object's own
+/// screen is where the full contents live.
 List<ScopeRow> arrangeScopes(List<ScopeSummary> scopes) {
   // Written out rather than built as a collection-for: the key comes from the
   // object and the value is the summary around it, and one comprehension
