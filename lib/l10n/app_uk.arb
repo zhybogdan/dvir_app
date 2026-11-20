@@ -5,7 +5,7 @@
     "description": "Application name"
   },
   "scopesTitle": "Мої об'єкти",
-  "scopePapers": "{count, plural, one{{count} папір} few{{count} папери} many{{count} паперів} other{{count} паперу}}",
+  "scopePapers": "{count, plural, one{{count} документ} few{{count} документи} many{{count} документів} other{{count} документа}}",
   "@scopePapers": {
     "description": "How many documents an object holds, on its card in the list",
     "placeholders": {
@@ -264,8 +264,8 @@
     }
   },
   "documents": "Документи",
-  "allDocumentsEmpty": "Тут зберуться папери з усіх ваших об'єктів. Перший додають на екрані об'єкта.",
-  "documentsEmpty": "Техпаспорт, договори, гарантії. Тут лежить папір, який доводить те, що записано вище.",
+  "allDocumentsEmpty": "Тут зберуться документи з усіх ваших об'єктів. Перший додають на екрані об'єкта.",
+  "documentsEmpty": "Техпаспорт, договори, гарантії. Тут зберігаються документи, які підтверджують те, що записано вище.",
   "documentsShowAll": "Показати всі {count}",
   "@documentsShowAll": {
     "description": "Opens the screen with all of a scope's files; count is the total",
@@ -393,9 +393,9 @@
     }
   },
   "unitStartFactsWhy": "Те, що варто пам'ятати",
-  "unitStartDocument": "Покладіть техпаспорт",
-  "unitStartDocumentNested": "Покладіть папір",
-  "unitStartDocumentWhy": "Папір, який доводить те, що записано вище",
+  "unitStartDocument": "Додайте техпаспорт",
+  "unitStartDocumentNested": "Додайте документ",
+  "unitStartDocumentWhy": "Документ, який підтверджує те, що записано вище",
   "unitStartContact": "Додайте телефон",
   "unitStartContactWhy": "Номер, який шукають, коли вже нема часу шукати",
   "unitStartAlso": "Також:",

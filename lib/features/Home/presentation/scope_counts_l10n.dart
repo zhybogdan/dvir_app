@@ -7,7 +7,7 @@ import 'package:dvir/l10n/app_localizations.dart';
 /// function in the screen: the answer is a property of the scope, not of the
 /// card that prints it.
 extension ScopeCountsL10n on ScopeSummary {
-  /// One line of words — "12 паперів · 5 фактів · 3 усередині".
+  /// One line of words — "12 документів · 5 фактів · 3 усередині".
   ///
   /// Words rather than numbers beside glyphs: three small icons and three
   /// digits read as a row of numbers, and the eye has to decode each glyph to

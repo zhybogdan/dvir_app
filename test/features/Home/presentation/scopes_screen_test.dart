@@ -127,9 +127,9 @@ void main() {
   });
 
   test('the counts take the Ukrainian plural forms', () {
-    expect(l10n.scopePapers(1), '1 папір');
-    expect(l10n.scopePapers(3), '3 папери');
-    expect(l10n.scopePapers(12), '12 паперів');
+    expect(l10n.scopePapers(1), '1 документ');
+    expect(l10n.scopePapers(3), '3 документи');
+    expect(l10n.scopePapers(12), '12 документів');
     expect(l10n.scopeFacts(21), '21 факт');
     expect(l10n.scopeFacts(0), '0 фактів');
   });
