@@ -257,3 +257,65 @@ abstract class _$ContactActions extends $AsyncNotifier<void> {
     return element.handleCreate(ref, () => build(_$args));
   }
 }
+
+/// Every number across every object, grouped by object — the third tab.
+///
+/// Synchronous for the reason `allDocuments` is: it composes lists that are
+/// already held rather than reading anything of its own.
+
+@ProviderFor(allContacts)
+final allContactsProvider = AllContactsProvider._();
+
+/// Every number across every object, grouped by object — the third tab.
+///
+/// Synchronous for the reason `allDocuments` is: it composes lists that are
+/// already held rather than reading anything of its own.
+
+final class AllContactsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<ObjectGroup<Contact>>>,
+          AsyncValue<List<ObjectGroup<Contact>>>,
+          AsyncValue<List<ObjectGroup<Contact>>>
+        >
+    with $Provider<AsyncValue<List<ObjectGroup<Contact>>>> {
+  /// Every number across every object, grouped by object — the third tab.
+  ///
+  /// Synchronous for the reason `allDocuments` is: it composes lists that are
+  /// already held rather than reading anything of its own.
+  AllContactsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'allContactsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$allContactsHash();
+
+  @$internal
+  @override
+  $ProviderElement<AsyncValue<List<ObjectGroup<Contact>>>> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  AsyncValue<List<ObjectGroup<Contact>>> create(Ref ref) {
+    return allContacts(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AsyncValue<List<ObjectGroup<Contact>>> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride:
+          $SyncValueProvider<AsyncValue<List<ObjectGroup<Contact>>>>(value),
+    );
+  }
+}
+
+String _$allContactsHash() => r'72a3d9328bbccaa0481d134e045362c2f8872f33';

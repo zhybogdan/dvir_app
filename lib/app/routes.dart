@@ -20,6 +20,8 @@ abstract final class AppRoutes {
 
   /// Who the signed-in user is, and the way out of the account.
   static const String profile = '/profile';
+  static const String documents = '/documents';
+  static const String contacts = '/contacts';
 
   /// An object's own screen. The id is a path parameter rather than a query, so
   /// a link to an object reads as one thing and not as a screen plus an

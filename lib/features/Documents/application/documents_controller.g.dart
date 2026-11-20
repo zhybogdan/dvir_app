@@ -257,3 +257,68 @@ abstract class _$DocumentActions extends $AsyncNotifier<void> {
     return element.handleCreate(ref, () => build(_$args));
   }
 }
+
+/// Every paper across every object, grouped by object — the second tab.
+///
+/// Synchronous on purpose: it reads values the per-object lists already hold
+/// and composes them, so there is nothing of its own to wait for, and an
+/// async build would only add a frame of loading over lists that are loaded.
+
+@ProviderFor(allDocuments)
+final allDocumentsProvider = AllDocumentsProvider._();
+
+/// Every paper across every object, grouped by object — the second tab.
+///
+/// Synchronous on purpose: it reads values the per-object lists already hold
+/// and composes them, so there is nothing of its own to wait for, and an
+/// async build would only add a frame of loading over lists that are loaded.
+
+final class AllDocumentsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<ObjectGroup<Document>>>,
+          AsyncValue<List<ObjectGroup<Document>>>,
+          AsyncValue<List<ObjectGroup<Document>>>
+        >
+    with $Provider<AsyncValue<List<ObjectGroup<Document>>>> {
+  /// Every paper across every object, grouped by object — the second tab.
+  ///
+  /// Synchronous on purpose: it reads values the per-object lists already hold
+  /// and composes them, so there is nothing of its own to wait for, and an
+  /// async build would only add a frame of loading over lists that are loaded.
+  AllDocumentsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'allDocumentsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$allDocumentsHash();
+
+  @$internal
+  @override
+  $ProviderElement<AsyncValue<List<ObjectGroup<Document>>>> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  AsyncValue<List<ObjectGroup<Document>>> create(Ref ref) {
+    return allDocuments(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AsyncValue<List<ObjectGroup<Document>>> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride:
+          $SyncValueProvider<AsyncValue<List<ObjectGroup<Document>>>>(value),
+    );
+  }
+}
+
+String _$allDocumentsHash() => r'57fbab0c03ec250ef7f11dfe1d242cceeba213b8';

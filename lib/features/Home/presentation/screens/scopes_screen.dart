@@ -1,19 +1,20 @@
 import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
-import 'package:dvir/core/config/app_capabilities.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Community/presentation/community_type_l10n.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Home/domain/models/scope_summary.dart';
 import 'package:dvir/features/Home/domain/scope_arrangement.dart';
-import 'package:dvir/features/Home/presentation/components/scope_card.dart';
 import 'package:dvir/features/Home/presentation/scope_counts_l10n.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
+import 'package:dvir/features/Shared/presentation/dv_icon_badge.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
+import 'package:dvir/features/Shared/presentation/dv_section_title.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
+import 'package:dvir/features/Shared/presentation/dv_tile.dart';
 import 'package:dvir/features/Shared/presentation/member_status_l10n.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/presentation/unit_type_icon.dart';
@@ -37,14 +38,12 @@ class ScopesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    // The same button leads somewhere different depending on the build, and it
-    // should say so: a person icon over a screen with no person on it reads as
-    // a mistake.
-    final people = ref.watch(appCapabilitiesProvider).people;
 
     return DvScaffold(
       appBar: DvAppBar(
-        title: l10n.appTitle,
+        // The heading is on the page, as on an object's screen: the bar is
+        // left to the control that acts on the list.
+        title: '',
         actions: [
           DvIconButton(
             // Pushed rather than `go`: adding a scope is a detour from here,
@@ -52,13 +51,6 @@ class ScopesScreen extends ConsumerWidget {
             onPressed: () => context.push(AppRoutes.onboarding),
             icon: AppIcons.add,
             tooltip: l10n.addScope,
-          ),
-          // Signing out moved inside the profile: it is an account action, and
-          // this screen is a list of places rather than a settings page.
-          DvIconButton(
-            onPressed: () => context.push(AppRoutes.profile),
-            icon: people ? AppIcons.profile : AppIcons.settings,
-            tooltip: people ? l10n.profileTitle : l10n.settingsTitle,
           ),
         ],
       ),
@@ -81,24 +73,38 @@ class _ScopeList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    // Objects created inside another are folded into it, so a house and its
-    // own flats do not stand side by side as separate places to live.
+    // Objects created inside another are folded into it: the list holds what
+    // stands on its own, and what stands inside it is counted on its card and
+    // listed on its own screen. Drawn as a ribbon of indented cards, a house
+    // with eight rooms was eight rows of noise under one row that mattered.
     final rows = arrangeScopes(scopes);
     final communities = rows.where((row) => row.scope is CommunitySummary);
     final units = rows.where((row) => row.scope is UnitSummary);
+    // Groups are named only when there are two of them: one group under a
+    // page that already says what it holds is a heading for nothing.
+    final named = communities.isNotEmpty && units.isNotEmpty;
 
     return RefreshIndicator(
       onRefresh: () => ref.refresh(myScopesProvider.future),
       child: ListView(
-        padding: const EdgeInsets.all(AppSpacing.lg),
+        padding: context.pagePadding,
         children: [
+          Text(
+            l10n.scopesTitle,
+            style: context.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.w700,
+              height: 1.1,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xl),
           if (communities.isNotEmpty) ...[
-            _SectionTitle(l10n.scopesCommunities),
-            for (final row in communities) _ScopeRow(row: row),
+            if (named) DvSectionTitle(l10n.scopesCommunities),
+            for (final row in communities) _ScopeCard(row: row),
           ],
+          if (named) const SizedBox(height: AppSpacing.lg),
           if (units.isNotEmpty) ...[
-            _SectionTitle(l10n.scopesUnits),
-            for (final row in units) _ScopeRow(row: row),
+            if (named) DvSectionTitle(l10n.scopesUnits),
+            for (final row in units) _ScopeCard(row: row),
           ],
         ],
       ),
@@ -106,73 +112,22 @@ class _ScopeList extends ConsumerWidget {
   }
 }
 
-class _SectionTitle extends StatelessWidget {
-  const _SectionTitle(this.text);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: AppSpacing.md, bottom: AppSpacing.sm),
-      child: Text(
-        text.toUpperCase(),
-        style: context.textTheme.labelSmall?.copyWith(
-          color: context.colorScheme.onSurfaceVariant,
-          letterSpacing: 1,
-        ),
-      ),
-    );
-  }
-}
-
-/// A place, and under it the objects of the user's own that stand inside it.
+/// One place: what it is, where it stands, how much it holds.
 ///
-/// Nesting is drawn rather than written: the child is a card of its own, a
-/// step to the right. The line of small print it used to be named in said how
-/// many and which, and nothing about what was in there.
-class _ScopeRow extends StatelessWidget {
-  const _ScopeRow({required this.row});
+/// A [DvTile] with the family's solid mark in front. It used to be a card of
+/// its own, because the colour ran as a strip down the full height of it; the
+/// strip went when one rule replaced two — a solid mark works in a list, in a
+/// tile and in a row, a strip only in a card — and without it this is the shape
+/// every other list in the app already is.
+class _ScopeCard extends StatelessWidget {
+  const _ScopeCard({required this.row});
 
   final ScopeRow row;
 
   @override
   Widget build(BuildContext context) {
-    final row = this.row;
-    final scope = row.scope;
-    final nested = row.nested;
-
-    return Column(
-      children: [
-        _ScopeCard(scope: scope, nestedCount: nested.length),
-        for (final child in nested)
-          Padding(
-            padding: const EdgeInsets.only(left: AppSpacing.lg),
-            child: _NestedCard(summary: child, parent: _nameOf(scope)),
-          ),
-      ],
-    );
-  }
-
-  String? _nameOf(ScopeSummary scope) => switch (scope) {
-    CommunitySummary(:final community) => community?.name,
-    UnitSummary(:final unit) => unit?.label,
-  };
-}
-
-class _ScopeCard extends StatelessWidget {
-  const _ScopeCard({required this.scope, required this.nestedCount});
-
-  final ScopeSummary scope;
-
-  /// Counted from the row rather than asked of the database: the list already
-  /// holds the children by name.
-  final int nestedCount;
-
-  @override
-  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final scope = this.scope;
+    final scope = row.scope;
 
     final (icon, name, subtitle, tone) = switch (scope) {
       CommunitySummary(:final community) => (
@@ -199,12 +154,11 @@ class _ScopeCard extends StatelessWidget {
     // stands.
     final destination = _destinationOf(scope);
 
-    return ScopeCard(
-      icon: icon,
+    return DvTile(
       title: name ?? l10n.scopePending,
       subtitle: subtitle ?? scope.status.label(l10n),
-      tone: scope.isActive ? tone : null,
-      counts: scope.countsRow(l10n, nested: nestedCount),
+      caption: scope.countsLine(l10n, nested: row.nested.length),
+      leading: DvIconBadge(icon: icon, tone: tone, muted: !scope.isActive),
       onTap: destination == null ? null : () => context.push(destination),
     );
   }
@@ -232,38 +186,6 @@ class _ScopeCard extends StatelessWidget {
   };
 }
 
-/// An object inside the card above it.
-///
-/// Its own type is carried by the glyph and the colour, so the line of words
-/// is spent on the one thing the card above cannot say: which place it is in.
-class _NestedCard extends StatelessWidget {
-  const _NestedCard({required this.summary, required this.parent});
-
-  final UnitSummary summary;
-  final String? parent;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final unit = summary.unit;
-    final parent = this.parent;
-
-    if (unit == null) return const SizedBox.shrink();
-
-    return ScopeCard(
-      dense: true,
-      icon: unit.type.icon,
-      title: unit.label,
-      subtitle: parent == null
-          ? unit.type.label(l10n)
-          : l10n.scopeNested(parent),
-      tone: unit.type.tone,
-      counts: summary.countsRow(l10n, nested: 0),
-      onTap: () => context.push(AppRoutes.unitPath(unit.id)),
-    );
-  }
-}
-
 class _ScopesSkeleton extends StatelessWidget {
   const _ScopesSkeleton();
 
@@ -271,16 +193,14 @@ class _ScopesSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     return DvShimmer(
       child: ListView(
-        padding: const EdgeInsets.all(AppSpacing.lg),
+        padding: context.pagePadding,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: AppSpacing.md, bottom: AppSpacing.sm),
-            child: DvSkeletonBox(width: 96, height: AppSpacing.sm),
-          ),
+          const DvSkeletonBox(width: 200, height: AppSpacing.xl),
+          const SizedBox(height: AppSpacing.xl),
           for (var i = 0; i < 3; i++)
             const Padding(
               padding: EdgeInsets.only(bottom: AppSpacing.sm),
-              child: DvSkeletonBox(height: 76, radius: AppRadius.lg),
+              child: DvSkeletonBox(height: 96, radius: AppRadius.lg),
             ),
         ],
       ),

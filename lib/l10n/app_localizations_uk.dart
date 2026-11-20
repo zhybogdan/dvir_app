@@ -12,6 +12,40 @@ class AppLocalizationsUk extends AppLocalizations {
   String get appTitle => 'Двір';
 
   @override
+  String get scopesTitle => 'Мої об\'єкти';
+
+  @override
+  String scopePapers(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count паперу',
+      many: '$count паперів',
+      few: '$count папери',
+      one: '$count папір',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String scopeFacts(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count факту',
+      many: '$count фактів',
+      few: '$count факти',
+      one: '$count факт',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String scopeInside(int count) {
+    return '$count усередині';
+  }
+
+  @override
   String get scopesCommunities => 'Спільноти';
 
   @override
@@ -37,6 +71,9 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get profileTitle => 'Профіль';
+
+  @override
+  String get navObjects => 'Об\'єкти';
 
   @override
   String get profileHint =>
@@ -470,6 +507,10 @@ class AppLocalizationsUk extends AppLocalizations {
   String get documents => 'Документи';
 
   @override
+  String get allDocumentsEmpty =>
+      'Тут зберуться папери з усіх ваших об\'єктів. Перший додають на екрані об\'єкта.';
+
+  @override
   String get documentsEmpty =>
       'Техпаспорт, договори, гарантії. Тут лежить папір, який доводить те, що записано вище.';
 
@@ -536,6 +577,10 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get contacts => 'Контакти';
+
+  @override
+  String get allContactsEmpty =>
+      'Тут зберуться номери з усіх ваших об\'єктів. Перший додають на екрані об\'єкта.';
 
   @override
   String get contactsEmpty =>

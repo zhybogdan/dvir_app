@@ -7,6 +7,7 @@ import 'package:dvir/features/Documents/data/documents_repository_impl.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
 import 'package:dvir/features/Documents/domain/models/document_upload.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
+import 'package:dvir/features/Home/application/object_groups.dart';
 import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -76,3 +77,14 @@ class DocumentActions extends _$DocumentActions with GuardedActions {
     );
   }
 }
+
+/// Every paper across every object, grouped by object — the second tab.
+///
+/// Synchronous on purpose: it reads values the per-object lists already hold
+/// and composes them, so there is nothing of its own to wait for, and an
+/// async build would only add a frame of loading over lists that are loaded.
+@riverpod
+AsyncValue<List<ObjectGroup<Document>>> allDocuments(Ref ref) => groupByObject(
+  ref.watch(myScopesProvider),
+  (scope) => ref.watch(documentsProvider(scope)),
+);

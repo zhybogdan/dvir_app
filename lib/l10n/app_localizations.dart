@@ -100,6 +100,30 @@ abstract class AppLocalizations {
   /// **'Двір'**
   String get appTitle;
 
+  /// No description provided for @scopesTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Мої об\'єкти'**
+  String get scopesTitle;
+
+  /// How many documents an object holds, on its card in the list
+  ///
+  /// In uk, this message translates to:
+  /// **'{count, plural, one{{count} папір} few{{count} папери} many{{count} паперів} other{{count} паперу}}'**
+  String scopePapers(int count);
+
+  /// How many facts an object's record holds, on its card in the list
+  ///
+  /// In uk, this message translates to:
+  /// **'{count, plural, one{{count} факт} few{{count} факти} many{{count} фактів} other{{count} факту}}'**
+  String scopeFacts(int count);
+
+  /// How many objects stand inside this one, on its card in the list
+  ///
+  /// In uk, this message translates to:
+  /// **'{count} усередині'**
+  String scopeInside(int count);
+
   /// No description provided for @scopesCommunities.
   ///
   /// In uk, this message translates to:
@@ -153,6 +177,12 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Профіль'**
   String get profileTitle;
+
+  /// No description provided for @navObjects.
+  ///
+  /// In uk, this message translates to:
+  /// **'Об\'єкти'**
+  String get navObjects;
 
   /// No description provided for @profileHint.
   ///
@@ -964,6 +994,12 @@ abstract class AppLocalizations {
   /// **'Документи'**
   String get documents;
 
+  /// No description provided for @allDocumentsEmpty.
+  ///
+  /// In uk, this message translates to:
+  /// **'Тут зберуться папери з усіх ваших об\'єктів. Перший додають на екрані об\'єкта.'**
+  String get allDocumentsEmpty;
+
   /// No description provided for @documentsEmpty.
   ///
   /// In uk, this message translates to:
@@ -1077,6 +1113,12 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Контакти'**
   String get contacts;
+
+  /// No description provided for @allContactsEmpty.
+  ///
+  /// In uk, this message translates to:
+  /// **'Тут зберуться номери з усіх ваших об\'єктів. Перший додають на екрані об\'єкта.'**
+  String get allContactsEmpty;
 
   /// No description provided for @contactsEmpty.
   ///

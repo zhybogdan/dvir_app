@@ -96,7 +96,7 @@ class _Record extends ConsumerWidget {
     final canEdit = this.canEdit;
 
     return ReorderableListView(
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      padding: context.pagePadding,
       // The handle is drawn by the row itself, on the left, away from the menu
       // button — the default wraps the whole row on desktop and puts a second
       // grip on the right on mobile.
