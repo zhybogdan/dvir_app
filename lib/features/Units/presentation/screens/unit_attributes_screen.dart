@@ -1,14 +1,17 @@
 import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
+import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_page_head.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_tiles_skeleton.dart';
 import 'package:dvir/features/Units/application/unit_attributes_controller.dart';
+import 'package:dvir/features/Units/application/unit_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit_attribute.dart';
 import 'package:dvir/features/Units/presentation/components/unit_attribute_sheet.dart';
 import 'package:dvir/features/Units/presentation/components/unit_attribute_tile.dart';
@@ -33,6 +36,7 @@ class UnitAttributesScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final unitId = this.unitId;
     final canEdit = ref.watch(isUnitKeeperProvider(unitId));
+    final attributes = ref.watch(unitAttributesProvider(unitId));
 
     ref.listen(
       unitAttributeActionsProvider(unitId),
@@ -50,7 +54,7 @@ class UnitAttributesScreen extends ConsumerWidget {
 
     return DvScaffold(
       appBar: DvAppBar(
-        title: l10n.unitAttributes,
+        title: '',
         actions: [
           if (canEdit)
             DvIconButton(
@@ -60,19 +64,34 @@ class UnitAttributesScreen extends ConsumerWidget {
             ),
         ],
       ),
-      body: DvAsyncView<List<UnitAttribute>>(
-        value: ref.watch(unitAttributesProvider(unitId)),
-        skeleton: const Padding(
-          padding: EdgeInsets.all(AppSpacing.lg),
-          child: DvTilesSkeleton(),
-        ),
-        onRetry: () => ref.invalidate(unitAttributesProvider(unitId)),
-        builder: (context, attributes) => attributes.isEmpty
-            ? DvEmptyView(
-                message: l10n.unitAttributesEmpty,
-                icon: AppIcons.attribute,
-              )
-            : _Record(unitId: unitId, attributes: attributes, canEdit: canEdit),
+      body: Column(
+        children: [
+          DvPageHead(
+            l10n.unitAttributes,
+            count: attributes.value?.length,
+            of: ref.watch(unitProvider(unitId)).value?.label,
+          ),
+          Expanded(
+            child: DvAsyncView<List<UnitAttribute>>(
+              value: attributes,
+              skeleton: const Padding(
+                padding: EdgeInsets.all(AppSpacing.lg),
+                child: DvTilesSkeleton(),
+              ),
+              onRetry: () => ref.invalidate(unitAttributesProvider(unitId)),
+              builder: (context, attributes) => attributes.isEmpty
+                  ? DvEmptyView(
+                      message: l10n.unitAttributesEmpty,
+                      icon: AppIcons.attribute,
+                    )
+                  : _Record(
+                      unitId: unitId,
+                      attributes: attributes,
+                      canEdit: canEdit,
+                    ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -101,7 +120,8 @@ class _Record extends ConsumerWidget {
       // button — the default wraps the whole row on desktop and puts a second
       // grip on the right on mobile.
       buildDefaultDragHandles: false,
-      proxyDecorator: _pickedUp,
+      proxyDecorator: (child, index, animation) =>
+          _pickedUp(attributes[index], animation),
       // `onReorderItem` rather than `onReorder`: it hands over an index already
       // counted against the list with the row taken out of it, which is the
       // off-by-one every reorderable list used to fix by hand.
@@ -122,30 +142,55 @@ class _Record extends ConsumerWidget {
             attribute: attribute,
             canEdit: canEdit,
             dragIndex: canEdit ? index : null,
+            divided: index > 0,
           ),
       ],
     );
   }
 
-  /// How a row looks while it is held.
+  /// How a row looks while it is held: lifted off the page as a card.
   ///
-  /// The default decorator wraps the row in an opaque `Material` of its own —
-  /// square, filled with the theme's canvas colour, and elevated. Around a card
-  /// that has round corners and a surface of its own, that reads as a grey
-  /// rectangle appearing behind the row the moment it is touched.
+  /// The row has no surface of its own, so held as it is it would slide over
+  /// its neighbours as bare text crossing bare text. Drawn afresh from the fact
+  /// rather than from the list's own child: that child carries the hairline
+  /// above it, and a hairline inside a lifted card reads as a fault.
   ///
-  /// The row is already a `Material`, so all it needs while held is to look
-  /// picked up: transparent above it, and a size the finger is clearly holding.
-  Widget _pickedUp(Widget child, int index, Animation<double> animation) =>
+  /// The default decorator is no use either — an opaque square `Material` in
+  /// the canvas colour, a grey rectangle where a rounded card should be.
+  Widget _pickedUp(UnitAttribute attribute, Animation<double> animation) =>
       AnimatedBuilder(
         animation: animation,
-        builder: (context, child) => Material(
-          type: MaterialType.transparency,
-          child: Transform.scale(
-            scale: 1 + 0.03 * Curves.easeOut.transform(animation.value),
-            child: child,
+        builder: (context, child) => Transform.scale(
+          scale: 1 + 0.03 * Curves.easeOut.transform(animation.value),
+          child: child,
+        ),
+        child: Builder(
+          builder: (context) => Material(
+            type: MaterialType.transparency,
+            // The card reaches past the row on both sides rather than padding
+            // it, so the text stays exactly where it was when the finger
+            // landed instead of jumping inward by the card's margin.
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Positioned(
+                  left: -AppSpacing.sm,
+                  right: -AppSpacing.sm,
+                  top: 0,
+                  bottom: 0,
+                  child: DecoratedBox(
+                    decoration: AppSurfaces.card(context.colorScheme),
+                  ),
+                ),
+                UnitAttributeTile(
+                  unitId: unitId,
+                  attribute: attribute,
+                  canEdit: canEdit,
+                  dragIndex: canEdit ? 0 : null,
+                ),
+              ],
+            ),
           ),
         ),
-        child: child,
       );
 }

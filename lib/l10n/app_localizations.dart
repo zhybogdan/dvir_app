@@ -1084,6 +1084,18 @@ abstract class AppLocalizations {
   /// **'Додано {date}'**
   String documentAddedOn(String date);
 
+  /// A month heading over the papers added in it; month is 1-12
+  ///
+  /// In uk, this message translates to:
+  /// **'{month, select, 1{Січень} 2{Лютий} 3{Березень} 4{Квітень} 5{Травень} 6{Червень} 7{Липень} 8{Серпень} 9{Вересень} 10{Жовтень} 11{Листопад} 12{Грудень} other{}}'**
+  String documentMonth(String month);
+
+  /// A month heading for a year other than the current one, e.g. Серпень 2025
+  ///
+  /// In uk, this message translates to:
+  /// **'{month} {year}'**
+  String documentMonthOfYear(String month, String year);
+
   /// No description provided for @editDocument.
   ///
   /// In uk, this message translates to:

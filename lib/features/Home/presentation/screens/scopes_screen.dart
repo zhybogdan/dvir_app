@@ -1,7 +1,6 @@
 import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
-import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Community/presentation/community_type_l10n.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Home/domain/models/scope_summary.dart';
@@ -11,6 +10,7 @@ import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_badge.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_page_head.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_section_title.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
@@ -54,12 +54,19 @@ class ScopesScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: DvAsyncView<MyScopes?>(
-        value: ref.watch(myScopesProvider),
-        skeleton: const _ScopesSkeleton(),
-        onRetry: () => ref.invalidate(myScopesProvider),
-        builder: (context, data) =>
-            _ScopeList(scopes: data?.scopes ?? const []),
+      body: Column(
+        children: [
+          DvPageHead(l10n.scopesTitle),
+          Expanded(
+            child: DvAsyncView<MyScopes?>(
+              value: ref.watch(myScopesProvider),
+              skeleton: const _ScopesSkeleton(),
+              onRetry: () => ref.invalidate(myScopesProvider),
+              builder: (context, data) =>
+                  _ScopeList(scopes: data?.scopes ?? const []),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -89,14 +96,6 @@ class _ScopeList extends ConsumerWidget {
       child: ListView(
         padding: context.pagePadding,
         children: [
-          Text(
-            l10n.scopesTitle,
-            style: context.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.w700,
-              height: 1.1,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.xl),
           if (communities.isNotEmpty) ...[
             if (named) DvSectionTitle(l10n.scopesCommunities),
             for (final row in communities) _ScopeCard(row: row),
@@ -195,8 +194,6 @@ class _ScopesSkeleton extends StatelessWidget {
       child: ListView(
         padding: context.pagePadding,
         children: [
-          const DvSkeletonBox(width: 200, height: AppSpacing.xl),
-          const SizedBox(height: AppSpacing.xl),
           for (var i = 0; i < 3; i++)
             const Padding(
               padding: EdgeInsets.only(bottom: AppSpacing.sm),

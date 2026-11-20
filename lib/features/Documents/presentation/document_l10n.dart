@@ -1,5 +1,6 @@
 import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
+import 'package:dvir/features/Documents/application/documents_by_month.dart';
 import 'package:dvir/features/Documents/data/document_storage.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
 import 'package:dvir/l10n/app_localizations.dart';
@@ -80,4 +81,21 @@ String documentAddedOn(DateTime date, AppLocalizations l10n) {
   final month = local.month.toString().padLeft(2, '0');
 
   return l10n.documentAddedOn('$day.$month.${local.year}');
+}
+
+/// The heading over one month of papers — "Листопад", or "Серпень 2025" once
+/// the month is not this year's.
+///
+/// The year only when it is needed: in a list that mostly holds this year's
+/// papers, a "2026" on every heading is a number printed for nothing.
+String documentMonthLabel(
+  MonthGroup group,
+  AppLocalizations l10n, {
+  required DateTime now,
+}) {
+  final month = l10n.documentMonth('${group.month}');
+
+  return group.year == now.year
+      ? month
+      : l10n.documentMonthOfYear(month, '${group.year}');
 }

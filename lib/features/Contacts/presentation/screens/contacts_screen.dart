@@ -9,10 +9,13 @@ import 'package:dvir/features/Members/application/unit_members_controller.dart';
 import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
+import 'package:dvir/features/Shared/presentation/dv_divider.dart';
 import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_page_head.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_tiles_skeleton.dart';
+import 'package:dvir/features/Units/application/unit_controller.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,6 +37,7 @@ class UnitContactsScreen extends ConsumerWidget {
     final unitId = this.unitId;
     final scope = ScopeRef.unit(unitId);
     final canEdit = ref.watch(isUnitKeeperProvider(unitId));
+    final contacts = ref.watch(contactsProvider(scope));
 
     ref.listen(
       contactActionsProvider(scope),
@@ -51,7 +55,7 @@ class UnitContactsScreen extends ConsumerWidget {
 
     return DvScaffold(
       appBar: DvAppBar(
-        title: l10n.contacts,
+        title: '',
         actions: [
           if (canEdit)
             DvIconButton(
@@ -61,16 +65,34 @@ class UnitContactsScreen extends ConsumerWidget {
             ),
         ],
       ),
-      body: DvAsyncView<List<Contact>>(
-        value: ref.watch(contactsProvider(scope)),
-        skeleton: const Padding(
-          padding: EdgeInsets.all(AppSpacing.lg),
-          child: DvTilesSkeleton(),
-        ),
-        onRetry: () => ref.invalidate(contactsProvider(scope)),
-        builder: (context, contacts) => contacts.isEmpty
-            ? DvEmptyView(message: l10n.contactsEmpty, icon: AppIcons.call)
-            : _Numbers(scope: scope, contacts: contacts, canEdit: canEdit),
+      body: Column(
+        children: [
+          DvPageHead(
+            l10n.contacts,
+            count: contacts.value?.length,
+            of: ref.watch(unitProvider(unitId)).value?.label,
+          ),
+          Expanded(
+            child: DvAsyncView<List<Contact>>(
+              value: contacts,
+              skeleton: const Padding(
+                padding: EdgeInsets.all(AppSpacing.lg),
+                child: DvTilesSkeleton(),
+              ),
+              onRetry: () => ref.invalidate(contactsProvider(scope)),
+              builder: (context, contacts) => contacts.isEmpty
+                  ? DvEmptyView(
+                      message: l10n.contactsEmpty,
+                      icon: AppIcons.call,
+                    )
+                  : _Numbers(
+                      scope: scope,
+                      contacts: contacts,
+                      canEdit: canEdit,
+                    ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -92,9 +114,10 @@ class _Numbers extends StatelessWidget {
     final scope = this.scope;
     final canEdit = this.canEdit;
 
-    return ListView.builder(
+    return ListView.separated(
       padding: context.pagePadding,
       itemCount: contacts.length,
+      separatorBuilder: (context, index) => const DvDivider(),
       itemBuilder: (context, index) =>
           ContactTile(scope: scope, contact: contacts[index], canEdit: canEdit),
     );

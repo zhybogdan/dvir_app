@@ -311,6 +311,27 @@
       }
     }
   },
+  "documentMonth": "{month, select, 1{Січень} 2{Лютий} 3{Березень} 4{Квітень} 5{Травень} 6{Червень} 7{Липень} 8{Серпень} 9{Вересень} 10{Жовтень} 11{Листопад} 12{Грудень} other{}}",
+  "@documentMonth": {
+    "description": "A month heading over the papers added in it; month is 1-12",
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "documentMonthOfYear": "{month} {year}",
+  "@documentMonthOfYear": {
+    "description": "A month heading for a year other than the current one, e.g. Серпень 2025",
+    "placeholders": {
+      "month": {
+        "type": "String"
+      },
+      "year": {
+        "type": "String"
+      }
+    }
+  },
   "editDocument": "Перейменувати",
   "deleteDocument": "Видалити",
   "deleteDocumentTitle": "Видалити документ?",

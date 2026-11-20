@@ -10,7 +10,9 @@ import 'package:dvir/features/Members/application/unit_members_controller.dart';
 import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
+import 'package:dvir/features/Shared/presentation/dv_divider.dart';
 import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
+import 'package:dvir/features/Shared/presentation/dv_page_head.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_section_title.dart';
 import 'package:dvir/features/Shared/presentation/dv_tiles_skeleton.dart';
@@ -31,29 +33,41 @@ class AllContactsScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
 
     return DvScaffold(
-      appBar: DvAppBar(title: l10n.contacts),
-      body: DvAsyncView<List<ObjectGroup<Contact>>>(
-        value: ref.watch(allContactsProvider),
-        skeleton: Padding(
-          padding: context.pagePadding,
-          child: const DvTilesSkeleton(),
-        ),
-        // The whole family, because the list that failed could be any
-        // object's; and the scopes, in case it was the list of objects itself.
-        onRetry: () => ref
-          ..invalidate(myScopesProvider)
-          ..invalidate(contactsProvider),
-        builder: (context, groups) => groups.isEmpty
-            ? DvEmptyView(message: l10n.allContactsEmpty, icon: AppIcons.call)
-            : ListView(
+      // Empty, and kept: without it the heading would sit a bar higher here
+      // than on every screen this tab leads to.
+      appBar: const DvAppBar(title: ''),
+      body: Column(
+        children: [
+          DvPageHead(l10n.contacts),
+          Expanded(
+            child: DvAsyncView<List<ObjectGroup<Contact>>>(
+              value: ref.watch(allContactsProvider),
+              skeleton: Padding(
                 padding: context.pagePadding,
-                children: [
-                  for (final (index, group) in groups.indexed) ...[
-                    if (index > 0) const SizedBox(height: AppSpacing.xl),
-                    _ObjectPhones(group: group),
-                  ],
-                ],
+                child: const DvTilesSkeleton(),
               ),
+              // The whole family, because the list that failed could be any
+              // object's; and the scopes, in case it was the list of objects itself.
+              onRetry: () => ref
+                ..invalidate(myScopesProvider)
+                ..invalidate(contactsProvider),
+              builder: (context, groups) => groups.isEmpty
+                  ? DvEmptyView(
+                      message: l10n.allContactsEmpty,
+                      icon: AppIcons.call,
+                    )
+                  : ListView(
+                      padding: context.pagePadding,
+                      children: [
+                        for (final (index, group) in groups.indexed) ...[
+                          if (index > 0) const SizedBox(height: AppSpacing.xl),
+                          _ObjectPhones(group: group),
+                        ],
+                      ],
+                    ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -81,8 +95,10 @@ class _ObjectPhones extends ConsumerWidget {
     return Column(
       children: [
         DvSectionTitle(group.unit.label, count: group.items.length),
-        for (final contact in group.items)
+        for (final (index, contact) in group.items.indexed) ...[
+          if (index > 0) const DvDivider(),
           ContactTile(scope: scope, contact: contact, canEdit: canEdit),
+        ],
       ],
     );
   }

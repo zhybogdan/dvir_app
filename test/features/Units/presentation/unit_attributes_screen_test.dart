@@ -1,7 +1,10 @@
 import 'package:dvir/app/icons.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
 import 'package:dvir/features/Units/application/unit_attributes_controller.dart';
+import 'package:dvir/features/Units/application/unit_controller.dart';
+import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/models/unit_attribute.dart';
+import 'package:dvir/features/Units/domain/types/unit_type.dart';
 import 'package:dvir/features/Units/presentation/screens/unit_attributes_screen.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
@@ -48,6 +51,13 @@ Future<_SpyActions> _pump(WidgetTester tester, {required bool canEdit}) async {
     ProviderScope(
       overrides: [
         isUnitKeeperProvider('u1').overrideWithValue(canEdit),
+        unitProvider('u1').overrideWith(
+          (ref) async => const Unit(
+            id: 'u1',
+            label: 'Дім на Садовій',
+            type: UnitType.house,
+          ),
+        ),
         unitAttributesProvider.overrideWith2((unitId) => _StubAttributes()),
         unitAttributeActionsProvider.overrideWith2((unitId) => actions),
       ],
@@ -76,6 +86,23 @@ void main() {
     expect(find.byTooltip(l10n.unitAddCta), findsOneWidget);
   });
 
+  // The heading sits in the screen's `Column`, which centres whatever does not
+  // ask for the full width — a heading in the middle of the page is the fault.
+  testWidgets('the heading starts at the gutter, with its count and object', (
+    tester,
+  ) async {
+    await _pump(tester, canEdit: true);
+
+    final heading = find.text(
+      '${l10n.unitAttributes}  ${_facts.length}',
+      findRichText: true,
+    );
+
+    expect(heading, findsOneWidget);
+    expect(tester.getTopLeft(heading).dx, 24);
+    expect(find.text('Дім на Садовій'), findsOneWidget);
+  });
+
   testWidgets('a tenant reads the record and cannot rearrange it', (
     tester,
   ) async {
@@ -99,8 +126,19 @@ void main() {
     // pick the row up before it can be moved.
     await tester.pump(const Duration(milliseconds: 200));
 
-    await drag.moveBy(const Offset(0, 80));
-    await tester.pump();
+    // One row's pitch, measured rather than written down: past the next row's
+    // middle is what a move needs, and the height of a row is the design's to
+    // change, not this test's to know.
+    final pitch =
+        tester.getCenter(find.text('Матеріал стін')).dy -
+        tester.getCenter(find.text('Рік побудови')).dy;
+
+    // In steps, as a finger moves: in one jump of a whole row the list never
+    // sees the row pass the middle of the next one, and drops it where it was.
+    for (var step = 0; step < 10; step++) {
+      await drag.moveBy(Offset(0, (pitch + 8) / 10));
+      await tester.pump();
+    }
     await drag.up();
     await tester.pumpAndSettle();
 
