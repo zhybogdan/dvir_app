@@ -40,17 +40,6 @@ class ContactTile extends ConsumerWidget {
     final contact = this.contact;
     final phone = contact.phone;
 
-    Future<void> call() async {
-      // Both held before the await: the row may be gone by the time the dialler
-      // answers, and neither `ref` nor the context can be reached from there.
-      final toasts = ref.read(toastControllerProvider.notifier);
-      final failed = l10n.contactCallFailed;
-
-      if (await dialPhone(phone ?? '')) return;
-
-      toasts.error(failed);
-    }
-
     return DvTile(
       title: contact.name,
       subtitle: contact.role,
@@ -67,7 +56,7 @@ class ContactTile extends ConsumerWidget {
       // The whole row dials, because that is the one thing anybody opens this
       // list for. A row without a number is still shown and still readable —
       // it just does nothing when tapped.
-      onTap: phone == null ? null : call,
+      onTap: phone == null ? null : () => dial(ref, l10n, phone),
       // A keeper gets the menu; everyone else gets the handset, which says what
       // the row does. Without it `DvTile` would draw a chevron and promise a
       // screen that does not exist.
@@ -76,19 +65,34 @@ class ContactTile extends ConsumerWidget {
           : Icon(AppIcons.call, color: context.colorScheme.onSurfaceVariant),
     );
   }
-}
 
-/// Changing a contact, or dropping it.
-class _ContactMenu extends ConsumerWidget {
-  const _ContactMenu({required this.scope, required this.contact});
+  /// Hands [phone] to the dialler, and says so when there is none to take it.
+  ///
+  /// Static, with [actionsFor] below, because the hub draws its phones as rows
+  /// of its own and they have to dial the way this row dials.
+  static Future<void> dial(
+    WidgetRef ref,
+    AppLocalizations l10n,
+    String phone,
+  ) async {
+    // Both held before the await: the row may be gone by the time the dialler
+    // answers, and neither `ref` nor the context can be reached from there.
+    final toasts = ref.read(toastControllerProvider.notifier);
+    final failed = l10n.contactCallFailed;
 
-  final ScopeRef scope;
-  final Contact contact;
+    if (await dialPhone(phone)) return;
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
+    toasts.error(failed);
+  }
+
+  /// Changing a contact, or dropping it — the items of its menu.
+  static List<DvMenuItem> actionsFor(
+    BuildContext context,
+    WidgetRef ref, {
+    required ScopeRef scope,
+    required Contact contact,
+  }) {
     final l10n = AppLocalizations.of(context);
-    final contact = this.contact;
 
     // Held before the sheet and the dialog: after an await the ref may no
     // longer be the one this row was built with.
@@ -120,21 +124,31 @@ class _ContactMenu extends ConsumerWidget {
       await actions.remove(contact.id);
     }
 
-    return DvMenu(
-      tooltip: l10n.moreActions,
-      items: [
-        DvMenuItem(
-          label: l10n.editContact,
-          icon: AppIcons.edit,
-          onSelected: edit,
-        ),
-        DvMenuItem(
-          label: l10n.deleteContact,
-          icon: AppIcons.delete,
-          onSelected: remove,
-          isDestructive: true,
-        ),
-      ],
-    );
+    return [
+      DvMenuItem(
+        label: l10n.editContact,
+        icon: AppIcons.edit,
+        onSelected: edit,
+      ),
+      DvMenuItem(
+        label: l10n.deleteContact,
+        icon: AppIcons.delete,
+        onSelected: remove,
+        isDestructive: true,
+      ),
+    ];
   }
+}
+
+class _ContactMenu extends ConsumerWidget {
+  const _ContactMenu({required this.scope, required this.contact});
+
+  final ScopeRef scope;
+  final Contact contact;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) => DvMenu(
+    tooltip: AppLocalizations.of(context).moreActions,
+    items: ContactTile.actionsFor(context, ref, scope: scope, contact: contact),
+  );
 }

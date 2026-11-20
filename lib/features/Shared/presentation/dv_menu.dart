@@ -47,8 +47,21 @@ class DvMenu extends StatelessWidget {
   /// What the button is for, since three dots say nothing to a screen reader.
   final String tooltip;
 
-  Future<void> _open(BuildContext context) async {
-    // The button's own box, which is what the card is positioned against.
+  /// Opens the card against whatever [context] belongs to, without a button.
+  ///
+  /// For a tile with no room for three dots — a paper in a row of papers —
+  /// where a long press is what opens its menu. The card is anchored to the
+  /// tile's own box, the way it is anchored to the button's.
+  static Future<void> show(
+    BuildContext context, {
+    required List<DvMenuItem> items,
+  }) => _open(context, items);
+
+  static Future<void> _open(
+    BuildContext context,
+    List<DvMenuItem> items,
+  ) async {
+    // The anchor's own box, which is what the card is positioned against.
     final box = context.findRenderObject();
     if (box is! RenderBox || !box.hasSize) return;
 
@@ -72,7 +85,7 @@ class DvMenu extends StatelessWidget {
     return DvIconButton(
       icon: AppIcons.more,
       tooltip: tooltip,
-      onPressed: () => _open(context),
+      onPressed: () => _open(context, items),
     );
   }
 }

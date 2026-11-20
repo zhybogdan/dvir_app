@@ -22,10 +22,11 @@ import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/unit_nesting.dart';
 import 'package:dvir/features/Units/presentation/components/unit_attributes_section.dart';
 import 'package:dvir/features/Units/presentation/components/unit_children_section.dart';
+import 'package:dvir/features/Units/presentation/components/unit_head.dart';
 import 'package:dvir/features/Units/presentation/components/unit_invite_section.dart';
 import 'package:dvir/features/Units/presentation/components/unit_menu.dart';
 import 'package:dvir/features/Units/presentation/components/unit_people_section.dart';
-import 'package:dvir/features/Units/presentation/components/unit_specs_card.dart';
+import 'package:dvir/features/Units/presentation/components/unit_start_block.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -68,7 +69,9 @@ class UnitHubScreen extends ConsumerWidget {
 
     return DvScaffold(
       appBar: DvAppBar(
-        title: loaded?.label ?? '',
+        // The name is on the page, under the bar: the bar is left to the
+        // controls that act on the object.
+        title: '',
         actions: [
           if (isOwner && loaded != null) ...[
             DvIconButton(
@@ -103,6 +106,22 @@ class _Hub extends ConsumerWidget {
     // otherwise offer a code nobody can use and a list with only its reader in
     // it.
     final people = ref.watch(appCapabilitiesProvider).people;
+    final scope = ScopeRef.unit(unit.id);
+
+    // What the object holds, in the four sections that make up its record.
+    // The start block stands in for all of them only while every one of them
+    // is *known* to be empty: a list that has not loaded yet is not empty, and
+    // a block that flashes on every open is worse than no block at all.
+    final record = <AsyncValue<List<Object>>>[
+      ref.watch(unitAttributesProvider(unit.id)),
+      ref.watch(documentsProvider(scope)),
+      ref.watch(contactsProvider(scope)),
+      ref.watch(unitChildrenProvider(unit.id)),
+    ];
+    final isUntouched = record.every((value) => value.value?.isEmpty ?? false);
+    // A reader who may not write gets the ordinary screen: the block is three
+    // first moves, and none of them is theirs to make.
+    final showStart = isUntouched && ref.watch(isUnitKeeperProvider(unit.id));
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -117,25 +136,31 @@ class _Hub extends ConsumerWidget {
       child: ListView(
         padding: const EdgeInsets.all(AppSpacing.lg),
         children: [
-          UnitSpecsCard(unit: unit),
-          const SizedBox(height: AppSpacing.lg),
-          UnitAttributesSection(unitId: unit.id),
-          const SizedBox(height: AppSpacing.lg),
-          DocumentsSection(unitId: unit.id),
-          const SizedBox(height: AppSpacing.lg),
-          ContactsSection(unitId: unit.id),
-          if (isOwner && people) ...[
-            const SizedBox(height: AppSpacing.lg),
-            UnitInviteSection(unit: unit),
-          ],
-          const SizedBox(height: AppSpacing.lg),
-          UnitChildrenSection(
-            unitId: unit.id,
-            canAdd: isOwner && canHoldChildren(unit.type),
-          ),
-          if (people) ...[
-            const SizedBox(height: AppSpacing.lg),
-            UnitPeopleSection(unitId: unit.id),
+          UnitHead(unit: unit),
+          const SizedBox(height: AppSpacing.xl),
+          if (showStart)
+            UnitStartBlock(unit: unit)
+          else ...[
+            UnitAttributesSection(unitId: unit.id),
+            const SizedBox(height: AppSpacing.xl),
+            DocumentsSection(unitId: unit.id),
+            const SizedBox(height: AppSpacing.xl),
+            // Before the phones, as drawn: what stands inside is part of what
+            // the place is, and the numbers are what is called about it.
+            UnitChildrenSection(
+              unitId: unit.id,
+              canAdd: isOwner && canHoldChildren(unit.type),
+            ),
+            const SizedBox(height: AppSpacing.xl),
+            ContactsSection(unitId: unit.id),
+            if (isOwner && people) ...[
+              const SizedBox(height: AppSpacing.xl),
+              UnitInviteSection(unit: unit),
+            ],
+            if (people) ...[
+              const SizedBox(height: AppSpacing.xl),
+              UnitPeopleSection(unitId: unit.id),
+            ],
           ],
         ],
       ),

@@ -203,6 +203,7 @@
   },
   "deleteUnitBody": "Разом з ним зникне все, що всередині, і всі мешканці. Дію не можна скасувати.",
   "unitAttributes": "Характеристики",
+  "unitAttributesEdit": "Змінити",
   "unitAttributesEmpty": "Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам'ятати про цю оселю.",
   "unitAttributesShowAll": "Показати всі {count}",
   "@unitAttributesShowAll": {
@@ -329,10 +330,40 @@
   },
   "unitNested": "Що входить",
   "unitNestedEmpty": "Кімната, гараж, літня кухня, ділянка. Додайте те, що ведете окремо.",
+  "unitStartLead": "Усе одразу записувати не треба. Почніть з того, що доведеться шукати першим.",
+  "unitStartFacts": "Запишіть, що це за {type}",
+  "@unitStartFacts": {
+    "description": "First step on an empty object; type is its kind, lowercased — дім, квартира, гараж",
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "unitStartFactsWhy": "Те, що варто пам'ятати",
+  "unitStartDocument": "Покладіть техпаспорт",
+  "unitStartDocumentNested": "Покладіть папір",
+  "unitStartDocumentWhy": "Папір, який доводить те, що записано вище",
+  "unitStartContact": "Додайте телефон",
+  "unitStartContactWhy": "Номер, який шукають, коли вже нема часу шукати",
+  "unitStartAlso": "Також:",
+  "unitStartAlsoNested": "об'єкт усередині",
   "unitAddTitle": "Додати",
   "unitAddCta": "Додати",
   "unitEditTitle": "Редагувати",
   "saveCta": "Зберегти",
+  "unitHeadInside": "{type} · усередині: {parent}",
+  "@unitHeadInside": {
+    "description": "Under the name of a nested object: what it is and which object it stands in",
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "parent": {
+        "type": "String"
+      }
+    }
+  },
   "scopeNested": "Усередині: {items}",
   "@scopeNested": {
     "description": "Small caption naming the objects nested in a scope card",

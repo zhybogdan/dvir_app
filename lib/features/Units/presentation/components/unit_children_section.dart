@@ -1,9 +1,10 @@
 import 'package:dvir/app/routes.dart';
+import 'package:dvir/app/theme.dart';
+import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_badge.dart';
 import 'package:dvir/features/Shared/presentation/dv_section_title.dart';
-import 'package:dvir/features/Shared/presentation/dv_tile.dart';
 import 'package:dvir/features/Shared/presentation/dv_tiles_skeleton.dart';
 import 'package:dvir/features/Units/application/unit_children_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
@@ -20,6 +21,10 @@ import 'package:go_router/go_router.dart';
 /// Heading and list in one widget, where the hub used to write the heading and
 /// put the list under it: the number in the heading is the length of the list
 /// below, so apart they could only agree by asking for the same rows twice.
+///
+/// Drawn as a grid, two to a row, where the sections above it are pairs and a
+/// row of papers: the family colour does the telling, and a shape unlike its
+/// neighbours is what keeps the hub from reading as five lists in a column.
 class UnitChildrenSection extends ConsumerWidget {
   const UnitChildrenSection({
     required this.unitId,
@@ -60,24 +65,92 @@ class UnitChildrenSection extends ConsumerWidget {
           onRetry: () => ref.invalidate(unitChildrenProvider(unitId)),
           builder: (context, children) => children.isEmpty
               ? DvEmptyView(message: l10n.unitNestedEmpty)
-              : Column(
-                  children: [
-                    for (final child in children)
-                      DvTile(
-                        title: child.label,
-                        subtitle: child.type.label(l10n),
-                        leading: DvIconBadge(
-                          icon: child.type.icon,
-                          tone: child.type.tone,
-                          dense: true,
-                        ),
-                        dense: true,
-                        onTap: () => context.push(AppRoutes.unitPath(child.id)),
-                      ),
-                  ],
+              : LayoutBuilder(
+                  // Half the width less the gap, rather than a fixed 160: the
+                  // grid has to stay two to a row on a narrow phone and not
+                  // leave a strip of nothing on a wide one.
+                  builder: (context, constraints) {
+                    final width = (constraints.maxWidth - AppSpacing.md) / 2;
+
+                    return Wrap(
+                      spacing: AppSpacing.md,
+                      runSpacing: AppSpacing.md,
+                      children: [
+                        for (final child in children)
+                          SizedBox(
+                            width: width,
+                            child: _InsideCard(unit: child),
+                          ),
+                      ],
+                    );
+                  },
                 ),
         ),
       ],
+    );
+  }
+}
+
+/// One object inside this one, as a card to enter.
+class _InsideCard extends StatelessWidget {
+  const _InsideCard({required this.unit});
+
+  final Unit unit;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final unit = this.unit;
+    final type = unit.type.label(l10n);
+    final scheme = context.colorScheme;
+    final radius = BorderRadius.circular(AppRadius.lg);
+
+    return DecoratedBox(
+      decoration: AppSurfaces.card(scheme),
+      // Transparent, so the ink lands above the card's own fill — the same
+      // reason DvTile gives for it.
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: radius,
+        child: InkWell(
+          borderRadius: radius,
+          onTap: () => context.push(AppRoutes.unitPath(unit.id)),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.md),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DvIconBadge(
+                  icon: unit.type.icon,
+                  tone: unit.type.tone,
+                  dense: true,
+                ),
+                const SizedBox(height: AppSpacing.md),
+                Text(
+                  unit.label,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                // The kind only where the name has not already said it — a
+                // garage called "Гараж" read its own name twice, the same
+                // repetition the object's head drops.
+                if (type.toLowerCase() != unit.label.toLowerCase())
+                  Text(
+                    type,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.textTheme.labelSmall?.copyWith(
+                      color: scheme.onSurfaceVariant,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

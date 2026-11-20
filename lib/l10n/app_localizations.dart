@@ -868,6 +868,12 @@ abstract class AppLocalizations {
   /// **'Характеристики'**
   String get unitAttributes;
 
+  /// No description provided for @unitAttributesEdit.
+  ///
+  /// In uk, this message translates to:
+  /// **'Змінити'**
+  String get unitAttributesEdit;
+
   /// No description provided for @unitAttributesEmpty.
   ///
   /// In uk, this message translates to:
@@ -1192,6 +1198,66 @@ abstract class AppLocalizations {
   /// **'Кімната, гараж, літня кухня, ділянка. Додайте те, що ведете окремо.'**
   String get unitNestedEmpty;
 
+  /// No description provided for @unitStartLead.
+  ///
+  /// In uk, this message translates to:
+  /// **'Усе одразу записувати не треба. Почніть з того, що доведеться шукати першим.'**
+  String get unitStartLead;
+
+  /// First step on an empty object; type is its kind, lowercased — дім, квартира, гараж
+  ///
+  /// In uk, this message translates to:
+  /// **'Запишіть, що це за {type}'**
+  String unitStartFacts(String type);
+
+  /// No description provided for @unitStartFactsWhy.
+  ///
+  /// In uk, this message translates to:
+  /// **'Те, що варто пам\'ятати'**
+  String get unitStartFactsWhy;
+
+  /// No description provided for @unitStartDocument.
+  ///
+  /// In uk, this message translates to:
+  /// **'Покладіть техпаспорт'**
+  String get unitStartDocument;
+
+  /// No description provided for @unitStartDocumentNested.
+  ///
+  /// In uk, this message translates to:
+  /// **'Покладіть папір'**
+  String get unitStartDocumentNested;
+
+  /// No description provided for @unitStartDocumentWhy.
+  ///
+  /// In uk, this message translates to:
+  /// **'Папір, який доводить те, що записано вище'**
+  String get unitStartDocumentWhy;
+
+  /// No description provided for @unitStartContact.
+  ///
+  /// In uk, this message translates to:
+  /// **'Додайте телефон'**
+  String get unitStartContact;
+
+  /// No description provided for @unitStartContactWhy.
+  ///
+  /// In uk, this message translates to:
+  /// **'Номер, який шукають, коли вже нема часу шукати'**
+  String get unitStartContactWhy;
+
+  /// No description provided for @unitStartAlso.
+  ///
+  /// In uk, this message translates to:
+  /// **'Також:'**
+  String get unitStartAlso;
+
+  /// No description provided for @unitStartAlsoNested.
+  ///
+  /// In uk, this message translates to:
+  /// **'об\'єкт усередині'**
+  String get unitStartAlsoNested;
+
   /// No description provided for @unitAddTitle.
   ///
   /// In uk, this message translates to:
@@ -1215,6 +1281,12 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Зберегти'**
   String get saveCta;
+
+  /// Under the name of a nested object: what it is and which object it stands in
+  ///
+  /// In uk, this message translates to:
+  /// **'{type} · усередині: {parent}'**
+  String unitHeadInside(String type, String parent);
 
   /// Small caption naming the objects nested in a scope card
   ///

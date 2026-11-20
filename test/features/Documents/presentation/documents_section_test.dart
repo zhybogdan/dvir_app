@@ -59,13 +59,21 @@ Future<void> _pump(
 void main() {
   final l10n = AppLocalizationsUk();
 
-  testWidgets('a keeper is offered a way to add, and a menu on each row', (
+  // No three dots on a tile 128 wide: renaming and dropping sit behind a long
+  // press, and what is pinned is that they are still there for a keeper.
+  testWidgets('a keeper is offered a way to add, and a menu on a long press', (
     tester,
   ) async {
     await _pump(tester, canEdit: true);
 
     expect(find.text(l10n.unitAddCta), findsOneWidget);
-    expect(find.byType(DvMenu), findsNWidgets(2));
+    expect(find.byType(DvMenu), findsNothing);
+
+    await tester.longPress(find.text('Документ 0'));
+    await tester.pumpAndSettle();
+
+    expect(find.text(l10n.editDocument), findsOneWidget);
+    expect(find.text(l10n.deleteDocument), findsOneWidget);
   });
 
   testWidgets('a tenant reads the same files and is offered neither', (
@@ -75,7 +83,13 @@ void main() {
 
     expect(find.text('Документ 0'), findsOneWidget);
     expect(find.text(l10n.unitAddCta), findsNothing);
-    expect(find.byType(DvMenu), findsNothing);
+
+    // Asked of the widget rather than acted out: a long press with nothing
+    // bound to it falls through to a tap, and a tap opens the file — which is
+    // right for a tenant, and needs a real file store to run.
+    final cards = tester.widgetList<InkWell>(find.byType(InkWell));
+    expect(cards, isNotEmpty);
+    expect(cards.every((card) => card.onLongPress == null), isTrue);
   });
 
   testWidgets('an object with no papers says what belongs here', (
@@ -99,8 +113,9 @@ void main() {
   ) async {
     await _pump(tester, canEdit: true, documents: _many(8));
 
-    expect(find.text('Документ 4'), findsOneWidget);
-    expect(find.text('Документ 5'), findsNothing);
+    // Two full rows of three, so the grid never ends on a lone tile.
+    expect(find.text('Документ ${documentsPreview - 1}'), findsOneWidget);
+    expect(find.text('Документ $documentsPreview'), findsNothing);
     expect(find.text(l10n.documentsShowAll(8)), findsOneWidget);
   });
 }

@@ -417,6 +417,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitAttributes => 'Характеристики';
 
   @override
+  String get unitAttributesEdit => 'Змінити';
+
+  @override
   String get unitAttributesEmpty =>
       'Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам\'ятати про цю оселю.';
 
@@ -601,6 +604,41 @@ class AppLocalizationsUk extends AppLocalizations {
       'Кімната, гараж, літня кухня, ділянка. Додайте те, що ведете окремо.';
 
   @override
+  String get unitStartLead =>
+      'Усе одразу записувати не треба. Почніть з того, що доведеться шукати першим.';
+
+  @override
+  String unitStartFacts(String type) {
+    return 'Запишіть, що це за $type';
+  }
+
+  @override
+  String get unitStartFactsWhy => 'Те, що варто пам\'ятати';
+
+  @override
+  String get unitStartDocument => 'Покладіть техпаспорт';
+
+  @override
+  String get unitStartDocumentNested => 'Покладіть папір';
+
+  @override
+  String get unitStartDocumentWhy =>
+      'Папір, який доводить те, що записано вище';
+
+  @override
+  String get unitStartContact => 'Додайте телефон';
+
+  @override
+  String get unitStartContactWhy =>
+      'Номер, який шукають, коли вже нема часу шукати';
+
+  @override
+  String get unitStartAlso => 'Також:';
+
+  @override
+  String get unitStartAlsoNested => 'об\'єкт усередині';
+
+  @override
   String get unitAddTitle => 'Додати';
 
   @override
@@ -611,6 +649,11 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get saveCta => 'Зберегти';
+
+  @override
+  String unitHeadInside(String type, String parent) {
+    return '$type · усередині: $parent';
+  }
 
   @override
   String scopeNested(String items) {

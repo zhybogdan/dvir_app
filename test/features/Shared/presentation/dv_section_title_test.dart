@@ -3,7 +3,7 @@ import 'package:dvir/features/Shared/presentation/dv_section_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-// The pill is the one part of a heading that can lie. A section counts rows it
+// The number is the one part of a heading that can lie. A section counts rows
 // has not received yet, and the difference between "none" and "not yet" is the
 // whole of what is checked here.
 
@@ -29,12 +29,12 @@ void main() {
     await _pump(tester);
 
     expect(find.text('0'), findsNothing);
-    expect(find.text('ДОКУМЕНТИ'), findsOneWidget);
+    expect(find.text('Документи'), findsOneWidget);
   });
 
   // An empty section is not silent — its empty state says what belongs in it,
-  // which is worth more than a zero in a pill above.
-  testWidgets('an empty section draws no pill either', (tester) async {
+  // which is worth more than a zero printed above it.
+  testWidgets('an empty section prints no number either', (tester) async {
     await _pump(tester, count: 0);
 
     expect(find.text('0'), findsNothing);

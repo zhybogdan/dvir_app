@@ -1,6 +1,8 @@
 import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/routes.dart';
+import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
+import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
@@ -10,7 +12,6 @@ import 'package:dvir/features/Shared/presentation/dv_tiles_skeleton.dart';
 import 'package:dvir/features/Units/application/unit_attributes_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit_attribute.dart';
 import 'package:dvir/features/Units/presentation/components/unit_attribute_sheet.dart';
-import 'package:dvir/features/Units/presentation/components/unit_attribute_tile.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,18 +32,41 @@ const int unitAttributesPreview = 5;
 /// because what the heading offers depends on the same answer the rows do:
 /// whoever may add a fact is whoever may edit one.
 ///
-/// The order is fixed here. Dragging lives on the record's own screen, where
-/// the list is the screen rather than one section of a longer scroll.
+/// The hub reads the record; the record's own screen changes it. Facts are
+/// short pairs, so they are drawn as pairs — a name and its value on one line —
+/// and a menu on every one of them is what made five facts read as five
+/// settings. Rewording, dropping and reordering all live one tap away, behind
+/// "Змінити", where the list is the screen rather than one section of a
+/// longer scroll.
 class UnitAttributesSection extends ConsumerWidget {
   const UnitAttributesSection({required this.unitId, super.key});
 
   final String unitId;
+
+  /// Opens the sheet that writes one fact down, and files what comes back.
+  ///
+  /// Static because an empty object offers the same first step from its start
+  /// block, where this section is not on screen at all: two copies of these
+  /// four lines are two places for a draft to be dropped on the floor.
+  static Future<void> add(
+    BuildContext context,
+    WidgetRef ref,
+    String unitId,
+  ) async {
+    final actions = ref.read(unitAttributeActionsProvider(unitId).notifier);
+
+    final draft = await UnitAttributeSheet.open(context);
+    if (draft == null) return;
+
+    await actions.add(name: draft.name, value: draft.value);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final unitId = this.unitId;
     final canEdit = ref.watch(isUnitKeeperProvider(unitId));
+    final count = ref.watch(unitAttributesProvider(unitId)).value?.length;
 
     // The actions are fired from callbacks and watched by nobody, so this
     // subscription is what keeps them alive long enough to answer — and what
@@ -52,39 +76,41 @@ class UnitAttributesSection extends ConsumerWidget {
       (previous, next) => next.showFailure(context, ref),
     );
 
-    Future<void> add() async {
-      final actions = ref.read(unitAttributeActionsProvider(unitId).notifier);
-
-      final draft = await UnitAttributeSheet.open(context);
-      if (draft == null) return;
-
-      await actions.add(name: draft.name, value: draft.value);
-    }
-
     return Column(
       children: [
         DvSectionTitle(
           l10n.unitAttributes,
-          count: ref.watch(unitAttributesProvider(unitId)).value?.length,
-          action: canEdit ? (label: l10n.unitAddCta, onPressed: add) : null,
+          count: count,
+          action: switch ((canEdit, count)) {
+            (false, _) => null,
+            // Nothing to change yet, so the one thing to do is the first fact
+            // — and its sheet, rather than a screen holding an empty list.
+            (true, null || 0) => (
+              label: l10n.unitAddCta,
+              onPressed: () => add(context, ref, unitId),
+            ),
+            (true, _) => (
+              label: l10n.unitAttributesEdit,
+              onPressed: () =>
+                  context.push(AppRoutes.unitAttributesPath(unitId)),
+            ),
+          },
         ),
-        _AttributesPreview(unitId: unitId, canEdit: canEdit),
+        _AttributesPreview(unitId: unitId),
       ],
     );
   }
 }
 
 class _AttributesPreview extends ConsumerWidget {
-  const _AttributesPreview({required this.unitId, required this.canEdit});
+  const _AttributesPreview({required this.unitId});
 
   final String unitId;
-  final bool canEdit;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final unitId = this.unitId;
-    final canEdit = this.canEdit;
 
     return DvAsyncView<List<UnitAttribute>>(
       value: ref.watch(unitAttributesProvider(unitId)),
@@ -99,12 +125,9 @@ class _AttributesPreview extends ConsumerWidget {
 
         return Column(
           children: [
-            for (final attribute in attributes.take(unitAttributesPreview))
-              UnitAttributeTile(
-                unitId: unitId,
-                attribute: attribute,
-                canEdit: canEdit,
-              ),
+            for (final (index, attribute)
+                in attributes.take(unitAttributesPreview).indexed)
+              _FactPair(attribute: attribute, isFirst: index == 0),
             // The count is the whole record, not what is left over: "show all
             // 6" says something, "1 more" only looks like an oversight.
             if (total > unitAttributesPreview)
@@ -117,6 +140,63 @@ class _AttributesPreview extends ConsumerWidget {
           ],
         );
       },
+    );
+  }
+}
+
+/// One fact as a pair: its name on the left, its value on the right, and a
+/// hairline above every pair but the first.
+class _FactPair extends StatelessWidget {
+  const _FactPair({required this.attribute, required this.isFirst});
+
+  final UnitAttribute attribute;
+  final bool isFirst;
+
+  @override
+  Widget build(BuildContext context) {
+    final attribute = this.attribute;
+    final scheme = context.colorScheme;
+    final text = context.textTheme;
+
+    return Column(
+      children: [
+        if (!isFirst) Divider(height: 1, color: scheme.outlineVariant),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: AppSpacing.md,
+            children: [
+              Expanded(
+                child: Text(
+                  attribute.name,
+                  style: text.bodyMedium?.copyWith(
+                    color: scheme.onSurfaceVariant,
+                  ),
+                ),
+              ),
+              // A value is free text and may run long — "газовий котел
+              // Vaillant, заміна 2021" — so it wraps under itself, right-aligned,
+              // rather than pushing the name off the line.
+              // Aligned inside its share of the line rather than sized to its
+              // text: a Flexible alone leaves the value standing in the middle
+              // of the row with the spare width after it.
+              Flexible(
+                child: Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: Text(
+                    attribute.value,
+                    textAlign: TextAlign.end,
+                    style: text.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

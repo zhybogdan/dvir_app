@@ -1,6 +1,8 @@
 import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/routes.dart';
+import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
+import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Contacts/application/contacts_controller.dart';
 import 'package:dvir/features/Contacts/domain/models/contact.dart';
 import 'package:dvir/features/Contacts/presentation/components/contact_sheet.dart';
@@ -9,6 +11,7 @@ import 'package:dvir/features/Members/application/unit_members_controller.dart';
 import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
+import 'package:dvir/features/Shared/presentation/dv_menu.dart';
 import 'package:dvir/features/Shared/presentation/dv_section_title.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_tiles_skeleton.dart';
@@ -33,6 +36,26 @@ class ContactsSection extends ConsumerWidget {
 
   final String unitId;
 
+  /// Opens the sheet that takes one number, and files what comes back.
+  ///
+  /// Static because an empty object offers the same first step from its start
+  /// block, where this section is not on screen at all: two copies of these
+  /// four lines are two places for a draft to be dropped on the floor.
+  static Future<void> add(
+    BuildContext context,
+    WidgetRef ref,
+    String unitId,
+  ) async {
+    final actions = ref.read(
+      contactActionsProvider(ScopeRef.unit(unitId)).notifier,
+    );
+
+    final draft = await ContactSheet.open(context);
+    if (draft == null) return;
+
+    await actions.add(name: draft.name, role: draft.role, phone: draft.phone);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
@@ -48,21 +71,17 @@ class ContactsSection extends ConsumerWidget {
       (previous, next) => next.showFailure(context, ref),
     );
 
-    Future<void> add() async {
-      final actions = ref.read(contactActionsProvider(scope).notifier);
-
-      final draft = await ContactSheet.open(context);
-      if (draft == null) return;
-
-      await actions.add(name: draft.name, role: draft.role, phone: draft.phone);
-    }
-
     return Column(
       children: [
         DvSectionTitle(
           l10n.contacts,
           count: ref.watch(contactsProvider(scope)).value?.length,
-          action: canEdit ? (label: l10n.unitAddCta, onPressed: add) : null,
+          action: canEdit
+              ? (
+                  label: l10n.unitAddCta,
+                  onPressed: () => add(context, ref, unitId),
+                )
+              : null,
         ),
         _ContactsPreview(scope: scope, canEdit: canEdit),
       ],
@@ -96,7 +115,7 @@ class _ContactsPreview extends ConsumerWidget {
         return Column(
           children: [
             for (final contact in contacts.take(contactsPreview))
-              ContactTile(scope: scope, contact: contact, canEdit: canEdit),
+              _PhoneRow(scope: scope, contact: contact, canEdit: canEdit),
             // The count is the whole list, not what is left over: "all 8" says
             // something, "3 more" only looks like an oversight.
             if (total > contactsPreview)
@@ -109,6 +128,102 @@ class _ContactsPreview extends ConsumerWidget {
           ],
         );
       },
+    );
+  }
+}
+
+/// One number as a line on the page: who it is, what they do, and the one
+/// control that matters.
+///
+/// No card around it — a phone is a name and a call, and five framed rows read
+/// as five settings. The whole line dials, as the contacts screen's row does;
+/// changing or dropping it sits behind a long press for whoever keeps the
+/// list.
+class _PhoneRow extends ConsumerWidget {
+  const _PhoneRow({
+    required this.scope,
+    required this.contact,
+    required this.canEdit,
+  });
+
+  final ScopeRef scope;
+  final Contact contact;
+  final bool canEdit;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final scope = this.scope;
+    final contact = this.contact;
+    final phone = contact.phone;
+    final role = contact.role;
+    final scheme = context.colorScheme;
+    final brightness = Theme.of(context).brightness;
+
+    return InkWell(
+      borderRadius: BorderRadius.circular(AppRadius.md),
+      onTap: phone == null ? null : () => ContactTile.dial(ref, l10n, phone),
+      onLongPress: canEdit
+          ? () => DvMenu.show(
+              context,
+              items: ContactTile.actionsFor(
+                context,
+                ref,
+                scope: scope,
+                contact: contact,
+              ),
+            )
+          : null,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+        child: Row(
+          spacing: AppSpacing.md,
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: AppTones.person.of(brightness),
+                shape: BoxShape.circle,
+              ),
+              child: Text(
+                contact.name.characters.first.toUpperCase(),
+                style: context.textTheme.titleSmall?.copyWith(
+                  color: AppTones.on(brightness),
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    contact.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.textTheme.bodyLarge,
+                  ),
+                  if (role != null && role.isNotEmpty)
+                    Text(
+                      role,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.textTheme.labelSmall?.copyWith(
+                        color: scheme.onSurfaceVariant,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            // Only where there is a number to call: a handset on a row that
+            // does nothing when tapped is a promise the row cannot keep.
+            if (phone != null)
+              Icon(AppIcons.call, color: scheme.primary, size: 20),
+          ],
+        ),
+      ),
     );
   }
 }
