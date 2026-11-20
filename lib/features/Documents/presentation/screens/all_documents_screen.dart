@@ -11,6 +11,7 @@ import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
+import 'package:dvir/features/Shared/presentation/dv_page_head.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_section_title.dart';
 import 'package:dvir/features/Shared/presentation/dv_tiles_skeleton.dart';
@@ -32,32 +33,41 @@ class AllDocumentsScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
 
     return DvScaffold(
-      appBar: DvAppBar(title: l10n.documents),
-      body: DvAsyncView<List<ObjectGroup<Document>>>(
-        value: ref.watch(allDocumentsProvider),
-        skeleton: Padding(
-          padding: context.pagePadding,
-          child: const DvTilesSkeleton(),
-        ),
-        // The whole family, because the list that failed could be any
-        // object's; and the scopes, in case it was the list of objects itself.
-        onRetry: () => ref
-          ..invalidate(myScopesProvider)
-          ..invalidate(documentsProvider),
-        builder: (context, groups) => groups.isEmpty
-            ? DvEmptyView(
-                message: l10n.allDocumentsEmpty,
-                icon: AppIcons.documentGeneric,
-              )
-            : ListView(
+      // Empty, and kept: without it the heading would sit a bar higher here
+      // than on every screen this tab leads to.
+      appBar: const DvAppBar(title: ''),
+      body: Column(
+        children: [
+          DvPageHead(l10n.documents),
+          Expanded(
+            child: DvAsyncView<List<ObjectGroup<Document>>>(
+              value: ref.watch(allDocumentsProvider),
+              skeleton: Padding(
                 padding: context.pagePadding,
-                children: [
-                  for (final (index, group) in groups.indexed) ...[
-                    if (index > 0) const SizedBox(height: AppSpacing.xl),
-                    _ObjectPapers(group: group),
-                  ],
-                ],
+                child: const DvTilesSkeleton(),
               ),
+              // The whole family, because the list that failed could be any
+              // object's; and the scopes, in case it was the list of objects itself.
+              onRetry: () => ref
+                ..invalidate(myScopesProvider)
+                ..invalidate(documentsProvider),
+              builder: (context, groups) => groups.isEmpty
+                  ? DvEmptyView(
+                      message: l10n.allDocumentsEmpty,
+                      icon: AppIcons.documentGeneric,
+                    )
+                  : ListView(
+                      padding: context.pagePadding,
+                      children: [
+                        for (final (index, group) in groups.indexed) ...[
+                          if (index > 0) const SizedBox(height: AppSpacing.xl),
+                          _ObjectPapers(group: group),
+                        ],
+                      ],
+                    ),
+            ),
+          ),
+        ],
       ),
     );
   }

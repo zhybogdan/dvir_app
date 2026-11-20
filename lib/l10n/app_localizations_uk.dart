@@ -19,10 +19,10 @@ class AppLocalizationsUk extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count паперу',
-      many: '$count паперів',
-      few: '$count папери',
-      one: '$count папір',
+      other: '$count документа',
+      many: '$count документів',
+      few: '$count документи',
+      one: '$count документ',
     );
     return '$_temp0';
   }
@@ -508,11 +508,11 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get allDocumentsEmpty =>
-      'Тут зберуться папери з усіх ваших об\'єктів. Перший додають на екрані об\'єкта.';
+      'Тут зберуться документи з усіх ваших об\'єктів. Перший додають на екрані об\'єкта.';
 
   @override
   String get documentsEmpty =>
-      'Техпаспорт, договори, гарантії. Тут лежить папір, який доводить те, що записано вище.';
+      'Техпаспорт, договори, гарантії. Тут зберігаються документи, які підтверджують те, що записано вище.';
 
   @override
   String documentsShowAll(int count) {
@@ -559,6 +559,31 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String documentAddedOn(String date) {
     return 'Додано $date';
+  }
+
+  @override
+  String documentMonth(String month) {
+    String _temp0 = intl.Intl.selectLogic(month, {
+      '1': 'Січень',
+      '2': 'Лютий',
+      '3': 'Березень',
+      '4': 'Квітень',
+      '5': 'Травень',
+      '6': 'Червень',
+      '7': 'Липень',
+      '8': 'Серпень',
+      '9': 'Вересень',
+      '10': 'Жовтень',
+      '11': 'Листопад',
+      '12': 'Грудень',
+      'other': '',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String documentMonthOfYear(String month, String year) {
+    return '$month $year';
   }
 
   @override
@@ -661,14 +686,14 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitStartFactsWhy => 'Те, що варто пам\'ятати';
 
   @override
-  String get unitStartDocument => 'Покладіть техпаспорт';
+  String get unitStartDocument => 'Додайте техпаспорт';
 
   @override
-  String get unitStartDocumentNested => 'Покладіть папір';
+  String get unitStartDocumentNested => 'Додайте документ';
 
   @override
   String get unitStartDocumentWhy =>
-      'Папір, який доводить те, що записано вище';
+      'Документ, який підтверджує те, що записано вище';
 
   @override
   String get unitStartContact => 'Додайте телефон';

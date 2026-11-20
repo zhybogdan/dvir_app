@@ -109,7 +109,7 @@ abstract class AppLocalizations {
   /// How many documents an object holds, on its card in the list
   ///
   /// In uk, this message translates to:
-  /// **'{count, plural, one{{count} папір} few{{count} папери} many{{count} паперів} other{{count} паперу}}'**
+  /// **'{count, plural, one{{count} документ} few{{count} документи} many{{count} документів} other{{count} документа}}'**
   String scopePapers(int count);
 
   /// How many facts an object's record holds, on its card in the list
@@ -997,13 +997,13 @@ abstract class AppLocalizations {
   /// No description provided for @allDocumentsEmpty.
   ///
   /// In uk, this message translates to:
-  /// **'Тут зберуться папери з усіх ваших об\'єктів. Перший додають на екрані об\'єкта.'**
+  /// **'Тут зберуться документи з усіх ваших об\'єктів. Перший додають на екрані об\'єкта.'**
   String get allDocumentsEmpty;
 
   /// No description provided for @documentsEmpty.
   ///
   /// In uk, this message translates to:
-  /// **'Техпаспорт, договори, гарантії. Тут лежить папір, який доводить те, що записано вище.'**
+  /// **'Техпаспорт, договори, гарантії. Тут зберігаються документи, які підтверджують те, що записано вище.'**
   String get documentsEmpty;
 
   /// Opens the screen with all of a scope's files; count is the total
@@ -1083,6 +1083,18 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Додано {date}'**
   String documentAddedOn(String date);
+
+  /// A month heading over the papers added in it; month is 1-12
+  ///
+  /// In uk, this message translates to:
+  /// **'{month, select, 1{Січень} 2{Лютий} 3{Березень} 4{Квітень} 5{Травень} 6{Червень} 7{Липень} 8{Серпень} 9{Вересень} 10{Жовтень} 11{Листопад} 12{Грудень} other{}}'**
+  String documentMonth(String month);
+
+  /// A month heading for a year other than the current one, e.g. Серпень 2025
+  ///
+  /// In uk, this message translates to:
+  /// **'{month} {year}'**
+  String documentMonthOfYear(String month, String year);
 
   /// No description provided for @editDocument.
   ///
@@ -1261,19 +1273,19 @@ abstract class AppLocalizations {
   /// No description provided for @unitStartDocument.
   ///
   /// In uk, this message translates to:
-  /// **'Покладіть техпаспорт'**
+  /// **'Додайте техпаспорт'**
   String get unitStartDocument;
 
   /// No description provided for @unitStartDocumentNested.
   ///
   /// In uk, this message translates to:
-  /// **'Покладіть папір'**
+  /// **'Додайте документ'**
   String get unitStartDocumentNested;
 
   /// No description provided for @unitStartDocumentWhy.
   ///
   /// In uk, this message translates to:
-  /// **'Папір, який доводить те, що записано вище'**
+  /// **'Документ, який підтверджує те, що записано вище'**
   String get unitStartDocumentWhy;
 
   /// No description provided for @unitStartContact.

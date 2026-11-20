@@ -65,28 +65,53 @@ class UnitChildrenSection extends ConsumerWidget {
           onRetry: () => ref.invalidate(unitChildrenProvider(unitId)),
           builder: (context, children) => children.isEmpty
               ? DvEmptyView(message: l10n.unitNestedEmpty)
-              : LayoutBuilder(
-                  // Half the width less the gap, rather than a fixed 160: the
-                  // grid has to stay two to a row on a narrow phone and not
-                  // leave a strip of nothing on a wide one.
-                  builder: (context, constraints) {
-                    final width = (constraints.maxWidth - AppSpacing.md) / 2;
-
-                    return Wrap(
-                      spacing: AppSpacing.md,
-                      runSpacing: AppSpacing.md,
-                      children: [
-                        for (final child in children)
-                          SizedBox(
-                            width: width,
-                            child: _InsideCard(unit: child),
-                          ),
-                      ],
-                    );
-                  },
+              : Column(
+                  spacing: AppSpacing.md,
+                  children: [
+                    for (var i = 0; i < children.length; i += 2)
+                      _InsideRow(
+                        left: children[i],
+                        right: children.elementAtOrNull(i + 1),
+                      ),
+                  ],
                 ),
         ),
       ],
+    );
+  }
+}
+
+/// Two objects side by side, as tall as the taller of them.
+///
+/// A row rather than a `Wrap`: a garage called "Гараж" drops its second line
+/// and came out shorter than the bedroom beside it, and two cards of different
+/// heights in one row read as a mistake. Half the width each, so the grid stays
+/// two to a row on a narrow phone and leaves no strip of nothing on a wide one.
+class _InsideRow extends StatelessWidget {
+  const _InsideRow({required this.left, this.right});
+
+  final Unit left;
+  final Unit? right;
+
+  @override
+  Widget build(BuildContext context) {
+    final right = this.right;
+
+    // Intrinsic height for two cards is a measurement twice, not a cost: it is
+    // the only way a row learns how tall its taller card is before laying out.
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: AppSpacing.md,
+        children: [
+          Expanded(child: _InsideCard(unit: left)),
+          Expanded(
+            child: right == null
+                ? const SizedBox.shrink()
+                : _InsideCard(unit: right),
+          ),
+        ],
+      ),
     );
   }
 }

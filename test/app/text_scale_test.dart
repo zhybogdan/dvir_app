@@ -1,6 +1,7 @@
 import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_page_head.dart';
 import 'package:dvir/features/Shared/presentation/dv_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -103,6 +104,21 @@ void main() {
         label: 'Додати документ до оселі',
         icon: AppIcons.add,
         onPressed: _noop,
+      ),
+    );
+
+    expect(tester.takeException(), isNull);
+  });
+
+  // The longest heading of the three lists and a two-digit count, on the
+  // narrowest phone at the cap — where a page heading runs out first.
+  testWidgets('a list heading with a count does not overflow', (tester) async {
+    await _pumpAtMaxScale(
+      tester,
+      const DvPageHead(
+        'Характеристики',
+        count: 12,
+        of: 'Квартира 47, вулиця Соборна 15, під’їзд 2',
       ),
     );
 

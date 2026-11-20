@@ -5,6 +5,7 @@ import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Contacts/application/contacts_controller.dart';
 import 'package:dvir/features/Contacts/domain/models/contact.dart';
+import 'package:dvir/features/Contacts/presentation/components/contact_mark.dart';
 import 'package:dvir/features/Contacts/presentation/components/contact_sheet.dart';
 import 'package:dvir/features/Contacts/presentation/components/contact_tile.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
@@ -158,7 +159,6 @@ class _PhoneRow extends ConsumerWidget {
     final phone = contact.phone;
     final role = contact.role;
     final scheme = context.colorScheme;
-    final brightness = Theme.of(context).brightness;
 
     return InkWell(
       borderRadius: BorderRadius.circular(AppRadius.md),
@@ -179,22 +179,7 @@ class _PhoneRow extends ConsumerWidget {
         child: Row(
           spacing: AppSpacing.md,
           children: [
-            Container(
-              width: 40,
-              height: 40,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: AppTones.person.of(brightness),
-                shape: BoxShape.circle,
-              ),
-              child: Text(
-                contact.name.characters.first.toUpperCase(),
-                style: context.textTheme.titleSmall?.copyWith(
-                  color: AppTones.on(brightness),
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
+            ContactMark(contact: contact),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

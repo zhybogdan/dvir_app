@@ -5,6 +5,7 @@ import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
+import 'package:dvir/features/Shared/presentation/dv_divider.dart';
 import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_section_title.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
@@ -160,7 +161,7 @@ class _FactPair extends StatelessWidget {
 
     return Column(
       children: [
-        if (!isFirst) Divider(height: 1, color: scheme.outlineVariant),
+        if (!isFirst) const DvDivider(),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
           child: Row(

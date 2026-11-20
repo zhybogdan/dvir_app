@@ -5,19 +5,28 @@ import 'package:dvir/core/notifications/toast_controller.dart';
 import 'package:dvir/core/utils/phone.dart';
 import 'package:dvir/features/Contacts/application/contacts_controller.dart';
 import 'package:dvir/features/Contacts/domain/models/contact.dart';
+import 'package:dvir/features/Contacts/presentation/components/contact_mark.dart';
 import 'package:dvir/features/Contacts/presentation/components/contact_sheet.dart';
 import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
-import 'package:dvir/features/Shared/presentation/dv_icon_badge.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
-import 'package:dvir/features/Shared/presentation/dv_tile.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// One telephone number, and whatever may be done with it.
+/// One telephone number as a line of a list: who it is, the number, and the
+/// call.
 ///
-/// Shared by the hub's five and by the screen holding all of them, so the two
+/// No card around it. A name and a number is one line, and twelve cards for
+/// twelve numbers is twelve frames around nothing — the list draws a hairline
+/// between rows instead.
+///
+/// The whole line dials, because that is the one thing anybody opens this list
+/// for, and the handset says so to everyone. A keeper also gets the three dots
+/// beside it: this is the screen where the list is kept, so changing a number
+/// is offered in sight rather than behind a long press, as it is on the hub.
+///
+/// Shared by an object's list and the tab holding everybody's, so the two
 /// cannot drift into different rows for the same contact.
 class ContactTile extends ConsumerWidget {
   const ContactTile({
@@ -39,30 +48,63 @@ class ContactTile extends ConsumerWidget {
     final scope = this.scope;
     final contact = this.contact;
     final phone = contact.phone;
+    final role = contact.role;
+    final scheme = context.colorScheme;
+    final styles = context.textTheme;
 
-    return DvTile(
-      title: contact.name,
-      subtitle: contact.role,
-      caption: phone,
-      dense: true,
-      // A person and not a receiver, although the row is here to be dialled:
-      // the handset already sits on the button at the other end, and the same
-      // glyph twice in one row says nothing the second time.
-      leading: const DvIconBadge(
-        icon: AppIcons.profile,
-        tone: AppTones.person,
-        dense: true,
-      ),
-      // The whole row dials, because that is the one thing anybody opens this
-      // list for. A row without a number is still shown and still readable —
-      // it just does nothing when tapped.
+    final who = role == null || role.isEmpty
+        ? contact.name
+        : '${contact.name} · $role';
+
+    return InkWell(
+      borderRadius: BorderRadius.circular(AppRadius.md),
+      // A row without a number is still shown and still readable — it just
+      // does nothing when tapped.
       onTap: phone == null ? null : () => dial(ref, l10n, phone),
-      // A keeper gets the menu; everyone else gets the handset, which says what
-      // the row does. Without it `DvTile` would draw a chevron and promise a
-      // screen that does not exist.
-      trailing: canEdit
-          ? _ContactMenu(scope: scope, contact: contact)
-          : Icon(AppIcons.call, color: context.colorScheme.onSurfaceVariant),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+        child: Row(
+          spacing: AppSpacing.md,
+          children: [
+            ContactMark(contact: contact),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    who,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: styles.titleSmall,
+                  ),
+                  if (phone != null)
+                    Text(
+                      phone,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: styles.bodySmall?.copyWith(
+                        color: scheme.onSurfaceVariant,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            // The handset and the dots as one group, with no gap of the row's
+            // own between them: the menu button already carries 12 of empty
+            // touch target on each side, and the row's 16 on top read as two
+            // controls that had nothing to do with each other.
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Only where there is a number: a handset on a row that does
+                // nothing when tapped is a promise the row cannot keep.
+                if (phone != null) Icon(AppIcons.call, color: scheme.primary),
+                if (canEdit) _ContactMenu(scope: scope, contact: contact),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 

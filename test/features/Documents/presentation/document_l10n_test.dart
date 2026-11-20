@@ -81,4 +81,25 @@ void main() {
   test('the date is padded, so a list of them lines up', () {
     expect(documentAddedOn(DateTime(2026, 8, 3), l10n), contains('03.08.2026'));
   });
+
+  test('a month heading names the year only when it is not this one', () {
+    final now = DateTime(2026, 11, 20);
+
+    expect(
+      documentMonthLabel(
+        (year: 2026, month: 11, items: const []),
+        l10n,
+        now: now,
+      ),
+      'Листопад',
+    );
+    expect(
+      documentMonthLabel(
+        (year: 2025, month: 8, items: const []),
+        l10n,
+        now: now,
+      ),
+      'Серпень 2025',
+    );
+  });
 }

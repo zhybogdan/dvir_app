@@ -14,14 +14,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// One stored file, and whatever may be done to it.
 ///
-/// Shared by the hub's five and by the screen holding all of them, so the two
-/// cannot drift into different rows for the same file.
+/// Shared by the object's list of papers and by the tab holding everybody's,
+/// so the two cannot drift into different rows for the same file. Full size
+/// rather than dense: both are screens that *are* a list.
 class DocumentTile extends ConsumerWidget {
   const DocumentTile({
     required this.scope,
     required this.document,
     required this.canEdit,
     super.key,
+    this.showAddedOn = true,
   });
 
   final ScopeRef scope;
@@ -29,6 +31,11 @@ class DocumentTile extends ConsumerWidget {
 
   /// Whether the person looking keeps this scope's papers.
   final bool canEdit;
+
+  /// Whether the row says the day it was added. Off where a month heading
+  /// above it already says when — the same date twice is a line read for
+  /// nothing.
+  final bool showAddedOn;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -40,12 +47,10 @@ class DocumentTile extends ConsumerWidget {
     return DvTile(
       title: document.title,
       subtitle: subtitle.isEmpty ? null : subtitle,
-      caption: documentAddedOn(document.createdAt, l10n),
-      dense: true,
+      caption: showAddedOn ? documentAddedOn(document.createdAt, l10n) : null,
       leading: DvIconBadge(
         icon: documentIcon(document),
         tone: documentTone(document),
-        dense: true,
       ),
       // Opening is offered to everyone who can see the row: reading the papers
       // is what a tenant is here for.

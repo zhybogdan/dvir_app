@@ -12,6 +12,7 @@ import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_page_head.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
 import 'package:dvir/features/Units/application/unit_actions_controller.dart';
@@ -134,7 +135,7 @@ class _Hub extends ConsumerWidget {
           ..invalidate(unitChildrenProvider(unit.id));
       },
       child: ListView(
-        padding: context.pagePadding,
+        padding: context.pagePadding.copyWith(top: DvPageHead.topGap),
         children: [
           UnitHead(unit: unit),
           const SizedBox(height: AppSpacing.xl),
