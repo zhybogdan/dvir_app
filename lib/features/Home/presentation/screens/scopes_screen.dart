@@ -162,15 +162,25 @@ class _ScopeCard extends StatelessWidget {
     );
   }
 
-  /// The kind of place and where it stands — "Будинок · Київ, Садова 14".
+  /// The kind of place and where it stands — "Будинок · вул. Садова, 14".
   ///
-  /// The address collapses to nothing when it was never filled in, which is
-  /// most objects on the day they are created.
+  /// The address alone, and the city only when there is no address. In a list
+  /// of one household's places the street is what tells them apart, and the
+  /// region in front of it pushed the house number onto a line of its own —
+  /// "14" under everything else. The object's own screen still prints both.
+  ///
+  /// Nothing at all when neither was filled in, which is most objects on the
+  /// day they are created.
   String _whereItIs(Unit unit, AppLocalizations l10n) {
-    final where = [unit.city, unit.address].nonNulls.join(', ');
+    final where = [
+      unit.address,
+      unit.city,
+    ].firstWhere((part) => part != null && part.isNotEmpty, orElse: () => null);
     final kind = unit.type.label(l10n);
 
-    return where.isEmpty ? kind : '$kind · $where';
+    if (where == null) return kind;
+
+    return '$kind · $where';
   }
 
   /// Where the card leads, or null when it leads nowhere yet.

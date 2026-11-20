@@ -6,6 +6,7 @@ import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/models/unit_membership.dart';
 import 'package:dvir/features/Units/domain/types/unit_role.dart';
 import 'package:dvir/features/Units/domain/types/unit_type.dart';
+import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,8 @@ ScopeSummary _unit(
   String label, {
   UnitType type = UnitType.house,
   String? parentId,
+  String? city,
+  String? address,
   ScopeCounts? counts,
 }) => ScopeSummary.unit(
   membership: UnitMembership(
@@ -32,7 +35,14 @@ ScopeSummary _unit(
     role: UnitRole.owner,
     status: MemberStatus.active,
   ),
-  unit: Unit(id: id, label: label, type: type, parentId: parentId),
+  unit: Unit(
+    id: id,
+    label: label,
+    type: type,
+    parentId: parentId,
+    city: city,
+    address: address,
+  ),
   counts: counts,
 );
 
@@ -92,6 +102,28 @@ void main() {
       find.text('${l10n.scopePapers(0)} · ${l10n.scopeFacts(0)}'),
       findsOneWidget,
     );
+  });
+
+  // The region in front of the street pushed the house number onto a line of
+  // its own; in one household's list the street is what tells places apart.
+  testWidgets('a card names the street, and the city only without one', (
+    tester,
+  ) async {
+    await _pump(tester, [
+      _unit(
+        'h',
+        'Дім на Садовій',
+        city: 'Київська обл.',
+        address: 'вул. Садова, 14',
+      ),
+      _unit('f', 'Квартира', type: UnitType.apartment, city: 'Львів'),
+    ]);
+
+    final house = UnitType.house.label(l10n);
+    final flat = UnitType.apartment.label(l10n);
+
+    expect(find.text('$house · вул. Садова, 14'), findsOneWidget);
+    expect(find.text('$flat · Львів'), findsOneWidget);
   });
 
   test('the counts take the Ukrainian plural forms', () {
