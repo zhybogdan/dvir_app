@@ -520,16 +520,25 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String get documentSourceTitle => 'Звідки взяти файл';
-
-  @override
-  String get documentSourceFile => 'Файл на пристрої';
-
-  @override
-  String get documentSourceGallery => 'Фото з галереї';
+  String get documentSourceTitle => 'Додати документ';
 
   @override
   String get documentSourceCamera => 'Сфотографувати';
+
+  @override
+  String get documentSourceCameraHint => 'Документ переді мною';
+
+  @override
+  String get documentSourceGallery => 'З галереї';
+
+  @override
+  String get documentSourceGalleryHint => 'Вже сфотографовано';
+
+  @override
+  String get documentSourceFile => 'Файл';
+
+  @override
+  String get documentSourceFileHint => 'PDF на телефоні';
 
   @override
   String get documentAddTitle => 'Новий документ';

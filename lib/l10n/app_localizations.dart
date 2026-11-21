@@ -1015,26 +1015,44 @@ abstract class AppLocalizations {
   /// No description provided for @documentSourceTitle.
   ///
   /// In uk, this message translates to:
-  /// **'Звідки взяти файл'**
+  /// **'Додати документ'**
   String get documentSourceTitle;
-
-  /// No description provided for @documentSourceFile.
-  ///
-  /// In uk, this message translates to:
-  /// **'Файл на пристрої'**
-  String get documentSourceFile;
-
-  /// No description provided for @documentSourceGallery.
-  ///
-  /// In uk, this message translates to:
-  /// **'Фото з галереї'**
-  String get documentSourceGallery;
 
   /// No description provided for @documentSourceCamera.
   ///
   /// In uk, this message translates to:
   /// **'Сфотографувати'**
   String get documentSourceCamera;
+
+  /// No description provided for @documentSourceCameraHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'Документ переді мною'**
+  String get documentSourceCameraHint;
+
+  /// No description provided for @documentSourceGallery.
+  ///
+  /// In uk, this message translates to:
+  /// **'З галереї'**
+  String get documentSourceGallery;
+
+  /// No description provided for @documentSourceGalleryHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'Вже сфотографовано'**
+  String get documentSourceGalleryHint;
+
+  /// No description provided for @documentSourceFile.
+  ///
+  /// In uk, this message translates to:
+  /// **'Файл'**
+  String get documentSourceFile;
+
+  /// No description provided for @documentSourceFileHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'PDF на телефоні'**
+  String get documentSourceFileHint;
 
   /// No description provided for @documentAddTitle.
   ///

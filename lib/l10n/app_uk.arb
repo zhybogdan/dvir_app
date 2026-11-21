@@ -275,10 +275,13 @@
       }
     }
   },
-  "documentSourceTitle": "Звідки взяти файл",
-  "documentSourceFile": "Файл на пристрої",
-  "documentSourceGallery": "Фото з галереї",
+  "documentSourceTitle": "Додати документ",
   "documentSourceCamera": "Сфотографувати",
+  "documentSourceCameraHint": "Документ переді мною",
+  "documentSourceGallery": "З галереї",
+  "documentSourceGalleryHint": "Вже сфотографовано",
+  "documentSourceFile": "Файл",
+  "documentSourceFileHint": "PDF на телефоні",
   "documentAddTitle": "Новий документ",
   "documentEditTitle": "Назва документа",
   "documentName": "Назва",
