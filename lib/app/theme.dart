@@ -35,6 +35,13 @@ class AppTheme {
         backgroundColor: scheme.surface,
         foregroundColor: scheme.onSurface,
       ),
+      // The page lifted up, and not Material's `surfaceContainerLow`, which
+      // here is the white a card and a field are filled with: on a white
+      // sheet the fields inside it are told from their ground by their
+      // border alone. The 28 corner is M3's own and is what was drawn.
+      bottomSheetTheme: BottomSheetThemeData(
+        modalBackgroundColor: scheme.surface,
+      ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: scheme.surfaceContainerLow,

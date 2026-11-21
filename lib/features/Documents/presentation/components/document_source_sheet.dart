@@ -2,6 +2,7 @@ import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Documents/data/document_picker.dart';
+import 'package:dvir/features/Shared/presentation/dv_sheet.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,7 @@ class DocumentSourceSheet extends StatelessWidget {
   static Future<DocumentSource?> open(BuildContext context) =>
       showModalBottomSheet<DocumentSource>(
         context: context,
+        isScrollControlled: true,
         routeSettings: const RouteSettings(name: 'DocumentSourceSheet'),
         builder: (context) => const DocumentSourceSheet(),
       );
@@ -25,18 +27,12 @@ class DocumentSourceSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return SafeArea(
+    return DvSheet(
+      title: l10n.documentSourceTitle,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(AppSpacing.lg),
-            child: Text(
-              l10n.documentSourceTitle,
-              style: context.textTheme.titleMedium,
-            ),
-          ),
           _Source(
             icon: AppIcons.sourceFiles,
             label: l10n.documentSourceFile,
@@ -52,7 +48,6 @@ class DocumentSourceSheet extends StatelessWidget {
             label: l10n.documentSourceCamera,
             source: DocumentSource.camera,
           ),
-          const SizedBox(height: AppSpacing.md),
         ],
       ),
     );
@@ -75,6 +70,9 @@ class _Source extends StatelessWidget {
     final source = this.source;
 
     return ListTile(
+      // The sheet's gutter, not the tile's own 16: in a sheet every row
+      // starts under the heading.
+      contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       leading: Icon(icon, color: context.colorScheme.onSurfaceVariant),
       title: Text(label, style: context.textTheme.bodyLarge),
       onTap: () => Navigator.of(context).pop(source),

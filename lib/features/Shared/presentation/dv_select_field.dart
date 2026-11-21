@@ -1,6 +1,7 @@
 import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
+import 'package:dvir/features/Shared/presentation/dv_sheet.dart';
 import 'package:flutter/material.dart';
 
 /// Labelled picker that reads as a text field but opens a bottom sheet of
@@ -39,7 +40,7 @@ class DvSelectField<T> extends StatelessWidget {
   Future<void> _open(BuildContext context) async {
     final selected = await showModalBottomSheet<T>(
       context: context,
-      showDragHandle: true,
+      isScrollControlled: true,
       useSafeArea: true,
       // Named so the route observer logs which field was opened.
       routeSettings: RouteSettings(name: 'DvSelectField($label)'),
@@ -121,42 +122,28 @@ class _OptionsSheet<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+    return DvSheet(
+      title: title,
+      child: ListView(
+        shrinkWrap: true,
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.md,
-              0,
-              AppSpacing.md,
-              AppSpacing.sm,
+          for (final (index, option) in options.indexed) ...[
+            if (_startsGroup(index))
+              _GroupHeading(text: groupOf?.call(option) ?? ''),
+            ListTile(
+              // The sheet's gutter, not the tile's own 16, so the options
+              // start under the heading. The group band keeps the full
+              // width — it is the one thing here that is not a row.
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+              ),
+              title: Text(labelOf(option)),
+              trailing: option == selected
+                  ? Icon(AppIcons.selected, color: context.colorScheme.primary)
+                  : null,
+              onTap: () => Navigator.of(context).pop(option),
             ),
-            child: Text(title, style: context.textTheme.titleMedium),
-          ),
-          Flexible(
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                for (final (index, option) in options.indexed) ...[
-                  if (_startsGroup(index))
-                    _GroupHeading(text: groupOf?.call(option) ?? ''),
-                  ListTile(
-                    title: Text(labelOf(option)),
-                    trailing: option == selected
-                        ? Icon(
-                            AppIcons.selected,
-                            color: context.colorScheme.primary,
-                          )
-                        : null,
-                    onTap: () => Navigator.of(context).pop(option),
-                  ),
-                ],
-              ],
-            ),
-          ),
-          const SizedBox(height: AppSpacing.sm),
+          ],
         ],
       ),
     );
@@ -181,7 +168,7 @@ class _GroupHeading extends StatelessWidget {
       width: double.infinity,
       color: scheme.surfaceContainerHighest,
       padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.md,
+        horizontal: AppSpacing.lg,
         vertical: AppSpacing.sm,
       ),
       child: Text(

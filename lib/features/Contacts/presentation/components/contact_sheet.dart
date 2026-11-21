@@ -1,10 +1,9 @@
-﻿import 'package:dvir/app/theme.dart';
-import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:dvir/core/utils/text_input.dart';
 import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Contacts/domain/models/contact.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_sheet.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -72,70 +71,47 @@ class _ContactSheetState extends State<ContactSheet> {
     final l10n = AppLocalizations.of(context);
     final isNew = _contact == null;
 
-    return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
-      child: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppSpacing.lg),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              spacing: AppSpacing.md,
-              children: [
-                Text(
-                  isNew ? l10n.contactAddTitle : l10n.contactEditTitle,
-                  style: context.textTheme.titleMedium,
-                ),
-                DvTextField(
-                  controller: _nameCtrl,
-                  label: l10n.contactName,
-                  hint: l10n.contactNameHint,
-                  maxLength: FieldLength.contactName,
-                  textInputAction: TextInputAction.next,
-                  textCapitalization: TextCapitalization.words,
-                  validator: (v) =>
-                      validateRequired(v, l10n.contactNameRequired) ??
-                      validateMaxLength(
-                        v,
-                        FieldLength.contactName,
-                        l10n.fieldTooLong,
-                      ),
-                ),
-                // Optional on purpose: "mum" needs no job title, and forcing
-                // one would have people type the name twice.
-                DvTextField(
-                  controller: _roleCtrl,
-                  label: l10n.contactRole,
-                  hint: l10n.contactRoleHint,
-                  maxLength: FieldLength.contactRole,
-                  textInputAction: TextInputAction.next,
-                  textCapitalization: TextCapitalization.sentences,
-                  validator: (v) => validateMaxLength(
-                    v,
-                    FieldLength.contactRole,
-                    l10n.fieldTooLong,
-                  ),
-                ),
-                DvTextField(
-                  controller: _phoneCtrl,
-                  label: l10n.contactPhone,
-                  hint: l10n.contactPhoneHint,
-                  keyboardType: TextInputType.phone,
-                  textInputAction: TextInputAction.done,
-                  inputFormatters: phoneFormatters,
-                  onSubmitted: (_) => _submit(),
-                  validator: (v) =>
-                      validateRequired(v, l10n.contactPhoneRequired) ??
-                      validatePhone(v, l10n.contactPhoneInvalid),
-                ),
-                DvButton(label: l10n.saveCta, onPressed: _submit),
-              ],
-            ),
-          ),
+    return DvSheet.form(
+      title: isNew ? l10n.contactAddTitle : l10n.contactEditTitle,
+      formKey: _formKey,
+      children: [
+        DvTextField(
+          controller: _nameCtrl,
+          label: l10n.contactName,
+          hint: l10n.contactNameHint,
+          maxLength: FieldLength.contactName,
+          textInputAction: TextInputAction.next,
+          textCapitalization: TextCapitalization.words,
+          validator: (v) =>
+              validateRequired(v, l10n.contactNameRequired) ??
+              validateMaxLength(v, FieldLength.contactName, l10n.fieldTooLong),
         ),
-      ),
+        // Optional on purpose: "mum" needs no job title, and forcing one
+        // would have people type the name twice.
+        DvTextField(
+          controller: _roleCtrl,
+          label: l10n.contactRole,
+          hint: l10n.contactRoleHint,
+          maxLength: FieldLength.contactRole,
+          textInputAction: TextInputAction.next,
+          textCapitalization: TextCapitalization.sentences,
+          validator: (v) =>
+              validateMaxLength(v, FieldLength.contactRole, l10n.fieldTooLong),
+        ),
+        DvTextField(
+          controller: _phoneCtrl,
+          label: l10n.contactPhone,
+          hint: l10n.contactPhoneHint,
+          keyboardType: TextInputType.phone,
+          textInputAction: TextInputAction.done,
+          inputFormatters: phoneFormatters,
+          onSubmitted: (_) => _submit(),
+          validator: (v) =>
+              validateRequired(v, l10n.contactPhoneRequired) ??
+              validatePhone(v, l10n.contactPhoneInvalid),
+        ),
+        DvButton(label: l10n.saveCta, onPressed: _submit),
+      ],
     );
   }
 }

@@ -1,8 +1,7 @@
-﻿import 'package:dvir/app/theme.dart';
-import 'package:dvir/core/extensions/build_context_x.dart';
-import 'package:dvir/core/utils/field_lengths.dart';
+﻿import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_sheet.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
 import 'package:dvir/features/Units/domain/models/unit_attribute.dart';
 import 'package:dvir/l10n/app_localizations.dart';
@@ -65,61 +64,43 @@ class _UnitAttributeSheetState extends State<UnitAttributeSheet> {
     final l10n = AppLocalizations.of(context);
     final isNew = _attribute == null;
 
-    return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
-      child: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppSpacing.lg),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              spacing: AppSpacing.md,
-              children: [
-                Text(
-                  isNew
-                      ? l10n.unitAttributeAddTitle
-                      : l10n.unitAttributeEditTitle,
-                  style: context.textTheme.titleMedium,
-                ),
-                DvTextField(
-                  controller: _nameCtrl,
-                  label: l10n.unitAttributeName,
-                  hint: l10n.unitAttributeNameHint,
-                  maxLength: FieldLength.attributeName,
-                  textInputAction: TextInputAction.next,
-                  textCapitalization: TextCapitalization.sentences,
-                  validator: (v) =>
-                      validateRequired(v, l10n.unitAttributeNameRequired) ??
-                      validateMaxLength(
-                        v,
-                        FieldLength.attributeName,
-                        l10n.fieldTooLong,
-                      ),
-                ),
-                DvTextField(
-                  controller: _valueCtrl,
-                  label: l10n.unitAttributeValue,
-                  hint: l10n.unitAttributeValueHint,
-                  maxLength: FieldLength.attributeValue,
-                  textInputAction: TextInputAction.done,
-                  textCapitalization: TextCapitalization.sentences,
-                  onSubmitted: (_) => _submit(),
-                  validator: (v) =>
-                      validateRequired(v, l10n.unitAttributeValueRequired) ??
-                      validateMaxLength(
-                        v,
-                        FieldLength.attributeValue,
-                        l10n.fieldTooLong,
-                      ),
-                ),
-                DvButton(label: l10n.saveCta, onPressed: _submit),
-              ],
-            ),
-          ),
+    return DvSheet.form(
+      title: isNew ? l10n.unitAttributeAddTitle : l10n.unitAttributeEditTitle,
+      formKey: _formKey,
+      children: [
+        DvTextField(
+          controller: _nameCtrl,
+          label: l10n.unitAttributeName,
+          hint: l10n.unitAttributeNameHint,
+          maxLength: FieldLength.attributeName,
+          textInputAction: TextInputAction.next,
+          textCapitalization: TextCapitalization.sentences,
+          validator: (v) =>
+              validateRequired(v, l10n.unitAttributeNameRequired) ??
+              validateMaxLength(
+                v,
+                FieldLength.attributeName,
+                l10n.fieldTooLong,
+              ),
         ),
-      ),
+        DvTextField(
+          controller: _valueCtrl,
+          label: l10n.unitAttributeValue,
+          hint: l10n.unitAttributeValueHint,
+          maxLength: FieldLength.attributeValue,
+          textInputAction: TextInputAction.done,
+          textCapitalization: TextCapitalization.sentences,
+          onSubmitted: (_) => _submit(),
+          validator: (v) =>
+              validateRequired(v, l10n.unitAttributeValueRequired) ??
+              validateMaxLength(
+                v,
+                FieldLength.attributeValue,
+                l10n.fieldTooLong,
+              ),
+        ),
+        DvButton(label: l10n.saveCta, onPressed: _submit),
+      ],
     );
   }
 }

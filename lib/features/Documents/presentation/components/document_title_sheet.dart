@@ -1,8 +1,7 @@
-﻿import 'package:dvir/app/theme.dart';
-import 'package:dvir/core/extensions/build_context_x.dart';
-import 'package:dvir/core/utils/field_lengths.dart';
+﻿import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
+import 'package:dvir/features/Shared/presentation/dv_sheet.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -62,44 +61,28 @@ class _DocumentTitleSheetState extends State<DocumentTitleSheet> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
-      child: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppSpacing.lg),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              spacing: AppSpacing.md,
-              children: [
-                Text(
-                  widget.isNew ? l10n.documentAddTitle : l10n.documentEditTitle,
-                  style: context.textTheme.titleMedium,
-                ),
-                DvTextField(
-                  controller: _titleCtrl,
-                  label: l10n.documentName,
-                  hint: l10n.documentNameHint,
-                  maxLength: FieldLength.documentTitle,
-                  textInputAction: TextInputAction.done,
-                  textCapitalization: TextCapitalization.sentences,
-                  onSubmitted: (_) => _submit(),
-                  validator: (v) =>
-                      validateRequired(v, l10n.documentNameRequired) ??
-                      validateMaxLength(
-                        v,
-                        FieldLength.documentTitle,
-                        l10n.fieldTooLong,
-                      ),
-                ),
-                DvButton(label: l10n.saveCta, onPressed: _submit),
-              ],
-            ),
-          ),
+    return DvSheet.form(
+      title: widget.isNew ? l10n.documentAddTitle : l10n.documentEditTitle,
+      formKey: _formKey,
+      children: [
+        DvTextField(
+          controller: _titleCtrl,
+          label: l10n.documentName,
+          hint: l10n.documentNameHint,
+          maxLength: FieldLength.documentTitle,
+          textInputAction: TextInputAction.done,
+          textCapitalization: TextCapitalization.sentences,
+          onSubmitted: (_) => _submit(),
+          validator: (v) =>
+              validateRequired(v, l10n.documentNameRequired) ??
+              validateMaxLength(
+                v,
+                FieldLength.documentTitle,
+                l10n.fieldTooLong,
+              ),
         ),
-      ),
+        DvButton(label: l10n.saveCta, onPressed: _submit),
+      ],
     );
   }
 }
