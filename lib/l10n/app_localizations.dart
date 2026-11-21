@@ -937,8 +937,38 @@ abstract class AppLocalizations {
   /// No description provided for @unitAttributeNameHint.
   ///
   /// In uk, this message translates to:
-  /// **'Рік побудови'**
+  /// **'Номер лічильника'**
   String get unitAttributeNameHint;
+
+  /// No description provided for @unitFactYearBuilt.
+  ///
+  /// In uk, this message translates to:
+  /// **'Рік побудови'**
+  String get unitFactYearBuilt;
+
+  /// No description provided for @unitFactArea.
+  ///
+  /// In uk, this message translates to:
+  /// **'Площа'**
+  String get unitFactArea;
+
+  /// No description provided for @unitFactFloors.
+  ///
+  /// In uk, this message translates to:
+  /// **'Поверховість'**
+  String get unitFactFloors;
+
+  /// No description provided for @unitFactWalls.
+  ///
+  /// In uk, this message translates to:
+  /// **'Матеріал стін'**
+  String get unitFactWalls;
+
+  /// No description provided for @unitFactHeating.
+  ///
+  /// In uk, this message translates to:
+  /// **'Опалення'**
+  String get unitFactHeating;
 
   /// No description provided for @unitAttributeNameRequired.
   ///
@@ -955,7 +985,7 @@ abstract class AppLocalizations {
   /// No description provided for @unitAttributeValueHint.
   ///
   /// In uk, this message translates to:
-  /// **'1998'**
+  /// **'09143281'**
   String get unitAttributeValueHint;
 
   /// No description provided for @unitAttributeValueRequired.

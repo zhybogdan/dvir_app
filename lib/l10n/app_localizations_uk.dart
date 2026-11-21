@@ -475,7 +475,22 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitAttributeName => 'Назва';
 
   @override
-  String get unitAttributeNameHint => 'Рік побудови';
+  String get unitAttributeNameHint => 'Номер лічильника';
+
+  @override
+  String get unitFactYearBuilt => 'Рік побудови';
+
+  @override
+  String get unitFactArea => 'Площа';
+
+  @override
+  String get unitFactFloors => 'Поверховість';
+
+  @override
+  String get unitFactWalls => 'Матеріал стін';
+
+  @override
+  String get unitFactHeating => 'Опалення';
 
   @override
   String get unitAttributeNameRequired => 'Вкажіть назву';
@@ -484,7 +499,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitAttributeValue => 'Значення';
 
   @override
-  String get unitAttributeValueHint => '1998';
+  String get unitAttributeValueHint => '09143281';
 
   @override
   String get unitAttributeValueRequired => 'Вкажіть значення';

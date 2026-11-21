@@ -14,6 +14,7 @@ class DvTextField extends StatefulWidget {
   const DvTextField({
     required this.controller,
     super.key,
+    this.focusNode,
     this.label,
     this.hint,
     this.obscure = false,
@@ -32,6 +33,11 @@ class DvTextField extends StatefulWidget {
   });
 
   final TextEditingController controller;
+
+  /// For a field something else puts the cursor in — the fact sheet's value
+  /// box, reached by tapping a suggested name rather than by typing one.
+  final FocusNode? focusNode;
+
   final String? label;
   final String? hint;
   final bool obscure;
@@ -110,6 +116,7 @@ class _DvTextFieldState extends State<DvTextField> {
         ],
         TextFormField(
           controller: controller,
+          focusNode: widget.focusNode,
           obscureText: _obscured,
           enabled: enabled,
           keyboardType: keyboardType,

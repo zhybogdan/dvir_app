@@ -13,8 +13,8 @@ import 'package:dvir/features/Shared/presentation/dv_tiles_skeleton.dart';
 import 'package:dvir/features/Units/application/unit_attributes_controller.dart';
 import 'package:dvir/features/Units/application/unit_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit_attribute.dart';
-import 'package:dvir/features/Units/presentation/components/unit_attribute_sheet.dart';
 import 'package:dvir/features/Units/presentation/components/unit_attribute_tile.dart';
+import 'package:dvir/features/Units/presentation/components/unit_attributes_section.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,22 +43,16 @@ class UnitAttributesScreen extends ConsumerWidget {
       (previous, next) => next.showFailure(context, ref),
     );
 
-    Future<void> add() async {
-      final actions = ref.read(unitAttributeActionsProvider(unitId).notifier);
-
-      final draft = await UnitAttributeSheet.open(context);
-      if (draft == null) return;
-
-      await actions.add(name: draft.name, value: draft.value);
-    }
-
     return DvScaffold(
       appBar: DvAppBar(
         title: '',
         actions: [
           if (canEdit)
             DvIconButton(
-              onPressed: add,
+              // The section's own, not a second copy: the hub, the start
+              // block and this screen all open one sheet with one set of
+              // suggestions behind it.
+              onPressed: () => UnitAttributesSection.add(context, ref, unitId),
               icon: AppIcons.add,
               tooltip: l10n.unitAddCta,
             ),
