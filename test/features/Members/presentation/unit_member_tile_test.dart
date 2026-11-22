@@ -59,7 +59,7 @@ Future<void> _pump(
 );
 
 void main() {
-  final owner = _member('me', role: UnitRole.owner, fullName: 'Богдан');
+  final owner = _member('me', role: UnitRole.owner, fullName: 'Тарас');
   final resident = _member('other', fullName: 'Оксана');
   final applicant = _member('guest', status: MemberStatus.pending);
 

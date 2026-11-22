@@ -46,17 +46,24 @@ class UnitAttributesSection extends ConsumerWidget {
 
   /// Opens the sheet that writes one fact down, and files what comes back.
   ///
-  /// Static because an empty object offers the same first step from its start
-  /// block, where this section is not on screen at all: two copies of these
-  /// four lines are two places for a draft to be dropped on the floor.
+  /// Static because three places offer the same first step — this section, the
+  /// start block of an empty object, and the record's own screen — and three
+  /// copies of these four lines are three places for a draft to be dropped on
+  /// the floor.
   static Future<void> add(
     BuildContext context,
     WidgetRef ref,
     String unitId,
   ) async {
+    // Both read before the sheet: after the await this ref may no longer be
+    // the one the row was built with.
     final actions = ref.read(unitAttributeActionsProvider(unitId).notifier);
+    final written = ref.read(unitAttributesProvider(unitId)).value ?? const [];
 
-    final draft = await UnitAttributeSheet.open(context);
+    final draft = await UnitAttributeSheet.open(
+      context,
+      taken: [for (final attribute in written) attribute.name],
+    );
     if (draft == null) return;
 
     await actions.add(name: draft.name, value: draft.value);

@@ -1,4 +1,4 @@
-﻿import 'package:dvir/app/icons.dart';
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
@@ -12,6 +12,7 @@ import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
+import 'package:dvir/features/Shared/presentation/dv_page_head.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_select_field.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
@@ -21,6 +22,7 @@ import 'package:dvir/features/Units/application/unit_form_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/types/unit_type.dart';
 import 'package:dvir/features/Units/domain/unit_nesting.dart';
+import 'package:dvir/features/Units/presentation/components/unit_type_picker.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -87,8 +89,10 @@ class UnitEditScreen extends ConsumerWidget {
 /// The shell every state of this screen shares — the form itself, the wait for
 /// its parent, and the refusal when the parent holds nothing.
 ///
-/// Transparent bar over the scaffold's own background, so the four of them
-/// cannot drift apart in how they meet it.
+/// The heading is on the page and the bar is left empty, the way the three
+/// lists open: a screen that names itself in 28pt reads as a place rather than
+/// as the button that was tapped. The empty bar stays because the heading of
+/// every screen in the app starts the same `DvPageHead.topGap` under one.
 class _FormScaffold extends StatelessWidget {
   const _FormScaffold({required this.title, required this.body});
 
@@ -97,9 +101,14 @@ class _FormScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DvScaffold(
-    extendBodyBehindAppBar: true,
-    appBar: DvAppBar(title: title, backgroundColor: Colors.transparent),
-    body: body,
+    appBar: const DvAppBar(title: ''),
+    body: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        DvPageHead(title),
+        Expanded(child: body),
+      ],
+    ),
   );
 }
 
@@ -123,6 +132,27 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
     _addressCtrl.dispose();
     _cityCtrl.dispose();
     super.dispose();
+  }
+
+  /// The types that did not fit on the page, in the grouped sheet the picker
+  /// used to be a field for.
+  ///
+  /// [options] and [current] come from `build`: what an object may be depends
+  /// on what it stands in, and [_type] is null until the picker is touched.
+  Future<void> _pickType(List<UnitType> options, UnitType current) async {
+    final l10n = AppLocalizations.of(context);
+
+    final picked = await DvSelectField.choose<UnitType>(
+      context,
+      title: l10n.unitType,
+      value: current,
+      options: options,
+      labelOf: (type) => type.label(l10n),
+      groupOf: (type) => type.groupLabel(l10n),
+    );
+    if (picked == null || !mounted) return;
+
+    setState(() => _type = picked);
   }
 
   /// [type] comes from `build` rather than from [_type], which is null until
@@ -262,10 +292,12 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
         ? selected
         : options.first;
 
+    // Editing is headed by the object itself: the page says which house is
+    // being changed, which "Редагувати" never did.
     final title = switch ((unit, isNested)) {
-      (final Unit _, _) => l10n.unitEditTitle,
+      (final Unit unit, _) => unit.label,
       (_, true) => l10n.unitAddTitle,
-      _ => l10n.onboardingCreateUnit,
+      _ => l10n.unitCreateTitle,
     };
     final action = switch ((unit, isNested)) {
       (final Unit _, _) => l10n.saveCta,
@@ -298,38 +330,39 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
                         l10n.fieldTooLong,
                       ),
                 ),
-                DvSelectField<UnitType>(
+                UnitTypePicker(
                   label: l10n.unitType,
                   value: type,
                   options: options,
-                  labelOf: (type) => type.label(l10n),
-                  groupOf: (type) => type.groupLabel(l10n),
                   enabled: !isLoading && options.length > 1,
                   onChanged: (type) => setState(() => _type = type),
+                  onMore: () => _pickType(options, type),
                 ),
+                // The wide answer before the narrow one, the way an address is
+                // said out loud and the way the drawing reads.
                 if (!isNested) ...[
-                  DvTextField(
-                    controller: _addressCtrl,
-                    label: '${l10n.communityAddress} · ${l10n.optional}',
-                    hint: l10n.communityAddressHint,
-                    maxLength: FieldLength.address,
-                    textInputAction: TextInputAction.next,
-                    validator: (v) => validateMaxLength(
-                      v,
-                      FieldLength.address,
-                      l10n.fieldTooLong,
-                    ),
-                  ),
                   DvTextField(
                     controller: _cityCtrl,
                     label: '${l10n.communityCity} · ${l10n.optional}',
                     hint: l10n.communityCityHint,
                     maxLength: FieldLength.city,
+                    textInputAction: TextInputAction.next,
+                    validator: (v) => validateMaxLength(
+                      v,
+                      FieldLength.city,
+                      l10n.fieldTooLong,
+                    ),
+                  ),
+                  DvTextField(
+                    controller: _addressCtrl,
+                    label: '${l10n.communityAddress} · ${l10n.optional}',
+                    hint: l10n.communityAddressHint,
+                    maxLength: FieldLength.address,
                     textInputAction: TextInputAction.done,
                     onSubmitted: (_) => _submit(type),
                     validator: (v) => validateMaxLength(
                       v,
-                      FieldLength.city,
+                      FieldLength.address,
                       l10n.fieldTooLong,
                     ),
                   ),

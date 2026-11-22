@@ -12,7 +12,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get appTitle => 'Двір';
 
   @override
-  String get scopesTitle => 'Мої об\'єкти';
+  String get scopesTitle => 'Мої об’єкти';
 
   @override
   String scopePapers(int count) {
@@ -52,7 +52,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get scopesUnits => 'Оселі';
 
   @override
-  String get scopePending => 'Заявка на розгляді';
+  String get scopePending => 'Очікує підтвердження';
 
   @override
   String get addScope => 'Додати';
@@ -73,20 +73,20 @@ class AppLocalizationsUk extends AppLocalizations {
   String get profileTitle => 'Профіль';
 
   @override
-  String get navObjects => 'Об\'єкти';
+  String get navObjects => 'Об’єкти';
 
   @override
   String get profileHint =>
-      'Ім\'я побачать люди у ваших оселях — без нього ви для них просто «Мешканець».';
+      'Ім’я побачать люди у ваших оселях — без нього ви для них просто «Мешканець».';
 
   @override
-  String get profileName => 'Ім\'я';
+  String get profileName => 'Ім’я';
 
   @override
-  String get profileNameHint => 'Богдан Жилко';
+  String get profileNameHint => 'Марія Левченко';
 
   @override
-  String get profileNameRequired => 'Введіть ім\'я';
+  String get profileNameRequired => 'Введіть ім’я';
 
   @override
   String get profilePhone => 'Телефон';
@@ -188,26 +188,29 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get rejectedBody =>
-      'Ваш запит на приєднання відхилили. Зверніться до адміністратора.';
+      'Ваш запит на приєднання відхилили. Спробуйте попросити код ще раз у того, хто вас запрошував.';
 
   @override
   String get blockedTitle => 'Доступ закрито';
 
   @override
-  String get blockedBody => 'Ваш доступ до цієї спільноти закрито.';
+  String get blockedBody => 'Господар оселі закрив вам доступ.';
 
   @override
   String get refreshCta => 'Оновити';
 
   @override
-  String get withdrawRequest => 'Скасувати заявку';
+  String get withdraw => 'Відкликати';
 
   @override
-  String get withdrawRequestTitle => 'Скасувати заявку?';
+  String get withdrawRequest => 'Відкликати заявку';
+
+  @override
+  String get withdrawRequestTitle => 'Відкликати заявку?';
 
   @override
   String get withdrawRequestBody =>
-      'Заявку буде видалено. Ви зможете подати її знову за тим самим кодом.';
+      'Ви зможете подати її знову за тим самим кодом.';
 
   @override
   String get pendingOtherWays => 'Створити свою оселю або ввести інший код';
@@ -282,7 +285,10 @@ class AppLocalizationsUk extends AppLocalizations {
   String get communityTypeCustom => 'Інше';
 
   @override
-  String get unitName => 'Назва оселі';
+  String get unitCreateTitle => 'Нова оселя';
+
+  @override
+  String get unitName => 'Назва';
 
   @override
   String get unitNameHint => 'Будинок 223';
@@ -291,10 +297,15 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitNameRequired => 'Введіть назву оселі';
 
   @override
-  String get unitType => 'Тип оселі';
+  String get unitType => 'Тип';
 
   @override
-  String get createUnitCta => 'Створити оселю';
+  String unitTypeMore(String count) {
+    return 'Ще $count…';
+  }
+
+  @override
+  String get createUnitCta => 'Створити';
 
   @override
   String get unitTypeHouse => 'Будинок';
@@ -318,7 +329,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitTypeSummerKitchen => 'Літня кухня';
 
   @override
-  String get unitTypeSummerHouse => 'Літній дім';
+  String get unitTypeSummerHouse => 'Літній будинок';
 
   @override
   String get unitTypeShed => 'Сарай';
@@ -372,7 +383,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitPeople => 'Мешканці';
 
   @override
-  String get unitPeopleEmpty => 'Тут ще немає мешканців';
+  String get unitPeopleEmpty =>
+      'Родина, орендар, хтось із ключами. Ті, кому ця оселя теж потрібна.';
 
   @override
   String get giveAccess => 'Дати доступ';
@@ -420,7 +432,7 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String get roleSheetTitle => 'Роль у оселі';
+  String get roleSheetTitle => 'Роль в оселі';
 
   @override
   String get rotateCode => 'Оновити код';
@@ -436,7 +448,7 @@ class AppLocalizationsUk extends AppLocalizations {
       'Старий код перестане працювати. Тим, кого ще не додали, доведеться надіслати новий.';
 
   @override
-  String get unitAddNotAllowed => 'У цей об\'єкт не можна нічого додати.';
+  String get unitAddNotAllowed => 'Сюди не можна нічого додати';
 
   @override
   String get deleteUnit => 'Видалити';
@@ -448,17 +460,17 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get deleteUnitBody =>
-      'Разом з ним зникне все, що всередині, і всі мешканці. Дію не можна скасувати.';
+      'Зникне все, що всередині, і всі мешканці. Дію не можна скасувати.';
 
   @override
-  String get unitAttributes => 'Характеристики';
+  String get unitAttributes => 'Що варто знати';
 
   @override
   String get unitAttributesEdit => 'Змінити';
 
   @override
   String get unitAttributesEmpty =>
-      'Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам\'ятати про цю оселю.';
+      'Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам’ятати про цю оселю.';
 
   @override
   String unitAttributesShowAll(int count) {
@@ -466,16 +478,31 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String get unitAttributeAddTitle => 'Нова характеристика';
+  String get unitAttributeAddTitle => 'Новий факт';
 
   @override
-  String get unitAttributeEditTitle => 'Характеристика';
+  String get unitAttributeEditTitle => 'Факт';
 
   @override
   String get unitAttributeName => 'Назва';
 
   @override
-  String get unitAttributeNameHint => 'Рік побудови';
+  String get unitAttributeNameHint => 'Номер лічильника';
+
+  @override
+  String get unitFactYearBuilt => 'Рік побудови';
+
+  @override
+  String get unitFactArea => 'Площа';
+
+  @override
+  String get unitFactFloors => 'Поверховість';
+
+  @override
+  String get unitFactWalls => 'Матеріал стін';
+
+  @override
+  String get unitFactHeating => 'Опалення';
 
   @override
   String get unitAttributeNameRequired => 'Вкажіть назву';
@@ -484,7 +511,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitAttributeValue => 'Значення';
 
   @override
-  String get unitAttributeValueHint => '1998';
+  String get unitAttributeValueHint => '09143281';
 
   @override
   String get unitAttributeValueRequired => 'Вкажіть значення';
@@ -508,7 +535,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get allDocumentsEmpty =>
-      'Тут зберуться документи з усіх ваших об\'єктів. Перший додають на екрані об\'єкта.';
+      'Тут зберуться документи з усіх ваших об’єктів. Перший додають на екрані об’єкта.';
 
   @override
   String get documentsEmpty =>
@@ -520,16 +547,25 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String get documentSourceTitle => 'Звідки взяти файл';
-
-  @override
-  String get documentSourceFile => 'Файл на пристрої';
-
-  @override
-  String get documentSourceGallery => 'Фото з галереї';
+  String get documentSourceTitle => 'Додати документ';
 
   @override
   String get documentSourceCamera => 'Сфотографувати';
+
+  @override
+  String get documentSourceCameraHint => 'Документ переді мною';
+
+  @override
+  String get documentSourceGallery => 'З галереї';
+
+  @override
+  String get documentSourceGalleryHint => 'Вже сфотографовано';
+
+  @override
+  String get documentSourceFile => 'Файл';
+
+  @override
+  String get documentSourceFileHint => 'PDF на телефоні';
 
   @override
   String get documentAddTitle => 'Новий документ';
@@ -601,15 +637,15 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String get contacts => 'Контакти';
+  String get contacts => 'Кому дзвонити';
 
   @override
   String get allContactsEmpty =>
-      'Тут зберуться номери з усіх ваших об\'єктів. Перший додають на екрані об\'єкта.';
+      'Тут зберуться номери з усіх ваших об’єктів. Перший додають на екрані об’єкта.';
 
   @override
   String get contactsEmpty =>
-      'Свій електрик, сантехник, аварійна газу. Номери, які шукають, коли вже нема часу шукати.';
+      'Свій електрик, сантехнік, аварійна газу. Номери, які шукають, коли вже нема часу шукати.';
 
   @override
   String contactsShowAll(int count) {
@@ -623,13 +659,13 @@ class AppLocalizationsUk extends AppLocalizations {
   String get contactEditTitle => 'Контакт';
 
   @override
-  String get contactName => 'Ім\'я';
+  String get contactName => 'Ім’я';
 
   @override
   String get contactNameHint => 'Сергій';
 
   @override
-  String get contactNameRequired => 'Вкажіть ім\'я';
+  String get contactNameRequired => 'Вкажіть ім’я';
 
   @override
   String get contactRole => 'Хто це';
@@ -667,7 +703,7 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String get unitNested => 'Що входить';
+  String get unitNested => 'Усередині';
 
   @override
   String get unitNestedEmpty =>
@@ -683,7 +719,7 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String get unitStartFactsWhy => 'Те, що варто пам\'ятати';
+  String get unitStartFactsWhy => 'Те, що варто пам’ятати';
 
   @override
   String get unitStartDocument => 'Додайте техпаспорт';
@@ -706,10 +742,10 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitStartAlso => 'Також:';
 
   @override
-  String get unitStartAlsoNested => 'об\'єкт усередині';
+  String get unitStartAlsoNested => 'об’єкт усередині';
 
   @override
-  String get unitAddTitle => 'Додати';
+  String get unitAddTitle => 'Новий об’єкт';
 
   @override
   String get unitAddCta => 'Додати';
@@ -782,7 +818,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get errorUnknown => 'Неочікувана помилка';
 
   @override
-  String get errorInvalidCredentials => 'Невірна пошта або пароль';
+  String get errorInvalidCredentials => 'Неправильна пошта або пароль';
 
   @override
   String get errorEmailAlreadyRegistered => 'Ця пошта вже зареєстрована';
@@ -791,7 +827,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get errorEmailAddressInvalid => 'Вкажіть справжню адресу пошти';
 
   @override
-  String get errorSignUpDisabled => 'Реєстрація тимчасово вимкнена';
+  String get errorSignUpDisabled => 'Реєстрацію тимчасово вимкнено';
 
   @override
   String get errorWeakPassword => 'Пароль надто простий';

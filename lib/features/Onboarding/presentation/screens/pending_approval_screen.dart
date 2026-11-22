@@ -42,7 +42,12 @@ class PendingApprovalScreen extends ConsumerWidget {
       context,
       title: l10n.withdrawRequestTitle,
       message: l10n.withdrawRequestBody,
-      confirmLabel: l10n.withdrawRequest,
+      // The bare verb, as every other dialog answers with: the question
+      // above already names what is being withdrawn, and «Скасувати заявку»
+      // beside the dialog's own «Скасувати» put one verb on both answers.
+      confirmLabel: l10n.withdraw,
+      // Nothing is destroyed: the body says the same code lets them back in.
+      isDestructive: false,
     );
     if (!confirmed) return;
 

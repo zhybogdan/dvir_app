@@ -23,6 +23,7 @@ class DvConfirmDialog extends StatelessWidget {
     required this.confirmLabel,
     super.key,
     this.icon = AppIcons.warning,
+    this.isDestructive = true,
   });
 
   /// Wide enough to read, narrow enough to stay a question rather than become
@@ -37,6 +38,7 @@ class DvConfirmDialog extends StatelessWidget {
     required String message,
     required String confirmLabel,
     IconData icon = AppIcons.warning,
+    bool isDestructive = true,
   }) async {
     final confirmed = await showGeneralDialog<bool>(
       context: context,
@@ -51,6 +53,7 @@ class DvConfirmDialog extends StatelessWidget {
         message: message,
         confirmLabel: confirmLabel,
         icon: icon,
+        isDestructive: isDestructive,
       ),
       transitionBuilder: (context, animation, secondaryAnimation, child) =>
           FadeTransition(
@@ -77,12 +80,28 @@ class DvConfirmDialog extends StatelessWidget {
   /// The glyph in the badge, for when the warning has a shape of its own.
   final IconData icon;
 
+  /// Whether the yes cannot be taken back.
+  ///
+  /// Red on every question is red meaning "confirm", and then it means
+  /// nothing on the questions that destroy something. Withdrawing a request
+  /// and rotating an invite code are both undone by doing them again — those
+  /// are asked in the accent, and the red is left to the deletions.
+  final bool isDestructive;
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final scheme = context.colorScheme;
     final text = context.textTheme;
     final navigator = Navigator.of(context);
+
+    // The one place in the app that answers in the hand: every question
+    // of consequence is confirmed here, so the knock lands on all of
+    // them at once.
+    void yes() {
+      HapticFeedback.mediumImpact();
+      navigator.pop(true);
+    }
 
     return Center(
       child: Padding(
@@ -99,7 +118,7 @@ class DvConfirmDialog extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 spacing: AppSpacing.md,
                 children: [
-                  _WarningBadge(icon: icon),
+                  _WarningBadge(icon: icon, isDestructive: isDestructive),
                   Text(
                     title,
                     textAlign: TextAlign.center,
@@ -122,16 +141,12 @@ class DvConfirmDialog extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                        child: DvButton.danger(
-                          label: confirmLabel,
-                          // The one place in the app that answers in the hand:
-                          // every irreversible action is confirmed here, so the
-                          // knock lands on all of them at once.
-                          onPressed: () {
-                            HapticFeedback.mediumImpact();
-                            navigator.pop(true);
-                          },
-                        ),
+                        child: isDestructive
+                            ? DvButton.danger(
+                                label: confirmLabel,
+                                onPressed: yes,
+                              )
+                            : DvButton(label: confirmLabel, onPressed: yes),
                       ),
                     ],
                   ),
@@ -146,11 +161,16 @@ class DvConfirmDialog extends StatelessWidget {
 }
 
 class _WarningBadge extends StatelessWidget {
-  const _WarningBadge({required this.icon});
+  const _WarningBadge({required this.icon, required this.isDestructive});
 
   static const double _size = 56;
 
   final IconData icon;
+
+  /// Red for what cannot be undone; the accent for what can. A badge that is
+  /// red whatever is being asked tells the eye nothing before the words are
+  /// read.
+  final bool isDestructive;
 
   @override
   Widget build(BuildContext context) {
@@ -160,10 +180,14 @@ class _WarningBadge extends StatelessWidget {
       width: _size,
       height: _size,
       decoration: BoxDecoration(
-        color: scheme.errorContainer,
+        color: isDestructive ? scheme.errorContainer : scheme.primary,
         shape: BoxShape.circle,
       ),
-      child: Icon(icon, size: AppSpacing.xl, color: scheme.onErrorContainer),
+      child: Icon(
+        icon,
+        size: AppSpacing.xl,
+        color: isDestructive ? scheme.onErrorContainer : scheme.onPrimary,
+      ),
     );
   }
 }
