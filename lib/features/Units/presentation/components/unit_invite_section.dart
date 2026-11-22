@@ -119,6 +119,9 @@ class _UnitInviteSectionState extends ConsumerState<UnitInviteSection> {
       title: l10n.rotateCodeTitle,
       message: l10n.rotateCodeBody,
       confirmLabel: l10n.rotateCode,
+      // A new code, not a lost one: the question is whether to inconvenience
+      // whoever has the old one, and nothing here is destroyed.
+      isDestructive: false,
     );
     if (!confirmed) return;
 

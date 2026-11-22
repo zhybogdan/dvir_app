@@ -4,7 +4,7 @@
   "@appTitle": {
     "description": "Application name"
   },
-  "scopesTitle": "Мої об'єкти",
+  "scopesTitle": "Мої об’єкти",
   "scopePapers": "{count, plural, one{{count} документ} few{{count} документи} many{{count} документів} other{{count} документа}}",
   "@scopePapers": {
     "description": "How many documents an object holds, on its card in the list",
@@ -34,7 +34,7 @@
   },
   "scopesCommunities": "Спільноти",
   "scopesUnits": "Оселі",
-  "scopePending": "Заявка на розгляді",
+  "scopePending": "Очікує підтвердження",
   "addScope": "Додати",
   "memberStatusPending": "Очікує підтвердження",
   "memberStatusActive": "Активний",
@@ -42,11 +42,11 @@
   "memberStatusBlocked": "Доступ закрито",
 
   "profileTitle": "Профіль",
-  "navObjects": "Об'єкти",
-  "profileHint": "Ім'я побачать люди у ваших оселях — без нього ви для них просто «Мешканець».",
-  "profileName": "Ім'я",
-  "profileNameHint": "Богдан Жилко",
-  "profileNameRequired": "Введіть ім'я",
+  "navObjects": "Об’єкти",
+  "profileHint": "Ім’я побачать люди у ваших оселях — без нього ви для них просто «Мешканець».",
+  "profileName": "Ім’я",
+  "profileNameHint": "Марія Левченко",
+  "profileNameRequired": "Введіть ім’я",
   "profilePhone": "Телефон",
   "profilePhoneHint": "+380 67 123 45 67",
   "profilePhoneInvalid": "Схоже, це не номер",
@@ -98,9 +98,9 @@
   "pendingApprovalTitle": "Заявку надіслано",
   "pendingApprovalBody": "Очікуйте підтвердження. Ми відкриємо доступ, щойно заявку розглянуть.",
   "rejectedTitle": "Заявку відхилено",
-  "rejectedBody": "Ваш запит на приєднання відхилили. Зверніться до адміністратора.",
+  "rejectedBody": "Ваш запит на приєднання відхилили. Спробуйте попросити код ще раз у того, хто вас запрошував.",
   "blockedTitle": "Доступ закрито",
-  "blockedBody": "Ваш доступ до цієї спільноти закрито.",
+  "blockedBody": "Господар оселі закрив вам доступ.",
   "refreshCta": "Оновити",
   "withdraw": "Відкликати",
   "withdrawRequest": "Відкликати заявку",
@@ -162,7 +162,7 @@
   "unitTypePlot": "Ділянка",
   "unitTypeBasement": "Підвал",
   "unitTypeSummerKitchen": "Літня кухня",
-  "unitTypeSummerHouse": "Літній дім",
+  "unitTypeSummerHouse": "Літній будинок",
   "unitTypeShed": "Сарай",
   "unitTypePool": "Басейн",
   "unitTypeBalcony": "Балкон",
@@ -181,7 +181,7 @@
   "unitRoleFamily": "Родина",
   "unitRoleTenant": "Орендар",
   "unitPeople": "Мешканці",
-  "unitPeopleEmpty": "Тут ще немає мешканців",
+  "unitPeopleEmpty": "Родина, орендар, хтось із ключами. Ті, кому ця оселя теж потрібна.",
   "giveAccess": "Дати доступ",
   "unnamedMember": "Мешканець",
   "unnamedMemberNumbered": "Мешканець {number}",
@@ -222,12 +222,12 @@
       }
     }
   },
-  "roleSheetTitle": "Роль у оселі",
+  "roleSheetTitle": "Роль в оселі",
   "rotateCode": "Оновити код",
   "codeRotated": "Код оновлено",
   "rotateCodeTitle": "Оновити код?",
   "rotateCodeBody": "Старий код перестане працювати. Тим, кого ще не додали, доведеться надіслати новий.",
-  "unitAddNotAllowed": "У цей об'єкт не можна нічого додати.",
+  "unitAddNotAllowed": "Сюди не можна нічого додати",
   "@unitAddNotAllowed": {
     "description": "Shown when an object's type holds no nested objects at all"
   },
@@ -242,9 +242,9 @@
     }
   },
   "deleteUnitBody": "Зникне все, що всередині, і всі мешканці. Дію не можна скасувати.",
-  "unitAttributes": "Характеристики",
+  "unitAttributes": "Що варто знати",
   "unitAttributesEdit": "Змінити",
-  "unitAttributesEmpty": "Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам'ятати про цю оселю.",
+  "unitAttributesEmpty": "Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам’ятати про цю оселю.",
   "unitAttributesShowAll": "Показати всі {count}",
   "@unitAttributesShowAll": {
     "description": "Opens the screen with an object's whole record; count is the total number of facts",
@@ -254,8 +254,8 @@
       }
     }
   },
-  "unitAttributeAddTitle": "Нова характеристика",
-  "unitAttributeEditTitle": "Характеристика",
+  "unitAttributeAddTitle": "Новий факт",
+  "unitAttributeEditTitle": "Факт",
   "unitAttributeName": "Назва",
   "unitAttributeNameHint": "Номер лічильника",
   "unitFactYearBuilt": "Рік побудови",
@@ -280,7 +280,7 @@
     }
   },
   "documents": "Документи",
-  "allDocumentsEmpty": "Тут зберуться документи з усіх ваших об'єктів. Перший додають на екрані об'єкта.",
+  "allDocumentsEmpty": "Тут зберуться документи з усіх ваших об’єктів. Перший додають на екрані об’єкта.",
   "documentsEmpty": "Техпаспорт, договори, гарантії. Тут зберігаються документи, які підтверджують те, що записано вище.",
   "documentsShowAll": "Показати всі {count}",
   "@documentsShowAll": {
@@ -363,8 +363,8 @@
       }
     }
   },
-  "contacts": "Контакти",
-  "allContactsEmpty": "Тут зберуться номери з усіх ваших об'єктів. Перший додають на екрані об'єкта.",
+  "contacts": "Кому дзвонити",
+  "allContactsEmpty": "Тут зберуться номери з усіх ваших об’єктів. Перший додають на екрані об’єкта.",
   "contactsEmpty": "Свій електрик, сантехнік, аварійна газу. Номери, які шукають, коли вже нема часу шукати.",
   "contactsShowAll": "Показати всі {count}",
   "@contactsShowAll": {
@@ -377,9 +377,9 @@
   },
   "contactAddTitle": "Новий контакт",
   "contactEditTitle": "Контакт",
-  "contactName": "Ім'я",
+  "contactName": "Ім’я",
   "contactNameHint": "Сергій",
-  "contactNameRequired": "Вкажіть ім'я",
+  "contactNameRequired": "Вкажіть ім’я",
   "contactRole": "Хто це",
   "contactRoleHint": "Електрик",
   "contactPhone": "Телефон",
@@ -399,7 +399,7 @@
       }
     }
   },
-  "unitNested": "Що входить",
+  "unitNested": "Усередині",
   "unitNestedEmpty": "Кімната, гараж, літня кухня, ділянка. Додайте те, що ведете окремо.",
   "unitStartLead": "Усе одразу записувати не треба. Почніть з того, що доведеться шукати першим.",
   "unitStartFacts": "Запишіть, що це за {type}",
@@ -411,14 +411,14 @@
       }
     }
   },
-  "unitStartFactsWhy": "Те, що варто пам'ятати",
+  "unitStartFactsWhy": "Те, що варто пам’ятати",
   "unitStartDocument": "Додайте техпаспорт",
   "unitStartDocumentNested": "Додайте документ",
   "unitStartDocumentWhy": "Документ, який підтверджує те, що записано вище",
   "unitStartContact": "Додайте телефон",
   "unitStartContactWhy": "Номер, який шукають, коли вже нема часу шукати",
   "unitStartAlso": "Також:",
-  "unitStartAlsoNested": "об'єкт усередині",
+  "unitStartAlsoNested": "об’єкт усередині",
   "unitAddTitle": "Новий об’єкт",
   "unitAddCta": "Додати",
   "unitEditTitle": "Редагувати",
@@ -480,10 +480,10 @@
   "errorServer": "Помилка сервера. Спробуйте пізніше",
   "errorNotFound": "Не знайдено",
   "errorUnknown": "Неочікувана помилка",
-  "errorInvalidCredentials": "Невірна пошта або пароль",
+  "errorInvalidCredentials": "Неправильна пошта або пароль",
   "errorEmailAlreadyRegistered": "Ця пошта вже зареєстрована",
   "errorEmailAddressInvalid": "Вкажіть справжню адресу пошти",
-  "errorSignUpDisabled": "Реєстрація тимчасово вимкнена",
+  "errorSignUpDisabled": "Реєстрацію тимчасово вимкнено",
   "errorWeakPassword": "Пароль надто простий",
   "errorEmailNotConfirmed": "Спочатку підтвердьте пошту",
   "errorTooManyRequests": "Забагато спроб. Спробуйте пізніше",

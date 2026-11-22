@@ -103,7 +103,7 @@ abstract class AppLocalizations {
   /// No description provided for @scopesTitle.
   ///
   /// In uk, this message translates to:
-  /// **'Мої об\'єкти'**
+  /// **'Мої об’єкти'**
   String get scopesTitle;
 
   /// How many documents an object holds, on its card in the list
@@ -139,7 +139,7 @@ abstract class AppLocalizations {
   /// No description provided for @scopePending.
   ///
   /// In uk, this message translates to:
-  /// **'Заявка на розгляді'**
+  /// **'Очікує підтвердження'**
   String get scopePending;
 
   /// No description provided for @addScope.
@@ -181,31 +181,31 @@ abstract class AppLocalizations {
   /// No description provided for @navObjects.
   ///
   /// In uk, this message translates to:
-  /// **'Об\'єкти'**
+  /// **'Об’єкти'**
   String get navObjects;
 
   /// No description provided for @profileHint.
   ///
   /// In uk, this message translates to:
-  /// **'Ім\'я побачать люди у ваших оселях — без нього ви для них просто «Мешканець».'**
+  /// **'Ім’я побачать люди у ваших оселях — без нього ви для них просто «Мешканець».'**
   String get profileHint;
 
   /// No description provided for @profileName.
   ///
   /// In uk, this message translates to:
-  /// **'Ім\'я'**
+  /// **'Ім’я'**
   String get profileName;
 
   /// No description provided for @profileNameHint.
   ///
   /// In uk, this message translates to:
-  /// **'Богдан Жилко'**
+  /// **'Марія Левченко'**
   String get profileNameHint;
 
   /// No description provided for @profileNameRequired.
   ///
   /// In uk, this message translates to:
-  /// **'Введіть ім\'я'**
+  /// **'Введіть ім’я'**
   String get profileNameRequired;
 
   /// No description provided for @profilePhone.
@@ -397,7 +397,7 @@ abstract class AppLocalizations {
   /// No description provided for @rejectedBody.
   ///
   /// In uk, this message translates to:
-  /// **'Ваш запит на приєднання відхилили. Зверніться до адміністратора.'**
+  /// **'Ваш запит на приєднання відхилили. Спробуйте попросити код ще раз у того, хто вас запрошував.'**
   String get rejectedBody;
 
   /// No description provided for @blockedTitle.
@@ -409,7 +409,7 @@ abstract class AppLocalizations {
   /// No description provided for @blockedBody.
   ///
   /// In uk, this message translates to:
-  /// **'Ваш доступ до цієї спільноти закрито.'**
+  /// **'Господар оселі закрив вам доступ.'**
   String get blockedBody;
 
   /// No description provided for @refreshCta.
@@ -667,7 +667,7 @@ abstract class AppLocalizations {
   /// No description provided for @unitTypeSummerHouse.
   ///
   /// In uk, this message translates to:
-  /// **'Літній дім'**
+  /// **'Літній будинок'**
   String get unitTypeSummerHouse;
 
   /// No description provided for @unitTypeShed.
@@ -775,7 +775,7 @@ abstract class AppLocalizations {
   /// No description provided for @unitPeopleEmpty.
   ///
   /// In uk, this message translates to:
-  /// **'Тут ще немає мешканців'**
+  /// **'Родина, орендар, хтось із ключами. Ті, кому ця оселя теж потрібна.'**
   String get unitPeopleEmpty;
 
   /// No description provided for @giveAccess.
@@ -859,7 +859,7 @@ abstract class AppLocalizations {
   /// No description provided for @roleSheetTitle.
   ///
   /// In uk, this message translates to:
-  /// **'Роль у оселі'**
+  /// **'Роль в оселі'**
   String get roleSheetTitle;
 
   /// No description provided for @rotateCode.
@@ -889,7 +889,7 @@ abstract class AppLocalizations {
   /// Shown when an object's type holds no nested objects at all
   ///
   /// In uk, this message translates to:
-  /// **'У цей об\'єкт не можна нічого додати.'**
+  /// **'Сюди не можна нічого додати'**
   String get unitAddNotAllowed;
 
   /// No description provided for @deleteUnit.
@@ -913,7 +913,7 @@ abstract class AppLocalizations {
   /// No description provided for @unitAttributes.
   ///
   /// In uk, this message translates to:
-  /// **'Характеристики'**
+  /// **'Що варто знати'**
   String get unitAttributes;
 
   /// No description provided for @unitAttributesEdit.
@@ -925,7 +925,7 @@ abstract class AppLocalizations {
   /// No description provided for @unitAttributesEmpty.
   ///
   /// In uk, this message translates to:
-  /// **'Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам\'ятати про цю оселю.'**
+  /// **'Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам’ятати про цю оселю.'**
   String get unitAttributesEmpty;
 
   /// Opens the screen with an object's whole record; count is the total number of facts
@@ -937,13 +937,13 @@ abstract class AppLocalizations {
   /// No description provided for @unitAttributeAddTitle.
   ///
   /// In uk, this message translates to:
-  /// **'Нова характеристика'**
+  /// **'Новий факт'**
   String get unitAttributeAddTitle;
 
   /// No description provided for @unitAttributeEditTitle.
   ///
   /// In uk, this message translates to:
-  /// **'Характеристика'**
+  /// **'Факт'**
   String get unitAttributeEditTitle;
 
   /// No description provided for @unitAttributeName.
@@ -1045,7 +1045,7 @@ abstract class AppLocalizations {
   /// No description provided for @allDocumentsEmpty.
   ///
   /// In uk, this message translates to:
-  /// **'Тут зберуться документи з усіх ваших об\'єктів. Перший додають на екрані об\'єкта.'**
+  /// **'Тут зберуться документи з усіх ваших об’єктів. Перший додають на екрані об’єкта.'**
   String get allDocumentsEmpty;
 
   /// No description provided for @documentsEmpty.
@@ -1189,13 +1189,13 @@ abstract class AppLocalizations {
   /// No description provided for @contacts.
   ///
   /// In uk, this message translates to:
-  /// **'Контакти'**
+  /// **'Кому дзвонити'**
   String get contacts;
 
   /// No description provided for @allContactsEmpty.
   ///
   /// In uk, this message translates to:
-  /// **'Тут зберуться номери з усіх ваших об\'єктів. Перший додають на екрані об\'єкта.'**
+  /// **'Тут зберуться номери з усіх ваших об’єктів. Перший додають на екрані об’єкта.'**
   String get allContactsEmpty;
 
   /// No description provided for @contactsEmpty.
@@ -1225,7 +1225,7 @@ abstract class AppLocalizations {
   /// No description provided for @contactName.
   ///
   /// In uk, this message translates to:
-  /// **'Ім\'я'**
+  /// **'Ім’я'**
   String get contactName;
 
   /// No description provided for @contactNameHint.
@@ -1237,7 +1237,7 @@ abstract class AppLocalizations {
   /// No description provided for @contactNameRequired.
   ///
   /// In uk, this message translates to:
-  /// **'Вкажіть ім\'я'**
+  /// **'Вкажіть ім’я'**
   String get contactNameRequired;
 
   /// No description provided for @contactRole.
@@ -1309,7 +1309,7 @@ abstract class AppLocalizations {
   /// No description provided for @unitNested.
   ///
   /// In uk, this message translates to:
-  /// **'Що входить'**
+  /// **'Усередині'**
   String get unitNested;
 
   /// No description provided for @unitNestedEmpty.
@@ -1333,7 +1333,7 @@ abstract class AppLocalizations {
   /// No description provided for @unitStartFactsWhy.
   ///
   /// In uk, this message translates to:
-  /// **'Те, що варто пам\'ятати'**
+  /// **'Те, що варто пам’ятати'**
   String get unitStartFactsWhy;
 
   /// No description provided for @unitStartDocument.
@@ -1375,7 +1375,7 @@ abstract class AppLocalizations {
   /// No description provided for @unitStartAlsoNested.
   ///
   /// In uk, this message translates to:
-  /// **'об\'єкт усередині'**
+  /// **'об’єкт усередині'**
   String get unitStartAlsoNested;
 
   /// No description provided for @unitAddTitle.
@@ -1507,7 +1507,7 @@ abstract class AppLocalizations {
   /// No description provided for @errorInvalidCredentials.
   ///
   /// In uk, this message translates to:
-  /// **'Невірна пошта або пароль'**
+  /// **'Неправильна пошта або пароль'**
   String get errorInvalidCredentials;
 
   /// No description provided for @errorEmailAlreadyRegistered.
@@ -1525,7 +1525,7 @@ abstract class AppLocalizations {
   /// No description provided for @errorSignUpDisabled.
   ///
   /// In uk, this message translates to:
-  /// **'Реєстрація тимчасово вимкнена'**
+  /// **'Реєстрацію тимчасово вимкнено'**
   String get errorSignUpDisabled;
 
   /// No description provided for @errorWeakPassword.
