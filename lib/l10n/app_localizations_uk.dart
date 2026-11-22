@@ -282,7 +282,10 @@ class AppLocalizationsUk extends AppLocalizations {
   String get communityTypeCustom => 'Інше';
 
   @override
-  String get unitName => 'Назва оселі';
+  String get unitCreateTitle => 'Нова оселя';
+
+  @override
+  String get unitName => 'Назва';
 
   @override
   String get unitNameHint => 'Будинок 223';
@@ -291,10 +294,15 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitNameRequired => 'Введіть назву оселі';
 
   @override
-  String get unitType => 'Тип оселі';
+  String get unitType => 'Тип';
 
   @override
-  String get createUnitCta => 'Створити оселю';
+  String unitTypeMore(String count) {
+    return 'Ще $count…';
+  }
+
+  @override
+  String get createUnitCta => 'Створити';
 
   @override
   String get unitTypeHouse => 'Будинок';
@@ -733,7 +741,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitStartAlsoNested => 'об\'єкт усередині';
 
   @override
-  String get unitAddTitle => 'Додати';
+  String get unitAddTitle => 'Новий об’єкт';
 
   @override
   String get unitAddCta => 'Додати';

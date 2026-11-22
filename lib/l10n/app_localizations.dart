@@ -574,10 +574,16 @@ abstract class AppLocalizations {
   /// **'Інше'**
   String get communityTypeCustom;
 
+  /// No description provided for @unitCreateTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Нова оселя'**
+  String get unitCreateTitle;
+
   /// No description provided for @unitName.
   ///
   /// In uk, this message translates to:
-  /// **'Назва оселі'**
+  /// **'Назва'**
   String get unitName;
 
   /// No description provided for @unitNameHint.
@@ -595,13 +601,19 @@ abstract class AppLocalizations {
   /// No description provided for @unitType.
   ///
   /// In uk, this message translates to:
-  /// **'Тип оселі'**
+  /// **'Тип'**
   String get unitType;
+
+  /// Opens the full list of object types; count is how many are not on the page
+  ///
+  /// In uk, this message translates to:
+  /// **'Ще {count}…'**
+  String unitTypeMore(String count);
 
   /// No description provided for @createUnitCta.
   ///
   /// In uk, this message translates to:
-  /// **'Створити оселю'**
+  /// **'Створити'**
   String get createUnitCta;
 
   /// No description provided for @unitTypeHouse.
@@ -1363,7 +1375,7 @@ abstract class AppLocalizations {
   /// No description provided for @unitAddTitle.
   ///
   /// In uk, this message translates to:
-  /// **'Додати'**
+  /// **'Новий об’єкт'**
   String get unitAddTitle;
 
   /// No description provided for @unitAddCta.

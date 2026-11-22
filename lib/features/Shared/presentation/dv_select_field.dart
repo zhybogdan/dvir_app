@@ -37,20 +37,41 @@ class DvSelectField<T> extends StatelessWidget {
   /// to decide.
   final String Function(T)? groupOf;
 
+  /// The sheet on its own, for a picker that is not this field.
+  ///
+  /// The object's form shows its first few types as chips on the page and
+  /// folds the rest behind "Ще N…" — the same grouped list, opened from
+  /// somewhere else. Returns null when dismissed without choosing.
+  static Future<T?> choose<T>(
+    BuildContext context, {
+    required String title,
+    required T value,
+    required List<T> options,
+    required String Function(T) labelOf,
+    String Function(T)? groupOf,
+  }) => showModalBottomSheet<T>(
+    context: context,
+    isScrollControlled: true,
+    useSafeArea: true,
+    // Named so the route observer logs which field was opened.
+    routeSettings: RouteSettings(name: 'DvSelectField($title)'),
+    builder: (_) => _OptionsSheet<T>(
+      title: title,
+      options: options,
+      selected: value,
+      labelOf: labelOf,
+      groupOf: groupOf,
+    ),
+  );
+
   Future<void> _open(BuildContext context) async {
-    final selected = await showModalBottomSheet<T>(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      // Named so the route observer logs which field was opened.
-      routeSettings: RouteSettings(name: 'DvSelectField($label)'),
-      builder: (_) => _OptionsSheet<T>(
-        title: label,
-        options: options,
-        selected: value,
-        labelOf: labelOf,
-        groupOf: groupOf,
-      ),
+    final selected = await choose<T>(
+      context,
+      title: label,
+      value: value,
+      options: options,
+      labelOf: labelOf,
+      groupOf: groupOf,
     );
 
     if (selected != null) onChanged(selected);

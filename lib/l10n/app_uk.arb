@@ -139,11 +139,21 @@
   "communityTypeDormitory": "Гуртожиток",
   "communityTypeCustom": "Інше",
 
-  "unitName": "Назва оселі",
+  "unitCreateTitle": "Нова оселя",
+  "unitName": "Назва",
   "unitNameHint": "Будинок 223",
   "unitNameRequired": "Введіть назву оселі",
-  "unitType": "Тип оселі",
-  "createUnitCta": "Створити оселю",
+  "unitType": "Тип",
+  "unitTypeMore": "Ще {count}…",
+  "@unitTypeMore": {
+    "description": "Opens the full list of object types; count is how many are not on the page",
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "createUnitCta": "Створити",
   "unitTypeHouse": "Будинок",
   "unitTypeApartment": "Квартира",
   "unitTypeRoom": "Кімната",
@@ -408,7 +418,7 @@
   "unitStartContactWhy": "Номер, який шукають, коли вже нема часу шукати",
   "unitStartAlso": "Також:",
   "unitStartAlsoNested": "об'єкт усередині",
-  "unitAddTitle": "Додати",
+  "unitAddTitle": "Новий об’єкт",
   "unitAddCta": "Додати",
   "unitEditTitle": "Редагувати",
   "saveCta": "Зберегти",
