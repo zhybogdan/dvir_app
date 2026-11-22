@@ -418,22 +418,28 @@ abstract class AppLocalizations {
   /// **'Оновити'**
   String get refreshCta;
 
+  /// No description provided for @withdraw.
+  ///
+  /// In uk, this message translates to:
+  /// **'Відкликати'**
+  String get withdraw;
+
   /// No description provided for @withdrawRequest.
   ///
   /// In uk, this message translates to:
-  /// **'Скасувати заявку'**
+  /// **'Відкликати заявку'**
   String get withdrawRequest;
 
   /// No description provided for @withdrawRequestTitle.
   ///
   /// In uk, this message translates to:
-  /// **'Скасувати заявку?'**
+  /// **'Відкликати заявку?'**
   String get withdrawRequestTitle;
 
   /// No description provided for @withdrawRequestBody.
   ///
   /// In uk, this message translates to:
-  /// **'Заявку буде видалено. Ви зможете подати її знову за тим самим кодом.'**
+  /// **'Ви зможете подати її знову за тим самим кодом.'**
   String get withdrawRequestBody;
 
   /// No description provided for @pendingOtherWays.
@@ -901,7 +907,7 @@ abstract class AppLocalizations {
   /// No description provided for @deleteUnitBody.
   ///
   /// In uk, this message translates to:
-  /// **'Разом з ним зникне все, що всередині, і всі мешканці. Дію не можна скасувати.'**
+  /// **'Зникне все, що всередині, і всі мешканці. Дію не можна скасувати.'**
   String get deleteUnitBody;
 
   /// No description provided for @unitAttributes.
@@ -1195,7 +1201,7 @@ abstract class AppLocalizations {
   /// No description provided for @contactsEmpty.
   ///
   /// In uk, this message translates to:
-  /// **'Свій електрик, сантехник, аварійна газу. Номери, які шукають, коли вже нема часу шукати.'**
+  /// **'Свій електрик, сантехнік, аварійна газу. Номери, які шукають, коли вже нема часу шукати.'**
   String get contactsEmpty;
 
   /// Opens the screen with all of a scope's contacts; count is the total

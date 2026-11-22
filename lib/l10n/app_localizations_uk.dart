@@ -200,14 +200,17 @@ class AppLocalizationsUk extends AppLocalizations {
   String get refreshCta => 'Оновити';
 
   @override
-  String get withdrawRequest => 'Скасувати заявку';
+  String get withdraw => 'Відкликати';
 
   @override
-  String get withdrawRequestTitle => 'Скасувати заявку?';
+  String get withdrawRequest => 'Відкликати заявку';
+
+  @override
+  String get withdrawRequestTitle => 'Відкликати заявку?';
 
   @override
   String get withdrawRequestBody =>
-      'Заявку буде видалено. Ви зможете подати її знову за тим самим кодом.';
+      'Ви зможете подати її знову за тим самим кодом.';
 
   @override
   String get pendingOtherWays => 'Створити свою оселю або ввести інший код';
@@ -456,7 +459,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get deleteUnitBody =>
-      'Разом з ним зникне все, що всередині, і всі мешканці. Дію не можна скасувати.';
+      'Зникне все, що всередині, і всі мешканці. Дію не можна скасувати.';
 
   @override
   String get unitAttributes => 'Характеристики';
@@ -641,7 +644,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get contactsEmpty =>
-      'Свій електрик, сантехник, аварійна газу. Номери, які шукають, коли вже нема часу шукати.';
+      'Свій електрик, сантехнік, аварійна газу. Номери, які шукають, коли вже нема часу шукати.';
 
   @override
   String contactsShowAll(int count) {
