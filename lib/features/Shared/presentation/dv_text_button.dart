@@ -17,6 +17,7 @@ class DvTextButton extends StatelessWidget {
     this.onPressed,
     this.icon,
     this.isDestructive = false,
+    this.isLoading = false,
     this.padding,
   });
 
@@ -31,6 +32,10 @@ class DvTextButton extends StatelessWidget {
   /// such as withdrawing a request.
   final bool isDestructive;
 
+  /// Swaps the icon for a spinner and disables the control — for the quiet
+  /// action that still takes a while, such as restoring from a copy.
+  final bool isLoading;
+
   /// Overrides Material's own 12dp on each side.
   ///
   /// `EdgeInsets.zero` is what a button standing at the edge of the page needs:
@@ -42,7 +47,7 @@ class DvTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final icon = this.icon;
-    final onPressed = loggedTap(label, this.onPressed);
+    final onPressed = isLoading ? null : loggedTap(label, this.onPressed);
 
     // Null keeps the theme's own foreground and padding; only a caller that
     // asked, and the destructive case, depart from it.
@@ -53,6 +58,18 @@ class DvTextButton extends StatelessWidget {
             padding: padding,
           )
         : null;
+
+    if (isLoading) {
+      return TextButton.icon(
+        onPressed: null,
+        style: style,
+        icon: const SizedBox.square(
+          dimension: _iconSize,
+          child: CircularProgressIndicator(strokeWidth: 2),
+        ),
+        label: Text(label),
+      );
+    }
 
     if (icon != null) {
       return TextButton.icon(

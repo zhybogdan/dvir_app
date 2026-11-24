@@ -244,6 +244,107 @@ abstract class AppLocalizations {
   /// **'Версія {version}'**
   String aboutVersion(String version);
 
+  /// No description provided for @settingsStoredHere.
+  ///
+  /// In uk, this message translates to:
+  /// **'Усе лежить на цьому телефоні'**
+  String get settingsStoredHere;
+
+  /// No description provided for @settingsTheme.
+  ///
+  /// In uk, this message translates to:
+  /// **'Тема'**
+  String get settingsTheme;
+
+  /// No description provided for @settingsThemeLight.
+  ///
+  /// In uk, this message translates to:
+  /// **'Світла'**
+  String get settingsThemeLight;
+
+  /// No description provided for @settingsThemeDark.
+  ///
+  /// In uk, this message translates to:
+  /// **'Темна'**
+  String get settingsThemeDark;
+
+  /// No description provided for @settingsThemeSystem.
+  ///
+  /// In uk, this message translates to:
+  /// **'Системна'**
+  String get settingsThemeSystem;
+
+  /// No description provided for @settingsUnitsCount.
+  ///
+  /// In uk, this message translates to:
+  /// **'{count, plural, one{{count} об’єкт} few{{count} об’єкти} many{{count} об’єктів} other{{count} об’єкта}}'**
+  String settingsUnitsCount(int count);
+
+  /// No description provided for @settingsSizeKilobytes.
+  ///
+  /// In uk, this message translates to:
+  /// **'{size} КБ'**
+  String settingsSizeKilobytes(String size);
+
+  /// No description provided for @settingsSizeMegabytes.
+  ///
+  /// In uk, this message translates to:
+  /// **'{size} МБ'**
+  String settingsSizeMegabytes(String size);
+
+  /// No description provided for @backupCreate.
+  ///
+  /// In uk, this message translates to:
+  /// **'Створити копію'**
+  String get backupCreate;
+
+  /// No description provided for @backupCreateHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'Усі записи, документи й контакти одним архівом. Збережіть його в хмарі або на комп’ютері — тоді втрачений телефон не забере оселю разом із собою.'**
+  String get backupCreateHint;
+
+  /// No description provided for @backupRestore.
+  ///
+  /// In uk, this message translates to:
+  /// **'Відновити з копії'**
+  String get backupRestore;
+
+  /// No description provided for @backupRestoreHint.
+  ///
+  /// In uk, this message translates to:
+  /// **'Візьме архів і замінить ним усе, що зараз у застосунку.'**
+  String get backupRestoreHint;
+
+  /// No description provided for @backupRestoreConfirmTitle.
+  ///
+  /// In uk, this message translates to:
+  /// **'Відновити з копії?'**
+  String get backupRestoreConfirmTitle;
+
+  /// Shown before a restore replaces everything. The counts come from the archive's own manifest, so the person can tell one copy from another; named with a colon rather than counted in words because Ukrainian would need a plural form for each number
+  ///
+  /// In uk, this message translates to:
+  /// **'Копія від {date}.\nОб’єкти: {units}\nДокументи: {documents}\nКонтакти: {contacts}\n\nУсе, що зараз у застосунку, буде замінено тим, що в копії.'**
+  String backupRestoreConfirmBody(
+    String date,
+    int units,
+    int documents,
+    int contacts,
+  );
+
+  /// No description provided for @backupRestoreConfirmCta.
+  ///
+  /// In uk, this message translates to:
+  /// **'Відновити'**
+  String get backupRestoreConfirmCta;
+
+  /// No description provided for @backupRestored.
+  ///
+  /// In uk, this message translates to:
+  /// **'Відновлено з копії'**
+  String get backupRestored;
+
   /// No description provided for @signIn.
   ///
   /// In uk, this message translates to:
@@ -1617,6 +1718,48 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Немає застосунку, який відкриє цей файл'**
   String get errorFileCannotOpen;
+
+  /// No description provided for @errorNotABackup.
+  ///
+  /// In uk, this message translates to:
+  /// **'Це не схоже на резервну копію'**
+  String get errorNotABackup;
+
+  /// No description provided for @errorBackupFromNewerApp.
+  ///
+  /// In uk, this message translates to:
+  /// **'Копію зробила новіша версія застосунку. Спочатку оновіть його'**
+  String get errorBackupFromNewerApp;
+
+  /// No description provided for @errorBackupCannotWrite.
+  ///
+  /// In uk, this message translates to:
+  /// **'Не вдалося створити копію. Можливо, на пристрої немає місця'**
+  String get errorBackupCannotWrite;
+
+  /// No description provided for @errorBackupCannotRead.
+  ///
+  /// In uk, this message translates to:
+  /// **'Не вдалося прочитати цей файл'**
+  String get errorBackupCannotRead;
+
+  /// No description provided for @errorRestoreFailed.
+  ///
+  /// In uk, this message translates to:
+  /// **'Не вдалося відновити з копії. Дані не змінено'**
+  String get errorRestoreFailed;
+
+  /// No description provided for @errorRestoreFilesIncomplete.
+  ///
+  /// In uk, this message translates to:
+  /// **'Записи відновлено, але не всі файли. Спробуйте відновити з тієї самої копії ще раз'**
+  String get errorRestoreFilesIncomplete;
+
+  /// No description provided for @errorBackupUnknown.
+  ///
+  /// In uk, this message translates to:
+  /// **'Не вдалося виконати дію з резервною копією'**
+  String get errorBackupUnknown;
 
   /// No description provided for @errorTitle.
   ///

@@ -63,6 +63,61 @@
     }
   },
 
+  "settingsStoredHere": "Усе лежить на цьому телефоні",
+  "settingsTheme": "Тема",
+  "settingsThemeLight": "Світла",
+  "settingsThemeDark": "Темна",
+  "settingsThemeSystem": "Системна",
+  "settingsUnitsCount": "{count, plural, one{{count} об’єкт} few{{count} об’єкти} many{{count} об’єктів} other{{count} об’єкта}}",
+  "@settingsUnitsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsSizeKilobytes": "{size} КБ",
+  "@settingsSizeKilobytes": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsSizeMegabytes": "{size} МБ",
+  "@settingsSizeMegabytes": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "backupCreate": "Створити копію",
+  "backupCreateHint": "Усі записи, документи й контакти одним архівом. Збережіть його в хмарі або на комп’ютері — тоді втрачений телефон не забере оселю разом із собою.",
+  "backupRestore": "Відновити з копії",
+  "backupRestoreHint": "Візьме архів і замінить ним усе, що зараз у застосунку.",
+  "backupRestoreConfirmTitle": "Відновити з копії?",
+  "backupRestoreConfirmBody": "Копія від {date}.\nОб’єкти: {units}\nДокументи: {documents}\nКонтакти: {contacts}\n\nУсе, що зараз у застосунку, буде замінено тим, що в копії.",
+  "@backupRestoreConfirmBody": {
+    "description": "Shown before a restore replaces everything. The counts come from the archive's own manifest, so the person can tell one copy from another; named with a colon rather than counted in words because Ukrainian would need a plural form for each number",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "units": {
+        "type": "int"
+      },
+      "documents": {
+        "type": "int"
+      },
+      "contacts": {
+        "type": "int"
+      }
+    }
+  },
+  "backupRestoreConfirmCta": "Відновити",
+  "backupRestored": "Відновлено з копії",
+
   "signIn": "Увійти",
   "signUp": "Зареєструватися",
   "signOut": "Вийти",
@@ -500,6 +555,14 @@
   "errorFileMissing": "Файл не знайдено. Можливо, його вже видалили",
   "errorFileUnknown": "Не вдалося обробити файл",
   "errorFileCannotOpen": "Немає застосунку, який відкриє цей файл",
+
+  "errorNotABackup": "Це не схоже на резервну копію",
+  "errorBackupFromNewerApp": "Копію зробила новіша версія застосунку. Спочатку оновіть його",
+  "errorBackupCannotWrite": "Не вдалося створити копію. Можливо, на пристрої немає місця",
+  "errorBackupCannotRead": "Не вдалося прочитати цей файл",
+  "errorRestoreFailed": "Не вдалося відновити з копії. Дані не змінено",
+  "errorRestoreFilesIncomplete": "Записи відновлено, але не всі файли. Спробуйте відновити з тієї самої копії ще раз",
+  "errorBackupUnknown": "Не вдалося виконати дію з резервною копією",
 
   "errorTitle": "Щось пішло не так",
   "retry": "Повторити"

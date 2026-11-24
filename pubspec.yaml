@@ -49,9 +49,16 @@ dependencies:
   open_filex: ^4.7.0
   path_provider: ^2.1.6
   mime: ^2.0.0
+  # Declared explicitly though it arrives transitively: a backup is one zip
+  # file, and nothing else in the project can write one.
+  archive: ^4.0.9
   drift: ^2.34.3
   path: ^1.9.1
   package_info_plus: ^10.2.1
+  # Arrives with supabase, declared because the theme a person picked has to
+  # outlive a restart and is no secret — flutter_secure_storage is for the
+  # session, not for this.
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:
