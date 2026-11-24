@@ -52,7 +52,7 @@ class AllContactsScreen extends ConsumerWidget {
                 ..invalidate(myScopesProvider)
                 ..invalidate(contactsProvider),
               builder: (context, groups) => groups.isEmpty
-                  ? DvEmptyView(
+                  ? DvEmptyView.page(
                       message: l10n.allContactsEmpty,
                       icon: AppIcons.call,
                     )

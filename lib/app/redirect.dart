@@ -18,10 +18,14 @@ typedef RedirectDecision = ({String? target, String reason});
 /// flat and sit on an OSBB board at once; picking one of those to route by is
 /// what used to strand a house owner on the waiting screen because a community
 /// they had applied to was still deciding.
+///
+/// [people] is the build's own capability, defaulting to the connected one so
+/// a caller that says nothing about flavours is ruled on as it always was.
 RedirectDecision resolveRedirect({
   required AsyncValue<AppUser?> auth,
   required AsyncValue<MyScopes?> scopes,
   required String location,
+  bool people = true,
 }) {
   final onAuthPage =
       location == AppRoutes.login || location == AppRoutes.register;
@@ -62,6 +66,18 @@ RedirectDecision resolveRedirect({
   }
 
   if (known.scopes.isEmpty) {
+    // With nobody else in the build there is no community to found and no code
+    // to have been given, so onboarding would be a screen asking a question
+    // with one answer. Nothing is withheld either: the tabs work, settings
+    // work — which is where a copy of an old phone is restored from, the one
+    // thing a person with nothing yet may well have come to do. The empty list
+    // of objects does the inviting.
+    if (!people) {
+      return location == AppRoutes.splash || onAuthPage
+          ? (target: AppRoutes.home, reason: 'nothing yet, nothing to wait for')
+          : (target: null, reason: 'nothing yet, free to look around');
+    }
+
     return onOnboardingPage
         ? (target: null, reason: 'belongs nowhere, onboarding in progress')
         : (target: AppRoutes.onboarding, reason: 'belongs nowhere');

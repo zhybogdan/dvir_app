@@ -54,6 +54,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addScope => 'Add';
 
   @override
+  String get scopesEmptyLead =>
+      'Start with what is yours: a house, a flat, a garage or a plot.';
+
+  @override
+  String get scopesEmptyCreate => 'Create the first place';
+
+  @override
+  String get scopesEmptyCreateWhy =>
+      'Documents, facts and phone numbers go into it afterwards';
+
+  @override
+  String get scopesEmptyRestore => 'Restore from a copy';
+
+  @override
+  String get scopesEmptyRestoreWhy =>
+      'If it is all written down on an old phone already';
+
+  @override
   String get memberStatusPending => 'Waiting for approval';
 
   @override

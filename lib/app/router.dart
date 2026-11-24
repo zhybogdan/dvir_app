@@ -1,6 +1,7 @@
 import 'package:dvir/app/app_shell.dart';
 import 'package:dvir/app/redirect.dart';
 import 'package:dvir/app/routes.dart';
+import 'package:dvir/core/config/app_capabilities.dart';
 import 'package:dvir/core/logging/app_logger.dart';
 import 'package:dvir/core/logging/app_route_observer.dart';
 import 'package:dvir/features/Auth/application/auth_controller.dart';
@@ -83,6 +84,7 @@ GoRouter router(Ref ref) {
         auth: navigation.auth,
         scopes: navigation.scopes,
         location: location,
+        people: ref.read(appCapabilitiesProvider).people,
       );
       final target = decision.target;
 

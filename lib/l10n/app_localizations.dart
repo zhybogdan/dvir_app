@@ -152,6 +152,36 @@ abstract class AppLocalizations {
   /// **'Додати'**
   String get addScope;
 
+  /// The lead on the list of objects before the first one exists
+  ///
+  /// In uk, this message translates to:
+  /// **'Почніть з того, що вам належить: дім, квартира, гараж чи ділянка.'**
+  String get scopesEmptyLead;
+
+  /// No description provided for @scopesEmptyCreate.
+  ///
+  /// In uk, this message translates to:
+  /// **'Створіть перший об’єкт'**
+  String get scopesEmptyCreate;
+
+  /// No description provided for @scopesEmptyCreateWhy.
+  ///
+  /// In uk, this message translates to:
+  /// **'Далі до нього лягають документи, факти й телефони'**
+  String get scopesEmptyCreateWhy;
+
+  /// Second first move on an empty app: the records may already exist on an old phone
+  ///
+  /// In uk, this message translates to:
+  /// **'Відновіть з копії'**
+  String get scopesEmptyRestore;
+
+  /// No description provided for @scopesEmptyRestoreWhy.
+  ///
+  /// In uk, this message translates to:
+  /// **'Якщо на старому телефоні вже все записано'**
+  String get scopesEmptyRestoreWhy;
+
   /// No description provided for @memberStatusPending.
   ///
   /// In uk, this message translates to:

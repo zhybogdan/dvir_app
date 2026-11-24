@@ -74,7 +74,7 @@ class UnitAttributesScreen extends ConsumerWidget {
               ),
               onRetry: () => ref.invalidate(unitAttributesProvider(unitId)),
               builder: (context, attributes) => attributes.isEmpty
-                  ? DvEmptyView(
+                  ? DvEmptyView.page(
                       message: l10n.unitAttributesEmpty,
                       icon: AppIcons.attribute,
                     )

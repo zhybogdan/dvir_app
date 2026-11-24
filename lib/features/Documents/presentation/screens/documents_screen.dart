@@ -76,7 +76,7 @@ class UnitDocumentsScreen extends ConsumerWidget {
               ),
               onRetry: () => ref.invalidate(documentsProvider(scope)),
               builder: (context, documents) => documents.isEmpty
-                  ? DvEmptyView(
+                  ? DvEmptyView.page(
                       message: l10n.documentsEmpty,
                       icon: AppIcons.documentGeneric,
                     )

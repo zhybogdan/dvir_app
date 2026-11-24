@@ -1,10 +1,12 @@
 import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
+import 'package:dvir/core/config/app_capabilities.dart';
 import 'package:dvir/features/Community/presentation/community_type_l10n.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Home/domain/models/scope_summary.dart';
 import 'package:dvir/features/Home/domain/scope_arrangement.dart';
+import 'package:dvir/features/Home/presentation/components/scopes_start_block.dart';
 import 'package:dvir/features/Home/presentation/scope_counts_l10n.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
@@ -48,7 +50,15 @@ class ScopesScreen extends ConsumerWidget {
           DvIconButton(
             // Pushed rather than `go`: adding a scope is a detour from here,
             // and the back arrow is how it gets abandoned.
-            onPressed: () => context.push(AppRoutes.onboarding),
+            //
+            // Straight to the form where there is nobody else: the choice
+            // screen in that build offers one answer, and a question with one
+            // answer is a tap, not a choice.
+            onPressed: () => context.push(
+              ref.watch(appCapabilitiesProvider).people
+                  ? AppRoutes.onboarding
+                  : AppRoutes.onboardingUnit,
+            ),
             icon: AppIcons.add,
             tooltip: l10n.addScope,
           ),
@@ -95,7 +105,12 @@ class _ScopeList extends ConsumerWidget {
       onRefresh: () => ref.refresh(myScopesProvider.future),
       child: ListView(
         padding: context.pagePadding,
+        // Scrollable with one block in it, so the list can still be pulled
+        // down: a person who restored a copy on another screen comes back
+        // here expecting that to work.
+        physics: const AlwaysScrollableScrollPhysics(),
         children: [
+          if (rows.isEmpty) const ScopesStartBlock(),
           if (communities.isNotEmpty) ...[
             if (named) DvSectionTitle(l10n.scopesCommunities),
             for (final row in communities) _ScopeCard(row: row),

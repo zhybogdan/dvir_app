@@ -1,15 +1,11 @@
-import 'dart:io';
-
 import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
-import 'package:dvir/core/extensions/date_time_x.dart';
-import 'package:dvir/core/notifications/toast_controller.dart';
 import 'package:dvir/features/Backup/application/backup_controller.dart';
 import 'package:dvir/features/Backup/domain/models/device_contents.dart';
+import 'package:dvir/features/Backup/presentation/backup_restore_flow.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
-import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -52,58 +48,15 @@ class _BackupSectionState extends ConsumerState<BackupSection> {
     if (mounted) setState(() => _running = null);
   }
 
+  /// The steps are in [BackupRestoreFlow], which the empty list of objects
+  /// offers as well; what stays here is the spinner, because only this screen
+  /// has a button to spin.
   Future<void> _restore() async {
-    final actions = ref.read(backupActionsProvider.notifier);
-    final file = await actions.pick();
-
-    // Null is backing out of the picker, which is not a refusal to report.
-    if (file == null || !mounted) return;
-
     setState(() => _running = _Running.restore);
 
-    final manifest = await actions.read(file);
-    if (!mounted) return;
+    await BackupRestoreFlow.start(context, ref);
 
-    if (manifest == null) {
-      setState(() => _running = null);
-
-      return;
-    }
-
-    final l10n = AppLocalizations.of(context);
-    final confirmed = await DvConfirmDialog.ask(
-      context,
-      title: l10n.backupRestoreConfirmTitle,
-      message: l10n.backupRestoreConfirmBody(
-        manifest.createdAt.asShortDate,
-        manifest.units,
-        manifest.documents,
-        manifest.contacts,
-      ),
-      confirmLabel: l10n.backupRestoreConfirmCta,
-    );
-
-    if (!confirmed || !mounted) {
-      if (mounted) setState(() => _running = null);
-
-      return;
-    }
-
-    await _replace(file);
-  }
-
-  Future<void> _replace(File file) async {
-    final l10n = AppLocalizations.of(context);
-    final restored = await ref
-        .read(backupActionsProvider.notifier)
-        .restore(file);
-
-    if (!mounted) return;
-
-    setState(() => _running = null);
-    if (!restored) return;
-
-    ref.read(toastControllerProvider.notifier).success(l10n.backupRestored);
+    if (mounted) setState(() => _running = null);
   }
 
   @override
