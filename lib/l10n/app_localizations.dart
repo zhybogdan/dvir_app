@@ -250,6 +250,30 @@ abstract class AppLocalizations {
   /// **'Усе лежить на цьому телефоні'**
   String get settingsStoredHere;
 
+  /// No description provided for @settingsTheme.
+  ///
+  /// In uk, this message translates to:
+  /// **'Тема'**
+  String get settingsTheme;
+
+  /// No description provided for @settingsThemeLight.
+  ///
+  /// In uk, this message translates to:
+  /// **'Світла'**
+  String get settingsThemeLight;
+
+  /// No description provided for @settingsThemeDark.
+  ///
+  /// In uk, this message translates to:
+  /// **'Темна'**
+  String get settingsThemeDark;
+
+  /// No description provided for @settingsThemeSystem.
+  ///
+  /// In uk, this message translates to:
+  /// **'Системна'**
+  String get settingsThemeSystem;
+
   /// No description provided for @settingsUnitsCount.
   ///
   /// In uk, this message translates to:

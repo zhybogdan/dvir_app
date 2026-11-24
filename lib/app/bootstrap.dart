@@ -1,11 +1,14 @@
 import 'package:dvir/app/app.dart';
+import 'package:dvir/core/config/preferences.dart';
 import 'package:dvir/core/logging/app_logger.dart';
 import 'package:dvir/core/logging/app_provider_observer.dart';
+import 'package:dvir/features/Settings/data/settings_repository_impl.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // `Override` is the one runtime type flutter_riverpod does not re-export.
 import 'package:riverpod_annotation/riverpod_annotation.dart' show Override;
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Everything every flavor's `main()` does, in the order it has to happen.
 ///
@@ -36,9 +39,19 @@ Future<void> bootstrap(Future<List<Override>> Function() initialize) async {
 
   final overrides = await initialize();
 
+  // Here and not in a flavor: every build has a theme to remember.
+  final preferences = await SharedPreferencesWithCache.create(
+    cacheOptions: const SharedPreferencesWithCacheOptions(
+      allowList: SettingsRepositoryImpl.keys,
+    ),
+  );
+
   runApp(
     ProviderScope(
-      overrides: overrides,
+      overrides: [
+        ...overrides,
+        sharedPreferencesProvider.overrideWithValue(preferences),
+      ],
       observers: const [AppProviderObserver()],
       child: const DvirApp(),
     ),

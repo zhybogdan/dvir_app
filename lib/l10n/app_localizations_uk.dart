@@ -112,6 +112,18 @@ class AppLocalizationsUk extends AppLocalizations {
   String get settingsStoredHere => 'Усе лежить на цьому телефоні';
 
   @override
+  String get settingsTheme => 'Тема';
+
+  @override
+  String get settingsThemeLight => 'Світла';
+
+  @override
+  String get settingsThemeDark => 'Темна';
+
+  @override
+  String get settingsThemeSystem => 'Системна';
+
+  @override
   String settingsUnitsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

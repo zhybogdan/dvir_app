@@ -11,6 +11,7 @@ import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Auth/application/auth_controller.dart';
 import 'package:dvir/features/Backup/presentation/components/backup_section.dart';
 import 'package:dvir/features/Profile/application/profile_controller.dart';
+import 'package:dvir/features/Settings/presentation/components/theme_picker.dart';
 import 'package:dvir/features/Shared/domain/models/profile.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
 import 'package:dvir/features/Shared/presentation/dv_async_view.dart';
@@ -56,7 +57,7 @@ class ProfileScreen extends ConsumerWidget {
   }
 }
 
-/// The settings: the copy of the phone, and the app naming itself.
+/// The settings: the copy of the phone, the theme, and the app naming itself.
 ///
 /// The version sits at the foot rather than in the middle, where settings
 /// screens keep it — so the things that are coming (the paid plan) are added
@@ -71,24 +72,39 @@ class _Settings extends ConsumerWidget {
     // quieter wait than a spinner under an empty screen.
     final version = ref.watch(appVersionProvider).value;
 
+    // Scrolls once the content outgrows the screen — a small phone at the
+    // 1.4 text cap — and otherwise fills it, so the version still sits at the
+    // foot.
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const BackupSection(),
-            const Spacer(),
-            if (version != null)
-              Text(
-                '${l10n.appTitle} · ${l10n.aboutVersion(version)}',
-                textAlign: TextAlign.center,
-                style: context.textTheme.bodySmall?.copyWith(
-                  color: context.colorScheme.onSurfaceVariant,
-                ),
+      child: CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const BackupSection(),
+                  const SizedBox(height: AppSpacing.xl),
+                  const ThemePicker(),
+                  const Spacer(),
+                  if (version != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: AppSpacing.xl),
+                      child: Text(
+                        '${l10n.appTitle} · ${l10n.aboutVersion(version)}',
+                        textAlign: TextAlign.center,
+                        style: context.textTheme.bodySmall?.copyWith(
+                          color: context.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ),
+                ],
               ),
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }

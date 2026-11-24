@@ -64,6 +64,10 @@
   },
 
   "settingsStoredHere": "Усе лежить на цьому телефоні",
+  "settingsTheme": "Тема",
+  "settingsThemeLight": "Світла",
+  "settingsThemeDark": "Темна",
+  "settingsThemeSystem": "Системна",
   "settingsUnitsCount": "{count, plural, one{{count} об’єкт} few{{count} об’єкти} many{{count} об’єктів} other{{count} об’єкта}}",
   "@settingsUnitsCount": {
     "placeholders": {
