@@ -56,6 +56,16 @@ final class StorageFailure extends Failure {
   String toString() => 'StorageFailure($reason)';
 }
 
+/// A backup file could not be written, read back or restored.
+final class BackupFailure extends Failure {
+  const BackupFailure(this.reason);
+
+  final BackupFailureReason reason;
+
+  @override
+  String toString() => 'BackupFailure($reason)';
+}
+
 /// Anything we did not anticipate.
 final class UnknownFailure extends Failure {
   const UnknownFailure();
@@ -117,6 +127,44 @@ enum StorageFailureReason {
   /// Storage answer at all; it shares this type because from the reader's side
   /// it is the same sentence — the file did not open.
   cannotOpen,
+
+  unknown,
+}
+
+/// Why a backup was refused.
+///
+/// Nothing maps onto this from a backend — a copy is written and read by this
+/// app alone — so what is left are the file the person picked, the device's own
+/// storage, and how far a restore got before it stopped. That last one is the
+/// reason there are two of them: after the rows are in, "nothing changed" would
+/// be false.
+enum BackupFailureReason {
+  /// Not a zip, or a zip with none of our parts in it — the person picked the
+  /// wrong file.
+  notABackup,
+
+  /// Written by a newer build, which may keep columns this one would drop on
+  /// restoring. Refused rather than read partially.
+  fromNewerApp,
+
+  /// The copy could not be written. Room on the device, most likely: an export
+  /// needs about twice what it ends up weighing, because the snapshot of the
+  /// database sits beside the archive until it is packed into it.
+  cannotWrite,
+
+  /// The chosen file could not be read at all — gone, or handed over by a
+  /// provider that has since dropped it. Not the same as "not a backup": the
+  /// file may be a perfectly good copy that is simply out of reach.
+  cannotRead,
+
+  /// The copy was good and putting it back failed before anything changed. The
+  /// rows go in one transaction, and the files are only touched after it.
+  restoreFailed,
+
+  /// The rows were restored and some of the files were not. Said plainly
+  /// because the record now disagrees with the documents behind it, and
+  /// restoring from the same copy again fixes it.
+  filesIncomplete,
 
   unknown,
 }

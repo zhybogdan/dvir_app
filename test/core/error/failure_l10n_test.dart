@@ -58,4 +58,19 @@ void main() {
 
     expect(messages, hasLength(StorageFailureReason.values.length));
   });
+
+  test('every backup reason has its own non-empty message', () {
+    final messages = <String>{};
+
+    for (final reason in BackupFailureReason.values) {
+      final message = BackupFailure(reason).message(l10n);
+      expect(message, isNotEmpty, reason: '$reason');
+      messages.add(message);
+    }
+
+    // Distinct matters more here than anywhere else: two of these reasons
+    // differ only in whether the person's data was already replaced, and one
+    // wording for both would tell half of them something untrue.
+    expect(messages, hasLength(BackupFailureReason.values.length));
+  });
 }

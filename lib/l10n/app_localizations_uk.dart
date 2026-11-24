@@ -109,6 +109,39 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
+  String get backupCreate => 'Створити копію';
+
+  @override
+  String get backupCreateHint =>
+      'Усі записи, документи й контакти одним архівом. Збережіть його в хмарі або на компʼютері — тоді втрачений телефон не забере оселю разом із собою.';
+
+  @override
+  String get backupRestore => 'Відновити з копії';
+
+  @override
+  String get backupRestoreHint =>
+      'Візьме архів і замінить ним усе, що зараз у застосунку.';
+
+  @override
+  String get backupRestoreConfirmTitle => 'Відновити з копії?';
+
+  @override
+  String backupRestoreConfirmBody(
+    String date,
+    int units,
+    int documents,
+    int contacts,
+  ) {
+    return 'Копія від $date.\nОселі та приміщення: $units\nДокументи: $documents\nКонтакти: $contacts\n\nУсе, що зараз у застосунку, буде замінено тим, що в копії.';
+  }
+
+  @override
+  String get backupRestoreConfirmCta => 'Відновити';
+
+  @override
+  String get backupRestored => 'Відновлено з копії';
+
+  @override
   String get signIn => 'Увійти';
 
   @override
@@ -875,6 +908,31 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get errorFileCannotOpen => 'Немає застосунку, який відкриє цей файл';
+
+  @override
+  String get errorNotABackup => 'Це не схоже на резервну копію';
+
+  @override
+  String get errorBackupFromNewerApp =>
+      'Копію зробила новіша версія застосунку. Спочатку оновіть його';
+
+  @override
+  String get errorBackupCannotWrite =>
+      'Не вдалося створити копію. Можливо, на пристрої немає місця';
+
+  @override
+  String get errorBackupCannotRead => 'Не вдалося прочитати цей файл';
+
+  @override
+  String get errorRestoreFailed =>
+      'Не вдалося відновити з копії. Дані не змінено';
+
+  @override
+  String get errorRestoreFilesIncomplete =>
+      'Записи відновлено, але не всі файли. Спробуйте відновити з тієї самої копії ще раз';
+
+  @override
+  String get errorBackupUnknown => 'Не вдалося виконати дію з резервною копією';
 
   @override
   String get errorTitle => 'Щось пішло не так';

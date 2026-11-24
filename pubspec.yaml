@@ -49,6 +49,9 @@ dependencies:
   open_filex: ^4.7.0
   path_provider: ^2.1.6
   mime: ^2.0.0
+  # Declared explicitly though it arrives transitively: a backup is one zip
+  # file, and nothing else in the project can write one.
+  archive: ^4.0.9
   drift: ^2.34.3
   path: ^1.9.1
   package_info_plus: ^10.2.1

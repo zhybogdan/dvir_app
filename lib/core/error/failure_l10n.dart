@@ -42,6 +42,15 @@ extension FailureL10n on Failure {
       StorageFailureReason.notAllowed => l10n.errorNotAllowed,
       StorageFailureReason.unknown => l10n.errorFileUnknown,
     },
+    BackupFailure(:final reason) => switch (reason) {
+      BackupFailureReason.notABackup => l10n.errorNotABackup,
+      BackupFailureReason.fromNewerApp => l10n.errorBackupFromNewerApp,
+      BackupFailureReason.cannotWrite => l10n.errorBackupCannotWrite,
+      BackupFailureReason.cannotRead => l10n.errorBackupCannotRead,
+      BackupFailureReason.restoreFailed => l10n.errorRestoreFailed,
+      BackupFailureReason.filesIncomplete => l10n.errorRestoreFilesIncomplete,
+      BackupFailureReason.unknown => l10n.errorBackupUnknown,
+    },
     ScopeFailure(:final reason) => switch (reason) {
       ScopeFailureReason.invalidInviteCode => l10n.errorInvalidInviteCode,
       ScopeFailureReason.notAllowed => l10n.errorNotAllowed,

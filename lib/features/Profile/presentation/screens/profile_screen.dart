@@ -9,6 +9,7 @@ import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:dvir/core/utils/text_input.dart';
 import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Auth/application/auth_controller.dart';
+import 'package:dvir/features/Backup/presentation/components/backup_section.dart';
 import 'package:dvir/features/Profile/application/profile_controller.dart';
 import 'package:dvir/features/Shared/domain/models/profile.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
@@ -55,11 +56,11 @@ class ProfileScreen extends ConsumerWidget {
   }
 }
 
-/// The settings, which so far are only the app naming itself.
+/// The settings: the copy of the phone, and the app naming itself.
 ///
 /// The version sits at the foot rather than in the middle, where settings
-/// screens keep it — so the things that are coming (backup, the paid plan) are
-/// added above it instead of pushing it around.
+/// screens keep it — so the things that are coming (the paid plan) are added
+/// above it instead of pushing it around.
 class _Settings extends ConsumerWidget {
   const _Settings();
 
@@ -76,6 +77,7 @@ class _Settings extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const BackupSection(),
             const Spacer(),
             if (version != null)
               Text(
