@@ -8,9 +8,16 @@ import 'package:dvir/core/utils/share.dart';
 import 'package:dvir/features/Backup/data/backup_file_picker.dart';
 import 'package:dvir/features/Backup/data/backup_service.dart';
 import 'package:dvir/features/Backup/domain/models/backup_manifest.dart';
+import 'package:dvir/features/Backup/domain/models/device_contents.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'backup_controller.g.dart';
+
+/// What the phone holds, for the settings screen to print above the button
+/// that copies it.
+@riverpod
+Stream<DeviceContents> deviceContents(Ref ref) =>
+    ref.watch(backupServiceProvider).watchContents();
 
 /// Making a copy of everything on the phone, and putting one back.
 ///

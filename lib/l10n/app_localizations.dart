@@ -244,6 +244,30 @@ abstract class AppLocalizations {
   /// **'Версія {version}'**
   String aboutVersion(String version);
 
+  /// No description provided for @settingsStoredHere.
+  ///
+  /// In uk, this message translates to:
+  /// **'Усе лежить на цьому телефоні'**
+  String get settingsStoredHere;
+
+  /// No description provided for @settingsUnitsCount.
+  ///
+  /// In uk, this message translates to:
+  /// **'{count, plural, one{{count} об’єкт} few{{count} об’єкти} many{{count} об’єктів} other{{count} об’єкта}}'**
+  String settingsUnitsCount(int count);
+
+  /// No description provided for @settingsSizeKilobytes.
+  ///
+  /// In uk, this message translates to:
+  /// **'{size} КБ'**
+  String settingsSizeKilobytes(String size);
+
+  /// No description provided for @settingsSizeMegabytes.
+  ///
+  /// In uk, this message translates to:
+  /// **'{size} МБ'**
+  String settingsSizeMegabytes(String size);
+
   /// No description provided for @backupCreate.
   ///
   /// In uk, this message translates to:
@@ -253,7 +277,7 @@ abstract class AppLocalizations {
   /// No description provided for @backupCreateHint.
   ///
   /// In uk, this message translates to:
-  /// **'Усі записи, документи й контакти одним архівом. Збережіть його в хмарі або на компʼютері — тоді втрачений телефон не забере оселю разом із собою.'**
+  /// **'Усі записи, документи й контакти одним архівом. Збережіть його в хмарі або на комп’ютері — тоді втрачений телефон не забере оселю разом із собою.'**
   String get backupCreateHint;
 
   /// No description provided for @backupRestore.
@@ -277,7 +301,7 @@ abstract class AppLocalizations {
   /// Shown before a restore replaces everything. The counts come from the archive's own manifest, so the person can tell one copy from another; named with a colon rather than counted in words because Ukrainian would need a plural form for each number
   ///
   /// In uk, this message translates to:
-  /// **'Копія від {date}.\nОселі та приміщення: {units}\nДокументи: {documents}\nКонтакти: {contacts}\n\nУсе, що зараз у застосунку, буде замінено тим, що в копії.'**
+  /// **'Копія від {date}.\nОб’єкти: {units}\nДокументи: {documents}\nКонтакти: {contacts}\n\nУсе, що зараз у застосунку, буде замінено тим, що в копії.'**
   String backupRestoreConfirmBody(
     String date,
     int units,

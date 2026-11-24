@@ -109,11 +109,37 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
+  String get settingsStoredHere => 'Усе лежить на цьому телефоні';
+
+  @override
+  String settingsUnitsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count об’єкта',
+      many: '$count об’єктів',
+      few: '$count об’єкти',
+      one: '$count об’єкт',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String settingsSizeKilobytes(String size) {
+    return '$size КБ';
+  }
+
+  @override
+  String settingsSizeMegabytes(String size) {
+    return '$size МБ';
+  }
+
+  @override
   String get backupCreate => 'Створити копію';
 
   @override
   String get backupCreateHint =>
-      'Усі записи, документи й контакти одним архівом. Збережіть його в хмарі або на компʼютері — тоді втрачений телефон не забере оселю разом із собою.';
+      'Усі записи, документи й контакти одним архівом. Збережіть його в хмарі або на комп’ютері — тоді втрачений телефон не забере оселю разом із собою.';
 
   @override
   String get backupRestore => 'Відновити з копії';
@@ -132,7 +158,7 @@ class AppLocalizationsUk extends AppLocalizations {
     int documents,
     int contacts,
   ) {
-    return 'Копія від $date.\nОселі та приміщення: $units\nДокументи: $documents\nКонтакти: $contacts\n\nУсе, що зараз у застосунку, буде замінено тим, що в копії.';
+    return 'Копія від $date.\nОб’єкти: $units\nДокументи: $documents\nКонтакти: $contacts\n\nУсе, що зараз у застосунку, буде замінено тим, що в копії.';
   }
 
   @override

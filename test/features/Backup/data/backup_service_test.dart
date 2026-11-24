@@ -388,4 +388,48 @@ void main() {
       backupTables.toSet(),
     );
   });
+
+  group('watchContents', () {
+    test(
+      'counts objects and documents, and weighs records with files',
+      () async {
+        final empty = await service.watchContents().first;
+
+        expect(empty.units, 0);
+        expect(empty.documents, 0);
+        // An empty schema still has pages; the files add nothing yet.
+        expect(empty.bytes, greaterThan(0));
+
+        await insertUnit(id: 'parent');
+        await database
+            .into(database.documents)
+            .insert(
+              DocumentsCompanion.insert(
+                id: 'document',
+                unitId: 'parent',
+                title: 'Техпаспорт',
+                storagePath: 'parent/document.jpg',
+                createdAt: DateTime.utc(2026),
+                sizeBytes: const Value(5000000),
+              ),
+            );
+
+        final filled = await service.watchContents().first;
+
+        expect(filled.units, 1);
+        expect(filled.documents, 1);
+        expect(filled.bytes, greaterThan(5000000));
+      },
+    );
+
+    test('says so again when a table changes', () async {
+      final seen = service.watchContents().map((c) => c.units).take(2);
+      final units = seen.toList();
+
+      await pumpEventQueue();
+      await insertUnit(id: 'parent');
+
+      expect(await units, [0, 1]);
+    });
+  });
 }

@@ -7,6 +7,7 @@ import 'package:dvir/core/error/failures.dart';
 import 'package:dvir/core/extensions/date_time_x.dart';
 import 'package:dvir/core/logging/app_logger.dart';
 import 'package:dvir/features/Backup/domain/models/backup_manifest.dart';
+import 'package:dvir/features/Backup/domain/models/device_contents.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -378,6 +379,35 @@ class BackupService {
       throw const BackupFailure(BackupFailureReason.notABackup);
     }
   }
+
+  /// What a copy made now would carry, and again every time that changes.
+  ///
+  /// The records are weighed by sqlite's own page count rather than by the
+  /// file on disk: the file is never smaller than its largest moment, and the
+  /// journal beside it is not part of what a copy holds.
+  Stream<DeviceContents> watchContents() => database
+      .customSelect(
+        'select '
+        '(select count(*) from units) as units, '
+        '(select count(*) from documents) as documents, '
+        '(select coalesce(sum(size_bytes), 0) from documents) as files, '
+        '(select page_count * page_size '
+        'from pragma_page_count(), pragma_page_size()) as records',
+        readsFrom: {
+          database.units,
+          database.unitAttributes,
+          database.documents,
+          database.contacts,
+        },
+      )
+      .watchSingle()
+      .map(
+        (row) => DeviceContents(
+          units: row.read<int>('units'),
+          documents: row.read<int>('documents'),
+          bytes: row.read<int>('files') + row.read<int>('records'),
+        ),
+      );
 
   Future<int> _countOf(String table) async {
     final row = await database

@@ -4,9 +4,11 @@ import 'package:drift/native.dart';
 import 'package:dvir/core/database/app_database.dart';
 import 'package:dvir/core/database/database_provider.dart';
 import 'package:dvir/core/extensions/date_time_x.dart';
+import 'package:dvir/features/Backup/application/backup_controller.dart';
 import 'package:dvir/features/Backup/data/backup_file_picker.dart';
 import 'package:dvir/features/Backup/data/backup_service.dart';
 import 'package:dvir/features/Backup/domain/models/backup_manifest.dart';
+import 'package:dvir/features/Backup/domain/models/device_contents.dart';
 import 'package:dvir/features/Backup/presentation/components/backup_section.dart';
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
 import 'package:dvir/l10n/app_localizations.dart';
@@ -86,7 +88,15 @@ void main() {
     return row.read<int>('count');
   }
 
-  Future<void> pump(WidgetTester tester, {File? picked}) async {
+  Future<void> pump(
+    WidgetTester tester, {
+    File? picked,
+    DeviceContents contents = const DeviceContents(
+      units: 3,
+      documents: 14,
+      bytes: 28 * 1024 * 1024,
+    ),
+  }) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -94,6 +104,10 @@ void main() {
           backupServiceProvider.overrideWithValue(service),
           backupWorkspaceProvider.overrideWith((ref) async => root),
           backupFilePickerProvider.overrideWithValue(_Picker(picked)),
+          // A fixed value rather than the service's own stream: a drift query
+          // started under the test's replaced clock never completes, and the
+          // close in `tearDown` then waits on it for ever.
+          deviceContentsProvider.overrideWith((ref) => Stream.value(contents)),
         ],
         child: MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -124,6 +138,38 @@ void main() {
       await tester.pump(const Duration(milliseconds: 20));
     }
   }
+
+  testWidgets('says where the data is and how much of it there is', (
+    tester,
+  ) async {
+    await pump(tester);
+
+    expect(find.text(l10n.settingsStoredHere), findsOneWidget);
+    expect(find.text('3 об’єкти · 14 документів · 28 МБ'), findsOneWidget);
+  });
+
+  testWidgets('a phone under a megabyte is weighed in kilobytes', (
+    tester,
+  ) async {
+    await pump(
+      tester,
+      contents: const DeviceContents(units: 1, documents: 0, bytes: 300000),
+    );
+
+    expect(find.text('1 об’єкт · 0 документів · 293 КБ'), findsOneWidget);
+  });
+
+  testWidgets('a phone with no object yet is not weighed at all', (
+    tester,
+  ) async {
+    await pump(
+      tester,
+      contents: const DeviceContents(units: 0, documents: 0, bytes: 40960),
+    );
+
+    expect(find.text(l10n.settingsStoredHere), findsOneWidget);
+    expect(find.textContaining('КБ'), findsNothing);
+  });
 
   testWidgets('both actions are offered, each saying what it does', (
     tester,

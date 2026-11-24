@@ -8,6 +8,53 @@ part of 'backup_controller.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// What the phone holds, for the settings screen to print above the button
+/// that copies it.
+
+@ProviderFor(deviceContents)
+final deviceContentsProvider = DeviceContentsProvider._();
+
+/// What the phone holds, for the settings screen to print above the button
+/// that copies it.
+
+final class DeviceContentsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<DeviceContents>,
+          DeviceContents,
+          Stream<DeviceContents>
+        >
+    with $FutureModifier<DeviceContents>, $StreamProvider<DeviceContents> {
+  /// What the phone holds, for the settings screen to print above the button
+  /// that copies it.
+  DeviceContentsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'deviceContentsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$deviceContentsHash();
+
+  @$internal
+  @override
+  $StreamProviderElement<DeviceContents> $createElement(
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
+
+  @override
+  Stream<DeviceContents> create(Ref ref) {
+    return deviceContents(ref);
+  }
+}
+
+String _$deviceContentsHash() => r'659f60e7f4d4fc748c6dcfe265fcc98fe1ec030c';
+
 /// Making a copy of everything on the phone, and putting one back.
 ///
 /// **A screen driving this must also listen to it** — nothing watches it for a
