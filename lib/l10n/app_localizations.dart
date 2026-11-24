@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_en.dart';
 import 'app_localizations_uk.dart';
 
 // ignore_for_file: type=lint
@@ -92,7 +93,10 @@ abstract class AppLocalizations {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('uk')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('uk'),
+  ];
 
   /// Application name
   ///
@@ -273,6 +277,24 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Системна'**
   String get settingsThemeSystem;
+
+  /// No description provided for @settingsLanguage.
+  ///
+  /// In uk, this message translates to:
+  /// **'Мова'**
+  String get settingsLanguage;
+
+  /// A language names itself: this value is the same in every .arb
+  ///
+  /// In uk, this message translates to:
+  /// **'Українська'**
+  String get settingsLanguageUk;
+
+  /// A language names itself: this value is the same in every .arb
+  ///
+  /// In uk, this message translates to:
+  /// **'English'**
+  String get settingsLanguageEn;
 
   /// No description provided for @settingsUnitsCount.
   ///
@@ -1785,7 +1807,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['uk'].contains(locale.languageCode);
+      <String>['en', 'uk'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -1794,6 +1816,8 @@ class _AppLocalizationsDelegate
 AppLocalizations lookupAppLocalizations(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'en':
+      return AppLocalizationsEn();
     case 'uk':
       return AppLocalizationsUk();
   }

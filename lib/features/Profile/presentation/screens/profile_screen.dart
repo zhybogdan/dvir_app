@@ -11,6 +11,7 @@ import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Auth/application/auth_controller.dart';
 import 'package:dvir/features/Backup/presentation/components/backup_section.dart';
 import 'package:dvir/features/Profile/application/profile_controller.dart';
+import 'package:dvir/features/Settings/presentation/components/language_picker.dart';
 import 'package:dvir/features/Settings/presentation/components/theme_picker.dart';
 import 'package:dvir/features/Shared/domain/models/profile.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_bar.dart';
@@ -88,6 +89,8 @@ class _Settings extends ConsumerWidget {
                   const BackupSection(),
                   const SizedBox(height: AppSpacing.xl),
                   const ThemePicker(),
+                  const SizedBox(height: AppSpacing.xl),
+                  const LanguagePicker(),
                   const Spacer(),
                   if (version != null)
                     Padding(

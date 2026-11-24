@@ -1,5 +1,7 @@
 import 'package:dvir/app/router.dart';
 import 'package:dvir/app/theme.dart';
+import 'package:dvir/core/config/app_locales.dart';
+import 'package:dvir/features/Settings/application/locale_controller.dart';
 import 'package:dvir/features/Settings/application/theme_mode_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_toast_overlay.dart';
 import 'package:dvir/l10n/app_localizations.dart';
@@ -29,8 +31,11 @@ class DvirApp extends ConsumerWidget {
         maxScaleFactor: AppTextScale.max,
         child: DvToastOverlay(child: child ?? const SizedBox.shrink()),
       ),
+      // Null while nobody has picked a language, which leaves the choice to
+      // the phone; once picked it outranks the phone until it is changed here.
+      locale: ref.watch(localeControllerProvider),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
+      supportedLocales: AppLocales.supported,
     );
   }
 }

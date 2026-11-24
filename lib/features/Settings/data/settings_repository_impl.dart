@@ -14,9 +14,11 @@ class SettingsRepositoryImpl implements SettingsRepository {
   /// Every key this repository owns, which is what the store is opened with:
   /// a cache told its keys loads only those, and refuses a key nobody listed
   /// instead of quietly writing it.
-  static const Set<String> keys = {_themeModeKey};
+  static const Set<String> keys = {_themeModeKey, _localeKey};
 
   static const String _themeModeKey = 'settings.theme_mode';
+
+  static const String _localeKey = 'settings.locale';
 
   /// Stored by name rather than by index, so reordering the enum one day does
   /// not turn everybody's dark theme into a light one.
@@ -33,6 +35,21 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<void> setThemeMode(ThemeMode mode) =>
       _preferences.setString(_themeModeKey, mode.name);
+
+  /// A language tag is not checked against the languages the app speaks: a
+  /// code it no longer has is resolved away by `MaterialApp` against
+  /// `supportedLocales`, and a store that second-guessed it would need the
+  /// l10n layer in `data/` to do it.
+  @override
+  Locale? get locale {
+    final stored = _preferences.getString(_localeKey);
+
+    return stored == null ? null : Locale(stored);
+  }
+
+  @override
+  Future<void> setLocale(Locale locale) =>
+      _preferences.setString(_localeKey, locale.languageCode);
 }
 
 @Riverpod(keepAlive: true)

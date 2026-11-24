@@ -124,6 +124,15 @@ class AppLocalizationsUk extends AppLocalizations {
   String get settingsThemeSystem => 'Системна';
 
   @override
+  String get settingsLanguage => 'Мова';
+
+  @override
+  String get settingsLanguageUk => 'Українська';
+
+  @override
+  String get settingsLanguageEn => 'English';
+
+  @override
   String settingsUnitsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
