@@ -1,8 +1,6 @@
-import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
-import 'package:dvir/features/Shared/presentation/dv_image.dart';
-import 'package:dvir/gen/assets.gen.dart';
+import 'package:dvir/features/Shared/presentation/dv_app_tile.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +10,9 @@ import 'package:flutter/material.dart';
 /// Shared by every screen that greets the user before the app proper (auth,
 /// splash), so the same brand carries across the whole cold start instead of
 /// each screen composing its own.
+///
+/// The splash hangs the name off the tile instead of using this, because there
+/// the tile has to stay on the centre the phone already drew it on.
 class DvAppMark extends StatelessWidget {
   const DvAppMark({super.key, this.size = 56});
 
@@ -19,38 +20,15 @@ class DvAppMark extends StatelessWidget {
   final double size;
 
   @override
-  Widget build(BuildContext context) {
-    final logoSize = size - AppSpacing.lg;
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: size,
-          height: size,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: AppColors.brand,
-            borderRadius: BorderRadius.circular(AppRadius.lg),
-          ),
-          child: DvImage(
-            image: Assets.images.logoGlyph.provider(),
-            width: logoSize,
-            height: logoSize,
-            fit: BoxFit.contain,
-            fallback: Icon(
-              AppIcons.appMark,
-              color: AppColors.white,
-              size: logoSize,
-            ),
-          ),
-        ),
-        const SizedBox(height: AppSpacing.md),
-        Text(
-          AppLocalizations.of(context).appTitle,
-          style: context.textTheme.titleLarge,
-        ),
-      ],
-    );
-  }
+  Widget build(BuildContext context) => Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      DvAppTile(size: size),
+      const SizedBox(height: AppSpacing.md),
+      Text(
+        AppLocalizations.of(context).appTitle,
+        style: context.textTheme.titleLarge,
+      ),
+    ],
+  );
 }
