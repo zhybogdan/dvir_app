@@ -11,4 +11,7 @@
 abstract final class FontFamily {
   /// Font family: Inter
   static const String inter = 'Inter';
+
+  /// Font family: PropertyIcons
+  static const String propertyIcons = 'PropertyIcons';
 }

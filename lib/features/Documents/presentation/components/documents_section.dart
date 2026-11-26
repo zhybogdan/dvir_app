@@ -5,6 +5,7 @@ import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Documents/application/documents_controller.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
+import 'package:dvir/features/Documents/presentation/components/document_thumbnail.dart';
 import 'package:dvir/features/Documents/presentation/components/document_tile.dart';
 import 'package:dvir/features/Documents/presentation/document_add_flow.dart';
 import 'package:dvir/features/Documents/presentation/document_l10n.dart';
@@ -207,10 +208,19 @@ class _PaperTile extends ConsumerWidget {
               // stands out of the grid, and a flatter one loses the mark.
               child: AspectRatio(
                 aspectRatio: 1,
-                child: Center(
-                  child: DvIconBadge(
-                    icon: documentIcon(document),
-                    tone: documentTone(document),
+                // A photo fills the card edge to edge: the tile is the size
+                // it can be recognised at, and the badge is what is left for
+                // a file that has no picture of its own.
+                child: ClipRRect(
+                  borderRadius: radius,
+                  child: DocumentThumbnail(
+                    document: document,
+                    fallback: Center(
+                      child: DvIconBadge(
+                        icon: documentIcon(document),
+                        tone: documentTone(document),
+                      ),
+                    ),
                   ),
                 ),
               ),

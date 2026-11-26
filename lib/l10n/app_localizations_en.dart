@@ -715,6 +715,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get shareDocument => 'Share';
+
+  @override
   String get editDocument => 'Rename';
 
   @override

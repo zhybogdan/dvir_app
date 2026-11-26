@@ -721,6 +721,9 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
+  String get shareDocument => 'Поділитися';
+
+  @override
   String get editDocument => 'Перейменувати';
 
   @override

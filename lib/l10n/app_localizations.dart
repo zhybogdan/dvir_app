@@ -1315,6 +1315,12 @@ abstract class AppLocalizations {
   /// **'{month} {year}'**
   String documentMonthOfYear(String month, String year);
 
+  /// No description provided for @shareDocument.
+  ///
+  /// In uk, this message translates to:
+  /// **'Поділитися'**
+  String get shareDocument;
+
   /// No description provided for @editDocument.
   ///
   /// In uk, this message translates to:

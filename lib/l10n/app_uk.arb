@@ -426,6 +426,7 @@
       }
     }
   },
+  "shareDocument": "Поділитися",
   "editDocument": "Перейменувати",
   "deleteDocument": "Видалити",
   "deleteDocumentTitle": "Видалити документ?",
