@@ -46,6 +46,9 @@ class LocalDocumentFileStore implements DocumentFileStore {
   @override
   Future<void> write(String storagePath, Uint8List bytes) async {
     final file = _fileAt(storagePath);
+    if (file == null) {
+      throw const StorageFailure(StorageFailureReason.unknown);
+    }
 
     await file.parent.create(recursive: true);
     await file.writeAsBytes(bytes, flush: true);
@@ -56,7 +59,7 @@ class LocalDocumentFileStore implements DocumentFileStore {
     final file = _fileAt(storagePath);
 
     // The same answer the cloud gives for a 404: a row that outlived its file.
-    if (!file.existsSync()) {
+    if (file == null || !file.existsSync()) {
       throw const StorageFailure(StorageFailureReason.missing);
     }
 
@@ -73,12 +76,22 @@ class LocalDocumentFileStore implements DocumentFileStore {
   Future<void> remove(String storagePath) async {
     final file = _fileAt(storagePath);
 
-    if (file.existsSync()) await file.delete();
+    if (file != null && file.existsSync()) await file.delete();
   }
 
   /// The stored path is written with forward slashes because that is what the
   /// bucket's convention uses; splitting it before joining is what keeps it a
   /// real path on Windows too.
-  File _fileAt(String storagePath) =>
-      File(p.joinAll([root.path, ...p.posix.split(storagePath)]));
+  ///
+  /// Null for a path that leads out of [root]. The app never writes one, but a
+  /// restored backup carries rows it did not write: a `../` there would turn
+  /// "open this document" into reading, sharing or deleting any file the app
+  /// owns, the database included.
+  File? _fileAt(String storagePath) {
+    final path = p.normalize(
+      p.joinAll([root.path, ...p.posix.split(storagePath)]),
+    );
+
+    return p.isWithin(root.path, path) ? File(path) : null;
+  }
 }

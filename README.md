@@ -44,15 +44,12 @@ fvm install
 fvm flutter config --enable-native-assets
 fvm flutter clean
 
-# 3. Supabase credentials — for the cloud half; the unit flavor never reads them
-cp .env.example .env   # then fill SUPABASE_URL and SUPABASE_ANON_KEY
-
-# 4. Install deps and generate code
+# 3. Install deps and generate code
 fvm flutter pub get
 fvm flutter gen-l10n
 fvm dart run build_runner build
 
-# 5. Run — both the flavor and the entry point are required
+# 4. Run — both the flavor and the entry point are required
 fvm flutter run --flavor unit -t lib/main_unit.dart
 ```
 

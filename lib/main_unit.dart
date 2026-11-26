@@ -25,10 +25,9 @@ import 'package:dvir/features/Units/data/units_repository_local.dart';
 /// papers, its numbers — and the answer to who is using the app come from the
 /// device, so the start-up has no backend to bring up and no keys to read.
 ///
-/// The Supabase package and the `.env` asset still travel in the build: both
-/// are declared for the whole project, and Flutter has no per-flavour
-/// dependencies. They cost bytes and nothing else — no call is made through
-/// either.
+/// The Supabase package still travels in the build: it is declared for the
+/// whole project, and Flutter has no per-flavour dependencies. It costs bytes
+/// and nothing else — no call is made through it.
 Future<void> main() => bootstrap(() async {
   // Opened here rather than behind a provider: the documents directory is an
   // async lookup, and this callback is the one place in the app's start-up that

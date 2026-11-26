@@ -140,9 +140,12 @@ flutter:
   # Generate localizations (see l10n.yaml) into lib/l10n/.
   generate: true
 
-  # Bundled assets. .env holds Supabase URL + anon key (not committed).
+  # .env is deliberately not bundled: nothing in the `unit` build reads it, and
+  # an asset is readable by anyone who unzips the APK — it handed out the
+  # project's URL and key for a backend this build never calls. The community
+  # entry point that needs them should take them through --dart-define, so they
+  # land only in the build that uses them.
   assets:
-    - .env
     - assets/images/
     - assets/icons/
 
