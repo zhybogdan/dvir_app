@@ -18,11 +18,13 @@ import 'package:material_ui/material_ui.dart';
 ///    `trashCan`. A name that describes the drawing survives a swap only by
 ///    accident, and then lies about it.
 ///
-/// Two meanings may share a glyph today ([community] and [unitApartment], or
-/// [changeRole] and [roleTenant]). They stay separate entries on purpose: they
-/// are separate decisions that happen to have landed on the same drawing, and
-/// the next icon set is where they part.
+/// Two meanings may share a glyph today ([changeRole] and [roleTenant]). They
+/// stay separate entries on purpose: they are separate decisions that happen
+/// to have landed on the same drawing, and the next icon set is where they
+/// part — as [community] and [unitApartment] already have.
 abstract final class AppIcons {
+  static const String _propertyFont = 'PropertyIcons';
+
   // Actions.
   static const IconData add = Icons.add;
   static const IconData edit = Icons.edit_outlined;
@@ -107,21 +109,64 @@ abstract final class AppIcons {
   /// `account_tree` reads as a wiring diagram.
   static const IconData nested = Icons.widgets_outlined;
 
-  // The kinds of place an object can be. Mapped from `UnitType` next to its
-  // wording, so the enum stays a plain list of database values.
-  static const IconData unitHouse = Icons.home_rounded;
-  static const IconData unitApartment = Icons.apartment_rounded;
-  static const IconData unitRoom = Icons.meeting_room_rounded;
-  static const IconData unitGarage = Icons.garage_rounded;
-  static const IconData unitPlot = Icons.grass_rounded;
-  static const IconData unitStorage = Icons.inventory_2_outlined;
-  static const IconData unitSummerKitchen = Icons.outdoor_grill_rounded;
-  static const IconData unitShed = Icons.cabin_rounded;
-  static const IconData unitPool = Icons.pool_rounded;
-  static const IconData unitBalcony = Icons.balcony_rounded;
-  static const IconData unitBathroom = Icons.shower_rounded;
-  static const IconData unitOffice = Icons.business_rounded;
-  static const IconData unitOther = Icons.place_rounded;
+  // The kinds of place an object can be, one drawing per `UnitType`. Mapped
+  // from the type next to its wording, so the enum stays a plain list of
+  // database values.
+  //
+  // Drawn for this app (`assets/fonts/PropertyIcons.ttf`) rather than taken
+  // from Material, which has no separate glyph for a summer house, a corridor,
+  // a basement or a loggia. The code points are the font's own; a redrawn font
+  // keeps them, or these break silently into empty boxes.
+  static const IconData unitHouse = IconData(0xE900, fontFamily: _propertyFont);
+  static const IconData unitSummerHouse = IconData(
+    0xE901,
+    fontFamily: _propertyFont,
+  );
+  static const IconData unitApartment = IconData(
+    0xE902,
+    fontFamily: _propertyFont,
+  );
+  static const IconData unitRoom = IconData(0xE903, fontFamily: _propertyFont);
+  static const IconData unitCorridor = IconData(
+    0xE904,
+    fontFamily: _propertyFont,
+  );
+  static const IconData unitGarage = IconData(
+    0xE905,
+    fontFamily: _propertyFont,
+  );
+  static const IconData unitPlot = IconData(0xE906, fontFamily: _propertyFont);
+  static const IconData unitBasement = IconData(
+    0xE907,
+    fontFamily: _propertyFont,
+  );
+  static const IconData unitStoreroom = IconData(
+    0xE908,
+    fontFamily: _propertyFont,
+  );
+  static const IconData unitSummerKitchen = IconData(
+    0xE909,
+    fontFamily: _propertyFont,
+  );
+  static const IconData unitShed = IconData(0xE90A, fontFamily: _propertyFont);
+  static const IconData unitPool = IconData(0xE90B, fontFamily: _propertyFont);
+  static const IconData unitBalcony = IconData(
+    0xE90C,
+    fontFamily: _propertyFont,
+  );
+  static const IconData unitLoggia = IconData(
+    0xE90D,
+    fontFamily: _propertyFont,
+  );
+  static const IconData unitBathroom = IconData(
+    0xE90E,
+    fontFamily: _propertyFont,
+  );
+  static const IconData unitOffice = IconData(
+    0xE90F,
+    fontFamily: _propertyFont,
+  );
+  static const IconData unitOther = IconData(0xE910, fontFamily: _propertyFont);
 
   // A community — an OSBB, a co-op — as opposed to one object inside it.
   static const IconData community = Icons.apartment_rounded;

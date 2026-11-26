@@ -49,16 +49,16 @@ void main() {
     expect(find.byIcon(AppIcons.unitPool), findsOneWidget);
   });
 
-  // Two types share a glyph where Material has only one drawing for both, and
-  // that is a mapping decision rather than an accident — a room and a corridor
-  // are meant to look alike until the icon set can tell them apart.
-  testWidgets('types that share a drawing are drawn the same', (tester) async {
+  // A room and a corridor were one Material glyph until the app drew its own;
+  // the pair that used to share is the one most likely to slip back.
+  testWidgets('a room and a corridor are drawn apart', (tester) async {
     await _pump(tester, [
       _unit('a', UnitType.room),
       _unit('b', UnitType.corridor),
     ]);
 
-    expect(find.byIcon(AppIcons.unitRoom), findsNWidgets(2));
+    expect(find.byIcon(AppIcons.unitRoom), findsOneWidget);
+    expect(find.byIcon(AppIcons.unitCorridor), findsOneWidget);
   });
 
   // The reason heading and list were joined into one widget: written apart,

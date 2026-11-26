@@ -160,3 +160,9 @@ flutter:
     - family: Inter
       fonts:
         - asset: assets/fonts/Inter.ttf
+
+    # Our own drawings of the kinds of object, one per `UnitType`: Material
+    # draws a house and a summer house, a basement and a storeroom alike.
+    - family: PropertyIcons
+      fonts:
+        - asset: assets/fonts/PropertyIcons.ttf
