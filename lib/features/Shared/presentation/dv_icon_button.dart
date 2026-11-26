@@ -1,7 +1,7 @@
 import 'package:dvir/core/logging/tap_log.dart';
 import 'package:dvir/features/Shared/presentation/dv_icon.dart';
 import 'package:dvir/gen/assets.gen.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Shared icon-only control — app bar actions, a field's suffix, a close
 /// button.

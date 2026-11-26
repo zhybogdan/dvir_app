@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'document.dart';
@@ -9,6 +9,7 @@ part of 'document.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $DocumentCopyWith<Document> get copyWith => _$DocumentCopyWithImpl<Document>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Document&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.storagePath, storagePath) || other.storagePath == storagePath)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.sizeBytes, sizeBytes) || other.sizeBytes == sizeBytes)&&(identical(other.originalName, originalName) || other.originalName == originalName));
+  final _this = this as Document;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Document&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.storagePath, _this.storagePath) || other.storagePath == _this.storagePath)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.mimeType, _this.mimeType) || other.mimeType == _this.mimeType)&&(identical(other.sizeBytes, _this.sizeBytes) || other.sizeBytes == _this.sizeBytes)&&(identical(other.originalName, _this.originalName) || other.originalName == _this.originalName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,storagePath,createdAt,mimeType,sizeBytes,originalName);
+int get hashCode {
+  final _this = this as Document;
+  return Object.hash(runtimeType,_this.id,_this.title,_this.storagePath,_this.createdAt,_this.mimeType,_this.sizeBytes,_this.originalName);
+}
 
 @override
 String toString() {
-  return 'Document(id: $id, title: $title, storagePath: $storagePath, createdAt: $createdAt, mimeType: $mimeType, sizeBytes: $sizeBytes, originalName: $originalName)';
+  final _this = this as Document;
+  return 'Document(id: ${_this.id}, title: ${_this.title}, storagePath: ${_this.storagePath}, createdAt: ${_this.createdAt}, mimeType: ${_this.mimeType}, sizeBytes: ${_this.sizeBytes}, originalName: ${_this.originalName})';
 }
 
 
@@ -66,7 +72,7 @@ class _$DocumentCopyWithImpl<$Res>
 /// Create a copy of Document
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? storagePath = null,Object? createdAt = null,Object? mimeType = freezed,Object? sizeBytes = freezed,Object? originalName = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Document(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,storagePath: null == storagePath ? _self.storagePath : storagePath // ignore: cast_nullable_to_non_nullable
@@ -239,16 +245,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Document&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.storagePath, storagePath) || other.storagePath == storagePath)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.sizeBytes, sizeBytes) || other.sizeBytes == sizeBytes)&&(identical(other.originalName, originalName) || other.originalName == originalName));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Document&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.storagePath, storagePath) || other.storagePath == storagePath)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.sizeBytes, sizeBytes) || other.sizeBytes == sizeBytes)&&(identical(other.originalName, originalName) || other.originalName == originalName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,storagePath,createdAt,mimeType,sizeBytes,originalName);
+int get hashCode {
+    return Object.hash(runtimeType,id,title,storagePath,createdAt,mimeType,sizeBytes,originalName);
+}
 
 @override
 String toString() {
-  return 'Document(id: $id, title: $title, storagePath: $storagePath, createdAt: $createdAt, mimeType: $mimeType, sizeBytes: $sizeBytes, originalName: $originalName)';
+    return 'Document(id: $id, title: $title, storagePath: $storagePath, createdAt: $createdAt, mimeType: $mimeType, sizeBytes: $sizeBytes, originalName: $originalName)';
 }
 
 

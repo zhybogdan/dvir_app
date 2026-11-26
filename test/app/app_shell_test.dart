@@ -1,11 +1,12 @@
 import 'package:dvir/app/app_shell.dart';
 import 'package:dvir/core/config/app_capabilities.dart';
+import 'package:dvir/core/config/app_locales.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 // What the island promises: a tap goes to that place, each place remembers
 // where it was left, and a tap on the place already open goes back to its
@@ -62,7 +63,7 @@ Future<void> _pump(WidgetTester tester) async {
         ),
       ],
       child: MaterialApp.router(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: AppLocales.delegates,
         supportedLocales: AppLocalizations.supportedLocales,
         routerConfig: _router(),
       ),

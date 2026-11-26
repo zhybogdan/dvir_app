@@ -1,12 +1,13 @@
 import 'package:dvir/app/icons.dart';
+import 'package:dvir/core/config/app_locales.dart';
 import 'package:dvir/features/Contacts/domain/models/contact.dart';
 import 'package:dvir/features/Contacts/presentation/components/contact_tile.dart';
 import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 // A row of the full list says who, the number, and the call. What is pinned is
 // who is offered what: the handset for everyone with a number to dial, the
@@ -21,7 +22,7 @@ Future<void> _pump(
   await tester.pumpWidget(
     ProviderScope(
       child: MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: AppLocales.delegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: ContactTile(

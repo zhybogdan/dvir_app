@@ -4,7 +4,7 @@ import 'package:dvir/features/Documents/application/documents_by_month.dart';
 import 'package:dvir/features/Documents/data/document_storage.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// How a stored file describes itself in a list — "PDF · 2,4 MB".
 ///

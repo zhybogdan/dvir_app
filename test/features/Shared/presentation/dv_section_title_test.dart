@@ -1,7 +1,7 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/features/Shared/presentation/dv_section_title.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 // The number is the one part of a heading that can lie. A section counts rows
 // has not received yet, and the difference between "none" and "not yet" is the

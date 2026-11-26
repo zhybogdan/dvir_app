@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:dvir/l10n/app_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// The languages the app speaks, Ukrainian first.
 ///
@@ -15,4 +16,14 @@ abstract final class AppLocales {
   static const Locale en = Locale('en');
 
   static const List<Locale> supported = [uk, en];
+
+  /// Used instead of `AppLocalizations.localizationsDelegates`, which gen-l10n
+  /// still fills with `flutter_localizations`' Material strings. Since 3.50 the
+  /// widgets come from `material_ui` and look up its own `MaterialLocalizations`
+  /// type, so with the generated list every date picker and back button reports
+  /// Ukrainian as unsupported.
+  static const List<LocalizationsDelegate<dynamic>> delegates = [
+    AppLocalizations.delegate,
+    ...GlobalMaterialLocalizations.delegates,
+  ];
 }

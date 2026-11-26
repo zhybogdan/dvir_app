@@ -16,9 +16,9 @@ import 'package:dvir/features/Units/domain/unit_nesting.dart';
 import 'package:dvir/features/Units/presentation/components/unit_attributes_section.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// What an object says on the day it is made, while it holds nothing at all.
 ///

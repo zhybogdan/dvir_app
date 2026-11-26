@@ -1,6 +1,6 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/features/Shared/presentation/dv_shimmer.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Two card-shaped blanks, for any list of [DvTile]s still loading.
 ///

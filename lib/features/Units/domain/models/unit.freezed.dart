@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'unit.dart';
@@ -9,6 +9,7 @@ part of 'unit.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $UnitCopyWith<Unit> get copyWith => _$UnitCopyWithImpl<Unit>(this as Unit, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Unit&&(identical(other.id, id) || other.id == id)&&(identical(other.label, label) || other.label == label)&&(identical(other.type, type) || other.type == type)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.communityId, communityId) || other.communityId == communityId)&&(identical(other.parentId, parentId) || other.parentId == parentId)&&(identical(other.address, address) || other.address == address)&&(identical(other.city, city) || other.city == city)&&(identical(other.areaM2, areaM2) || other.areaM2 == areaM2));
+  final _this = this as Unit;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Unit&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.label, _this.label) || other.label == _this.label)&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.inviteCode, _this.inviteCode) || other.inviteCode == _this.inviteCode)&&(identical(other.communityId, _this.communityId) || other.communityId == _this.communityId)&&(identical(other.parentId, _this.parentId) || other.parentId == _this.parentId)&&(identical(other.address, _this.address) || other.address == _this.address)&&(identical(other.city, _this.city) || other.city == _this.city)&&(identical(other.areaM2, _this.areaM2) || other.areaM2 == _this.areaM2));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,label,type,inviteCode,communityId,parentId,address,city,areaM2);
+int get hashCode {
+  final _this = this as Unit;
+  return Object.hash(runtimeType,_this.id,_this.label,_this.type,_this.inviteCode,_this.communityId,_this.parentId,_this.address,_this.city,_this.areaM2);
+}
 
 @override
 String toString() {
-  return 'Unit(id: $id, label: $label, type: $type, inviteCode: $inviteCode, communityId: $communityId, parentId: $parentId, address: $address, city: $city, areaM2: $areaM2)';
+  final _this = this as Unit;
+  return 'Unit(id: ${_this.id}, label: ${_this.label}, type: ${_this.type}, inviteCode: ${_this.inviteCode}, communityId: ${_this.communityId}, parentId: ${_this.parentId}, address: ${_this.address}, city: ${_this.city}, areaM2: ${_this.areaM2})';
 }
 
 
@@ -66,7 +72,7 @@ class _$UnitCopyWithImpl<$Res>
 /// Create a copy of Unit
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? label = null,Object? type = null,Object? inviteCode = freezed,Object? communityId = freezed,Object? parentId = freezed,Object? address = freezed,Object? city = freezed,Object? areaM2 = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Unit(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
@@ -243,16 +249,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Unit&&(identical(other.id, id) || other.id == id)&&(identical(other.label, label) || other.label == label)&&(identical(other.type, type) || other.type == type)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.communityId, communityId) || other.communityId == communityId)&&(identical(other.parentId, parentId) || other.parentId == parentId)&&(identical(other.address, address) || other.address == address)&&(identical(other.city, city) || other.city == city)&&(identical(other.areaM2, areaM2) || other.areaM2 == areaM2));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Unit&&(identical(other.id, id) || other.id == id)&&(identical(other.label, label) || other.label == label)&&(identical(other.type, type) || other.type == type)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.communityId, communityId) || other.communityId == communityId)&&(identical(other.parentId, parentId) || other.parentId == parentId)&&(identical(other.address, address) || other.address == address)&&(identical(other.city, city) || other.city == city)&&(identical(other.areaM2, areaM2) || other.areaM2 == areaM2));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,label,type,inviteCode,communityId,parentId,address,city,areaM2);
+int get hashCode {
+    return Object.hash(runtimeType,id,label,type,inviteCode,communityId,parentId,address,city,areaM2);
+}
 
 @override
 String toString() {
-  return 'Unit(id: $id, label: $label, type: $type, inviteCode: $inviteCode, communityId: $communityId, parentId: $parentId, address: $address, city: $city, areaM2: $areaM2)';
+    return 'Unit(id: $id, label: $label, type: $type, inviteCode: $inviteCode, communityId: $communityId, parentId: $parentId, address: $address, city: $city, areaM2: $areaM2)';
 }
 
 

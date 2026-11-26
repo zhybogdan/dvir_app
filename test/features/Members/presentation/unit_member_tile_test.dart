@@ -1,3 +1,4 @@
+import 'package:dvir/core/config/app_locales.dart';
 import 'package:dvir/features/Members/domain/models/unit_member_view.dart';
 import 'package:dvir/features/Members/presentation/components/unit_member_tile.dart';
 import 'package:dvir/features/Shared/domain/models/profile.dart';
@@ -7,9 +8,9 @@ import 'package:dvir/features/Units/domain/models/unit_membership.dart';
 import 'package:dvir/features/Units/domain/types/unit_role.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 // The rules themselves are covered in member_permissions_test. What is checked
 // here is the other half: that the tile asks them, and shows what the answer
@@ -42,7 +43,7 @@ Future<void> _pump(
 }) => tester.pumpWidget(
   ProviderScope(
     child: MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      localizationsDelegates: AppLocales.delegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(
         body: UnitMemberTile(

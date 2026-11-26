@@ -14,9 +14,9 @@ import 'package:dvir/features/Units/application/unit_attributes_controller.dart'
 import 'package:dvir/features/Units/domain/models/unit_attribute.dart';
 import 'package:dvir/features/Units/presentation/components/unit_attribute_sheet.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// How much of the record the hub shows before sending the reader to the
 /// screen that holds all of it.

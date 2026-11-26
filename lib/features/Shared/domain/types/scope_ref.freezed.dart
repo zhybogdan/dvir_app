@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'scope_ref.dart';
@@ -9,6 +9,7 @@ part of 'scope_ref.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $ScopeRefCopyWith<ScopeRef> get copyWith => _$ScopeRefCopyWithImpl<ScopeRef>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScopeRef&&(identical(other.id, id) || other.id == id));
+  final _this = this as ScopeRef;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScopeRef&&(identical(other.id, _this.id) || other.id == _this.id));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id);
+int get hashCode {
+  final _this = this as ScopeRef;
+  return Object.hash(runtimeType,_this.id);
+}
 
 @override
 String toString() {
-  return 'ScopeRef(id: $id)';
+  final _this = this as ScopeRef;
+  return 'ScopeRef(id: ${_this.id})';
 }
 
 
@@ -221,16 +227,18 @@ $UnitScopeCopyWith<UnitScope> get copyWith => _$UnitScopeCopyWithImpl<UnitScope>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnitScope&&(identical(other.id, id) || other.id == id));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is UnitScope&&(identical(other.id, id) || other.id == id));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id);
+int get hashCode {
+    return Object.hash(runtimeType,id);
+}
 
 @override
 String toString() {
-  return 'ScopeRef.unit(id: $id)';
+    return 'ScopeRef.unit(id: $id)';
 }
 
 
@@ -287,16 +295,18 @@ $CommunityScopeCopyWith<CommunityScope> get copyWith => _$CommunityScopeCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityScope&&(identical(other.id, id) || other.id == id));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityScope&&(identical(other.id, id) || other.id == id));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id);
+int get hashCode {
+    return Object.hash(runtimeType,id);
+}
 
 @override
 String toString() {
-  return 'ScopeRef.community(id: $id)';
+    return 'ScopeRef.community(id: $id)';
 }
 
 

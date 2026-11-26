@@ -1,7 +1,7 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// An invite code, set out to be read off a screen and typed into another one.
 ///

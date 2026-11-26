@@ -1,12 +1,13 @@
+import 'package:dvir/core/config/app_locales.dart';
 import 'package:dvir/features/Settings/application/theme_mode_controller.dart';
 import 'package:dvir/features/Settings/data/settings_repository.dart';
 import 'package:dvir/features/Settings/data/settings_repository_impl.dart';
 import 'package:dvir/features/Settings/presentation/components/theme_picker.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Holds the choice in memory, and remembers what was written so a test can
 /// tell "the screen changed" from "the choice will outlive a restart".
@@ -69,7 +70,7 @@ void main() {
       ProviderScope(
         overrides: [settingsRepositoryProvider.overrideWithValue(settings)],
         child: const MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          localizationsDelegates: AppLocales.delegates,
           supportedLocales: AppLocalizations.supportedLocales,
           home: Scaffold(body: ThemePicker()),
         ),

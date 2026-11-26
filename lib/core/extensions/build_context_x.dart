@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Shorthands for the most-used theme lookups, so widgets read
 /// `context.colorScheme` / `context.textTheme` instead of the longer

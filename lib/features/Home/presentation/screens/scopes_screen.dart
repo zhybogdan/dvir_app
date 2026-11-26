@@ -23,9 +23,9 @@ import 'package:dvir/features/Units/presentation/unit_type_icon.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/features/Units/presentation/unit_type_tone.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// The screen the app opens on: every community and every object this person
 /// belongs to.

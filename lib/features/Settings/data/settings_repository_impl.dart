@@ -1,6 +1,6 @@
 import 'package:dvir/core/config/preferences.dart';
 import 'package:dvir/features/Settings/data/settings_repository.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

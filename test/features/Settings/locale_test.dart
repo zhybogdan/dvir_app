@@ -3,12 +3,11 @@ import 'package:dvir/features/Settings/application/locale_controller.dart';
 import 'package:dvir/features/Settings/data/settings_repository.dart';
 import 'package:dvir/features/Settings/data/settings_repository_impl.dart';
 import 'package:dvir/features/Settings/presentation/components/language_picker.dart';
-import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_en.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Holds the choice in memory, and remembers what was written so a test can
 /// tell "the screen changed" from "the choice will outlive a restart".
@@ -36,7 +35,7 @@ class _App extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) => MaterialApp(
     locale: ref.watch(localeControllerProvider),
-    localizationsDelegates: AppLocalizations.localizationsDelegates,
+    localizationsDelegates: AppLocales.delegates,
     supportedLocales: AppLocales.supported,
     home: const Scaffold(body: LanguagePicker()),
   );

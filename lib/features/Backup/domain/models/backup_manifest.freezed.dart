@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'backup_manifest.dart';
@@ -9,6 +9,7 @@ part of 'backup_manifest.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $BackupManifestCopyWith<BackupManifest> get copyWith => _$BackupManifestCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BackupManifest&&(identical(other.formatVersion, formatVersion) || other.formatVersion == formatVersion)&&(identical(other.schemaVersion, schemaVersion) || other.schemaVersion == schemaVersion)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.appVersion, appVersion) || other.appVersion == appVersion)&&(identical(other.units, units) || other.units == units)&&(identical(other.attributes, attributes) || other.attributes == attributes)&&(identical(other.documents, documents) || other.documents == documents)&&(identical(other.contacts, contacts) || other.contacts == contacts));
+  final _this = this as BackupManifest;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BackupManifest&&(identical(other.formatVersion, _this.formatVersion) || other.formatVersion == _this.formatVersion)&&(identical(other.schemaVersion, _this.schemaVersion) || other.schemaVersion == _this.schemaVersion)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.appVersion, _this.appVersion) || other.appVersion == _this.appVersion)&&(identical(other.units, _this.units) || other.units == _this.units)&&(identical(other.attributes, _this.attributes) || other.attributes == _this.attributes)&&(identical(other.documents, _this.documents) || other.documents == _this.documents)&&(identical(other.contacts, _this.contacts) || other.contacts == _this.contacts));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,formatVersion,schemaVersion,createdAt,appVersion,units,attributes,documents,contacts);
+int get hashCode {
+  final _this = this as BackupManifest;
+  return Object.hash(runtimeType,_this.formatVersion,_this.schemaVersion,_this.createdAt,_this.appVersion,_this.units,_this.attributes,_this.documents,_this.contacts);
+}
 
 @override
 String toString() {
-  return 'BackupManifest(formatVersion: $formatVersion, schemaVersion: $schemaVersion, createdAt: $createdAt, appVersion: $appVersion, units: $units, attributes: $attributes, documents: $documents, contacts: $contacts)';
+  final _this = this as BackupManifest;
+  return 'BackupManifest(formatVersion: ${_this.formatVersion}, schemaVersion: ${_this.schemaVersion}, createdAt: ${_this.createdAt}, appVersion: ${_this.appVersion}, units: ${_this.units}, attributes: ${_this.attributes}, documents: ${_this.documents}, contacts: ${_this.contacts})';
 }
 
 
@@ -66,7 +72,7 @@ class _$BackupManifestCopyWithImpl<$Res>
 /// Create a copy of BackupManifest
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? formatVersion = null,Object? schemaVersion = null,Object? createdAt = null,Object? appVersion = null,Object? units = null,Object? attributes = null,Object? documents = null,Object? contacts = null,}) {
-  return _then(_self.copyWith(
+  return _then(BackupManifest(
 formatVersion: null == formatVersion ? _self.formatVersion : formatVersion // ignore: cast_nullable_to_non_nullable
 as int,schemaVersion: null == schemaVersion ? _self.schemaVersion : schemaVersion // ignore: cast_nullable_to_non_nullable
 as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -241,16 +247,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BackupManifest&&(identical(other.formatVersion, formatVersion) || other.formatVersion == formatVersion)&&(identical(other.schemaVersion, schemaVersion) || other.schemaVersion == schemaVersion)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.appVersion, appVersion) || other.appVersion == appVersion)&&(identical(other.units, units) || other.units == units)&&(identical(other.attributes, attributes) || other.attributes == attributes)&&(identical(other.documents, documents) || other.documents == documents)&&(identical(other.contacts, contacts) || other.contacts == contacts));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _BackupManifest&&(identical(other.formatVersion, formatVersion) || other.formatVersion == formatVersion)&&(identical(other.schemaVersion, schemaVersion) || other.schemaVersion == schemaVersion)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.appVersion, appVersion) || other.appVersion == appVersion)&&(identical(other.units, units) || other.units == units)&&(identical(other.attributes, attributes) || other.attributes == attributes)&&(identical(other.documents, documents) || other.documents == documents)&&(identical(other.contacts, contacts) || other.contacts == contacts));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,formatVersion,schemaVersion,createdAt,appVersion,units,attributes,documents,contacts);
+int get hashCode {
+    return Object.hash(runtimeType,formatVersion,schemaVersion,createdAt,appVersion,units,attributes,documents,contacts);
+}
 
 @override
 String toString() {
-  return 'BackupManifest(formatVersion: $formatVersion, schemaVersion: $schemaVersion, createdAt: $createdAt, appVersion: $appVersion, units: $units, attributes: $attributes, documents: $documents, contacts: $contacts)';
+    return 'BackupManifest(formatVersion: $formatVersion, schemaVersion: $schemaVersion, createdAt: $createdAt, appVersion: $appVersion, units: $units, attributes: $attributes, documents: $documents, contacts: $contacts)';
 }
 
 

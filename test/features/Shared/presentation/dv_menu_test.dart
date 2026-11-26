@@ -1,8 +1,8 @@
 import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 // The menu carries its own route, its own placement and its own colouring, so
 // none of it is covered by trusting Material. What is checked here is the part

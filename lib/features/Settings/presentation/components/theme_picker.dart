@@ -2,8 +2,8 @@ import 'package:dvir/features/Settings/application/theme_mode_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_section_title.dart';
 import 'package:dvir/features/Shared/presentation/dv_segmented.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// «Світла · Темна · Системна», all three on screen at once.
 ///

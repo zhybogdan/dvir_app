@@ -1,4 +1,4 @@
-﻿import 'package:dvir/app/icons.dart';
+import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/config/app_capabilities.dart';
 import 'package:dvir/core/config/app_version.dart';
@@ -21,8 +21,8 @@ import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Who the user is to everyone else — or, where there is nobody else, the
 /// settings.

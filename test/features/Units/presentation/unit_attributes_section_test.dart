@@ -1,3 +1,4 @@
+import 'package:dvir/core/config/app_locales.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
 import 'package:dvir/features/Units/application/unit_attributes_controller.dart';
@@ -5,9 +6,9 @@ import 'package:dvir/features/Units/domain/models/unit_attribute.dart';
 import 'package:dvir/features/Units/presentation/components/unit_attributes_section.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 // The rule is covered in unit_keeper_test. What is checked here is the other
 // half: that the section asks it, and offers only what the answer allows. A
@@ -51,7 +52,7 @@ Future<void> _pump(
         ),
       ],
       child: MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: AppLocales.delegates,
         supportedLocales: AppLocalizations.supportedLocales,
         // Scrollable, like both places that carry the section: a record long
         // enough to test the cut is longer than a test viewport.

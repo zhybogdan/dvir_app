@@ -1,6 +1,6 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// The shape every bottom sheet in the app shares: the handle, the heading,
 /// and the room around them.

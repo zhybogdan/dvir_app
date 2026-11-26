@@ -71,11 +71,10 @@ void main() {
     ]);
 
     expect(rows, hasLength(1), reason: 'only the house stays on top');
-    expect(
-      rows.single.nested.map((summary) => summary.unit?.id),
-      ['flat-1', 'flat-2'],
-      reason: 'and it names what of mine is inside it',
-    );
+    expect(rows.single.nested.map((summary) => summary.unit?.id), [
+      'flat-1',
+      'flat-2',
+    ], reason: 'and it names what of mine is inside it');
   });
 
   // The case a plain "hide anything with a parent" rule would break: a tenant

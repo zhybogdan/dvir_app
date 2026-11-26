@@ -11,10 +11,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 /// screen mid-request and the assignment lands on a disposed notifier, which
 /// throws. That check belongs in one place, not in nine.
 ///
-/// Applies to `@riverpod` classes whose state is `void`: their generated base
-/// is `$AsyncNotifier<void>`, and what they carry is not a value but the
-/// loading and failure of the last action.
-mixin GuardedActions on $AsyncNotifier<void> {
+/// Applies to `@riverpod` classes whose state is `void`: what they carry is not
+/// a value but the loading and failure of the last action.
+///
+/// Constrained on `AnyNotifier` rather than the generated `$AsyncNotifier`
+/// base: riverpod 3.5 made that base `@internal`, and `AnyNotifier` is the
+/// public type it extends, with the same `state` and `ref`.
+mixin GuardedActions on AnyNotifier<AsyncValue<void>, void> {
   /// Runs [action], returning what it produced — or null when it failed, or
   /// when the notifier was disposed while it ran.
   ///

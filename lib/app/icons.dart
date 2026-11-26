@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Every icon the app draws, named by the role it plays rather than by the
 /// shape it has.

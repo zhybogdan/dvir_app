@@ -4,8 +4,8 @@ import 'package:dvir/core/logging/app_logger.dart';
 import 'package:dvir/core/logging/app_provider_observer.dart';
 import 'package:dvir/features/Settings/data/settings_repository_impl.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 // `Override` is the one runtime type flutter_riverpod does not re-export.
 import 'package:riverpod_annotation/riverpod_annotation.dart' show Override;
 import 'package:shared_preferences/shared_preferences.dart';

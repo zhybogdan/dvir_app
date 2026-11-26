@@ -1,9 +1,10 @@
 import 'package:dvir/app/theme.dart';
+import 'package:dvir/core/config/app_locales.dart';
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Everything here is about the one value the dialog returns: callers delete on
 // a true, so every way out that is not the red button has to come back false.
@@ -19,7 +20,7 @@ Future<_Answer> _open(WidgetTester tester) async {
   await tester.pumpWidget(
     MaterialApp(
       theme: AppTheme.light,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      localizationsDelegates: AppLocales.delegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(
         body: Builder(

@@ -8,9 +8,9 @@ import 'package:dvir/features/Backup/presentation/backup_restore_flow.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Making a copy of the phone and putting one back, which is what the settings
 /// screen of a build with no account is mostly for.

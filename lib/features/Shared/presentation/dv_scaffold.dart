@@ -1,5 +1,5 @@
 import 'package:dvir/features/Shared/presentation/dv_background.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Scaffold with a decorative layer behind its body, for every screen that
 /// carries an app bar. The auth screens use [AuthScaffold] instead, which

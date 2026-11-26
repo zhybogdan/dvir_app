@@ -29,9 +29,9 @@ import 'package:dvir/features/Units/presentation/components/unit_menu.dart';
 import 'package:dvir/features/Units/presentation/components/unit_people_section.dart';
 import 'package:dvir/features/Units/presentation/components/unit_start_block.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Everything that belongs to one object, on one screen.
 ///

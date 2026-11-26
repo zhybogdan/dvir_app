@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'scope_summary.dart';
@@ -9,6 +9,7 @@ part of 'scope_summary.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -20,16 +21,21 @@ mixin _$ScopeSummary {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScopeSummary&&const DeepCollectionEquality().equals(other.membership, membership));
+  final _this = this as ScopeSummary;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScopeSummary&&const DeepCollectionEquality().equals(other.membership, _this.membership));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(membership));
+int get hashCode {
+  final _this = this as ScopeSummary;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.membership));
+}
 
 @override
 String toString() {
-  return 'ScopeSummary(membership: $membership)';
+  final _this = this as ScopeSummary;
+  return 'ScopeSummary(membership: ${_this.membership})';
 }
 
 
@@ -191,16 +197,18 @@ $CommunitySummaryCopyWith<CommunitySummary> get copyWith => _$CommunitySummaryCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunitySummary&&(identical(other.membership, membership) || other.membership == membership)&&(identical(other.community, community) || other.community == community));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunitySummary&&(identical(other.membership, membership) || other.membership == membership)&&(identical(other.community, community) || other.community == community));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,membership,community);
+int get hashCode {
+    return Object.hash(runtimeType,membership,community);
+}
 
 @override
 String toString() {
-  return 'ScopeSummary.community(membership: $membership, community: $community)';
+    return 'ScopeSummary.community(membership: $membership, community: $community)';
 }
 
 
@@ -281,16 +289,18 @@ $UnitSummaryCopyWith<UnitSummary> get copyWith => _$UnitSummaryCopyWithImpl<Unit
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnitSummary&&(identical(other.membership, membership) || other.membership == membership)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.counts, counts) || other.counts == counts));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is UnitSummary&&(identical(other.membership, membership) || other.membership == membership)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.counts, counts) || other.counts == counts));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,membership,unit,counts);
+int get hashCode {
+    return Object.hash(runtimeType,membership,unit,counts);
+}
 
 @override
 String toString() {
-  return 'ScopeSummary.unit(membership: $membership, unit: $unit, counts: $counts)';
+    return 'ScopeSummary.unit(membership: $membership, unit: $unit, counts: $counts)';
 }
 
 

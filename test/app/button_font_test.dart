@@ -1,8 +1,8 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_segmented.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A button's label is the one string in the app that does not inherit the
 /// theme's typeface.

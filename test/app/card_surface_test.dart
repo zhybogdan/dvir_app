@@ -1,8 +1,8 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/features/Shared/presentation/dv_empty_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_tile.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 // A card is 1.11:1 against the page and nothing better exists — see
 // `theme_contrast_test.dart`, which pins that pair deliberately low. So the

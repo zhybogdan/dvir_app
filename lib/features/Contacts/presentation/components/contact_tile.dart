@@ -11,8 +11,8 @@ import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// One telephone number as a line of a list: who it is, the number, and the
 /// call.

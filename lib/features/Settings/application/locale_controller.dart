@@ -1,5 +1,5 @@
 import 'package:dvir/features/Settings/data/settings_repository_impl.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'locale_controller.g.dart';

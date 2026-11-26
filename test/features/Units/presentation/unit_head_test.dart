@@ -1,3 +1,4 @@
+import 'package:dvir/core/config/app_locales.dart';
 import 'package:dvir/features/Units/application/unit_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
 import 'package:dvir/features/Units/domain/types/unit_type.dart';
@@ -5,9 +6,9 @@ import 'package:dvir/features/Units/presentation/components/unit_head.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 // The head answers what the object is called and where it stands, and nothing
 // else — every other fact about it is one the keeper wrote down, and those
@@ -41,7 +42,7 @@ Future<void> _pump(WidgetTester tester, Unit unit) async {
     ProviderScope(
       overrides: [unitProvider('house').overrideWith((ref) async => _house)],
       child: MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: AppLocales.delegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(body: UnitHead(unit: unit)),
       ),

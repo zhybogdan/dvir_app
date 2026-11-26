@@ -14,8 +14,8 @@ import 'package:dvir/features/Units/domain/types/unit_role.dart';
 import 'package:dvir/features/Units/presentation/components/unit_role_chip.dart';
 import 'package:dvir/features/Units/presentation/unit_role_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// One person in a household, and whatever may be done about them.
 ///

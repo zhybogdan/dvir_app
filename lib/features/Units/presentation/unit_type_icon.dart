@@ -1,6 +1,6 @@
 import 'package:dvir/app/icons.dart';
 import 'package:dvir/features/Units/domain/types/unit_type.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// The glyph a [UnitType] is drawn with.
 ///

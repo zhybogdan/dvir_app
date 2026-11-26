@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:drift/native.dart';
+import 'package:dvir/core/config/app_locales.dart';
 import 'package:dvir/core/database/app_database.dart';
 import 'package:dvir/core/database/database_provider.dart';
 import 'package:dvir/core/extensions/date_time_x.dart';
@@ -13,9 +14,9 @@ import 'package:dvir/features/Backup/presentation/components/backup_section.dart
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:path/path.dart' as p;
 
 // The real service over a real database and a real archive, with only the file
@@ -110,7 +111,7 @@ void main() {
           deviceContentsProvider.overrideWith((ref) => Stream.value(contents)),
         ],
         child: MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          localizationsDelegates: AppLocales.delegates,
           supportedLocales: AppLocalizations.supportedLocales,
           home: const Scaffold(body: BackupSection()),
         ),

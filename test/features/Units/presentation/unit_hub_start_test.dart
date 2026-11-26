@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dvir/core/config/app_capabilities.dart';
+import 'package:dvir/core/config/app_locales.dart';
 import 'package:dvir/features/Contacts/application/contacts_controller.dart';
 import 'package:dvir/features/Contacts/domain/models/contact.dart';
 import 'package:dvir/features/Documents/application/documents_controller.dart';
@@ -17,9 +18,9 @@ import 'package:dvir/features/Units/presentation/screens/unit_hub_screen.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 // The one rule the start block lives by: it stands in for the whole record
 // while the object holds nothing at all, and the moment any one section has a
@@ -72,7 +73,7 @@ Future<void> _pump(
         unitChildrenProvider('u1').overrideWith((ref) async => children),
       ],
       child: const MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: AppLocales.delegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: UnitHubScreen(unitId: 'u1'),
       ),
