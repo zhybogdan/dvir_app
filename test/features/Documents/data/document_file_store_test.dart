@@ -67,6 +67,53 @@ void main() {
     await expectLater(store.remove(path), completes);
   });
 
+  group('a path that leads out of the folder', () {
+    // What a crafted backup could put in a row: the app never writes these.
+    late File outside;
+
+    setUp(() async {
+      outside = File('${root.parent.path}/dvir_outside_${root.hashCode}.txt');
+      await outside.writeAsBytes(bytes);
+    });
+    tearDown(() async {
+      if (outside.existsSync()) await outside.delete();
+    });
+
+    const escapes = ['../escaped.txt', 'unit/../../escaped.txt', '/etc/passwd'];
+
+    test('reads as missing rather than reading the file', () async {
+      final escape = '../${outside.uri.pathSegments.last}';
+
+      await expectLater(
+        store.read(escape),
+        throwsA(
+          isA<StorageFailure>().having(
+            (failure) => failure.reason,
+            'reason',
+            StorageFailureReason.missing,
+          ),
+        ),
+      );
+    });
+
+    test('is not deleted, and removing it is not an error', () async {
+      // Deleting a document takes the row first, so a throw here would report
+      // a failure for a delete that has already happened.
+      await store.remove('../${outside.uri.pathSegments.last}');
+
+      expect(outside.existsSync(), isTrue);
+    });
+
+    test('is refused on write', () async {
+      for (final escape in escapes) {
+        await expectLater(
+          store.write(escape, bytes),
+          throwsA(isA<StorageFailure>()),
+        );
+      }
+    });
+  });
+
   test('a second document of the same object joins the first', () async {
     final other = documentStoragePath(
       scopeId: 'unit',
