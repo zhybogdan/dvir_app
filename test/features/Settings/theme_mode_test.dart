@@ -16,8 +16,16 @@ class _Settings implements SettingsRepository {
   @override
   ThemeMode themeMode;
 
+  /// Part of the contract, and not what this file is about: the language has
+  /// its own tests in `locale_test.dart`.
+  @override
+  Locale? locale;
+
   @override
   Future<void> setThemeMode(ThemeMode mode) async => themeMode = mode;
+
+  @override
+  Future<void> setLocale(Locale value) async => locale = value;
 }
 
 void main() {

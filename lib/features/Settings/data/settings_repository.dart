@@ -10,4 +10,12 @@ abstract interface class SettingsRepository {
   ThemeMode get themeMode;
 
   Future<void> setThemeMode(ThemeMode mode);
+
+  /// Null until a person picks a language, and that is not the same as a
+  /// default: null hands the choice to the phone, so a Ukrainian phone opens
+  /// in Ukrainian and an English one in English without anybody choosing.
+  /// The control shows whichever won.
+  Locale? get locale;
+
+  Future<void> setLocale(Locale locale);
 }

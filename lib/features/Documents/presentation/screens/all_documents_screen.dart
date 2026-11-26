@@ -52,7 +52,7 @@ class AllDocumentsScreen extends ConsumerWidget {
                 ..invalidate(myScopesProvider)
                 ..invalidate(documentsProvider),
               builder: (context, groups) => groups.isEmpty
-                  ? DvEmptyView(
+                  ? DvEmptyView.page(
                       message: l10n.allDocumentsEmpty,
                       icon: AppIcons.documentGeneric,
                     )

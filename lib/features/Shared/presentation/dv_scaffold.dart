@@ -21,9 +21,10 @@ class DvScaffold extends StatelessWidget {
   /// ground its cards are read against, and anything painted on it competes
   /// with them.
   ///
-  /// The screens before the app ([DvBackground]'s watermark on the splash and
-  /// the onboarding) pass it themselves. Defaulting the other way round would
-  /// mean a new screen is decorated until someone notices.
+  /// The onboarding passes [DvBackground]'s watermark itself. Defaulting the
+  /// other way round would mean a new screen is decorated until someone
+  /// notices — and the splash is why: a tone at 4% over the whole surface put
+  /// its background half a shade off the frame the phone had just painted.
   final Widget? background;
 
   /// Extends the watermark under the app bar (pair with a transparent

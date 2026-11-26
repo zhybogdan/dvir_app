@@ -3,13 +3,12 @@ import 'package:dvir/app/routes.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
-import 'package:dvir/core/logging/tap_log.dart';
 import 'package:dvir/features/Contacts/application/contacts_controller.dart';
 import 'package:dvir/features/Contacts/presentation/components/contacts_section.dart';
 import 'package:dvir/features/Documents/application/documents_controller.dart';
 import 'package:dvir/features/Documents/presentation/document_add_flow.dart';
 import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
-import 'package:dvir/features/Shared/presentation/dv_icon_badge.dart';
+import 'package:dvir/features/Shared/presentation/dv_start_card.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
 import 'package:dvir/features/Units/application/unit_attributes_controller.dart';
 import 'package:dvir/features/Units/domain/models/unit.dart';
@@ -76,14 +75,14 @@ class UnitStartBlock extends ConsumerWidget {
         // need to be told that it is.
         Text(l10n.unitStartLead, style: context.textTheme.bodyLarge),
         const SizedBox(height: AppSpacing.lg),
-        _StartCard(
+        DvStartCard(
           icon: AppIcons.attribute,
           tone: AppTones.other,
           title: l10n.unitStartFacts(unit.type.label(l10n).toLowerCase()),
           text: l10n.unitStartFactsWhy,
           onTap: () => UnitAttributesSection.add(context, ref, unitId),
         ),
-        _StartCard(
+        DvStartCard(
           icon: AppIcons.documentGeneric,
           tone: AppTones.paper,
           title: isNested
@@ -92,7 +91,7 @@ class UnitStartBlock extends ConsumerWidget {
           text: l10n.unitStartDocumentWhy,
           onTap: () => DocumentAddFlow.start(context, ref, scope),
         ),
-        _StartCard(
+        DvStartCard(
           icon: AppIcons.call,
           tone: AppTones.person,
           title: l10n.unitStartContact,
@@ -119,69 +118,6 @@ class UnitStartBlock extends ConsumerWidget {
           ),
         ],
       ],
-    );
-  }
-}
-
-class _StartCard extends StatelessWidget {
-  const _StartCard({
-    required this.icon,
-    required this.tone,
-    required this.title,
-    required this.text,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final Tone tone;
-  final String title;
-  final String text;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = context.colorScheme;
-    final radius = BorderRadius.circular(AppRadius.lg);
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-      child: DecoratedBox(
-        decoration: AppSurfaces.card(scheme),
-        // Transparent, so the ink of a tap lands above the card's own fill
-        // rather than painting over its hairline — the same reason DvTile
-        // gives for it.
-        child: Material(
-          color: Colors.transparent,
-          borderRadius: radius,
-          child: InkWell(
-            onTap: loggedTap(title, onTap),
-            borderRadius: radius,
-            child: Padding(
-              padding: const EdgeInsets.all(AppSpacing.md),
-              child: Row(
-                spacing: AppSpacing.md,
-                children: [
-                  DvIconBadge(icon: icon, tone: tone),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(title, style: context.textTheme.titleSmall),
-                        Text(
-                          text,
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: scheme.onSurfaceVariant,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

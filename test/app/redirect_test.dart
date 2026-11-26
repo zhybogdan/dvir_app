@@ -153,6 +153,54 @@ void main() {
     });
   });
 
+  // The on-device build: one phone, one person, no account. Belonging nowhere
+  // is the ordinary first minute there, not a state to be let out of.
+  group('resolveRedirect with nobody else in the build', () {
+    test('opens the empty list of objects instead of onboarding', () {
+      final decision = resolveRedirect(
+        auth: _signedIn,
+        scopes: _nowhere,
+        location: AppRoutes.splash,
+        people: false,
+      );
+
+      expect(decision.target, AppRoutes.home);
+    });
+
+    // Settings is where a copy of an old phone is restored from, and somebody
+    // restoring has nothing yet by definition. Bouncing them home would shut
+    // the one door they came for.
+    test('leaves them free to walk the tabs with nothing created', () {
+      for (final location in [
+        AppRoutes.home,
+        AppRoutes.documents,
+        AppRoutes.contacts,
+        AppRoutes.profile,
+        AppRoutes.onboardingUnit,
+      ]) {
+        final decision = resolveRedirect(
+          auth: _signedIn,
+          scopes: _nowhere,
+          location: location,
+          people: false,
+        );
+
+        expect(decision.target, isNull, reason: 'should stay on $location');
+      }
+    });
+
+    test('still waits on the splash while the list is unknown', () {
+      final decision = resolveRedirect(
+        auth: _signedIn,
+        scopes: _scopesPending,
+        location: AppRoutes.home,
+        people: false,
+      );
+
+      expect(decision.target, AppRoutes.splash);
+    });
+  });
+
   group('resolveRedirect while a stale list is on screen', () {
     // What signing back in looks like: the list underneath still belongs to the
     // previous session. Reading it as this user's answer put them wherever the

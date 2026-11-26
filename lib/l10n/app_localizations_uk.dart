@@ -58,6 +58,24 @@ class AppLocalizationsUk extends AppLocalizations {
   String get addScope => 'Додати';
 
   @override
+  String get scopesEmptyLead =>
+      'Почніть з того, що вам належить: дім, квартира, гараж чи ділянка.';
+
+  @override
+  String get scopesEmptyCreate => 'Створіть перший об’єкт';
+
+  @override
+  String get scopesEmptyCreateWhy =>
+      'Далі до нього лягають документи, факти й телефони';
+
+  @override
+  String get scopesEmptyRestore => 'Відновіть з копії';
+
+  @override
+  String get scopesEmptyRestoreWhy =>
+      'Якщо на старому телефоні вже все записано';
+
+  @override
   String get memberStatusPending => 'Очікує підтвердження';
 
   @override
@@ -122,6 +140,15 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get settingsThemeSystem => 'Системна';
+
+  @override
+  String get settingsLanguage => 'Мова';
+
+  @override
+  String get settingsLanguageUk => 'Українська';
+
+  @override
+  String get settingsLanguageEn => 'English';
 
   @override
   String settingsUnitsCount(int count) {

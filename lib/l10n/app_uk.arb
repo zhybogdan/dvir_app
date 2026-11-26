@@ -36,6 +36,17 @@
   "scopesUnits": "Оселі",
   "scopePending": "Очікує підтвердження",
   "addScope": "Додати",
+  "scopesEmptyLead": "Почніть з того, що вам належить: дім, квартира, гараж чи ділянка.",
+  "@scopesEmptyLead": {
+    "description": "The lead on the list of objects before the first one exists"
+  },
+  "scopesEmptyCreate": "Створіть перший об’єкт",
+  "scopesEmptyCreateWhy": "Далі до нього лягають документи, факти й телефони",
+  "scopesEmptyRestore": "Відновіть з копії",
+  "@scopesEmptyRestore": {
+    "description": "Second first move on an empty app: the records may already exist on an old phone"
+  },
+  "scopesEmptyRestoreWhy": "Якщо на старому телефоні вже все записано",
   "memberStatusPending": "Очікує підтвердження",
   "memberStatusActive": "Активний",
   "memberStatusRejected": "Відхилено",
@@ -68,6 +79,15 @@
   "settingsThemeLight": "Світла",
   "settingsThemeDark": "Темна",
   "settingsThemeSystem": "Системна",
+  "settingsLanguage": "Мова",
+  "settingsLanguageUk": "Українська",
+  "@settingsLanguageUk": {
+    "description": "A language names itself: this value is the same in every .arb"
+  },
+  "settingsLanguageEn": "English",
+  "@settingsLanguageEn": {
+    "description": "A language names itself: this value is the same in every .arb"
+  },
   "settingsUnitsCount": "{count, plural, one{{count} об’єкт} few{{count} об’єкти} many{{count} об’єктів} other{{count} об’єкта}}",
   "@settingsUnitsCount": {
     "placeholders": {

@@ -1,3 +1,4 @@
+import 'package:dvir/core/config/app_capabilities.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Home/domain/models/scope_summary.dart';
 import 'package:dvir/features/Home/presentation/screens/scopes_screen.dart';
@@ -46,10 +47,15 @@ ScopeSummary _unit(
   counts: counts,
 );
 
-Future<void> _pump(WidgetTester tester, List<ScopeSummary> scopes) async {
+Future<void> _pump(
+  WidgetTester tester,
+  List<ScopeSummary> scopes, {
+  AppCapabilities capabilities = const AppCapabilities.connected(),
+}) async {
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
+        appCapabilitiesProvider.overrideWithValue(capabilities),
         myScopesProvider.overrideWith(
           (ref) async => (userId: 'me', scopes: scopes),
         ),
@@ -67,6 +73,39 @@ Future<void> _pump(WidgetTester tester, List<ScopeSummary> scopes) async {
 
 void main() {
   final l10n = AppLocalizationsUk();
+
+  // Nothing created yet is the first minute of the app, not an error state:
+  // the screen that would be blank carries the two moves a person can make.
+  // Restoring is one of them only where the records live on the phone — with
+  // an account behind them there is nothing to put back from a file.
+  testWidgets('with nothing yet, the list invites instead of showing blank', (
+    tester,
+  ) async {
+    await _pump(tester, [], capabilities: const AppCapabilities.onDevice());
+
+    expect(find.text(l10n.scopesEmptyLead), findsOneWidget);
+    expect(find.text(l10n.scopesEmptyCreate), findsOneWidget);
+    expect(find.text(l10n.scopesEmptyRestore), findsOneWidget);
+  });
+
+  testWidgets('a build with an account is not offered a copy to restore', (
+    tester,
+  ) async {
+    await _pump(tester, []);
+
+    expect(find.text(l10n.scopesEmptyCreate), findsOneWidget);
+    expect(find.text(l10n.scopesEmptyRestore), findsNothing);
+  });
+
+  testWidgets('the invitation goes the moment there is an object', (
+    tester,
+  ) async {
+    await _pump(tester, [
+      _unit('h', 'Дім', counts: (documents: 0, attributes: 0)),
+    ]);
+
+    expect(find.text(l10n.scopesEmptyLead), findsNothing);
+  });
 
   testWidgets('an object inside another is counted, not drawn', (tester) async {
     await _pump(tester, [

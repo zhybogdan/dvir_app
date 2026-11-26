@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/utils/field_lengths.dart';
+import 'package:dvir/l10n/app_localizations.dart';
+import 'package:dvir/l10n/app_localizations_en.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -37,54 +39,60 @@ void main() {
     await _loadInter();
   });
 
-  test('every error a field can show fits the line reserved for it', () {
-    final l10n = AppLocalizationsUk();
-    final theme = AppTheme.light;
-    final style = (theme.textTheme.bodySmall ?? const TextStyle()).merge(
-      theme.inputDecorationTheme.errorStyle,
-    );
-
-    final messages = <String>[
-      l10n.emailRequired,
-      l10n.invalidEmail,
-      l10n.passwordRequired,
-      l10n.passwordTooShort,
-      l10n.passwordsDontMatch,
-      l10n.profileNameRequired,
-      l10n.profilePhoneInvalid,
-      l10n.unitNameRequired,
-      l10n.joinCodeRequired,
-      l10n.communityNameRequired,
-      l10n.documentNameRequired,
-      l10n.contactNameRequired,
-      l10n.contactPhoneRequired,
-      l10n.contactPhoneInvalid,
-      l10n.unitAttributeNameRequired,
-      l10n.unitAttributeValueRequired,
-      // The widest number any capped field passes in, so the longest this
-      // message ever renders.
-      l10n.fieldTooLong(FieldLength.address),
-    ];
-
-    for (final message in messages) {
-      // Laid out unconstrained: what is wanted here is the width the message
-      // actually needs, and a bounded layout reports the bound instead.
-      final painter = TextPainter(
-        text: TextSpan(text: message, style: style),
-        textDirection: TextDirection.ltr,
-        textScaler: const TextScaler.linear(AppTextScale.max),
-        maxLines: 1,
-      )..layout();
-
-      expect(
-        painter.width,
-        lessThanOrEqualTo(_errorWidth),
-        reason:
-            '«$message» needs ${painter.width.round()}dp of the '
-            '${_errorWidth.round()}dp a field error gets — shorten it',
+  // Every language, not only the template one: the line is the same width in
+  // all of them, and a translation is where a message grows.
+  for (final l10n in <AppLocalizations>[
+    AppLocalizationsUk(),
+    AppLocalizationsEn(),
+  ]) {
+    test('every error a field can show fits the line in ${l10n.localeName}', () {
+      final theme = AppTheme.light;
+      final style = (theme.textTheme.bodySmall ?? const TextStyle()).merge(
+        theme.inputDecorationTheme.errorStyle,
       );
 
-      painter.dispose();
-    }
-  });
+      final messages = <String>[
+        l10n.emailRequired,
+        l10n.invalidEmail,
+        l10n.passwordRequired,
+        l10n.passwordTooShort,
+        l10n.passwordsDontMatch,
+        l10n.profileNameRequired,
+        l10n.profilePhoneInvalid,
+        l10n.unitNameRequired,
+        l10n.joinCodeRequired,
+        l10n.communityNameRequired,
+        l10n.documentNameRequired,
+        l10n.contactNameRequired,
+        l10n.contactPhoneRequired,
+        l10n.contactPhoneInvalid,
+        l10n.unitAttributeNameRequired,
+        l10n.unitAttributeValueRequired,
+        // The widest number any capped field passes in, so the longest this
+        // message ever renders.
+        l10n.fieldTooLong(FieldLength.address),
+      ];
+
+      for (final message in messages) {
+        // Laid out unconstrained: what is wanted here is the width the message
+        // actually needs, and a bounded layout reports the bound instead.
+        final painter = TextPainter(
+          text: TextSpan(text: message, style: style),
+          textDirection: TextDirection.ltr,
+          textScaler: const TextScaler.linear(AppTextScale.max),
+          maxLines: 1,
+        )..layout();
+
+        expect(
+          painter.width,
+          lessThanOrEqualTo(_errorWidth),
+          reason:
+              '«$message» needs ${painter.width.round()}dp of the '
+              '${_errorWidth.round()}dp a field error gets — shorten it',
+        );
+
+        painter.dispose();
+      }
+    });
+  }
 }

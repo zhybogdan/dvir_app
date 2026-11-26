@@ -277,7 +277,7 @@ class _UnitFormScreenState extends ConsumerState<UnitFormScreen> {
     if (options.isEmpty) {
       return _FormScaffold(
         title: l10n.unitAddTitle,
-        body: DvEmptyView(
+        body: DvEmptyView.page(
           message: l10n.unitAddNotAllowed,
           icon: AppIcons.blocked,
         ),
