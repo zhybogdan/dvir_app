@@ -113,7 +113,19 @@
     }
   },
   "backupCreate": "Створити копію",
-  "backupCreateHint": "Усі записи, документи й контакти одним архівом. Збережіть його в хмарі або на комп’ютері — тоді втрачений телефон не забере оселю разом із собою.",
+  "backupCreateHint": "Усі записи, документи й контакти одним архівом. Збережіть його в хмарі або на комп’ютері — тоді втрачений телефон не забере їх разом із собою.",
+  "backupLastNever": "Копії ще не робили",
+  "backupLastToday": "Остання копія: сьогодні",
+  "backupLastYesterday": "Остання копія: вчора",
+  "backupLastDaysAgo": "Остання копія: {count, plural, one{{count} день} few{{count} дні} many{{count} днів} other{{count} дня}} тому",
+  "@backupLastDaysAgo": {
+    "description": "How long ago this phone last shared a backup, in whole days (2 or more)",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "backupRestore": "Відновити з копії",
   "backupRestoreHint": "Візьме архів і замінить ним усе, що зараз у застосунку.",
   "backupRestoreConfirmTitle": "Відновити з копії?",
@@ -215,10 +227,10 @@
   "communityTypeDormitory": "Гуртожиток",
   "communityTypeCustom": "Інше",
 
-  "unitCreateTitle": "Нова оселя",
+  "unitCreateTitle": "Новий об’єкт",
   "unitName": "Назва",
   "unitNameHint": "Будинок 223",
-  "unitNameRequired": "Введіть назву оселі",
+  "unitNameRequired": "Введіть назву об’єкта",
   "unitType": "Тип",
   "unitTypeMore": "Ще {count}…",
   "@unitTypeMore": {
@@ -319,7 +331,7 @@
   "deleteUnitBody": "Зникне все, що всередині, і всі мешканці. Дію не можна скасувати.",
   "unitAttributes": "Що варто знати",
   "unitAttributesEdit": "Змінити",
-  "unitAttributesEmpty": "Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам’ятати про цю оселю.",
+  "unitAttributesEmpty": "Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам’ятати про цей об’єкт.",
   "unitAttributesShowAll": "Показати всі {count}",
   "@unitAttributesShowAll": {
     "description": "Opens the screen with an object's whole record; count is the total number of facts",
@@ -345,7 +357,7 @@
   "editAttribute": "Редагувати",
   "deleteAttribute": "Видалити",
   "deleteAttributeTitle": "Видалити характеристику?",
-  "deleteAttributeBody": "«{name}» зникне з опису цієї оселі.",
+  "deleteAttributeBody": "«{name}» зникне з опису цього об’єкта.",
   "@deleteAttributeBody": {
     "description": "Confirmation before deleting one fact about an object",
     "placeholders": {
@@ -399,6 +411,15 @@
   "documentAddedOn": "Додано {date}",
   "@documentAddedOn": {
     "description": "When a file was uploaded, as dd.MM.yyyy",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "documentPhotoTitle": "Фото {date}",
+  "@documentPhotoTitle": {
+    "description": "The title a new photo starts with, the date as dd.MM.yyyy",
     "placeholders": {
       "date": {
         "type": "String"
@@ -463,10 +484,12 @@
   "contactPhoneRequired": "Вкажіть номер",
   "contactPhoneInvalid": "Схоже, це не номер",
   "contactCallFailed": "Не вдалося відкрити набір номера",
+  "copyPhone": "Скопіювати номер",
+  "phoneCopied": "Номер скопійовано",
   "editContact": "Змінити",
   "deleteContact": "Видалити",
   "deleteContactTitle": "Видалити контакт?",
-  "deleteContactBody": "«{name}» зникне зі списку цієї оселі.",
+  "deleteContactBody": "«{name}» зникне зі списку цього об’єкта.",
   "@deleteContactBody": {
     "description": "Confirmation before deleting one contact",
     "placeholders": {

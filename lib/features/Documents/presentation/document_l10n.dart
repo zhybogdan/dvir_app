@@ -1,5 +1,6 @@
 import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
+import 'package:dvir/core/extensions/date_time_x.dart';
 import 'package:dvir/features/Documents/application/documents_by_month.dart';
 import 'package:dvir/features/Documents/data/document_storage.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
@@ -72,16 +73,14 @@ Tone documentTone(Document document) {
 }
 
 /// The date a file was added, as `dd.MM.yyyy`.
-///
-/// Formatted by hand rather than through `intl`: the pattern is numeric, the
-/// app has one locale, and nothing else in it shows a date yet.
-String documentAddedOn(DateTime date, AppLocalizations l10n) {
-  final local = date.toLocal();
-  final day = local.day.toString().padLeft(2, '0');
-  final month = local.month.toString().padLeft(2, '0');
+String documentAddedOn(DateTime date, AppLocalizations l10n) =>
+    l10n.documentAddedOn(date.toLocal().asShortDate);
 
-  return l10n.documentAddedOn('$day.$month.${local.year}');
-}
+/// The title a photo starts with — «Фото 27.11.2026» — where the camera's own
+/// file name is no use: confirmed with one tap when the date is enough, typed
+/// over when it is not.
+String documentPhotoTitle(DateTime date, AppLocalizations l10n) =>
+    l10n.documentPhotoTitle(date.toLocal().asShortDate);
 
 /// The heading over one month of papers — "Листопад", or "Серпень 2025" once
 /// the month is not this year's.

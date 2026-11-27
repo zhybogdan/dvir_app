@@ -74,26 +74,42 @@ class DocumentPickerImpl implements DocumentPicker {
 
     // Bytes rather than the path: the file may live in a cloud provider the
     // device only streams, and the upload needs the contents either way.
-    return _upload(fileName: file.name, bytes: await file.readAsBytes());
+    return _upload(
+      fileName: file.name,
+      bytes: await file.readAsBytes(),
+      keepName: true,
+    );
   }
 
   Future<DocumentUpload?> _fromCamera(ImageSource source) async {
     final shot = await ImagePicker().pickImage(source: source);
     if (shot == null) return null;
 
-    return _upload(fileName: shot.name, bytes: await shot.readAsBytes());
+    // A photo's name is the camera's — `IMG_20261126_203512`, or a uuid from
+    // the picker's cache — and says nothing a person would call it by. The
+    // title is left to the sheet, which knows the date and the language.
+    return _upload(
+      fileName: shot.name,
+      bytes: await shot.readAsBytes(),
+      keepName: false,
+    );
   }
 
   /// Names the file, works out its type, and shrinks it if it is an image.
+  ///
+  /// [keepName] is whether the file's own name is a title worth suggesting;
+  /// without it the upload carries an empty one.
   Future<DocumentUpload> _upload({
     required String fileName,
     required Uint8List bytes,
+    required bool keepName,
   }) async {
     final mimeType =
         lookupMimeType(fileName, headerBytes: _header(bytes)) ??
         'application/octet-stream';
 
-    final title = suggestedDocumentTitle(fileName);
+    final baseName = suggestedDocumentTitle(fileName);
+    final title = keepName ? baseName : '';
 
     if (!mimeType.startsWith('image/')) {
       return DocumentUpload(
@@ -104,7 +120,12 @@ class DocumentPickerImpl implements DocumentPicker {
       );
     }
 
-    return _compressed(title: title, fileName: fileName, bytes: bytes);
+    return _compressed(
+      title: title,
+      fileName: fileName,
+      baseName: baseName,
+      bytes: bytes,
+    );
   }
 
   /// An image at a size worth keeping, as JPEG.
@@ -119,6 +140,7 @@ class DocumentPickerImpl implements DocumentPicker {
   Future<DocumentUpload> _compressed({
     required String title,
     required String fileName,
+    required String baseName,
     required Uint8List bytes,
   }) async {
     Uint8List? small;
@@ -149,7 +171,7 @@ class DocumentPickerImpl implements DocumentPicker {
     // be stored with the wrong content type and open as a broken image.
     return DocumentUpload(
       title: title,
-      fileName: '$title.jpg',
+      fileName: '$baseName.jpg',
       mimeType: 'image/jpeg',
       bytes: small,
     );

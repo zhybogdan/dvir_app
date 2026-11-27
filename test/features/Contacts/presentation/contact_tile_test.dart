@@ -5,6 +5,7 @@ import 'package:dvir/features/Contacts/presentation/components/contact_tile.dart
 import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
 import 'package:dvir/l10n/app_localizations.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
@@ -72,5 +73,47 @@ void main() {
     expect(find.text('Олена'), findsOneWidget);
     expect(find.byIcon(AppIcons.call), findsNothing);
     expect(tester.widget<InkWell>(find.byType(InkWell)).onTap, isNull);
+  });
+
+  testWidgets('the menu copies the number', (tester) async {
+    String? copied;
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      SystemChannels.platform,
+      (call) async {
+        if (call.method == 'Clipboard.setData') {
+          copied = (call.arguments as Map<Object?, Object?>)['text'] as String?;
+        }
+        return null;
+      },
+    );
+    addTearDown(
+      () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        SystemChannels.platform,
+        null,
+      ),
+    );
+
+    await _pump(tester, contact: _electrician, canEdit: true);
+    await tester.tap(find.byType(DvMenu));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Скопіювати номер'));
+    // Past the toast's own timer, which would otherwise outlive the test.
+    await tester.pumpAndSettle(const Duration(seconds: 10));
+
+    expect(copied, '+380671234567');
+  });
+
+  testWidgets('a contact with no number offers nothing to copy', (
+    tester,
+  ) async {
+    await _pump(
+      tester,
+      contact: const Contact(id: 'c2', name: 'Олена'),
+      canEdit: true,
+    );
+    await tester.tap(find.byType(DvMenu));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Скопіювати номер'), findsNothing);
   });
 }

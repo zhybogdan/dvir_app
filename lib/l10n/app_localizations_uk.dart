@@ -178,7 +178,29 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get backupCreateHint =>
-      'Усі записи, документи й контакти одним архівом. Збережіть його в хмарі або на комп’ютері — тоді втрачений телефон не забере оселю разом із собою.';
+      'Усі записи, документи й контакти одним архівом. Збережіть його в хмарі або на комп’ютері — тоді втрачений телефон не забере їх разом із собою.';
+
+  @override
+  String get backupLastNever => 'Копії ще не робили';
+
+  @override
+  String get backupLastToday => 'Остання копія: сьогодні';
+
+  @override
+  String get backupLastYesterday => 'Остання копія: вчора';
+
+  @override
+  String backupLastDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count дня',
+      many: '$count днів',
+      few: '$count дні',
+      one: '$count день',
+    );
+    return 'Остання копія: $_temp0 тому';
+  }
 
   @override
   String get backupRestore => 'Відновити з копії';
@@ -383,7 +405,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get communityTypeCustom => 'Інше';
 
   @override
-  String get unitCreateTitle => 'Нова оселя';
+  String get unitCreateTitle => 'Новий об’єкт';
 
   @override
   String get unitName => 'Назва';
@@ -392,7 +414,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get unitNameHint => 'Будинок 223';
 
   @override
-  String get unitNameRequired => 'Введіть назву оселі';
+  String get unitNameRequired => 'Введіть назву об’єкта';
 
   @override
   String get unitType => 'Тип';
@@ -568,7 +590,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get unitAttributesEmpty =>
-      'Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам’ятати про цю оселю.';
+      'Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам’ятати про цей об’єкт.';
 
   @override
   String unitAttributesShowAll(int count) {
@@ -625,7 +647,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String deleteAttributeBody(String name) {
-    return '«$name» зникне з опису цієї оселі.';
+    return '«$name» зникне з опису цього об’єкта.';
   }
 
   @override
@@ -693,6 +715,11 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String documentAddedOn(String date) {
     return 'Додано $date';
+  }
+
+  @override
+  String documentPhotoTitle(String date) {
+    return 'Фото $date';
   }
 
   @override
@@ -790,6 +817,12 @@ class AppLocalizationsUk extends AppLocalizations {
   String get contactCallFailed => 'Не вдалося відкрити набір номера';
 
   @override
+  String get copyPhone => 'Скопіювати номер';
+
+  @override
+  String get phoneCopied => 'Номер скопійовано';
+
+  @override
   String get editContact => 'Змінити';
 
   @override
@@ -800,7 +833,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String deleteContactBody(String name) {
-    return '«$name» зникне зі списку цієї оселі.';
+    return '«$name» зникне зі списку цього об’єкта.';
   }
 
   @override

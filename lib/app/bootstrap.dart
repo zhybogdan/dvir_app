@@ -2,6 +2,7 @@ import 'package:dvir/app/app.dart';
 import 'package:dvir/core/config/preferences.dart';
 import 'package:dvir/core/logging/app_logger.dart';
 import 'package:dvir/core/logging/app_provider_observer.dart';
+import 'package:dvir/features/Backup/data/backup_history.dart';
 import 'package:dvir/features/Settings/data/settings_repository_impl.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,7 +43,7 @@ Future<void> bootstrap(Future<List<Override>> Function() initialize) async {
   // Here and not in a flavor: every build has a theme to remember.
   final preferences = await SharedPreferencesWithCache.create(
     cacheOptions: const SharedPreferencesWithCacheOptions(
-      allowList: SettingsRepositoryImpl.keys,
+      allowList: {...SettingsRepositoryImpl.keys, ...BackupHistoryImpl.keys},
     ),
   );
 

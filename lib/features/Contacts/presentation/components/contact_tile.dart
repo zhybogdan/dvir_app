@@ -11,6 +11,7 @@ import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
 import 'package:dvir/l10n/app_localizations.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -127,7 +128,11 @@ class ContactTile extends ConsumerWidget {
     toasts.error(failed);
   }
 
-  /// Changing a contact, or dropping it — the items of its menu.
+  /// Copying the number, changing the contact, or dropping it — the items of
+  /// its menu.
+  ///
+  /// Copying because the row itself only dials, and «скинь номер сантехніка»
+  /// is asked as often as the call is made.
   static List<DvMenuItem> actionsFor(
     BuildContext context,
     WidgetRef ref, {
@@ -139,6 +144,8 @@ class ContactTile extends ConsumerWidget {
     // Held before the sheet and the dialog: after an await the ref may no
     // longer be the one this row was built with.
     final actions = ref.read(contactActionsProvider(scope).notifier);
+    final toasts = ref.read(toastControllerProvider.notifier);
+    final phone = contact.phone;
 
     Future<void> edit() async {
       final draft = await ContactSheet.open(context, contact: contact);
@@ -167,6 +174,15 @@ class ContactTile extends ConsumerWidget {
     }
 
     return [
+      if (phone != null)
+        DvMenuItem(
+          label: l10n.copyPhone,
+          icon: AppIcons.copy,
+          onSelected: () {
+            Clipboard.setData(ClipboardData(text: phone));
+            toasts.success(l10n.phoneCopied);
+          },
+        ),
       DvMenuItem(
         label: l10n.editContact,
         icon: AppIcons.edit,

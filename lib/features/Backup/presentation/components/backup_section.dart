@@ -2,6 +2,7 @@ import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/async_value_x.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
+import 'package:dvir/core/extensions/date_time_x.dart';
 import 'package:dvir/features/Backup/application/backup_controller.dart';
 import 'package:dvir/features/Backup/domain/models/device_contents.dart';
 import 'package:dvir/features/Backup/presentation/backup_restore_flow.dart';
@@ -109,7 +110,8 @@ class _BackupSectionState extends ConsumerState<BackupSection> {
   }
 }
 
-/// «Усе лежить на цьому телефоні» and, once there is something, how much.
+/// «Усе лежить на цьому телефоні» and, once there is something, how much and
+/// how long ago it was last copied.
 ///
 /// The weight line waits for the first object rather than printing three
 /// zeros: on a new install it would be a measurement of nothing.
@@ -120,6 +122,10 @@ class _Contents extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final contents = ref.watch(deviceContentsProvider).value;
+    final lastBackup = ref.watch(lastBackupProvider);
+    final secondary = context.textTheme.bodyMedium?.copyWith(
+      color: context.colorScheme.onSurfaceVariant,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -138,12 +144,24 @@ class _Contents extends ConsumerWidget {
               l10n.scopePapers(contents.documents),
               _size(contents, l10n),
             ].join(' · '),
-            style: context.textTheme.bodyMedium?.copyWith(
-              color: context.colorScheme.onSurfaceVariant,
-            ),
+            style: secondary,
           ),
+        if (contents != null && contents.units > 0)
+          Text(_lastBackup(lastBackup, l10n), style: secondary),
       ],
     );
+  }
+
+  /// «сьогодні», «вчора», then a count of days: a date would make the person
+  /// do the subtraction, and the subtraction is the point.
+  String _lastBackup(DateTime? at, AppLocalizations l10n) {
+    if (at == null) return l10n.backupLastNever;
+
+    return switch (at.calendarDaysUntil(DateTime.now())) {
+      <= 0 => l10n.backupLastToday,
+      1 => l10n.backupLastYesterday,
+      final days => l10n.backupLastDaysAgo(days),
+    };
   }
 
   /// Whole megabytes past ten and one decimal under it, the precision a

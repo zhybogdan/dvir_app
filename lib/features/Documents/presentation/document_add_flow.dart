@@ -2,7 +2,9 @@ import 'package:dvir/features/Documents/application/documents_controller.dart';
 import 'package:dvir/features/Documents/data/document_picker.dart';
 import 'package:dvir/features/Documents/presentation/components/document_source_sheet.dart';
 import 'package:dvir/features/Documents/presentation/components/document_title_sheet.dart';
+import 'package:dvir/features/Documents/presentation/document_l10n.dart';
 import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
+import 'package:dvir/l10n/app_localizations.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -30,9 +32,13 @@ abstract final class DocumentAddFlow {
     if (picked == null) return;
     if (!context.mounted) return;
 
+    final suggested = picked.title.isEmpty
+        ? documentPhotoTitle(DateTime.now(), AppLocalizations.of(context))
+        : picked.title;
+
     final title = await DocumentTitleSheet.open(
       context,
-      title: picked.title,
+      title: suggested,
       isNew: true,
     );
     if (title == null) return;

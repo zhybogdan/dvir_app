@@ -6,6 +6,7 @@ import 'package:dvir/core/database/database_provider.dart';
 import 'package:dvir/core/riverpod/guarded_actions.dart';
 import 'package:dvir/core/utils/share.dart';
 import 'package:dvir/features/Backup/data/backup_file_picker.dart';
+import 'package:dvir/features/Backup/data/backup_history.dart';
 import 'package:dvir/features/Backup/data/backup_service.dart';
 import 'package:dvir/features/Backup/domain/models/backup_manifest.dart';
 import 'package:dvir/features/Backup/domain/models/device_contents.dart';
@@ -18,6 +19,24 @@ part 'backup_controller.g.dart';
 @riverpod
 Stream<DeviceContents> deviceContents(Ref ref) =>
     ref.watch(backupServiceProvider).watchContents();
+
+/// When this phone last sent a copy of itself somewhere — null until it has.
+///
+/// Shown under what the phone holds, because a device-only app's one real risk
+/// is a copy made on the first day and never again: the phone is lost a year
+/// later with a year of records nobody saved.
+@Riverpod(keepAlive: true)
+class LastBackup extends _$LastBackup {
+  @override
+  DateTime? build() => ref.watch(backupHistoryProvider).lastSharedAt;
+
+  Future<void> record(DateTime at) {
+    final history = ref.read(backupHistoryProvider);
+    state = at;
+
+    return history.recordShared(at);
+  }
+}
 
 /// Making a copy of everything on the phone, and putting one back.
 ///
@@ -36,8 +55,12 @@ class BackupActions extends _$BackupActions with GuardedActions {
 
   /// Writes a copy and opens the share sheet on it. False when it failed, in
   /// which case the listener has already said why.
+  ///
+  /// The date is kept only once the sheet was not simply closed: a copy
+  /// written and then dropped is not one the person has.
   Future<bool> share() {
     final service = ref.read(backupServiceProvider);
+    final lastBackup = ref.read(lastBackupProvider.notifier);
 
     return guardedVoid(() async {
       // Both before the file is written, so that a slow version lookup cannot
@@ -47,7 +70,8 @@ class BackupActions extends _$BackupActions with GuardedActions {
 
       final archive = await service.write(into: workspace, appVersion: version);
 
-      await shareFile(archive.path);
+      final shared = await shareFile(archive.path);
+      if (shared) await lastBackup.record(DateTime.now());
     });
   }
 

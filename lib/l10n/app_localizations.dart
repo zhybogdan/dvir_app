@@ -353,8 +353,32 @@ abstract class AppLocalizations {
   /// No description provided for @backupCreateHint.
   ///
   /// In uk, this message translates to:
-  /// **'Усі записи, документи й контакти одним архівом. Збережіть його в хмарі або на комп’ютері — тоді втрачений телефон не забере оселю разом із собою.'**
+  /// **'Усі записи, документи й контакти одним архівом. Збережіть його в хмарі або на комп’ютері — тоді втрачений телефон не забере їх разом із собою.'**
   String get backupCreateHint;
+
+  /// No description provided for @backupLastNever.
+  ///
+  /// In uk, this message translates to:
+  /// **'Копії ще не робили'**
+  String get backupLastNever;
+
+  /// No description provided for @backupLastToday.
+  ///
+  /// In uk, this message translates to:
+  /// **'Остання копія: сьогодні'**
+  String get backupLastToday;
+
+  /// No description provided for @backupLastYesterday.
+  ///
+  /// In uk, this message translates to:
+  /// **'Остання копія: вчора'**
+  String get backupLastYesterday;
+
+  /// How long ago this phone last shared a backup, in whole days (2 or more)
+  ///
+  /// In uk, this message translates to:
+  /// **'Остання копія: {count, plural, one{{count} день} few{{count} дні} many{{count} днів} other{{count} дня}} тому'**
+  String backupLastDaysAgo(int count);
 
   /// No description provided for @backupRestore.
   ///
@@ -736,7 +760,7 @@ abstract class AppLocalizations {
   /// No description provided for @unitCreateTitle.
   ///
   /// In uk, this message translates to:
-  /// **'Нова оселя'**
+  /// **'Новий об’єкт'**
   String get unitCreateTitle;
 
   /// No description provided for @unitName.
@@ -754,7 +778,7 @@ abstract class AppLocalizations {
   /// No description provided for @unitNameRequired.
   ///
   /// In uk, this message translates to:
-  /// **'Введіть назву оселі'**
+  /// **'Введіть назву об’єкта'**
   String get unitNameRequired;
 
   /// No description provided for @unitType.
@@ -1078,7 +1102,7 @@ abstract class AppLocalizations {
   /// No description provided for @unitAttributesEmpty.
   ///
   /// In uk, this message translates to:
-  /// **'Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам’ятати про цю оселю.'**
+  /// **'Поверховість, рік побудови, матеріал стін. Запишіть те, що варто пам’ятати про цей об’єкт.'**
   String get unitAttributesEmpty;
 
   /// Opens the screen with an object's whole record; count is the total number of facts
@@ -1186,7 +1210,7 @@ abstract class AppLocalizations {
   /// Confirmation before deleting one fact about an object
   ///
   /// In uk, this message translates to:
-  /// **'«{name}» зникне з опису цієї оселі.'**
+  /// **'«{name}» зникне з опису цього об’єкта.'**
   String deleteAttributeBody(String name);
 
   /// No description provided for @documents.
@@ -1302,6 +1326,12 @@ abstract class AppLocalizations {
   /// In uk, this message translates to:
   /// **'Додано {date}'**
   String documentAddedOn(String date);
+
+  /// The title a new photo starts with, the date as dd.MM.yyyy
+  ///
+  /// In uk, this message translates to:
+  /// **'Фото {date}'**
+  String documentPhotoTitle(String date);
 
   /// A month heading over the papers added in it; month is 1-12
   ///
@@ -1441,6 +1471,18 @@ abstract class AppLocalizations {
   /// **'Не вдалося відкрити набір номера'**
   String get contactCallFailed;
 
+  /// No description provided for @copyPhone.
+  ///
+  /// In uk, this message translates to:
+  /// **'Скопіювати номер'**
+  String get copyPhone;
+
+  /// No description provided for @phoneCopied.
+  ///
+  /// In uk, this message translates to:
+  /// **'Номер скопійовано'**
+  String get phoneCopied;
+
   /// No description provided for @editContact.
   ///
   /// In uk, this message translates to:
@@ -1462,7 +1504,7 @@ abstract class AppLocalizations {
   /// Confirmation before deleting one contact
   ///
   /// In uk, this message translates to:
-  /// **'«{name}» зникне зі списку цієї оселі.'**
+  /// **'«{name}» зникне зі списку цього об’єкта.'**
   String deleteContactBody(String name);
 
   /// No description provided for @unitNested.

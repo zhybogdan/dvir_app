@@ -14,4 +14,12 @@ void main() {
     expect(DateTime(2026, 11, 9).asFileStamp, '2026-11-09');
     expect(DateTime(2026, 1, 1).asFileStamp, '2026-01-01');
   });
+
+  test('days are counted between dates, not as 24-hour spans', () {
+    final lateLastNight = DateTime(2026, 11, 26, 23, 50);
+
+    expect(lateLastNight.calendarDaysUntil(DateTime(2026, 11, 27, 0, 10)), 1);
+    expect(lateLastNight.calendarDaysUntil(DateTime(2026, 11, 26, 23, 59)), 0);
+    expect(DateTime(2026, 3, 28).calendarDaysUntil(DateTime(2026, 3, 30)), 2);
+  });
 }
