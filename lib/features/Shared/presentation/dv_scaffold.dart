@@ -10,6 +10,7 @@ class DvScaffold extends StatelessWidget {
     super.key,
     this.appBar,
     this.extendBodyBehindAppBar = false,
+    this.scrollsUnderAppBar = false,
     this.background,
   });
 
@@ -32,6 +33,15 @@ class DvScaffold extends StatelessWidget {
   /// the bar automatically, so callers don't have to reserve the space.
   final bool extendBodyBehindAppBar;
 
+  /// Lets the body run up behind the bar, so a page that scrolls passes under
+  /// its glass instead of ending at its edge.
+  ///
+  /// Unlike [extendBodyBehindAppBar] the body is not pushed down: the
+  /// scrolling view inside it starts below the bar by adding
+  /// `MediaQuery.paddingOf(context).top` to its own padding, which the
+  /// scaffold sets to the bar's height plus the status bar.
+  final bool scrollsUnderAppBar;
+
   @override
   Widget build(BuildContext context) {
     final appBar = this.appBar;
@@ -48,7 +58,7 @@ class DvScaffold extends StatelessWidget {
 
     return Scaffold(
       appBar: appBar,
-      extendBodyBehindAppBar: extendBodyBehindAppBar,
+      extendBodyBehindAppBar: extendBodyBehindAppBar || scrollsUnderAppBar,
       // No background, no Stack: a screen with nothing behind it should not
       // pay for the layer, and an empty one still composites.
       body: background == null
