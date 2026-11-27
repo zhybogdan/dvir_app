@@ -1483,6 +1483,24 @@ abstract class AppLocalizations {
   /// **'Номер скопійовано'**
   String get phoneCopied;
 
+  /// No description provided for @shareContact.
+  ///
+  /// In uk, this message translates to:
+  /// **'Поділитися'**
+  String get shareContact;
+
+  /// A contact sent to a chat when it has no role
+  ///
+  /// In uk, this message translates to:
+  /// **'{name}: {phone}'**
+  String shareContactText(String name, String phone);
+
+  /// A contact sent to a chat: who it is, then the number
+  ///
+  /// In uk, this message translates to:
+  /// **'{name}, {role}: {phone}'**
+  String shareContactTextWithRole(String name, String role, String phone);
+
   /// No description provided for @editContact.
   ///
   /// In uk, this message translates to:

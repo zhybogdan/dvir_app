@@ -823,6 +823,19 @@ class AppLocalizationsUk extends AppLocalizations {
   String get phoneCopied => 'Номер скопійовано';
 
   @override
+  String get shareContact => 'Поділитися';
+
+  @override
+  String shareContactText(String name, String phone) {
+    return '$name: $phone';
+  }
+
+  @override
+  String shareContactTextWithRole(String name, String role, String phone) {
+    return '$name, $role: $phone';
+  }
+
+  @override
   String get editContact => 'Змінити';
 
   @override

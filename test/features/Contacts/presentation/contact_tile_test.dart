@@ -5,6 +5,7 @@ import 'package:dvir/features/Contacts/presentation/components/contact_tile.dart
 import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
 import 'package:dvir/l10n/app_localizations.dart';
+import 'package:dvir/l10n/app_localizations_uk.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -115,5 +116,32 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Скопіювати номер'), findsNothing);
+  });
+
+  test('a contact goes to a chat with who it is and the number', () {
+    final l10n = AppLocalizationsUk();
+
+    expect(
+      ContactTile.shareTextFor(_electrician, '+380671234567', l10n),
+      'Сергій, електрик: +380671234567',
+    );
+    expect(
+      ContactTile.shareTextFor(
+        const Contact(id: 'c3', name: 'Олена'),
+        '104',
+        l10n,
+      ),
+      'Олена: 104',
+    );
+  });
+
+  testWidgets('the menu offers to send the number as well as copy it', (
+    tester,
+  ) async {
+    await _pump(tester, contact: _electrician, canEdit: true);
+    await tester.tap(find.byType(DvMenu));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Поділитися'), findsOneWidget);
   });
 }

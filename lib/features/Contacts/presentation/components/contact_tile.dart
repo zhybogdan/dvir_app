@@ -3,6 +3,7 @@ import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/notifications/toast_controller.dart';
 import 'package:dvir/core/utils/phone.dart';
+import 'package:dvir/core/utils/share.dart';
 import 'package:dvir/features/Contacts/application/contacts_controller.dart';
 import 'package:dvir/features/Contacts/domain/models/contact.dart';
 import 'package:dvir/features/Contacts/presentation/components/contact_mark.dart';
@@ -128,11 +129,27 @@ class ContactTile extends ConsumerWidget {
     toasts.error(failed);
   }
 
-  /// Copying the number, changing the contact, or dropping it — the items of
-  /// its menu.
+  /// What goes into a chat: «Сергій, електрик: +380…». The name and the role
+  /// travel with the number, because bare digits in a chat are a number
+  /// nobody remembers saving.
+  static String shareTextFor(
+    Contact contact,
+    String phone,
+    AppLocalizations l10n,
+  ) {
+    final role = contact.role;
+
+    return role == null || role.isEmpty
+        ? l10n.shareContactText(contact.name, phone)
+        : l10n.shareContactTextWithRole(contact.name, role, phone);
+  }
+
+  /// Copying or sending the number, changing the contact, or dropping it —
+  /// the items of its menu.
   ///
-  /// Copying because the row itself only dials, and «скинь номер сантехніка»
-  /// is asked as often as the call is made.
+  /// Both ways out because the row itself only dials, and «скинь номер
+  /// сантехніка» is asked as often as the call is made: copying is for the
+  /// dialler or a form, sending is for a chat.
   static List<DvMenuItem> actionsFor(
     BuildContext context,
     WidgetRef ref, {
@@ -182,6 +199,12 @@ class ContactTile extends ConsumerWidget {
             Clipboard.setData(ClipboardData(text: phone));
             toasts.success(l10n.phoneCopied);
           },
+        ),
+      if (phone != null)
+        DvMenuItem(
+          label: l10n.shareContact,
+          icon: AppIcons.share,
+          onSelected: () => shareText(shareTextFor(contact, phone, l10n)),
         ),
       DvMenuItem(
         label: l10n.editContact,

@@ -815,6 +815,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get phoneCopied => 'Number copied';
 
   @override
+  String get shareContact => 'Share';
+
+  @override
+  String shareContactText(String name, String phone) {
+    return '$name: $phone';
+  }
+
+  @override
+  String shareContactTextWithRole(String name, String role, String phone) {
+    return '$name, $role: $phone';
+  }
+
+  @override
   String get editContact => 'Change';
 
   @override

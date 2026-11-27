@@ -486,6 +486,24 @@
   "contactCallFailed": "Не вдалося відкрити набір номера",
   "copyPhone": "Скопіювати номер",
   "phoneCopied": "Номер скопійовано",
+  "shareContact": "Поділитися",
+  "shareContactText": "{name}: {phone}",
+  "@shareContactText": {
+    "description": "A contact sent to a chat when it has no role",
+    "placeholders": {
+      "name": {"type": "String"},
+      "phone": {"type": "String"}
+    }
+  },
+  "shareContactTextWithRole": "{name}, {role}: {phone}",
+  "@shareContactTextWithRole": {
+    "description": "A contact sent to a chat: who it is, then the number",
+    "placeholders": {
+      "name": {"type": "String"},
+      "role": {"type": "String"},
+      "phone": {"type": "String"}
+    }
+  },
   "editContact": "Змінити",
   "deleteContact": "Видалити",
   "deleteContactTitle": "Видалити контакт?",
