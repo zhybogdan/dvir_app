@@ -5,9 +5,9 @@ import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_en.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 // `DvTextField` reserves exactly one line under every field (`helperText: ' '`)
 // so a form does not jump when an error appears, and `errorMaxLines: 1` in the

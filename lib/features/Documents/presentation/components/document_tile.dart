@@ -1,6 +1,8 @@
 import 'package:dvir/app/icons.dart';
+import 'package:dvir/app/theme.dart';
 import 'package:dvir/features/Documents/application/documents_controller.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
+import 'package:dvir/features/Documents/presentation/components/document_thumbnail.dart';
 import 'package:dvir/features/Documents/presentation/components/document_title_sheet.dart';
 import 'package:dvir/features/Documents/presentation/document_l10n.dart';
 import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
@@ -9,8 +11,8 @@ import 'package:dvir/features/Shared/presentation/dv_icon_badge.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
 import 'package:dvir/features/Shared/presentation/dv_tile.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// One stored file, and whatever may be done to it.
 ///
@@ -48,9 +50,18 @@ class DocumentTile extends ConsumerWidget {
       title: document.title,
       subtitle: subtitle.isEmpty ? null : subtitle,
       caption: showAddedOn ? documentAddedOn(document.createdAt, l10n) : null,
-      leading: DvIconBadge(
-        icon: documentIcon(document),
-        tone: documentTone(document),
+      leading: SizedBox.square(
+        dimension: 44,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          child: DocumentThumbnail(
+            document: document,
+            fallback: DvIconBadge(
+              icon: documentIcon(document),
+              tone: documentTone(document),
+            ),
+          ),
+        ),
       ),
       // Opening is offered to everyone who can see the row: reading the papers
       // is what a tenant is here for.
@@ -62,8 +73,8 @@ class DocumentTile extends ConsumerWidget {
     );
   }
 
-  /// Renaming the file, or dropping it and the object behind it — the items
-  /// of its menu.
+  /// Sending the file, renaming it, or dropping it and the object behind it —
+  /// the items of its menu.
   ///
   /// Static so a paper drawn as a tile in the hub's row, which has no room for
   /// three dots and opens the same menu on a long press, offers exactly what
@@ -105,6 +116,11 @@ class DocumentTile extends ConsumerWidget {
     }
 
     return [
+      DvMenuItem(
+        label: l10n.shareDocument,
+        icon: AppIcons.share,
+        onSelected: () => actions.share(document),
+      ),
       DvMenuItem(
         label: l10n.editDocument,
         icon: AppIcons.edit,

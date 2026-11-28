@@ -172,7 +172,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get backupCreateHint =>
-      'Every record, document and contact in one archive. Keep it in the cloud or on a computer, and a lost phone will not take the home with it.';
+      'Every record, document and contact in one archive. Keep it in the cloud or on a computer, and a lost phone will not take them with it.';
+
+  @override
+  String get backupLastNever => 'No copy made yet';
+
+  @override
+  String get backupLastToday => 'Last copy: today';
+
+  @override
+  String get backupLastYesterday => 'Last copy: yesterday';
+
+  @override
+  String backupLastDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days',
+      one: '$count day',
+    );
+    return 'Last copy: $_temp0 ago';
+  }
 
   @override
   String get backupRestore => 'Restore from a copy';
@@ -377,7 +397,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get communityTypeCustom => 'Other';
 
   @override
-  String get unitCreateTitle => 'New home';
+  String get unitCreateTitle => 'New place';
 
   @override
   String get unitName => 'Name';
@@ -386,7 +406,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unitNameHint => 'House 223';
 
   @override
-  String get unitNameRequired => 'Name the home';
+  String get unitNameRequired => 'Name the place';
 
   @override
   String get unitType => 'Type';
@@ -562,7 +582,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unitAttributesEmpty =>
-      'Storeys, the year it was built, what the walls are made of. Write down what is worth remembering about this home.';
+      'Storeys, the year it was built, what the walls are made of. Write down what is worth remembering about this place.';
 
   @override
   String unitAttributesShowAll(int count) {
@@ -619,7 +639,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String deleteAttributeBody(String name) {
-    return '“$name” will go from what this home says about itself.';
+    return '“$name” will go from what this place says about itself.';
   }
 
   @override
@@ -690,6 +710,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String documentPhotoTitle(String date) {
+    return 'Photo $date';
+  }
+
+  @override
   String documentMonth(String month) {
     String _temp0 = intl.Intl.selectLogic(month, {
       '1': 'January',
@@ -713,6 +738,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String documentMonthOfYear(String month, String year) {
     return '$month $year';
   }
+
+  @override
+  String get shareDocument => 'Share';
 
   @override
   String get editDocument => 'Rename';
@@ -781,6 +809,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contactCallFailed => 'The dialler would not open';
 
   @override
+  String get copyPhone => 'Copy number';
+
+  @override
+  String get phoneCopied => 'Number copied';
+
+  @override
+  String get shareContact => 'Share';
+
+  @override
+  String shareContactText(String name, String phone) {
+    return '$name: $phone';
+  }
+
+  @override
+  String shareContactTextWithRole(String name, String role, String phone) {
+    return '$name, $role: $phone';
+  }
+
+  @override
   String get editContact => 'Change';
 
   @override
@@ -791,7 +838,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String deleteContactBody(String name) {
-    return '“$name” will go from this home’s list.';
+    return '“$name” will go from this place’s list.';
   }
 
   @override

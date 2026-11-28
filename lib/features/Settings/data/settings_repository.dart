@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Contract for what a person chooses about the app itself (Base), as opposed
 /// to anything they record in it.

@@ -8,8 +8,8 @@ import 'package:dvir/features/Units/application/unit_attributes_controller.dart'
 import 'package:dvir/features/Units/domain/models/unit_attribute.dart';
 import 'package:dvir/features/Units/presentation/components/unit_attribute_sheet.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// One fact of the record's own screen: its name small above, its value
 /// large below, and whatever may be done to it.

@@ -2,8 +2,8 @@ import 'package:dvir/core/error/failure_l10n.dart';
 import 'package:dvir/core/error/failures.dart';
 import 'package:dvir/core/notifications/toast_controller.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 extension AsyncValueX<T> on AsyncValue<T> {
   /// Shows an error toast if this value settled into an error; does nothing

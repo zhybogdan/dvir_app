@@ -1,11 +1,12 @@
+import 'package:dvir/core/config/app_locales.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Home/domain/models/scope_summary.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_tile.dart';
 import 'package:dvir/features/Shared/presentation/splash_screen.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 // `flutter_native_splash` paints the tile centred on the screen before Flutter
 // runs, so this screen's one job is to take over without anything moving. Both
@@ -31,7 +32,7 @@ Future<void> _pump(WidgetTester tester) async {
         ),
       ],
       child: const MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: AppLocales.delegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: SplashScreen(),
       ),

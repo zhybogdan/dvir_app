@@ -55,6 +55,80 @@ final class DeviceContentsProvider
 
 String _$deviceContentsHash() => r'659f60e7f4d4fc748c6dcfe265fcc98fe1ec030c';
 
+/// When this phone last sent a copy of itself somewhere — null until it has.
+///
+/// Shown under what the phone holds, because a device-only app's one real risk
+/// is a copy made on the first day and never again: the phone is lost a year
+/// later with a year of records nobody saved.
+
+@ProviderFor(LastBackup)
+final lastBackupProvider = LastBackupProvider._();
+
+/// When this phone last sent a copy of itself somewhere — null until it has.
+///
+/// Shown under what the phone holds, because a device-only app's one real risk
+/// is a copy made on the first day and never again: the phone is lost a year
+/// later with a year of records nobody saved.
+final class LastBackupProvider
+    extends $NotifierProvider<LastBackup, DateTime?> {
+  /// When this phone last sent a copy of itself somewhere — null until it has.
+  ///
+  /// Shown under what the phone holds, because a device-only app's one real risk
+  /// is a copy made on the first day and never again: the phone is lost a year
+  /// later with a year of records nobody saved.
+  LastBackupProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'lastBackupProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$lastBackupHash();
+
+  @$internal
+  @override
+  LastBackup create() => LastBackup();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DateTime? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DateTime?>(value),
+    );
+  }
+}
+
+String _$lastBackupHash() => r'0a599d8e33dd3cb9824af3f0d48b11746ef78bb4';
+
+/// When this phone last sent a copy of itself somewhere — null until it has.
+///
+/// Shown under what the phone holds, because a device-only app's one real risk
+/// is a copy made on the first day and never again: the phone is lost a year
+/// later with a year of records nobody saved.
+
+abstract class _$LastBackup extends $Notifier<DateTime?> {
+  DateTime? build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<DateTime?, DateTime?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<DateTime?, DateTime?>,
+              DateTime?,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}
+
 /// Making a copy of everything on the phone, and putting one back.
 ///
 /// **A screen driving this must also listen to it** — nothing watches it for a
@@ -110,7 +184,7 @@ final class BackupActionsProvider
   BackupActions create() => BackupActions();
 }
 
-String _$backupActionsHash() => r'5c8fcd94292804487db445e6e5d5760b94ec14a4';
+String _$backupActionsHash() => r'037931a07b4e83744614f80f32a7812bc70d33b3';
 
 /// Making a copy of everything on the phone, and putting one back.
 ///

@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
+
+import 'package:material_ui/material_ui.dart';
 
 /// App-wide Material 3 theme derived from a single seed color.
 ///
@@ -240,6 +242,30 @@ abstract final class AppRadius {
   static const double sm = 8;
   static const double md = 12;
   static const double lg = 20;
+}
+
+/// Frosted glass: the page's own colour, let partly through, over a blur of
+/// whatever scrolls beneath it.
+///
+/// One recipe for the two surfaces that float over content — the tab island
+/// at the bottom and the app bar at the top — so the two read as the same
+/// material rather than as two guesses at it.
+abstract final class AppGlass {
+  static final ImageFilter blur = ImageFilter.blur(sigmaX: 20, sigmaY: 20);
+
+  /// A touch more opaque in dark: the same alpha over a dark page lets the
+  /// cards beneath show through as grey smears.
+  static Color fill(ColorScheme scheme) => scheme.surface.withValues(
+    alpha: scheme.brightness == Brightness.dark ? 0.72 : 0.78,
+  );
+
+  /// Denser for the app bar: what passes under it is the page's own heading,
+  /// type four times the size of a card's, and at the island's alpha it came
+  /// through as a grey band. A hairline under it, as on iOS, makes the edge
+  /// the blur stops at read as a decision rather than a seam.
+  static Color barFill(ColorScheme scheme) => scheme.surface.withValues(
+    alpha: scheme.brightness == Brightness.dark ? 0.86 : 0.9,
+  );
 }
 
 /// The shadows the app draws for itself, where Material's own elevation gives

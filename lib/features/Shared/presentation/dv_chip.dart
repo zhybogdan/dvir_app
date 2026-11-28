@@ -1,6 +1,6 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A word you can tap — an offer, not a state.
 ///
@@ -55,17 +55,27 @@ class DvChip extends StatelessWidget {
     final leading = this.leading;
     final minContentHeight = this.minContentHeight;
 
+    final style = context.textTheme.labelLarge?.copyWith(
+      color: selected ? scheme.primary : scheme.onSurfaceVariant,
+    );
+    final boldStyle = style?.copyWith(fontWeight: FontWeight.w700);
+
     final content = Row(
       mainAxisSize: MainAxisSize.min,
       spacing: AppSpacing.sm,
       children: [
         ?leading,
-        Text(
-          label,
-          style: context.textTheme.labelLarge?.copyWith(
-            color: selected ? scheme.primary : scheme.onSurfaceVariant,
-            fontWeight: selected ? FontWeight.w700 : null,
-          ),
+        // The bold word is wider than the plain one, and in a wrapping row
+        // that pushed every chip after it along when the choice moved. Both
+        // states take the bold width; the hidden copy only holds the space.
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            ExcludeSemantics(
+              child: Opacity(opacity: 0, child: Text(label, style: boldStyle)),
+            ),
+            Text(label, style: selected ? boldStyle : style),
+          ],
         ),
       ],
     );

@@ -27,8 +27,8 @@ screens yet**. Announcements, polls, meter readings and charges are in
 ## Stack
 
 Flutter · Riverpod (codegen) · GoRouter · Freezed · json_serializable · drift
-(local SQLite) · Supabase (Auth / Postgres / Storage). Localization: UK.
-Flutter pinned via FVM (`.fvmrc` → 3.44.4).
+(local SQLite) · material_ui · Supabase (Auth / Postgres / Storage).
+Localization: UK, EN. Flutter is pinned via FVM — the version is in `.fvmrc`.
 
 The app builds as **flavors**. `unit` is one household's own object and runs
 entirely on the device — no account, no network. Supabase serves the community
@@ -40,38 +40,32 @@ half, which has no screens yet.
 # 1. Use the pinned Flutter SDK
 fvm install
 
-# 2. Allow native assets — once per machine, see below
-fvm flutter config --enable-native-assets
-fvm flutter clean
-
-# 3. Install deps and generate code
+# 2. Install deps and generate code
 fvm flutter pub get
 fvm flutter gen-l10n
 fvm dart run build_runner build
 
-# 4. Run — both the flavor and the entry point are required
+# 3. Run — both the flavor and the entry point are required
 fvm flutter run --flavor unit -t lib/main_unit.dart
 ```
 
-### Native assets
+### SQLite is a native asset
 
-Step 2 is not optional and is easy to skip, because skipping it looks like
-success: the app **builds, installs and starts**, then dies the moment it opens
-the database.
+drift uses `sqlite3` 3.x, which arrives as a native asset: `hook/build.dart`
+compiles SQLite during the Android build. Native assets are on by default in
+the pinned Flutter, so there is nothing to enable.
+
+The trap is a stale build cache, and it looks like success: the app **builds,
+installs and starts**, then dies the moment it opens the database.
 
 ```
 dlopen failed: library "libsqlite3.so" not found
 ```
 
-drift uses `sqlite3` 3.x, which arrives as a native asset — `hook/build.dart`
-compiles SQLite during the Android build, and that hook does not run unless the
-flag is set. The `flutter clean` matters too: the first build after enabling the
-flag reuses a cached result and silently produces nothing.
-
-Neither `flutter analyze` nor the test suite catches this, because tests compile
-SQLite for the host. Verify with `fvm flutter config --list`, which should show
-`enable-native-assets: true` — it is a per-user setting, so git does not carry
-it and every machine and CI runner needs it set once.
+`fvm flutter clean` and a fresh build fix it. Neither `flutter analyze` nor the
+test suite catches it, because tests compile SQLite for the host; the proof is
+`lib/**/libsqlite3.so` inside the built APK. If a machine has the feature
+switched off, `fvm flutter config --list` shows `enable-native-assets: false`.
 
 ## Project layout
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dvir/core/config/app_locales.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
 import 'package:dvir/features/Members/domain/models/unit_member_view.dart';
 import 'package:dvir/features/Shared/domain/types/member_status.dart';
@@ -12,9 +13,9 @@ import 'package:dvir/features/Units/domain/types/unit_type.dart';
 import 'package:dvir/features/Units/presentation/components/unit_invite_section.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 // An object's invite code is folded away while nobody but its owner is in it.
 // The rule came out of someone opening a room and finding a large code for a
@@ -51,7 +52,7 @@ Future<void> _pump(WidgetTester tester, {List<UnitMemberView>? people}) async {
         unitInviteCodeProvider.overrideWith((ref, unitId) => _code),
       ],
       child: MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: AppLocales.delegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: const Scaffold(body: UnitInviteSection(unit: _unit)),
       ),

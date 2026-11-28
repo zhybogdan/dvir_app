@@ -43,9 +43,7 @@ class $AssetsImagesGen {
   List<dynamic> get values => [authBackground, logoGlyph];
 }
 
-class Assets {
-  const Assets._();
-
+abstract final class Assets {
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }

@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:drift/native.dart';
+import 'package:dvir/core/config/app_locales.dart';
 import 'package:dvir/core/database/app_database.dart';
 import 'package:dvir/core/database/database_provider.dart';
 import 'package:dvir/core/extensions/date_time_x.dart';
 import 'package:dvir/features/Backup/application/backup_controller.dart';
 import 'package:dvir/features/Backup/data/backup_file_picker.dart';
+import 'package:dvir/features/Backup/data/backup_history.dart';
 import 'package:dvir/features/Backup/data/backup_service.dart';
 import 'package:dvir/features/Backup/domain/models/backup_manifest.dart';
 import 'package:dvir/features/Backup/domain/models/device_contents.dart';
@@ -13,15 +15,26 @@ import 'package:dvir/features/Backup/presentation/components/backup_section.dart
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:path/path.dart' as p;
 
 // The real service over a real database and a real archive, with only the file
 // picker faked: what is worth testing here is the order of the three steps —
 // pick, name what is in the copy, replace — and a fake service would be a fake
 // of exactly the part that makes the question worth asking.
+
+/// A phone that last shared a copy at [lastSharedAt], or never.
+class _History implements BackupHistory {
+  _History(this.lastSharedAt);
+
+  @override
+  DateTime? lastSharedAt;
+
+  @override
+  Future<void> recordShared(DateTime at) async => lastSharedAt = at;
+}
 
 /// Hands back whatever the test picked, including nothing.
 class _Picker implements BackupFilePicker {
@@ -91,6 +104,7 @@ void main() {
   Future<void> pump(
     WidgetTester tester, {
     File? picked,
+    DateTime? lastSharedAt,
     DeviceContents contents = const DeviceContents(
       units: 3,
       documents: 14,
@@ -104,13 +118,14 @@ void main() {
           backupServiceProvider.overrideWithValue(service),
           backupWorkspaceProvider.overrideWith((ref) async => root),
           backupFilePickerProvider.overrideWithValue(_Picker(picked)),
+          backupHistoryProvider.overrideWithValue(_History(lastSharedAt)),
           // A fixed value rather than the service's own stream: a drift query
           // started under the test's replaced clock never completes, and the
           // close in `tearDown` then waits on it for ever.
           deviceContentsProvider.overrideWith((ref) => Stream.value(contents)),
         ],
         child: MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          localizationsDelegates: AppLocales.delegates,
           supportedLocales: AppLocalizations.supportedLocales,
           home: const Scaffold(body: BackupSection()),
         ),
@@ -146,6 +161,21 @@ void main() {
 
     expect(find.text(l10n.settingsStoredHere), findsOneWidget);
     expect(find.text('3 об’єкти · 14 документів · 28 МБ'), findsOneWidget);
+  });
+
+  testWidgets('says how long ago the last copy was made', (tester) async {
+    await pump(
+      tester,
+      lastSharedAt: DateTime.now().subtract(const Duration(days: 5)),
+    );
+
+    expect(find.text('Остання копія: 5 днів тому'), findsOneWidget);
+  });
+
+  testWidgets('a phone that never made a copy says so', (tester) async {
+    await pump(tester);
+
+    expect(find.text(l10n.backupLastNever), findsOneWidget);
   });
 
   testWidgets('a phone under a megabyte is weighed in kilobytes', (

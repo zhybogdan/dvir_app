@@ -12,9 +12,9 @@ import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});

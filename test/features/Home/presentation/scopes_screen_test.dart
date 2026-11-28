@@ -1,4 +1,5 @@
 import 'package:dvir/core/config/app_capabilities.dart';
+import 'package:dvir/core/config/app_locales.dart';
 import 'package:dvir/features/Home/application/my_scopes_controller.dart';
 import 'package:dvir/features/Home/domain/models/scope_summary.dart';
 import 'package:dvir/features/Home/presentation/screens/scopes_screen.dart';
@@ -10,9 +11,9 @@ import 'package:dvir/features/Units/domain/types/unit_type.dart';
 import 'package:dvir/features/Units/presentation/unit_type_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 // The list holds what stands on its own. What stands inside is counted on its
 // parent's card and not drawn as a card of its own — a house with eight rooms
@@ -61,7 +62,7 @@ Future<void> _pump(
         ),
       ],
       child: MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: AppLocales.delegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: const ScopesScreen(),
       ),

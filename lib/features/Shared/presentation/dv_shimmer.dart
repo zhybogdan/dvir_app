@@ -1,6 +1,6 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Sweeps a highlight band across its child, turning a group of
 /// [DvSkeletonBox]es into a loading placeholder.

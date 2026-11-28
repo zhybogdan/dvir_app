@@ -2314,8 +2314,10 @@ class $$UnitsTableTableManager
               ),
           withReferenceMapper: (p0) => p0
               .map(
-                (e) =>
-                    (e.readTable(table), $$UnitsTableReferences(db, table, e)),
+                (e) => (
+                  e.readTable<$UnitsTable, UnitRow>(table),
+                  $$UnitsTableReferences(db, table, e),
+                ),
               )
               .toList(),
           prefetchHooksCallback:
@@ -2367,10 +2369,11 @@ class $$UnitsTableTableManager
                   getPrefetchedDataCallback: (items) async {
                     return [
                       if (unitAttributesRefs)
-                        await $_getPrefetchedData<
+                        await $_getPrefetchedDataByColumns<
                           UnitRow,
                           $UnitsTable,
-                          UnitAttributeRow
+                          UnitAttributeRow,
+                          $UnitAttributesTable
                         >(
                           currentTable: table,
                           referencedTable: $$UnitsTableReferences
@@ -2381,17 +2384,16 @@ class $$UnitsTableTableManager
                                 table,
                                 p0,
                               ).unitAttributesRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.unitId == item.id,
-                              ),
+                          currentColumn: 'id',
+                          referencedColumn: 'unit_id',
                           typedResults: items,
                         ),
                       if (documentsRefs)
-                        await $_getPrefetchedData<
+                        await $_getPrefetchedDataByColumns<
                           UnitRow,
                           $UnitsTable,
-                          DocumentRow
+                          DocumentRow,
+                          $DocumentsTable
                         >(
                           currentTable: table,
                           referencedTable: $$UnitsTableReferences
@@ -2402,17 +2404,16 @@ class $$UnitsTableTableManager
                                 table,
                                 p0,
                               ).documentsRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.unitId == item.id,
-                              ),
+                          currentColumn: 'id',
+                          referencedColumn: 'unit_id',
                           typedResults: items,
                         ),
                       if (contactsRefs)
-                        await $_getPrefetchedData<
+                        await $_getPrefetchedDataByColumns<
                           UnitRow,
                           $UnitsTable,
-                          ContactRow
+                          ContactRow,
+                          $ContactsTable
                         >(
                           currentTable: table,
                           referencedTable: $$UnitsTableReferences
@@ -2423,10 +2424,8 @@ class $$UnitsTableTableManager
                                 table,
                                 p0,
                               ).contactsRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.unitId == item.id,
-                              ),
+                          currentColumn: 'id',
+                          referencedColumn: 'unit_id',
                           typedResults: items,
                         ),
                     ];
@@ -2735,7 +2734,7 @@ class $$UnitAttributesTableTableManager
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
-                  e.readTable(table),
+                  e.readTable<$UnitAttributesTable, UnitAttributeRow>(table),
                   $$UnitAttributesTableReferences(db, table, e),
                 ),
               )
@@ -3114,7 +3113,7 @@ class $$DocumentsTableTableManager
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
-                  e.readTable(table),
+                  e.readTable<$DocumentsTable, DocumentRow>(table),
                   $$DocumentsTableReferences(db, table, e),
                 ),
               )
@@ -3431,7 +3430,7 @@ class $$ContactsTableTableManager
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
-                  e.readTable(table),
+                  e.readTable<$ContactsTable, ContactRow>(table),
                   $$ContactsTableReferences(db, table, e),
                 ),
               )

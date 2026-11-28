@@ -18,5 +18,19 @@ extension DateTimeX on DateTime {
   /// name as well as by date.
   String get asFileStamp => '$year-${_two(month)}-${_two(day)}';
 
+  /// Whole calendar days from this date to [later]: 23:50 yesterday is one
+  /// day before 00:10 today, not zero. Counted on UTC midnights, so a day
+  /// that loses an hour to the clocks going forward still counts as one.
+  int calendarDaysUntil(DateTime later) {
+    final from = toLocal();
+    final to = later.toLocal();
+
+    return DateTime.utc(
+      to.year,
+      to.month,
+      to.day,
+    ).difference(DateTime.utc(from.year, from.month, from.day)).inDays;
+  }
+
   String _two(int value) => value.toString().padLeft(2, '0');
 }

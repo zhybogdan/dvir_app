@@ -59,6 +59,15 @@ class DocumentActions extends _$DocumentActions with GuardedActions {
     return guardedVoid(() => files.open(document));
   }
 
+  /// Hands [document] to the share sheet, under its own title — to the notary,
+  /// the realtor, the chat with the family. Read-only for the same reason as
+  /// [open].
+  Future<bool> share(Document document) {
+    final files = ref.read(documentFilesProvider);
+
+    return guardedVoid(() => files.share(document));
+  }
+
   /// Every action here changes the same list, so what to re-read afterwards is
   /// the same too.
   Future<bool> _run(Future<void> Function(DocumentsRepository) call) {

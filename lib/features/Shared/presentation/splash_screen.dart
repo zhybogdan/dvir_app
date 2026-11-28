@@ -8,8 +8,8 @@ import 'package:dvir/features/Shared/presentation/dv_app_tile.dart';
 import 'package:dvir/features/Shared/presentation/dv_error_view.dart';
 import 'package:dvir/features/Shared/presentation/dv_scaffold.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Held while the router works out where the visitor belongs — on a cold start,
 /// and again after signing in while the scope list loads.

@@ -82,6 +82,10 @@ void main() {
     expect(documentAddedOn(DateTime(2026, 8, 3), l10n), contains('03.08.2026'));
   });
 
+  test('a photo starts as «Фото» and the day it was taken', () {
+    expect(documentPhotoTitle(DateTime(2026, 11, 7), l10n), 'Фото 07.11.2026');
+  });
+
   test('a month heading names the year only when it is not this one', () {
     final now = DateTime(2026, 11, 20);
 

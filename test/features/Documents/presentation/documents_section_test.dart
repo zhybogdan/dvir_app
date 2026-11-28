@@ -1,3 +1,4 @@
+import 'package:dvir/core/config/app_locales.dart';
 import 'package:dvir/features/Documents/application/documents_controller.dart';
 import 'package:dvir/features/Documents/domain/models/document.dart';
 import 'package:dvir/features/Documents/presentation/components/documents_section.dart';
@@ -6,9 +7,9 @@ import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Writing is `is_unit_keeper` and reading is `is_unit_member` (`0010`), which
 // the database enforces on its own. What it cannot do is stop the app offering
@@ -44,7 +45,7 @@ Future<void> _pump(
         ).overrideWith((ref) async => documents ?? _many(2)),
       ],
       child: MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: AppLocales.delegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: const Scaffold(
           body: SingleChildScrollView(child: DocumentsSection(unitId: 'u1')),

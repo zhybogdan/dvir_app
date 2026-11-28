@@ -13,10 +13,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  cupertino_icons: ^1.0.8
   flutter_riverpod: ^3.3.2
   riverpod_annotation: ^4.0.3
-  go_router: ^17.3.0
+  go_router: ^18.1.4
   freezed_annotation: ^3.1.0
   json_annotation: ^4.12.0
   supabase_flutter: ^2.15.4
@@ -46,20 +45,25 @@ dependencies:
   file_selector: ^1.1.0
   image_picker: ^1.2.3
   flutter_image_compress: ^2.5.1
-  open_filex: ^4.7.0
+  open_filex: ^5.0.0
   path_provider: ^2.1.6
   mime: ^2.0.0
   # Declared explicitly though it arrives transitively: a backup is one zip
   # file, and nothing else in the project can write one.
   archive: ^4.0.9
-  drift: ^2.34.3
+  drift: ^2.35.4
   path: ^1.9.1
   package_info_plus: ^10.2.1
   # Arrives with supabase, declared because the theme a person picked has to
   # outlive a restart and is no secret — flutter_secure_storage is for the
   # session, not for this.
   shared_preferences: ^2.5.5
+  # Material moved out of the framework in Flutter 3.50 —
+  # `package:flutter/material.dart` is deprecated in its favour. It arrives
+  # with flutter_test, declared because every screen imports it.
+  material_ui: ^1.11.1
 
+  vector_graphics: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -67,14 +71,14 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   # Arrives with flutter_test, but the toast timer tests name it directly.
   fake_async: ^1.3.3
-  build_runner: ^2.15.0
+  build_runner: ^2.16.0
   riverpod_generator: ^4.0.4
-  freezed: ^3.2.6-dev.1
+  freezed: ^4.0.3
   json_serializable: ^6.14.0
   flutter_gen_runner: ^5.14.1
   flutter_launcher_icons: ^0.14.4
   flutter_native_splash: ^2.4.6
-  drift_dev: ^2.34.0
+  drift_dev: ^2.35.3
 
 # Launcher icons, generated from tool/branding/ (sources live outside assets/ so
 # they are not bundled). Regenerate with:
@@ -156,3 +160,9 @@ flutter:
     - family: Inter
       fonts:
         - asset: assets/fonts/Inter.ttf
+
+    # Our own drawings of the kinds of object, one per `UnitType`: Material
+    # draws a house and a summer house, a basement and a storeroom alike.
+    - family: PropertyIcons
+      fonts:
+        - asset: assets/fonts/PropertyIcons.ttf

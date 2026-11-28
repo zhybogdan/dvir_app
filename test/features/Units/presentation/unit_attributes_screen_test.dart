@@ -1,4 +1,5 @@
 import 'package:dvir/app/icons.dart';
+import 'package:dvir/core/config/app_locales.dart';
 import 'package:dvir/features/Members/application/unit_members_controller.dart';
 import 'package:dvir/features/Units/application/unit_attributes_controller.dart';
 import 'package:dvir/features/Units/application/unit_controller.dart';
@@ -8,9 +9,9 @@ import 'package:dvir/features/Units/domain/types/unit_type.dart';
 import 'package:dvir/features/Units/presentation/screens/unit_attributes_screen.dart';
 import 'package:dvir/l10n/app_localizations.dart';
 import 'package:dvir/l10n/app_localizations_uk.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 // The record's own screen is where its order is decided, so what is checked
 // here is that a drag reaches the controller with the indices the list actually
@@ -62,7 +63,7 @@ Future<_SpyActions> _pump(WidgetTester tester, {required bool canEdit}) async {
         unitAttributeActionsProvider.overrideWith2((unitId) => actions),
       ],
       child: MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: AppLocales.delegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: const UnitAttributesScreen(unitId: 'u1'),
       ),

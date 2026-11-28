@@ -1,7 +1,7 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Contacts/domain/models/contact.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A contact's initial on a solid circle — the mark a number is found by.
 ///

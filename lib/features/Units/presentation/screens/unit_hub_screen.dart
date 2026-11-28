@@ -29,9 +29,9 @@ import 'package:dvir/features/Units/presentation/components/unit_menu.dart';
 import 'package:dvir/features/Units/presentation/components/unit_people_section.dart';
 import 'package:dvir/features/Units/presentation/components/unit_start_block.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Everything that belongs to one object, on one screen.
 ///
@@ -69,7 +69,11 @@ class UnitHubScreen extends ConsumerWidget {
       );
 
     return DvScaffold(
+      // The one page that scrolls whole, its heading included, so the one
+      // where something passes under the bar's glass.
+      scrollsUnderAppBar: true,
       appBar: DvAppBar(
+        glass: true,
         // The name is on the page, under the bar: the bar is left to the
         // controls that act on the object.
         title: '',
@@ -124,7 +128,11 @@ class _Hub extends ConsumerWidget {
     // first moves, and none of them is theirs to make.
     final showStart = isUntouched && ref.watch(isUnitKeeperProvider(unit.id));
 
+    final underBar = MediaQuery.paddingOf(context).top;
+
     return RefreshIndicator(
+      // Below the bar, or the spinner is pulled out from behind the glass.
+      edgeOffset: underBar,
       onRefresh: () async {
         ref
           ..invalidate(unitProvider(unit.id))
@@ -135,7 +143,9 @@ class _Hub extends ConsumerWidget {
           ..invalidate(unitChildrenProvider(unit.id));
       },
       child: ListView(
-        padding: context.pagePadding.copyWith(top: DvPageHead.topGap),
+        padding: context.pagePadding.copyWith(
+          top: underBar + DvPageHead.topGap,
+        ),
         children: [
           UnitHead(unit: unit),
           const SizedBox(height: AppSpacing.xl),
@@ -174,9 +184,11 @@ class _HubSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const DvShimmer(
+    return DvShimmer(
       child: Padding(
-        padding: EdgeInsets.all(AppSpacing.lg),
+        padding: const EdgeInsets.all(
+          AppSpacing.lg,
+        ).copyWith(top: AppSpacing.lg + MediaQuery.paddingOf(context).top),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           spacing: AppSpacing.md,

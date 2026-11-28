@@ -1,5 +1,5 @@
 import 'package:dvir/core/logging/tap_log.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// An exclusive choice among a few short values, with every one of them on
 /// screen at once.

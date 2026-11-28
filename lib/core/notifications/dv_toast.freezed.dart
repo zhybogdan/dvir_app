@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'dv_toast.dart';
@@ -9,6 +9,7 @@ part of 'dv_toast.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $DvToastCopyWith<DvToast> get copyWith => _$DvToastCopyWithImpl<DvToast>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DvToast&&(identical(other.id, id) || other.id == id)&&(identical(other.message, message) || other.message == message)&&(identical(other.type, type) || other.type == type)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.actionLabel, actionLabel) || other.actionLabel == actionLabel)&&(identical(other.onAction, onAction) || other.onAction == onAction));
+  final _this = this as DvToast;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DvToast&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.message, _this.message) || other.message == _this.message)&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.duration, _this.duration) || other.duration == _this.duration)&&(identical(other.actionLabel, _this.actionLabel) || other.actionLabel == _this.actionLabel)&&(identical(other.onAction, _this.onAction) || other.onAction == _this.onAction));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,message,type,duration,actionLabel,onAction);
+int get hashCode {
+  final _this = this as DvToast;
+  return Object.hash(runtimeType,_this.id,_this.message,_this.type,_this.duration,_this.actionLabel,_this.onAction);
+}
 
 @override
 String toString() {
-  return 'DvToast(id: $id, message: $message, type: $type, duration: $duration, actionLabel: $actionLabel, onAction: $onAction)';
+  final _this = this as DvToast;
+  return 'DvToast(id: ${_this.id}, message: ${_this.message}, type: ${_this.type}, duration: ${_this.duration}, actionLabel: ${_this.actionLabel}, onAction: ${_this.onAction})';
 }
 
 
@@ -63,7 +69,7 @@ class _$DvToastCopyWithImpl<$Res>
 /// Create a copy of DvToast
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? message = null,Object? type = null,Object? duration = null,Object? actionLabel = freezed,Object? onAction = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(DvToast(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
@@ -231,16 +237,18 @@ _$DvToastCopyWith<_DvToast> get copyWith => __$DvToastCopyWithImpl<_DvToast>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DvToast&&(identical(other.id, id) || other.id == id)&&(identical(other.message, message) || other.message == message)&&(identical(other.type, type) || other.type == type)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.actionLabel, actionLabel) || other.actionLabel == actionLabel)&&(identical(other.onAction, onAction) || other.onAction == onAction));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DvToast&&(identical(other.id, id) || other.id == id)&&(identical(other.message, message) || other.message == message)&&(identical(other.type, type) || other.type == type)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.actionLabel, actionLabel) || other.actionLabel == actionLabel)&&(identical(other.onAction, onAction) || other.onAction == onAction));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,message,type,duration,actionLabel,onAction);
+int get hashCode {
+    return Object.hash(runtimeType,id,message,type,duration,actionLabel,onAction);
+}
 
 @override
 String toString() {
-  return 'DvToast(id: $id, message: $message, type: $type, duration: $duration, actionLabel: $actionLabel, onAction: $onAction)';
+    return 'DvToast(id: $id, message: $message, type: $type, duration: $duration, actionLabel: $actionLabel, onAction: $onAction)';
 }
 
 

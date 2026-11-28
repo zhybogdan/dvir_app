@@ -17,10 +17,10 @@ import 'package:dvir/features/Shared/presentation/dv_text_button.dart';
 import 'package:dvir/features/Shared/presentation/splash_screen.dart';
 import 'package:dvir/gen/assets.gen.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Shown right after a scope (a community or an oselia) is created: its invite
 /// code, big and copyable.

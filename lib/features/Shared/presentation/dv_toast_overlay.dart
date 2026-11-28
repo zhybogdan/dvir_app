@@ -3,8 +3,8 @@ import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/notifications/dv_toast.dart';
 import 'package:dvir/core/notifications/toast_controller.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Renders the toast stack above everything else.
 ///

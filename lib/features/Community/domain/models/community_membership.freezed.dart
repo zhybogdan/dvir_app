@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'community_membership.dart';
@@ -9,6 +9,7 @@ part of 'community_membership.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $CommunityMembershipCopyWith<CommunityMembership> get copyWith => _$CommunityMem
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityMembership&&(identical(other.id, id) || other.id == id)&&(identical(other.communityId, communityId) || other.communityId == communityId)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.role, role) || other.role == role)&&(identical(other.status, status) || other.status == status));
+  final _this = this as CommunityMembership;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityMembership&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.communityId, _this.communityId) || other.communityId == _this.communityId)&&(identical(other.userId, _this.userId) || other.userId == _this.userId)&&(identical(other.role, _this.role) || other.role == _this.role)&&(identical(other.status, _this.status) || other.status == _this.status));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,communityId,userId,role,status);
+int get hashCode {
+  final _this = this as CommunityMembership;
+  return Object.hash(runtimeType,_this.id,_this.communityId,_this.userId,_this.role,_this.status);
+}
 
 @override
 String toString() {
-  return 'CommunityMembership(id: $id, communityId: $communityId, userId: $userId, role: $role, status: $status)';
+  final _this = this as CommunityMembership;
+  return 'CommunityMembership(id: ${_this.id}, communityId: ${_this.communityId}, userId: ${_this.userId}, role: ${_this.role}, status: ${_this.status})';
 }
 
 
@@ -66,7 +72,7 @@ class _$CommunityMembershipCopyWithImpl<$Res>
 /// Create a copy of CommunityMembership
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? communityId = null,Object? userId = null,Object? role = null,Object? status = null,}) {
-  return _then(_self.copyWith(
+  return _then(CommunityMembership(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,communityId: null == communityId ? _self.communityId : communityId // ignore: cast_nullable_to_non_nullable
 as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
@@ -235,16 +241,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommunityMembership&&(identical(other.id, id) || other.id == id)&&(identical(other.communityId, communityId) || other.communityId == communityId)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.role, role) || other.role == role)&&(identical(other.status, status) || other.status == status));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommunityMembership&&(identical(other.id, id) || other.id == id)&&(identical(other.communityId, communityId) || other.communityId == communityId)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.role, role) || other.role == role)&&(identical(other.status, status) || other.status == status));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,communityId,userId,role,status);
+int get hashCode {
+    return Object.hash(runtimeType,id,communityId,userId,role,status);
+}
 
 @override
 String toString() {
-  return 'CommunityMembership(id: $id, communityId: $communityId, userId: $userId, role: $role, status: $status)';
+    return 'CommunityMembership(id: $id, communityId: $communityId, userId: $userId, role: $role, status: $status)';
 }
 
 

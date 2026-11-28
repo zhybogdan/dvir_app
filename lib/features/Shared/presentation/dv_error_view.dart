@@ -3,7 +3,7 @@ import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Fills the space a failed load was meant to occupy: what went wrong, and the
 /// way out of it.

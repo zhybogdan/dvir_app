@@ -4,7 +4,7 @@ import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/features/Units/domain/types/unit_role.dart';
 import 'package:dvir/features/Units/presentation/unit_role_l10n.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A resident's role, told apart at a glance.
 ///

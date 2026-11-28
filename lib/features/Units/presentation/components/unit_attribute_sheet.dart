@@ -8,7 +8,7 @@ import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
 import 'package:dvir/features/Units/domain/models/unit_attribute.dart';
 import 'package:dvir/features/Units/presentation/unit_attribute_suggestions.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// What the sheet hands back — a fact as typed, not as stored.
 typedef UnitAttributeDraft = ({String name, String value});

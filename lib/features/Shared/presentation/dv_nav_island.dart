@@ -1,9 +1,7 @@
-import 'dart:ui';
-
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/logging/tap_log.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// One place the island leads to.
 ///
@@ -45,7 +43,6 @@ class DvNavIsland extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = context.colorScheme;
-    final dark = scheme.brightness == Brightness.dark;
     final radius = BorderRadius.circular(height / 2);
 
     return DecoratedBox(
@@ -57,13 +54,11 @@ class DvNavIsland extends StatelessWidget {
       child: ClipRRect(
         borderRadius: radius,
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          filter: AppGlass.blur,
           child: Container(
             height: height,
             decoration: BoxDecoration(
-              // A touch more opaque in dark: the same alpha over a dark page
-              // lets the cards beneath show through as grey smears.
-              color: scheme.surface.withValues(alpha: dark ? 0.72 : 0.78),
+              color: AppGlass.fill(scheme),
               borderRadius: radius,
               border: Border.all(color: scheme.outlineVariant),
             ),

@@ -1,6 +1,6 @@
 import 'package:dvir/app/theme.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Smoke test that does not require a live Supabase client. Feature tests build
 // domain models / notifiers directly with a Riverpod ProviderContainer.

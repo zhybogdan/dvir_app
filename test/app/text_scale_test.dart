@@ -3,8 +3,8 @@ import 'package:dvir/app/theme.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_page_head.dart';
 import 'package:dvir/features/Shared/presentation/dv_tile.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 // The app follows the system font size up to `AppTextScale.max` and no further
 // (see `DvirApp.builder`). These pin both halves of that promise: that the cap

@@ -1,17 +1,17 @@
-﻿import 'package:dvir/core/utils/field_lengths.dart';
+import 'package:dvir/core/utils/field_lengths.dart';
 import 'package:dvir/core/utils/validators.dart';
 import 'package:dvir/features/Shared/presentation/dv_button.dart';
 import 'package:dvir/features/Shared/presentation/dv_sheet.dart';
 import 'package:dvir/features/Shared/presentation/dv_text_field.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// What the file will be called — asked after it is chosen, and again when it
 /// is renamed.
 ///
 /// The name a device gives a file is `IMG_20260803_114233` often enough that
-/// the field is worth its step. It starts from the file's own name, so the
-/// person confirms rather than types.
+/// the field is worth its step. It starts from the file's own name, or from
+/// the date for a photo, so the person confirms rather than types.
 class DocumentTitleSheet extends StatefulWidget {
   const DocumentTitleSheet({
     required this.title,

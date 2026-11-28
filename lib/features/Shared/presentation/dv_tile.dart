@@ -1,7 +1,7 @@
 import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// The card every list in the app is made of.
 ///

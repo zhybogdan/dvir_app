@@ -276,6 +276,24 @@ void main() {
     );
   });
 
+  test('an entry that climbs out of the copy is not unpacked', () async {
+    // Held here rather than trusted to `archive`: its guard was rewritten
+    // between 4.0 and 4.7, and a restore unpacks whatever the person tapped.
+    await fill();
+    final genuine = await service.write(into: root, appVersion: '1.0.0 (1)');
+
+    final crafted = ZipDecoder().decodeBytes(genuine.readAsBytesSync())
+      ..add(ArchiveFile.bytes('../escaped.txt', utf8.encode('out')))
+      ..add(ArchiveFile.bytes('documents/../../escaped2.txt', [1]));
+    final archive = File(p.join(root.path, 'crafted.zip'))
+      ..writeAsBytesSync(ZipEncoder().encode(crafted));
+
+    await service.restore(archive, work: root);
+
+    expect(File(p.join(root.path, 'escaped.txt')).existsSync(), isFalse);
+    expect(File(p.join(root.path, 'escaped2.txt')).existsSync(), isFalse);
+  });
+
   test(
     'a file that is not an archive is refused, and nothing is touched',
     () async {

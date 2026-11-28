@@ -1,7 +1,7 @@
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/features/Shared/presentation/dv_app_mark.dart';
 import 'package:dvir/features/Shared/presentation/dv_background.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Shared shell for the auth screens (login / register): the tinted background
 /// watermark, safe area, scroll and the brand header. Each screen passes only

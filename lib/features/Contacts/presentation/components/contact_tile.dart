@@ -3,6 +3,7 @@ import 'package:dvir/app/theme.dart';
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/core/notifications/toast_controller.dart';
 import 'package:dvir/core/utils/phone.dart';
+import 'package:dvir/core/utils/share.dart';
 import 'package:dvir/features/Contacts/application/contacts_controller.dart';
 import 'package:dvir/features/Contacts/domain/models/contact.dart';
 import 'package:dvir/features/Contacts/presentation/components/contact_mark.dart';
@@ -11,8 +12,9 @@ import 'package:dvir/features/Shared/domain/types/scope_ref.dart';
 import 'package:dvir/features/Shared/presentation/dv_confirm_dialog.dart';
 import 'package:dvir/features/Shared/presentation/dv_menu.dart';
 import 'package:dvir/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// One telephone number as a line of a list: who it is, the number, and the
 /// call.
@@ -127,7 +129,27 @@ class ContactTile extends ConsumerWidget {
     toasts.error(failed);
   }
 
-  /// Changing a contact, or dropping it — the items of its menu.
+  /// What goes into a chat: «Сергій, електрик: +380…». The name and the role
+  /// travel with the number, because bare digits in a chat are a number
+  /// nobody remembers saving.
+  static String shareTextFor(
+    Contact contact,
+    String phone,
+    AppLocalizations l10n,
+  ) {
+    final role = contact.role;
+
+    return role == null || role.isEmpty
+        ? l10n.shareContactText(contact.name, phone)
+        : l10n.shareContactTextWithRole(contact.name, role, phone);
+  }
+
+  /// Copying or sending the number, changing the contact, or dropping it —
+  /// the items of its menu.
+  ///
+  /// Both ways out because the row itself only dials, and «скинь номер
+  /// сантехніка» is asked as often as the call is made: copying is for the
+  /// dialler or a form, sending is for a chat.
   static List<DvMenuItem> actionsFor(
     BuildContext context,
     WidgetRef ref, {
@@ -139,6 +161,8 @@ class ContactTile extends ConsumerWidget {
     // Held before the sheet and the dialog: after an await the ref may no
     // longer be the one this row was built with.
     final actions = ref.read(contactActionsProvider(scope).notifier);
+    final toasts = ref.read(toastControllerProvider.notifier);
+    final phone = contact.phone;
 
     Future<void> edit() async {
       final draft = await ContactSheet.open(context, contact: contact);
@@ -167,6 +191,21 @@ class ContactTile extends ConsumerWidget {
     }
 
     return [
+      if (phone != null)
+        DvMenuItem(
+          label: l10n.copyPhone,
+          icon: AppIcons.copy,
+          onSelected: () {
+            Clipboard.setData(ClipboardData(text: phone));
+            toasts.success(l10n.phoneCopied);
+          },
+        ),
+      if (phone != null)
+        DvMenuItem(
+          label: l10n.shareContact,
+          icon: AppIcons.share,
+          onSelected: () => shareText(shareTextFor(contact, phone, l10n)),
+        ),
       DvMenuItem(
         label: l10n.editContact,
         icon: AppIcons.edit,

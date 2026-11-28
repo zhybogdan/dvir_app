@@ -2,7 +2,7 @@ import 'package:dvir/app/icons.dart';
 import 'package:dvir/app/theme.dart';
 import 'package:dvir/features/Shared/presentation/dv_image.dart';
 import 'package:dvir/gen/assets.gen.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// The logo on its rounded tile, with nothing under it.
 ///

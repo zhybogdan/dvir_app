@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'community_member_view.dart';
@@ -9,6 +9,7 @@ part of 'community_member_view.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $CommunityMemberViewCopyWith<CommunityMemberView> get copyWith => _$CommunityMem
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityMemberView&&(identical(other.membership, membership) || other.membership == membership)&&(identical(other.profile, profile) || other.profile == profile));
+  final _this = this as CommunityMemberView;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityMemberView&&(identical(other.membership, _this.membership) || other.membership == _this.membership)&&(identical(other.profile, _this.profile) || other.profile == _this.profile));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,membership,profile);
+int get hashCode {
+  final _this = this as CommunityMemberView;
+  return Object.hash(runtimeType,_this.membership,_this.profile);
+}
 
 @override
 String toString() {
-  return 'CommunityMemberView(membership: $membership, profile: $profile)';
+  final _this = this as CommunityMemberView;
+  return 'CommunityMemberView(membership: ${_this.membership}, profile: ${_this.profile})';
 }
 
 
@@ -63,7 +69,7 @@ class _$CommunityMemberViewCopyWithImpl<$Res>
 /// Create a copy of CommunityMemberView
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? membership = null,Object? profile = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(CommunityMemberView(
 membership: null == membership ? _self.membership : membership // ignore: cast_nullable_to_non_nullable
 as CommunityMembership,profile: freezed == profile ? _self.profile : profile // ignore: cast_nullable_to_non_nullable
 as Profile?,
@@ -244,16 +250,18 @@ _$CommunityMemberViewCopyWith<_CommunityMemberView> get copyWith => __$Community
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommunityMemberView&&(identical(other.membership, membership) || other.membership == membership)&&(identical(other.profile, profile) || other.profile == profile));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommunityMemberView&&(identical(other.membership, membership) || other.membership == membership)&&(identical(other.profile, profile) || other.profile == profile));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,membership,profile);
+int get hashCode {
+    return Object.hash(runtimeType,membership,profile);
+}
 
 @override
 String toString() {
-  return 'CommunityMemberView(membership: $membership, profile: $profile)';
+    return 'CommunityMemberView(membership: $membership, profile: $profile)';
 }
 
 

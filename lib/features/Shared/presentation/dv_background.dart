@@ -1,6 +1,6 @@
 import 'package:dvir/core/extensions/build_context_x.dart';
 import 'package:dvir/gen/assets.gen.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Full-bleed decorative watermark shared by the pre-app screens (auth,
 /// onboarding). Tinted to the theme primary at low opacity so it adapts to
